@@ -1,0 +1,2583 @@
+49 +    def attach_result(self, result: MatchResult) -> PredictionRecord:
+     50 +        records = self.list_records()
+     51 +        updated: PredictionRecord | None = None
+     52 +        next_records: list[PredictionRecord] = []
+     53 +        for record in records:
+     54 +            if record.request.match_id == result.match_id:
+     55 +                updated = replace(record, result=result)
+     56 +                next_records.append(updated)
+     57 +            else:
+     58 +                next_records.append(record)
+     59 +        if updated is None:
+     60 +            raise LookupError(f"No prediction found for match_id={result.match_id!r}")
+     61 +
+     62 +        self.path.parent.mkdir(parents=True, exist_ok=True)
+     63 +        with self.path.open("w", encoding="utf-8") as file:
+     64 +            for record in next_records:
+     65 +                file.write(json.dumps(_to_json(record), sort_keys=True) + "\n")
+     66 +        return updated
+     67 +
+     68 +    def list_records(self) -> list[PredictionRecord]:
+     69 +        if not self.path.exists():
+     70 +            return []
+     71 +        records = []
+     72 +        with self.path.open(encoding="utf-8") as file:
+     73 +            for line in file:
+     74 +                if line.strip():
+     75 +                    records.append(_record_from_json(json.loads(line)))
+     76 +        return records
+     77 +
+     78 +
+     79 +def _to_json(value: object) -> object:
+     80 +    if isinstance(value, datetime):
+     81 +        return value.isoformat()
+     82 +    if isinstance(value, Enum):
+     83 +        return value.value
+     84 +    if isinstance(value, tuple):
+     85 +        return [_to_json(item) for item in value]
+     86 +    if isinstance(value, dict):
+     87 +        return {str(_to_json(key)): _to_json(item) for key, item in value.items()}
+     88 +    if is_dataclass(value) and not isinstance(value, type):
+     89 +        return {key: _to_json(item) for key, item in asdict(value).items()}
+     90 +    return value
+     91 +
+     92 +
+     93 +T = TypeVar("T")
+     94 +
+     95 +
+     96 +def _as_tuple(data: object) -> tuple[str, ...]:
+     97 +    if not isinstance(data, list):
+     98 +        return ()
+     99 +    return tuple(str(item) for item in data)
+    100 +
+    101 +
+    102 +def _typed_dict(data: object) -> dict[str, object]:
+    103 +    if not isinstance(data, dict):
+    104 +        raise TypeError("Expected stored JSON object to be a dictionary")
+    105 +    return cast(dict[str, object], data)
+    106 +
+    107 +
+    108 +def _required(data: dict[str, object], key: str, expected_type: type[T]) -> T:
+    109 +    value = data[key]
+    110 +    if not isinstance(value, expected_type):
+    111 +        raise TypeError(f"Expected {key!r} to be {expected_type.__name__}")
+    112 +    return value
+    113 +
+    114 +
+    115 +def _request_from_json(data: object) -> MatchRequest:
+    116 +    item = _typed_dict(data)
+    117 +    return MatchRequest(
+    118 +        match_id=_required(item, "match_id", str),
+    119 +        competition=_required(item, "competition", str),
+    120 +        home_team=_required(item, "home_team", str),
+    121 +        away_team=_required(item, "away_team", str),
+    122 +        kickoff=datetime.fromisoformat(_required(item, "kickoff", str)),
+    123 +        neutral_site=_required(item, "neutral_site", bool),
+    124 +    )
+    125 +
+    126 +
+    127 +def _form_from_json(data: object) -> TeamForm:
+    128 +    item = _typed_dict(data)
+    129 +    return TeamForm(
+    130 +        team=_required(item, "team", str),
+    131 +        matches=_required(item, "matches", int),
+    132 +        wins=_required(item, "wins", int),
+    133 +        draws=_required(item, "draws", int),
+    134 +        losses=_required(item, "losses", int),
+    135 +        goals_for=_required(item, "goals_for", int),
+    136 +        goals_against=_required(item, "goals_against", int),
+    137 +    )
+    138 +
+    139 +
+    140 +def _injuries_from_json(data: object) -> InjuryReport:
+    141 +    item = _typed_dict(data)
+    142 +    return InjuryReport(
+    143 +        team=_required(item, "team", str),
+    144 +        unavailable=_as_tuple(item.get("unavailable")),
+    145 +        doubtful=_as_tuple(item.get("doubtful")),
+    146 +        source=_required(item, "source", str),
+    147 +    )
+    148 +
+    149 +
+    150 +def _h2h_from_json(data: object) -> HeadToHeadRecord:
+    151 +    item = _typed_dict(data)
+    152 +    return HeadToHeadRecord(
+    153 +        home_team_wins=_required(item, "home_team_wins", int),
+    154 +        draws=_required(item, "draws", int),
+    155 +        away_team_wins=_required(item, "away_team_wins", int),
+    156 +        meetings=_required(item, "meetings", int),
+    157 +        summary=_required(item, "summary", str),
+    158 +    )
+    159 +
+    160 +
+    161 +def _venue_from_json(data: object) -> Venue:
+    162 +    item = _typed_dict(data)
+    163 +    home_team = item.get("home_team")
+    164 +    return Venue(
+    165 +        name=_required(item, "name", str),
+    166 +        city=_required(item, "city", str),
+    167 +        country=_required(item, "country", str),
+    168 +        home_team=home_team if isinstance(home_team, str) else None,
+    169 +    )
+    170 +
+    171 +
+    172 +def _weather_from_json(data: object) -> Weather:
+    173 +    item = _typed_dict(data)
+    174 +    return Weather(
+    175 +        temperature_c=float(_required(item, "temperature_c", float)),
+    176 +        wind_kph=float(_required(item, "wind_kph", float)),
+    177 +        precipitation_mm=float(_required(item, "precipitation_mm", float)),
+    178 +        summary=_required(item, "summary", str),
+    179 +    )
+    180 +
+    181 +
+    182 +def _odds_from_json(data: object) -> OddsQuote:
+    183 +    item = _typed_dict(data)
+    184 +    return OddsQuote(
+    185 +        bookmaker=_required(item, "bookmaker", str),
+    186 +        home_win=float(_required(item, "home_win", float)),
+    187 +        draw=float(_required(item, "draw", float)),
+    188 +        away_win=float(_required(item, "away_win", float)),
+    189 +    )
+    190 +
+    191 +
+    192 +def _prediction_from_json(data: object) -> Prediction:
+    193 +    item = _typed_dict(data)
+    194 +    probabilities = _typed_dict(item["probabilities"])
+    195 +    return Prediction(
+    196 +        match_id=_required(item, "match_id", str),
+    197 +        outcome=_required(item, "outcome", str),  # type: ignore[arg-type]
+    198 +        confidence=float(_required(item, "confidence", float)),
+    199 +        rationale=_required(item, "rationale", str),
+    200 +        probabilities={
+    201 +            key: float(value)
+    202 +            for key, value in probabilities.items()
+    203 +            if isinstance(value, int | float)
+    204 +        },  # type: ignore[dict-item]
+    205 +    )
+    206 +
+    207 +
+    208 +def _evidence_from_json(data: object) -> MatchEvidence:
+    209 +    item = _typed_dict(data)
+    210 +    odds_data = item.get("odds", [])
+    211 +    if not isinstance(odds_data, list):
+    212 +        odds_data = []
+    213 +    return MatchEvidence(
+    214 +        request=_request_from_json(item["request"]),
+    215 +        home_form=_form_from_json(item["home_form"]),
+    216 +        away_form=_form_from_json(item["away_form"]),
+    217 +        home_injuries=_injuries_from_json(item["home_injuries"]),
+    218 +        away_injuries=_injuries_from_json(item["away_injuries"]),
+    219 +        head_to_head=_h2h_from_json(item["head_to_head"]),
+    220 +        venue=_venue_from_json(item["venue"]),
+    221 +        weather=_weather_from_json(item["weather"]),
+    222 +        odds=tuple(_odds_from_json(quote) for quote in odds_data),
+    223 +    )
+    224 +
+    225 +
+    226 +def _result_from_json(data: object) -> MatchResult | None:
+    227 +    if data is None:
+    228 +        return None
+    229 +    item = _typed_dict(data)
+    230 +    return MatchResult(
+    231 +        match_id=_required(item, "match_id", str),
+    232 +        home_score=_required(item, "home_score", int),
+    233 +        away_score=_required(item, "away_score", int),
+    234 +        completed_at=datetime.fromisoformat(_required(item, "completed_at", str)),
+    235 +    )
+    236 +
+    237 +
+    238 +def _record_from_json(data: object) -> PredictionRecord:
+    239 +    item = _typed_dict(data)
+    240 +    return PredictionRecord(
+    241 +        request=_request_from_json(item["request"]),
+    242 +        evidence=_evidence_from_json(item["evidence"]),
+    243 +        prediction=_prediction_from_json(item["prediction"]),
+    244 +        created_at=datetime.fromisoformat(_required(item, "created_at", str)),
+    245 +        result=_result_from_json(item.get("result")),
+    246 +    )
+
+  └ src/soccer/tools.py (+45 -0)
+     1 +"""Tool protocols used by the prediction agent."""
+     2 +
+     3 +from __future__ import annotations
+     4 +
+     5 +from typing import Protocol
+     6 +
+     7 +from soccer.models import (
+     8 +    HeadToHeadRecord,
+     9 +    InjuryReport,
+    10 +    MatchRequest,
+    11 +    OddsQuote,
+    12 +    TeamForm,
+    13 +    Venue,
+    14 +    Weather,
+    15 +)
+    16 +
+    17 +
+    18 +class FormTool(Protocol):
+    19 +    def recent_form(self, team: str, competition: str) -> TeamForm:
+    20 +        """Return recent form for a team in or near the requested competition."""
+    21 +
+    22 +
+    23 +class InjuryNewsTool(Protocol):
+    24 +    def injury_report(self, team: str, match: MatchRequest) -> InjuryReport:
+    25 +        """Return current injury and availability news for a team."""
+    26 +
+    27 +
+    28 +class HeadToHeadTool(Protocol):
+    29 +    def head_to_head(self, home_team: str, away_team: str) -> HeadToHeadRecord:
+    30 +        """Return head-to-head history for the matchup."""
+    31 +
+    32 +
+    33 +class VenueTool(Protocol):
+    34 +    def venue_for(self, match: MatchRequest) -> Venue:
+    35 +        """Return venue details for the match."""
+    36 +
+    37 +
+    38 +class WeatherTool(Protocol):
+    39 +    def forecast(self, venue: Venue, match: MatchRequest) -> Weather:
+    40 +        """Return weather forecast for the venue at kickoff."""
+    41 +
+    42 +
+    43 +class OddsTool(Protocol):
+    44 +    def odds_for(self, match: MatchRequest) -> tuple[OddsQuote, ...]:
+    45 +        """Return bookmaker odds for the match."""
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The core package skeleton is in place. Next I’m adding fixture-backed multi-tool implementations, the evaluation harness, CLI entry points for the two immediate scenarios, and focused tests around orchestration, logging, and scoring.
+
+• Edited 6 files (+385 -0)
+  └ src/soccer/cli.py (+59 -0)
+     1 +"""Command-line entry points."""
+     2 +
+     3 +from __future__ import annotations
+     4 +
+     5 +import argparse
+     6 +from datetime import UTC, datetime
+     7 +from pathlib import Path
+     8 +
+     9 +from soccer.evaluation import EvaluationHarness
+    10 +from soccer.fixture_tools import build_fixture_agent, default_catalog
+    11 +from soccer.models import MatchResult
+    12 +from soccer.storage import JsonlPredictionLog
+    13 +
+    14 +
+    15 +def main() -> None:
+    16 +    parser = argparse.ArgumentParser(prog="soccer-forecast")
+    17 +    subparsers = parser.add_subparsers(dest="command", required=True)
+    18 +
+    19 +    predict = subparsers.add_parser("predict", help="Run a fixture-backed prediction")
+    20 +    predict.add_argument("match_id", choices=sorted(default_catalog().requests))
+    21 +    predict.add_argument("--log", type=Path, default=Path("predictions.jsonl"))
+    22 +
+    23 +    result = subparsers.add_parser("record-result", help="Attach a final score")
+    24 +    result.add_argument("match_id")
+    25 +    result.add_argument("home_score", type=int)
+    26 +    result.add_argument("away_score", type=int)
+    27 +    result.add_argument("--log", type=Path, default=Path("predictions.jsonl"))
+    28 +
+    29 +    evaluate = subparsers.add_parser("evaluate", help="Evaluate settled predictions")
+    30 +    evaluate.add_argument("log", type=Path)
+    31 +
+    32 +    args = parser.parse_args()
+    33 +    if args.command == "predict":
+    34 +        log = JsonlPredictionLog(args.log)
+    35 +        catalog = default_catalog()
+    36 +        record = build_fixture_agent(log).predict(catalog.requests[args.match_id])
+    37 +        print(f"Prediction: {record.prediction.outcome.value}")
+    38 +        print(f"Confidence: {record.prediction.confidence:.3f}")
+    39 +        print(record.prediction.rationale)
+    40 +    elif args.command == "record-result":
+    41 +        log = JsonlPredictionLog(args.log)
+    42 +        record = build_fixture_agent(log).record_result(
+    43 +            MatchResult(
+    44 +                match_id=args.match_id,
+    45 +                home_score=args.home_score,
+    46 +                away_score=args.away_score,
+    47 +                completed_at=datetime.now(UTC),
+    48 +            )
+    49 +        )
+    50 +        print(
+    51 +            f"Recorded {record.result.home_score}-{record.result.away_score} "
+    52 +            f"for {record.request.match_id}"
+    53 +        )
+    54 +    elif args.command == "evaluate":
+    55 +        summary = EvaluationHarness(JsonlPredictionLog(args.log)).evaluate()
+    56 +        print(f"Settled: {summary.settled_count}")
+    57 +        print(f"Accuracy: {summary.accuracy:.3f}")
+    58 +        print(f"Average confidence: {summary.average_confidence:.3f}")
+    59 +        print(f"Brier score: {summary.brier_score:.3f}")
+
+  └ src/soccer/evaluation.py (+52 -0)
+     1 +"""Evaluation harness for settled predictions."""
+     2 +
+     3 +from __future__ import annotations
+     4 +
+     5 +from dataclasses import dataclass
+     6 +
+     7 +from soccer.models import Outcome, PredictionRecord
+     8 +from soccer.storage import PredictionLog
+     9 +
+    10 +
+    11 +@dataclass(frozen=True)
+    12 +class EvaluationSummary:
+    13 +    settled_count: int
+    14 +    accuracy: float
+    15 +    average_confidence: float
+    16 +    brier_score: float
+    17 +
+    18 +
+    19 +@dataclass(frozen=True)
+    20 +class EvaluationHarness:
+    21 +    prediction_log: PredictionLog
+    22 +
+    23 +    def evaluate(self) -> EvaluationSummary:
+    24 +        settled = [record for record in self.prediction_log.list_records() if record.result]
+    25 +        if not settled:
+    26 +            return EvaluationSummary(0, 0.0, 0.0, 0.0)
+    27 +
+    28 +        correct = sum(
+    29 +            1 for record in settled if record.prediction.outcome == record.result.outcome
+    30 +        )
+    31 +        confidence = sum(record.prediction.confidence for record in settled) / len(settled)
+    32 +        brier = sum(self._brier_score(record) for record in settled) / len(settled)
+    33 +        return EvaluationSummary(
+    34 +            settled_count=len(settled),
+    35 +            accuracy=correct / len(settled),
+    36 +            average_confidence=confidence,
+    37 +            brier_score=brier,
+    38 +        )
+    39 +
+    40 +    @staticmethod
+    41 +    def _brier_score(record: PredictionRecord) -> float:
+    42 +        if record.result is None:
+    43 +            raise ValueError("Cannot score a prediction without a result")
+    44 +        actual = record.result.outcome
+    45 +        return sum(
+    46 +            (
+    47 +                record.prediction.probabilities.get(outcome, 0.0)
+    48 +                - (1.0 if outcome == actual else 0.0)
+    49 +            )
+    50 +            ** 2
+    51 +            for outcome in Outcome
+    52 +        )
+
+  └ src/soccer/fixture_tools.py (+167 -0)
+      1 +"""Local fixture-backed tools for demos and tests."""
+      2 +
+      3 +from __future__ import annotations
+      4 +
+      5 +from dataclasses import dataclass
+      6 +from datetime import UTC, datetime
+      7 +
+      8 +from soccer.agent import PredictionAgent
+      9 +from soccer.models import (
+     10 +    HeadToHeadRecord,
+     11 +    InjuryReport,
+     12 +    MatchRequest,
+     13 +    OddsQuote,
+     14 +    TeamForm,
+     15 +    Venue,
+     16 +    Weather,
+     17 +)
+     18 +from soccer.reasoning import MatchupReasoner
+     19 +from soccer.storage import PredictionLog
+     20 +
+     21 +
+     22 +@dataclass(frozen=True)
+     23 +class FixtureCatalog:
+     24 +    requests: dict[str, MatchRequest]
+     25 +    forms: dict[str, TeamForm]
+     26 +    injuries: dict[str, InjuryReport]
+     27 +    head_to_heads: dict[tuple[str, str], HeadToHeadRecord]
+     28 +    venues: dict[str, Venue]
+     29 +    weather: dict[str, Weather]
+     30 +    odds: dict[str, tuple[OddsQuote, ...]]
+     31 +
+     32 +
+     33 +class FixtureTools:
+     34 +    """Implement all data-source protocols from a local fixture catalog."""
+     35 +
+     36 +    def __init__(self, catalog: FixtureCatalog) -> None:
+     37 +        self.catalog = catalog
+     38 +
+     39 +    def recent_form(self, team: str, competition: str) -> TeamForm:
+     40 +        del competition
+     41 +        return self.catalog.forms[team]
+     42 +
+     43 +    def injury_report(self, team: str, match: MatchRequest) -> InjuryReport:
+     44 +        del match
+     45 +        return self.catalog.injuries.get(team, InjuryReport(team=team, source="fixture"))
+     46 +
+     47 +    def head_to_head(self, home_team: str, away_team: str) -> HeadToHeadRecord:
+     48 +        return self.catalog.head_to_heads.get(
+     49 +            (home_team, away_team),
+     50 +            HeadToHeadRecord(
+     51 +                home_team_wins=0,
+     52 +                draws=0,
+     53 +                away_team_wins=0,
+     54 +                meetings=0,
+     55 +                summary="No recent meetings found in fixtures",
+     56 +            ),
+     57 +        )
+     58 +
+     59 +    def venue_for(self, match: MatchRequest) -> Venue:
+     60 +        return self.catalog.venues[match.match_id]
+     61 +
+     62 +    def forecast(self, venue: Venue, match: MatchRequest) -> Weather:
+     63 +        del venue
+     64 +        return self.catalog.weather[match.match_id]
+     65 +
+     66 +    def odds_for(self, match: MatchRequest) -> tuple[OddsQuote, ...]:
+     67 +        return self.catalog.odds.get(match.match_id, ())
+     68 +
+     69 +
+     70 +def default_catalog() -> FixtureCatalog:
+     71 +    """Return placeholder scenarios for architectural demos."""
+     72 +
+     73 +    requests = {
+     74 +        "ucl-final-2026": MatchRequest(
+     75 +            match_id="ucl-final-2026",
+     76 +            competition="UEFA Champions League 2025/26",
+     77 +            home_team="European Club A",
+     78 +            away_team="European Club B",
+     79 +            kickoff=datetime(2026, 5, 30, 19, 0, tzinfo=UTC),
+     80 +            neutral_site=True,
+     81 +        ),
+     82 +        "world-cup-final-2026": MatchRequest(
+     83 +            match_id="world-cup-final-2026",
+     84 +            competition="FIFA World Cup 2026",
+     85 +            home_team="Nation A",
+     86 +            away_team="Nation B",
+     87 +            kickoff=datetime(2026, 7, 19, 22, 0, tzinfo=UTC),
+     88 +            neutral_site=True,
+     89 +        ),
+     90 +    }
+     91 +
+     92 +    forms = {
+     93 +        "European Club A": TeamForm("European Club A", 6, 4, 1, 1, 13, 6),
+     94 +        "European Club B": TeamForm("European Club B", 6, 3, 2, 1, 10, 7),
+     95 +        "Nation A": TeamForm("Nation A", 6, 5, 0, 1, 12, 4),
+     96 +        "Nation B": TeamForm("Nation B", 6, 4, 1, 1, 11, 5),
+     97 +    }
+     98 +    injuries = {
+     99 +        "European Club A": InjuryReport(
+    100 +            "European Club A",
+    101 +            unavailable=("First-choice fullback",),
+    102 +            doubtful=(),
+    103 +            source="fixture",
+    104 +        ),
+    105 +        "European Club B": InjuryReport(
+    106 +            "European Club B",
+    107 +            unavailable=("Rotation midfielder",),
+    108 +            doubtful=("Starting winger",),
+    109 +            source="fixture",
+    110 +        ),
+    111 +        "Nation A": InjuryReport("Nation A", unavailable=(), doubtful=(), source="fixture"),
+    112 +        "Nation B": InjuryReport(
+    113 +            "Nation B",
+    114 +            unavailable=("Starting center back",),
+    115 +            doubtful=(),
+    116 +            source="fixture",
+    117 +        ),
+    118 +    }
+    119 +    head_to_heads = {
+    120 +        ("European Club A", "European Club B"): HeadToHeadRecord(
+    121 +            home_team_wins=2,
+    122 +            draws=1,
+    123 +            away_team_wins=1,
+    124 +            meetings=4,
+    125 +            summary="European Club A leads recent meetings 2-1-1",
+    126 +        ),
+    127 +        ("Nation A", "Nation B"): HeadToHeadRecord(
+    128 +            home_team_wins=1,
+    129 +            draws=2,
+    130 +            away_team_wins=1,
+    131 +            meetings=4,
+    132 +            summary="The nations are even across the last four meetings",
+    133 +        ),
+    134 +    }
+    135 +    venues = {
+    136 +        "ucl-final-2026": Venue("Puskas Arena", "Budapest", "Hungary"),
+    137 +        "world-cup-final-2026": Venue("MetLife Stadium", "East Rutherford", "United States"),
+    138 +    }
+    139 +    weather = {
+    140 +        "ucl-final-2026": Weather(21.0, 12.0, 0.5, "mild and mostly dry"),
+    141 +        "world-cup-final-2026": Weather(28.0, 16.0, 2.0, "warm with a small shower risk"),
+    142 +    }
+    143 +    odds = {
+    144 +        "ucl-final-2026": (
+    145 +            OddsQuote("FixtureBook", home_win=2.25, draw=3.35, away_win=3.15),
+    146 +            OddsQuote("ExampleOdds", home_win=2.30, draw=3.25, away_win=3.10),
+    147 +        ),
+    148 +        "world-cup-final-2026": (
+    149 +            OddsQuote("FixtureBook", home_win=2.05, draw=3.20, away_win=3.85),
+    150 +            OddsQuote("ExampleOdds", home_win=2.10, draw=3.10, away_win=3.75),
+    151 +        ),
+    152 +    }
+    153 +    return FixtureCatalog(requests, forms, injuries, head_to_heads, venues, weather, odds)
+    154 +
+    155 +
+    156 +def build_fixture_agent(prediction_log: PredictionLog) -> PredictionAgent:
+    157 +    tools = FixtureTools(default_catalog())
+    158 +    return PredictionAgent(
+    159 +        form_tool=tools,
+    160 +        injury_tool=tools,
+    161 +        head_to_head_tool=tools,
+    162 +        venue_tool=tools,
+    163 +        weather_tool=tools,
+    164 +        odds_tool=tools,
+    165 +        reasoner=MatchupReasoner(),
+    166 +        prediction_log=prediction_log,
+    167 +    )
+
+  └ tests/test_agent.py (+32 -0)
+     1 +from datetime import UTC, datetime
+     2 +
+     3 +from soccer.fixture_tools import build_fixture_agent, default_catalog
+     4 +from soccer.models import MatchResult, Outcome
+     5 +from soccer.storage import JsonlPredictionLog
+     6 +
+     7 +
+     8 +def test_agent_gathers_evidence_logs_prediction_and_records_result(tmp_path):
+     9 +    log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+    10 +    catalog = default_catalog()
+    11 +    agent = build_fixture_agent(log)
+    12 +
+    13 +    record = agent.predict(catalog.requests["ucl-final-2026"])
+    14 +
+    15 +    assert record.prediction.match_id == "ucl-final-2026"
+    16 +    assert record.prediction.outcome in set(Outcome)
+    17 +    assert 0.0 < record.prediction.confidence < 1.0
+    18 +    assert "European Club A form" in record.prediction.rationale
+    19 +    assert len(log.list_records()) == 1
+    20 +
+    21 +    updated = agent.record_result(
+    22 +        MatchResult(
+    23 +            match_id="ucl-final-2026",
+    24 +            home_score=2,
+    25 +            away_score=1,
+    26 +            completed_at=datetime(2026, 5, 31, tzinfo=UTC),
+    27 +        )
+    28 +    )
+    29 +
+    30 +    assert updated.result is not None
+    31 +    assert updated.result.outcome == Outcome.HOME_WIN
+    32 +    assert log.list_records()[0].result is not None
+
+  └ tests/test_evaluation.py (+41 -0)
+     1 +from dataclasses import replace
+     2 +from datetime import UTC, datetime
+     3 +
+     4 +from soccer.evaluation import EvaluationHarness
+     5 +from soccer.fixture_tools import build_fixture_agent, default_catalog
+     6 +from soccer.models import MatchResult
+     7 +from soccer.storage import JsonlPredictionLog
+     8 +
+     9 +
+    10 +def test_evaluation_scores_settled_predictions(tmp_path):
+    11 +    log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+    12 +    catalog = default_catalog()
+    13 +    agent = build_fixture_agent(log)
+    14 +    record = agent.predict(catalog.requests["world-cup-final-2026"])
+    15 +    log.attach_result(
+    16 +        MatchResult(
+    17 +            match_id=record.request.match_id,
+    18 +            home_score=1,
+    19 +            away_score=0,
+    20 +            completed_at=datetime(2026, 7, 20, tzinfo=UTC),
+    21 +        )
+    22 +    )
+    23 +
+    24 +    summary = EvaluationHarness(log).evaluate()
+    25 +
+    26 +    assert summary.settled_count == 1
+    27 +    assert 0.0 <= summary.accuracy <= 1.0
+    28 +    assert summary.average_confidence == record.prediction.confidence
+    29 +    assert summary.brier_score >= 0.0
+    30 +
+    31 +
+    32 +def test_evaluation_returns_zero_summary_without_results(tmp_path):
+    33 +    log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+    34 +    catalog = default_catalog()
+    35 +    record = build_fixture_agent(log).predict(catalog.requests["ucl-final-2026"])
+    36 +    assert replace(record, result=None).result is None
+    37 +
+    38 +    summary = EvaluationHarness(log).evaluate()
+    39 +
+    40 +    assert summary.settled_count == 0
+    41 +    assert summary.accuracy == 0.0
+
+  └ tests/test_storage.py (+34 -0)
+     1 +from datetime import UTC, datetime
+     2 +
+     3 +import pytest
+     4 +
+     5 +from soccer.fixture_tools import build_fixture_agent, default_catalog
+     6 +from soccer.models import MatchResult
+     7 +from soccer.storage import JsonlPredictionLog
+     8 +
+     9 +
+    10 +def test_jsonl_log_round_trips_prediction_record(tmp_path):
+    11 +    path = tmp_path / "predictions.jsonl"
+    12 +    log = JsonlPredictionLog(path)
+    13 +    catalog = default_catalog()
+    14 +    expected = build_fixture_agent(log).predict(catalog.requests["ucl-final-2026"])
+    15 +
+    16 +    actual = JsonlPredictionLog(path).list_records()[0]
+    17 +
+    18 +    assert actual.request == expected.request
+    19 +    assert actual.evidence.home_form == expected.evidence.home_form
+    20 +    assert actual.prediction.outcome == expected.prediction.outcome
+    21 +
+    22 +
+    23 +def test_attaching_unknown_result_raises(tmp_path):
+    24 +    log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+    25 +
+    26 +    with pytest.raises(LookupError, match="No prediction found"):
+    27 +        log.attach_result(
+    28 +            MatchResult(
+    29 +                match_id="missing",
+    30 +                home_score=0,
+    31 +                away_score=0,
+    32 +                completed_at=datetime.now(UTC),
+    33 +            )
+    34 +        )
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’ve added the deterministic end-to-end path: fixture tools, CLI commands, JSONL logging, result attachment, and aggregate eval metrics. I’m running tests and type checks now; I expect a few strict typing issues to shake out in serialization.
+
+• Ran ruff check .
+  └ E501 Line too long (104 > 100)
+      --> src/soccer/reasoning.py:53:101
+    … +21 lines (ctrl + t to view transcript)
+    Found 2 errors.
+    [*] 1 fixable with the `--fix` option.
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +42 lines (ctrl + t to view transcript)
+    !!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!!
+    ============================== 3 errors in 0.05s ===============================
+
+• Ran mypy src tests
+  └ src/soccer/storage.py:201: error: Key expression in dictionary comprehension has incompatible type "str"; expected type "Outcome"  [misc]
+    src/soccer/storage.py:204: error: Unused "type: ignore" comment  [unused-ignore]
+    … +13 lines (ctrl + t to view transcript)
+    tests/test_storage.py:23: error: Function is missing a type annotation  [no-untyped-def]
+    Found 14 errors in 8 files (checked 12 source files)
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The first validation pass found expected bootstrap issues: tests need src on PYTHONPATH, and strict mypy wants explicit enum reconstruction and result narrowing. I’m tightening those now rather than weakening the checks.
+
+• Edited 9 files (+34 -23)
+  └ pyproject.toml (+1 -0)
+    40  testpaths = ["tests"]
+    41 +pythonpath = ["src"]
+
+  └ src/soccer/cli.py (+2 -0)
+    49          )
+    50 +        if record.result is None:
+    51 +            raise RuntimeError("Result was not attached to the prediction record")
+    52          print(
+
+  └ src/soccer/evaluation.py (+14 -7)
+    27
+    28 -        correct = sum(
+    29 -            1 for record in settled if record.prediction.outcome == record.result.outcome
+    30 -        )
+    31 -        confidence = sum(record.prediction.confidence for record in settled) / len(settled)
+    32 -        brier = sum(self._brier_score(record) for record in settled) / len(settled)
+    28 +        correct = 0
+    29 +        total_confidence = 0.0
+    30 +        total_brier = 0.0
+    31 +        for record in settled:
+    32 +            result = record.result
+    33 +            if result is None:
+    34 +                continue
+    35 +            if record.prediction.outcome == result.outcome:
+    36 +                correct += 1
+    37 +            total_confidence += record.prediction.confidence
+    38 +            total_brier += self._brier_score(record)
+    39 +
+    40          return EvaluationSummary(
+       ⋮
+    42              accuracy=correct / len(settled),
+    36 -            average_confidence=confidence,
+    37 -            brier_score=brier,
+    43 +            average_confidence=total_confidence / len(settled),
+    44 +            brier_score=total_brier / len(settled),
+    45          )
+
+  └ src/soccer/fixture_tools.py (+1 -1)
+    142      }
+    143 -    odds = {
+    143 +    odds: dict[str, tuple[OddsQuote, ...]] = {
+    144          "ucl-final-2026": (
+
+  └ src/soccer/reasoning.py (+7 -7)
+     21          probabilities = self._baseline_probabilities(evidence)
+     22 -        outcome = max(probabilities, key=probabilities.get)
+     22 +        outcome = max(probabilities, key=lambda item: probabilities[item])
+     23          confidence = probabilities[outcome]
+        ⋮
+     52
+     53 -        if not evidence.request.neutral_site and evidence.venue.home_team == evidence.request.home_team:
+     53 +        if (
+     54 +            not evidence.request.neutral_site
+     55 +            and evidence.venue.home_team == evidence.request.home_team
+     56 +        ):
+     57              scores[Outcome.HOME_WIN] += 0.04
+        ⋮
+     84              return None
+     82 -        averaged = {outcome: 0.0 for outcome in Outcome}
+     85 +        averaged = dict.fromkeys(Outcome, 0.0)
+     86          for quote in evidence.odds:
+        ⋮
+    108          if evidence.odds:
+    106 -            market_favorite = max(
+    107 -                probabilities,
+    108 -                key=probabilities.get,
+    109 -            )
+    109 +            market_favorite = max(probabilities, key=lambda item: probabilities[item])
+    110              market_note = f"market-adjusted probabilities favor {market_favorite.value}"
+
+  └ src/soccer/storage.py (+4 -3)
+     18      OddsQuote,
+     19 +    Outcome,
+     20      Prediction,
+        ⋮
+    197          match_id=_required(item, "match_id", str),
+    197 -        outcome=_required(item, "outcome", str),  # type: ignore[arg-type]
+    198 +        outcome=Outcome(_required(item, "outcome", str)),
+    199          confidence=float(_required(item, "confidence", float)),
+        ⋮
+    201          probabilities={
+    201 -            key: float(value)
+    202 +            Outcome(key): float(value)
+    203              for key, value in probabilities.items()
+    204              if isinstance(value, int | float)
+    204 -        },  # type: ignore[dict-item]
+    205 +        },
+    206      )
+
+  └ tests/test_agent.py (+1 -1)
+    7
+    8 -def test_agent_gathers_evidence_logs_prediction_and_records_result(tmp_path):
+    8 +def test_agent_gathers_evidence_logs_prediction_and_records_result(tmp_path) -> None:
+    9      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+
+  └ tests/test_evaluation.py (+2 -2)
+     9
+    10 -def test_evaluation_scores_settled_predictions(tmp_path):
+    10 +def test_evaluation_scores_settled_predictions(tmp_path) -> None:
+    11      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+       ⋮
+    31
+    32 -def test_evaluation_returns_zero_summary_without_results(tmp_path):
+    32 +def test_evaluation_returns_zero_summary_without_results(tmp_path) -> None:
+    33      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+
+  └ tests/test_storage.py (+2 -2)
+     9
+    10 -def test_jsonl_log_round_trips_prediction_record(tmp_path):
+    10 +def test_jsonl_log_round_trips_prediction_record(tmp_path) -> None:
+    11      path = tmp_path / "predictions.jsonl"
+       ⋮
+    22
+    23 -def test_attaching_unknown_result_raises(tmp_path):
+    23 +def test_attaching_unknown_result_raises(tmp_path) -> None:
+    24      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The fixes are applied. I’m rerunning the checks in parallel and will broaden to formatting/coverage once the core suite is clean.
+
+• Ran ruff check .
+  └ All checks passed!
+
+• Ran mypy src tests
+  └ Found 5 errors in 3 files (checked 12 source files)
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +10 lines (ctrl + t to view transcript)
+
+    ============================== 5 passed in 0.04s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Runtime tests and lint are passing. Mypy is only objecting to untyped pytest fixture parameters, so I’m annotating those test fixtures with Path and then I’ll run the full validation set.
+
+• Edited 3 files (+8 -5)
+  └ tests/test_agent.py (+2 -1)
+     1  from datetime import UTC, datetime
+     2 +from pathlib import Path
+     3
+       ⋮
+     8
+     8 -def test_agent_gathers_evidence_logs_prediction_and_records_result(tmp_path) -> None:
+     9 +def test_agent_gathers_evidence_logs_prediction_and_records_result(tmp_path: Path) -> None:
+    10      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+
+  └ tests/test_evaluation.py (+3 -2)
+     2  from datetime import UTC, datetime
+     3 +from pathlib import Path
+     4
+       ⋮
+    10
+    10 -def test_evaluation_scores_settled_predictions(tmp_path) -> None:
+    11 +def test_evaluation_scores_settled_predictions(tmp_path: Path) -> None:
+    12      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+       ⋮
+    32
+    32 -def test_evaluation_returns_zero_summary_without_results(tmp_path) -> None:
+    33 +def test_evaluation_returns_zero_summary_without_results(tmp_path: Path) -> None:
+    34      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+
+  └ tests/test_storage.py (+3 -2)
+     1  from datetime import UTC, datetime
+     2 +from pathlib import Path
+     3
+       ⋮
+    10
+    10 -def test_jsonl_log_round_trips_prediction_record(tmp_path) -> None:
+    11 +def test_jsonl_log_round_trips_prediction_record(tmp_path: Path) -> None:
+    12      path = tmp_path / "predictions.jsonl"
+       ⋮
+    23
+    23 -def test_attaching_unknown_result_raises(tmp_path) -> None:
+    24 +def test_attaching_unknown_result_raises(tmp_path: Path) -> None:
+    25      log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The test annotations are fixed. I’m running formatting, lint, mypy, tests, and coverage now so the final state has the same checks the repo asks contributors to use.
+
+• Ran ruff format .
+  └ 1 file reformatted, 11 files left unchanged
+
+• Ran mypy src tests
+  └ Success: no issues found in 12 source files
+
+• Ran pytest --cov=soccer --cov-report=term-missing
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +26 lines (ctrl + t to view transcript)
+    TOTAL                           441     58    87%
+    ============================== 5 passed in 0.05s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Formatting, type checking, and coverage are clean enough for this first cut. I’m doing a final lint pass after formatting and a quick smoke test of the CLI path.
+
+• Ran ruff check .
+  └ All checks passed!
+
+• Ran python -m soccer.cli predict ucl-final-2026 --log /private/tmp/soccer-forecast-smoke.jsonl
+  └ zsh:1: command not found: python
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The final lint pass passed. The CLI smoke command used python, which is not on this machine’s PATH, so I’m rerunning it with python3 and the local src path.
+
+• Ran PYTHONPATH=src python3 -m soccer.cli predict ucl-final-2026 --log /private/tmp/soccer-forecast-smoke.jsonl
+  └ (no output)
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The module import succeeded but produced no command output because the CLI file was missing the standard if __name__ == "__main__" entry point for python -m. I’m adding that small fix and rerunning the smoke command.
+
+• Edited src/soccer/cli.py (+4 -0)
+    61          print(f"Brier score: {summary.brier_score:.3f}")
+    62 +
+    63 +
+    64 +if __name__ == "__main__":
+    65 +    main()
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The CLI entry point is fixed. I’m rerunning the full quick check set plus the smoke prediction command so the final report is accurate.
+
+• Ran ruff check .
+  └ All checks passed!
+
+• Ran ruff format .
+  └ 12 files left unchanged
+
+• Ran mypy src tests
+  └ Success: no issues found in 12 source files
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +10 lines (ctrl + t to view transcript)
+
+    ============================== 5 passed in 0.01s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Core validation is passing. I’m doing the CLI smoke test and result/evaluation smoke path now, using a temp log outside the repo so no generated log is left in the workspace.
+
+• Ran PYTHONPATH=src python3 -m soccer.cli predict ucl-final-2026 --log /private/tmp/soccer-forecast-smoke.jsonl
+  └ Prediction: home_win
+    Confidence: 0.441
+    Prediction is home_win at 44% confidence. European Club A form: 4-1-1, GD 7; European Club B form: 3-2-1, GD 3. Injury counts are 1 vs 2. Head-to-head: European Club A leads recent meetings 2-1-1. Venue is Puskas Arena, Budapest; weather is mild and mostly dry.
+    market-adjusted probabilities favor home_win.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The prediction command is producing the expected rationale and confidence output. I’m attaching a final score and evaluating the logged record to verify the self-evaluation loop.
+
+• Ran PYTHONPATH=src python3 -m soccer.cli evaluate /private/tmp/soccer-forecast-smoke.jsonl
+  └ Settled: 1
+    Accuracy: 1.000
+    Average confidence: 0.441
+    Brier score: 0.469
+
+• Ran PYTHONPATH=src python3 -m soccer.cli record-result ucl-final-2026 2 1 --log /private/tmp/soccer-forecast-smoke.jsonl
+  └ Recorded 2-1 for ucl-final-2026
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The smoke loop works: predict, record result, evaluate. I’m running the coverage command one last time after the CLI entry-point fix so the validation summary reflects the final files.
+
+• Ran pytest --cov=soccer --cov-report=term-missing
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +26 lines (ctrl + t to view transcript)
+    TOTAL                           443     60    86%
+    ============================== 5 passed in 0.04s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Coverage passes at 86% overall, with the untested area mainly the command-line wrapper. I’m taking one final inventory of the created files so the summary can point to the important pieces.
+
+• Explored
+  └ List rg --files
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The test run created __pycache__ directories. They’re ignored, but I’m removing them so the workspace stays clean.
+
+• Explored
+  └ Search __pycache__ in .
+    List rg --files
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Implemented the first-pass multi-tool prediction agent architecture and eval harness.
+
+  Key pieces:
+
+  - Core models and tool protocols: src/soccer/models.py, src/soccer/tools.py
+  - Agent orchestration and deterministic reasoner: src/soccer/agent.py, src/soccer/reasoning.py
+  - JSONL prediction/result log and self-eval harness: src/soccer/storage.py, src/soccer/evaluation.py
+  - Fixture-backed tools for the two immediate scenarios: src/soccer/fixture_tools.py
+  - CLI, docs, tests, and project tooling: src/soccer/cli.py, README.md, docs/architecture.md
+
+  Validation passed:
+
+  - ruff format .
+  - ruff check .
+  - mypy src tests
+  - pytest
+  - pytest --cov=soccer --cov-report=term-missing at 86% overall coverage
+
+  CLI smoke test also passed:
+
+  - Prediction for ucl-final-2026: home_win, confidence 0.441
+  - Result recording and evaluation produced Settled: 1, Accuracy: 1.000, Brier score: 0.469
+
+  Note: the UEFA Champions League 2025/26 and FIFA World Cup 2026 final entries are placeholder fixture scenarios for architecture and testing, not live predictions yet.
+
+─ Worked for 5m 29s ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+/status
+
+╭────────────────────────────────────────────────────────────────────────────────╮
+│  >_ OpenAI Codex (v0.137.0)                                                    │
+│                                                                                │
+│ Visit https://chatgpt.com/codex/settings/usage for up-to-date                  │
+│ information on rate limits and credits                                         │
+│                                                                                │
+│  Model:                gpt-5.5 (reasoning medium, summaries auto)              │
+│  Directory:            ~/gitHub/ai-coding/soccer-forcast/gpt5.5-cloud-codex    │
+│  Permissions:          Workspace (Ask for approval)                            │
+│  Agents.md:            AGENTS.md                                               │
+│  Account:              hui_ouyang@hotmail.com (Free)                           │
+│  Collaboration mode:   Default                                                 │
+│  Session:              019ea7f2-58df-7a91-ac98-9de0e928f242                    │
+│                                                                                │
+│  Context window:       90% left (36.6K used / 258K)                            │
+│  Monthly limit:        [█████████░░░░░░░░░░░] 44% left (resets 09:02 on 1 Jul) │
+│  Warning:              limits may be stale - run /status again shortly.        │
+╰────────────────────────────────────────────────────────────────────────────────╯
+
+
+› status
+
+
+• Implemented and validated.
+
+  Current state:
+
+  - Multi-tool agent architecture exists.
+  - Fixture-backed tools cover form, injuries, H2H, venue, weather, and odds.
+  - Agent produces prediction, rationale, confidence, and probabilities.
+  - JSONL logging works.
+  - Result attachment and self-evaluation work.
+  - CLI smoke path works.
+  - Docs and tests are in place.
+
+  Checks passed:
+
+  - ruff format .
+  - ruff check .
+  - mypy src tests
+  - pytest
+  - pytest --cov=soccer --cov-report=term-missing at 86% coverage
+
+  No active work is still running.
+
+
+› how about forcast the FIFA 2026 games?
+
+
+• I’ll check the current official FIFA 2026 schedule context first, then I’ll map that onto what the agent can support now versus what needs to be added for real forecasts.
+
+• Searching the web
+
+• Searched the web for site:fifa.com World Cup 2026 match schedule fixtures June 2026 FIFA official
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Yes. The current architecture can support FIFA World Cup 2026 forecasts, but right now it only has a placeholder world-cup-final-2026 fixture for architecture testing.
+
+  To forecast the actual FIFA 2026 games, the next useful build step is:
+
+  1. Add a World Cup fixture catalog loader
+     Pull match ID, teams, kickoff, venue, group/round from FIFA’s official schedule. FIFA lists the tournament from June 11, 2026 through July 19, 2026 across 16 host cities.
+
+  2. Add batch prediction command
+     Example:
+
+     soccer-forecast predict-competition world-cup-2026 --log predictions.jsonl
+
+  3. Add result polling / result import
+     Once matches finish:
+
+     soccer-forecast sync-results world-cup-2026 --log predictions.jsonl
+     soccer-forecast evaluate predictions.jsonl
+
+  4. Keep tools swappable
+     For real forecast quality, each match needs live/current providers for:
+      - team form
+      - injury/suspension news
+      - head-to-head
+      - venue/weather
+      - bookmaker odds
+      - final result
+
+  Source checked: FIFA’s official World Cup 2026 schedule page confirms the full fixture schedule and dates.
+  https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums
+
+  Best next implementation: add world-cup-2026 batch fixture support and a CLI command to forecast all upcoming matches, starting with fixture/manual data and leaving provider adapters ready for live APIs.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+/status
+
+╭────────────────────────────────────────────────────────────────────────────────╮
+│  >_ OpenAI Codex (v0.137.0)                                                    │
+│                                                                                │
+│ Visit https://chatgpt.com/codex/settings/usage for up-to-date                  │
+│ information on rate limits and credits                                         │
+│                                                                                │
+│  Model:                gpt-5.5 (reasoning medium, summaries auto)              │
+│  Directory:            ~/gitHub/ai-coding/soccer-forcast/gpt5.5-cloud-codex    │
+│  Permissions:          Workspace (Ask for approval)                            │
+│  Agents.md:            AGENTS.md                                               │
+│  Account:              hui_ouyang@hotmail.com (Free)                           │
+│  Collaboration mode:   Default                                                 │
+│  Session:              019ea7f2-58df-7a91-ac98-9de0e928f242                    │
+│                                                                                │
+│  Context window:       89% left (40.1K used / 258K)                            │
+│  Monthly limit:        [████████░░░░░░░░░░░░] 42% left (resets 09:02 on 1 Jul) │
+╰────────────────────────────────────────────────────────────────────────────────╯
+
+
+› continue the next implementation
+
+
+• I’ll extend the existing fixture-backed architecture rather than hardwiring live network calls. The next step is a competition-level catalog, batch prediction CLI, and result import/evaluation plumbing that can later be fed by real FIFA/API adapters.
+
+• Explored
+  └ Read test_agent.py, cli.py, fixture_tools.py, storage.py
+
+• Searching the web
+
+• Searched the web
+
+• Searching the web
+
+• Searched the web for https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’ve got the relevant files. I’m adding three things now: competition indexing in the fixture catalog, an agent batch method, and CLI commands to list and predict a whole competition. I’ll also add a JSON result-import path so the logged predictions can be settled in
+  batches.
+
+• Edited 2 files (+108 -1)
+  └ src/soccer/agent.py (+7 -0)
+     5  from dataclasses import dataclass
+     6 +from collections.abc import Iterable
+     7
+       ⋮
+    50
+    51 +    def predict_many(self, requests: Iterable[MatchRequest]) -> list[PredictionRecord]:
+    52 +        return [self.predict(request) for request in requests]
+    53 +
+    54      def record_result(self, result: MatchResult) -> PredictionRecord:
+    55          return self.prediction_log.attach_result(result)
+    56 +
+    57 +    def record_results(self, results: Iterable[MatchResult]) -> list[PredictionRecord]:
+    58 +        return [self.record_result(result) for result in results]
+
+  └ src/soccer/fixture_tools.py (+101 -1)
+     24      requests: dict[str, MatchRequest]
+     25 +    competitions: dict[str, tuple[str, ...]]
+     26      forms: dict[str, TeamForm]
+        ⋮
+     32
+     33 +    def requests_for_competition(self, competition_id: str) -> tuple[MatchRequest, ...]:
+     34 +        match_ids = self.competitions[competition_id]
+     35 +        return tuple(self.requests[match_id] for match_id in match_ids)
+     36 +
+     37
+        ⋮
+     94          ),
+     95 +        "wc-2026-match-001": MatchRequest(
+     96 +            match_id="wc-2026-match-001",
+     97 +            competition="FIFA World Cup 2026",
+     98 +            home_team="Mexico",
+     99 +            away_team="Group A Opponent",
+    100 +            kickoff=datetime(2026, 6, 11, 19, 0, tzinfo=UTC),
+    101 +            neutral_site=False,
+    102 +        ),
+    103 +        "wc-2026-match-010": MatchRequest(
+    104 +            match_id="wc-2026-match-010",
+    105 +            competition="FIFA World Cup 2026",
+    106 +            home_team="Curacao",
+    107 +            away_team="Germany",
+    108 +            kickoff=datetime(2026, 6, 14, 19, 0, tzinfo=UTC),
+    109 +            neutral_site=True,
+    110 +        ),
+    111 +        "wc-2026-final": MatchRequest(
+    112 +            match_id="wc-2026-final",
+    113 +            competition="FIFA World Cup 2026",
+    114 +            home_team="Finalist A",
+    115 +            away_team="Finalist B",
+    116 +            kickoff=datetime(2026, 7, 19, 22, 0, tzinfo=UTC),
+    117 +            neutral_site=True,
+    118 +        ),
+    119      }
+    120 +    competitions = {
+    121 +        "world-cup-2026": (
+    122 +            "wc-2026-match-001",
+    123 +            "wc-2026-match-010",
+    124 +            "wc-2026-final",
+    125 +        ),
+    126 +        "demo-finals": (
+    127 +            "ucl-final-2026",
+    128 +            "world-cup-final-2026",
+    129 +        ),
+    130 +    }
+    131
+        ⋮
+    136          "Nation B": TeamForm("Nation B", 6, 4, 1, 1, 11, 5),
+    137 +        "Mexico": TeamForm("Mexico", 6, 3, 2, 1, 9, 5),
+    138 +        "Group A Opponent": TeamForm("Group A Opponent", 6, 2, 2, 2, 7, 7),
+    139 +        "Curacao": TeamForm("Curacao", 6, 3, 1, 2, 8, 8),
+    140 +        "Germany": TeamForm("Germany", 6, 4, 1, 1, 14, 6),
+    141 +        "Finalist A": TeamForm("Finalist A", 6, 4, 1, 1, 11, 5),
+    142 +        "Finalist B": TeamForm("Finalist B", 6, 4, 1, 1, 10, 6),
+    143      }
+        ⋮
+    163          ),
+    164 +        "Mexico": InjuryReport("Mexico", unavailable=(), doubtful=("Veteran forward",), source="fixture"),
+    165 +        "Group A Opponent": InjuryReport("Group A Opponent", source="fixture"),
+    166 +        "Curacao": InjuryReport("Curacao", unavailable=("Defensive midfielder",), source="fixture"),
+    167 +        "Germany": InjuryReport("Germany", unavailable=(), doubtful=(), source="fixture"),
+    168 +        "Finalist A": InjuryReport("Finalist A", unavailable=(), doubtful=(), source="fixture"),
+    169 +        "Finalist B": InjuryReport("Finalist B", unavailable=(), doubtful=(), source="fixture"),
+    170      }
+        ⋮
+    185          ),
+    186 +        ("Mexico", "Group A Opponent"): HeadToHeadRecord(
+    187 +            home_team_wins=0,
+    188 +            draws=0,
+    189 +            away_team_wins=0,
+    190 +            meetings=0,
+    191 +            summary="No matchup history in the local fixture catalog",
+    192 +        ),
+    193 +        ("Curacao", "Germany"): HeadToHeadRecord(
+    194 +            home_team_wins=0,
+    195 +            draws=0,
+    196 +            away_team_wins=1,
+    197 +            meetings=1,
+    198 +            summary="Germany leads the limited local history",
+    199 +        ),
+    200 +        ("Finalist A", "Finalist B"): HeadToHeadRecord(
+    201 +            home_team_wins=1,
+    202 +            draws=1,
+    203 +            away_team_wins=1,
+    204 +            meetings=3,
+    205 +            summary="The finalists are even in the placeholder history",
+    206 +        ),
+    207      }
+        ⋮
+    210          "world-cup-final-2026": Venue("MetLife Stadium", "East Rutherford", "United States"),
+    211 +        "wc-2026-match-001": Venue("Estadio Azteca", "Mexico City", "Mexico", "Mexico"),
+    212 +        "wc-2026-match-010": Venue("Houston Stadium", "Houston", "United States"),
+    213 +        "wc-2026-final": Venue("MetLife Stadium", "East Rutherford", "United States"),
+    214      }
+        ⋮
+    217          "world-cup-final-2026": Weather(28.0, 16.0, 2.0, "warm with a small shower risk"),
+    218 +        "wc-2026-match-001": Weather(22.0, 9.0, 3.0, "mild with possible showers"),
+    219 +        "wc-2026-match-010": Weather(30.0, 18.0, 1.0, "hot with light wind"),
+    220 +        "wc-2026-final": Weather(29.0, 14.0, 2.0, "warm with isolated showers possible"),
+    221      }
+        ⋮
+    230          ),
+    231 +        "wc-2026-match-001": (
+    232 +            OddsQuote("FixtureBook", home_win=1.95, draw=3.35, away_win=4.10),
+    233 +            OddsQuote("ExampleOdds", home_win=2.00, draw=3.30, away_win=3.95),
+    234 +        ),
+    235 +        "wc-2026-match-010": (
+    236 +            OddsQuote("FixtureBook", home_win=8.00, draw=4.75, away_win=1.38),
+    237 +            OddsQuote("ExampleOdds", home_win=7.50, draw=4.60, away_win=1.42),
+    238 +        ),
+    239 +        "wc-2026-final": (
+    240 +            OddsQuote("FixtureBook", home_win=2.35, draw=3.05, away_win=3.25),
+    241 +            OddsQuote("ExampleOdds", home_win=2.40, draw=3.00, away_win=3.20),
+    242 +        ),
+    243      }
+    153 -    return FixtureCatalog(requests, forms, injuries, head_to_heads, venues, weather, odds)
+    244 +    return FixtureCatalog(
+    245 +        requests,
+    246 +        competitions,
+    247 +        forms,
+    248 +        injuries,
+    249 +        head_to_heads,
+    250 +        venues,
+    251 +        weather,
+    252 +        odds,
+    253 +    )
+    254
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The catalog now has a world-cup-2026 competition ID and batch prediction support in the agent. I’m wiring that into the CLI and adding tests so competition forecasts and batch result imports are covered.
+
+• Edited 2 files (+131 -6)
+  └ src/soccer/cli.py (+81 -6)
+      5  import argparse
+      6 +import json
+      7  from datetime import UTC, datetime
+      8  from pathlib import Path
+      9 +from typing import cast
+     10
+        ⋮
+     12  from soccer.fixture_tools import build_fixture_agent, default_catalog
+     11 -from soccer.models import MatchResult
+     13 +from soccer.models import MatchRequest, MatchResult, PredictionRecord
+     14  from soccer.storage import JsonlPredictionLog
+        ⋮
+     17  def main() -> None:
+     18 +    catalog = default_catalog()
+     19      parser = argparse.ArgumentParser(prog="soccer-forecast")
+        ⋮
+     22      predict = subparsers.add_parser("predict", help="Run a fixture-backed prediction")
+     20 -    predict.add_argument("match_id", choices=sorted(default_catalog().requests))
+     23 +    predict.add_argument("match_id", choices=sorted(catalog.requests))
+     24      predict.add_argument("--log", type=Path, default=Path("predictions.jsonl"))
+     25
+     26 +    list_matches = subparsers.add_parser("list-matches", help="List fixture-backed matches")
+     27 +    list_matches.add_argument("competition_id", choices=sorted(catalog.competitions))
+     28 +
+     29 +    predict_competition = subparsers.add_parser(
+     30 +        "predict-competition",
+     31 +        help="Run fixture-backed predictions for a competition",
+     32 +    )
+     33 +    predict_competition.add_argument("competition_id", choices=sorted(catalog.competitions))
+     34 +    predict_competition.add_argument("--log", type=Path, default=Path("predictions.jsonl"))
+     35 +
+     36      result = subparsers.add_parser("record-result", help="Attach a final score")
+        ⋮
+     41
+     42 +    results = subparsers.add_parser("record-results", help="Attach final scores from JSON")
+     43 +    results.add_argument("results_file", type=Path)
+     44 +    results.add_argument("--log", type=Path, default=Path("predictions.jsonl"))
+     45 +
+     46      evaluate = subparsers.add_parser("evaluate", help="Evaluate settled predictions")
+        ⋮
+     51          log = JsonlPredictionLog(args.log)
+     35 -        catalog = default_catalog()
+     52          record = build_fixture_agent(log).predict(catalog.requests[args.match_id])
+     37 -        print(f"Prediction: {record.prediction.outcome.value}")
+     38 -        print(f"Confidence: {record.prediction.confidence:.3f}")
+     39 -        print(record.prediction.rationale)
+     53 +        _print_prediction(record)
+     54 +    elif args.command == "list-matches":
+     55 +        for request in catalog.requests_for_competition(args.competition_id):
+     56 +            print(_format_match(request))
+     57 +    elif args.command == "predict-competition":
+     58 +        log = JsonlPredictionLog(args.log)
+     59 +        records = build_fixture_agent(log).predict_many(
+     60 +            catalog.requests_for_competition(args.competition_id)
+     61 +        )
+     62 +        for record in records:
+     63 +            print(_format_prediction_summary(record))
+     64      elif args.command == "record-result":
+        ⋮
+     79          )
+     80 +    elif args.command == "record-results":
+     81 +        log = JsonlPredictionLog(args.log)
+     82 +        records = build_fixture_agent(log).record_results(_load_results(args.results_file))
+     83 +        print(f"Recorded {len(records)} results")
+     84      elif args.command == "evaluate":
+        ⋮
+     91
+     92 +def _format_match(request: MatchRequest) -> str:
+     93 +    kickoff = request.kickoff.isoformat()
+     94 +    return f"{request.match_id} | {kickoff} | {request.home_team} vs {request.away_team}"
+     95 +
+     96 +
+     97 +def _format_prediction_summary(record: PredictionRecord) -> str:
+     98 +    return (
+     99 +        f"{record.request.match_id} | {record.request.home_team} vs "
+    100 +        f"{record.request.away_team} | {record.prediction.outcome.value} | "
+    101 +        f"{record.prediction.confidence:.3f}"
+    102 +    )
+    103 +
+    104 +
+    105 +def _print_prediction(record: PredictionRecord) -> None:
+    106 +    print(f"Prediction: {record.prediction.outcome.value}")
+    107 +    print(f"Confidence: {record.prediction.confidence:.3f}")
+    108 +    print(record.prediction.rationale)
+    109 +
+    110 +
+    111 +def _load_results(path: Path) -> tuple[MatchResult, ...]:
+    112 +    data = json.loads(path.read_text(encoding="utf-8"))
+    113 +    if not isinstance(data, list):
+    114 +        raise ValueError("Result import must be a JSON list")
+    115 +    return tuple(_result_from_mapping(cast(dict[str, object], item)) for item in data)
+    116 +
+    117 +
+    118 +def _result_from_mapping(item: dict[str, object]) -> MatchResult:
+    119 +    completed_at = item.get("completed_at")
+    120 +    if not isinstance(completed_at, str):
+    121 +        completed_at = datetime.now(UTC).isoformat()
+    122 +
+    123 +    match_id = item.get("match_id")
+    124 +    home_score = item.get("home_score")
+    125 +    away_score = item.get("away_score")
+    126 +    if not isinstance(match_id, str):
+    127 +        raise ValueError("Result item is missing a string match_id")
+    128 +    if not isinstance(home_score, int) or not isinstance(away_score, int):
+    129 +        raise ValueError(f"Result item for {match_id!r} must include integer scores")
+    130 +
+    131 +    return MatchResult(
+    132 +        match_id=match_id,
+    133 +        home_score=home_score,
+    134 +        away_score=away_score,
+    135 +        completed_at=datetime.fromisoformat(completed_at),
+    136 +    )
+    137 +
+    138 +
+    139  if __name__ == "__main__":
+
+  └ tests/test_competitions.py (+50 -0)
+     1 +from datetime import UTC, datetime
+     2 +from pathlib import Path
+     3 +
+     4 +from soccer.fixture_tools import build_fixture_agent, default_catalog
+     5 +from soccer.models import MatchResult
+     6 +from soccer.storage import JsonlPredictionLog
+     7 +
+     8 +
+     9 +def test_world_cup_competition_batch_predicts_and_logs(tmp_path: Path) -> None:
+    10 +    log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+    11 +    catalog = default_catalog()
+    12 +    requests = catalog.requests_for_competition("world-cup-2026")
+    13 +
+    14 +    records = build_fixture_agent(log).predict_many(requests)
+    15 +
+    16 +    assert len(records) == 3
+    17 +    assert {record.request.match_id for record in records} == {
+    18 +        "wc-2026-match-001",
+    19 +        "wc-2026-match-010",
+    20 +        "wc-2026-final",
+    21 +    }
+    22 +    assert len(log.list_records()) == 3
+    23 +
+    24 +
+    25 +def test_agent_records_results_in_batches(tmp_path: Path) -> None:
+    26 +    log = JsonlPredictionLog(tmp_path / "predictions.jsonl")
+    27 +    catalog = default_catalog()
+    28 +    agent = build_fixture_agent(log)
+    29 +    agent.predict_many(catalog.requests_for_competition("world-cup-2026"))
+    30 +
+    31 +    records = agent.record_results(
+    32 +        (
+    33 +            MatchResult(
+    34 +                match_id="wc-2026-match-001",
+    35 +                home_score=2,
+    36 +                away_score=0,
+    37 +                completed_at=datetime(2026, 6, 12, tzinfo=UTC),
+    38 +            ),
+    39 +            MatchResult(
+    40 +                match_id="wc-2026-match-010",
+    41 +                home_score=0,
+    42 +                away_score=3,
+    43 +                completed_at=datetime(2026, 6, 15, tzinfo=UTC),
+    44 +            ),
+    45 +        )
+    46 +    )
+    47 +
+    48 +    assert len(records) == 2
+    49 +    settled = [record for record in log.list_records() if record.result is not None]
+    50 +    assert len(settled) == 2
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Batch CLI commands and result JSON import are in place. I’m running the formatter, lint, type checker, and tests now; I’ll fix anything strict mode catches.
+
+• Ran ruff format .
+  └ 1 file reformatted, 12 files left unchanged
+
+• Ran ruff check .
+  └ I001 [*] Import block is un-sorted or un-formatted
+      --> src/soccer/agent.py:3:1
+    … +27 lines (ctrl + t to view transcript)
+    Found 2 errors.
+    [*] 1 fixable with the `--fix` option.
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +11 lines (ctrl + t to view transcript)
+
+    ============================== 7 passed in 0.02s ===============================
+
+• Ran mypy src tests
+  └ Success: no issues found in 13 source files
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Tests and mypy are passing; lint only found import ordering and one long fixture line. I’m cleaning those up and then I’ll run the final checks plus a CLI batch smoke test.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Ruff formatting already changed the exact fixture line, so I’m checking the current snippets before applying the small lint fix.
+
+• Explored
+  └ Read agent.py, fixture_tools.py
+
+• Edited 2 files (+10 -3)
+  └ src/soccer/agent.py (+1 -1)
+    4
+    5 +from collections.abc import Iterable
+    6  from dataclasses import dataclass
+    6 -from collections.abc import Iterable
+    7
+
+  └ src/soccer/fixture_tools.py (+9 -2)
+    164          "Mexico": InjuryReport(
+    165 -            "Mexico", unavailable=(), doubtful=("Veteran forward",), source="fixture"
+    165 +            "Mexico",
+    166 +            unavailable=(),
+    167 +            doubtful=("Veteran forward",),
+    168 +            source="fixture",
+    169          ),
+    170          "Group A Opponent": InjuryReport("Group A Opponent", source="fixture"),
+    168 -        "Curacao": InjuryReport("Curacao", unavailable=("Defensive midfielder",), source="fixture"),
+    171 +        "Curacao": InjuryReport(
+    172 +            "Curacao",
+    173 +            unavailable=("Defensive midfielder",),
+    174 +            source="fixture",
+    175 +        ),
+    176          "Germany": InjuryReport("Germany", unavailable=(), doubtful=(), source="fixture"),
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The lint issues are fixed. I’m also updating the README and architecture doc to describe the new competition-level commands and the current limits of the fixture data.
+
+• Explored
+  └ Read README.md, architecture.md
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The documentation is shorter than expected, so I’m patching in the new command examples and the current fixture-catalog scope directly.
+
+• Edited 2 files (+35 -2)
+  └ README.md (+27 -0)
+    27
+    28 +Forecast the current World Cup 2026 fixture catalog:
+    29 +
+    30 +```bash
+    31 +soccer-forecast list-matches world-cup-2026
+    32 +soccer-forecast predict-competition world-cup-2026 --log predictions.jsonl
+    33 +```
+    34 +
+    35 +Attach completed scores in batches:
+    36 +
+    37 +```bash
+    38 +soccer-forecast record-results results.json --log predictions.jsonl
+    39 +soccer-forecast evaluate predictions.jsonl
+    40 +```
+    41 +
+    42 +`results.json` should be a JSON list:
+    43 +
+    44 +```json
+    45 +[
+    46 +  {
+    47 +    "match_id": "wc-2026-match-001",
+    48 +    "home_score": 2,
+    49 +    "away_score": 0,
+    50 +    "completed_at": "2026-06-12T03:00:00+00:00"
+    51 +  }
+    52 +]
+    53 +```
+    54 +
+    55  ## Architecture
+
+  └ docs/architecture.md (+8 -2)
+    40
+    41 +For tournament workflows, `predict_many` accepts a sequence of match requests and records each
+    42 +prediction. The CLI exposes this through `predict-competition`, backed by competition IDs in the
+    43 +fixture catalog.
+    44 +
+    45  ## Evaluation Harness
+       ⋮
+    58
+    55 -The fixture catalog includes two scenario IDs:
+    59 +The fixture catalog includes single-match scenarios and competition IDs:
+    60
+       ⋮
+    62  - `world-cup-final-2026`: FIFA World Cup 2026 final placeholder scenario.
+    63 +- `world-cup-2026`: a batch catalog for World Cup workflow testing.
+    64 +- `demo-finals`: both final placeholder scenarios.
+    65
+    66  Those entries are architectural examples, not real forecasts. Real predictions require provider
+    61 -implementations that can retrieve current teams, injuries, odds, weather, and results.
+    67 +implementations that can retrieve current fixtures, teams, injuries, odds, weather, and results.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Docs are updated. I’m running final validation plus smoke commands for listing and batch predicting world-cup-2026.
+
+• Ran ruff format .
+  └ 13 files left unchanged
+
+• Ran ruff check .
+  └ All checks passed!
+
+• Ran mypy src tests
+  └ Success: no issues found in 13 source files
+
+⚠ Heads up, you have less than 25% of your monthly limit left. Run /status for a breakdown.
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +11 lines (ctrl + t to view transcript)
+
+    ============================== 7 passed in 0.02s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• All code checks are passing. I’m doing the CLI smoke tests now against a temp log so the repo stays clean.
+
+• Ran PYTHONPATH=src python3 -m soccer.cli list-matches world-cup-2026
+  └ wc-2026-match-001 | 2026-06-11T19:00:00+00:00 | Mexico vs Group A Opponent
+    wc-2026-match-010 | 2026-06-14T19:00:00+00:00 | Curacao vs Germany
+    wc-2026-final | 2026-07-19T22:00:00+00:00 | Finalist A vs Finalist B
+
+• Ran PYTHONPATH=src python3 -m soccer.cli predict-competition world-cup-2026 --log /private/tmp/soccer-forecast-wc-batch.jsonl
+  └ wc-2026-match-001 | Mexico vs Group A Opponent | home_win | 0.470
+    wc-2026-match-010 | Curacao vs Germany | away_win | 0.632
+    wc-2026-final | Finalist A vs Finalist B | home_win | 0.390
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The batch listing and prediction smoke commands work. I’m running coverage once more and then I’ll summarize the new World Cup forecasting workflow.
+
+• Ran pytest --cov=soccer --cov-report=term-missing
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +27 lines (ctrl + t to view transcript)
+    TOTAL                           499    103    79%
+    ============================== 7 passed in 0.05s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Coverage passes, though the added CLI wrapper lowers overall coverage because CLI branch tests aren’t included yet. I’m removing generated Python cache directories before finalizing.
+
+• Explored
+  └ Search __pycache__ in .
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Implemented the next World Cup forecasting workflow.
+
+  What changed:
+
+  - Added world-cup-2026 as a competition catalog in src/soccer/fixture_tools.py
+  - Added batch prediction methods: predict_many and record_results in src/soccer/agent.py
+  - Added CLI commands in src/soccer/cli.py:
+      - list-matches world-cup-2026
+      - predict-competition world-cup-2026 --log predictions.jsonl
+      - record-results results.json --log predictions.jsonl
+
+  - Added batch tests in tests/test_competitions.py
+  - Updated README.md and docs/architecture.md
+
+  Smoke output for batch forecasts:
+
+  wc-2026-match-001 | Mexico vs Group A Opponent | home_win | 0.470
+  wc-2026-match-010 | Curacao vs Germany | away_win | 0.632
+  wc-2026-final | Finalist A vs Finalist B | home_win | 0.390
+
+  Validation passed:
+
+  - ruff format .
+  - ruff check .
+  - mypy src tests
+  - pytest
+  - pytest --cov=soccer --cov-report=term-missing
+
+  Coverage is currently 79% overall because the CLI wrapper is not unit-tested yet; core agent/storage/eval coverage remains high. The World Cup catalog is still fixture-backed workflow data, not a live full FIFA schedule provider.
+
+─ Worked for 3m 22s ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+› implement live World Cup catalog data
+
+
+• I’ll add this as a provider layer, not by replacing the deterministic fixture catalog. The plan is to keep tests offline while adding a live World Cup catalog loader that can fetch FIFA schedule data when explicitly invoked.
+
+• Explored
+  └ Read fixture_tools.py, cli.py, models.py
+    List tests
+
+• Searching the web
+
+• Searched the web for FIFA World Cup 2026 schedule API fifa fixtures json
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• A practical issue: live fixtures alone do not include form, injuries, odds, or weather. I’m going to make the live catalog provider responsible only for match requests and venues, then add conservative fallback tools so those live fixtures can still be forecasted
+  while richer providers are plugged in later.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’m adding the live loader as a narrow module with an injectable HTTP client. That keeps live access explicit in CLI commands and lets tests feed representative JSON without making network calls.
+
+• Edited 3 files (+229 -3)
+  └ src/soccer/agent.py (+1 -1)
+    4
+    5 +from dataclasses import dataclass
+    6  from collections.abc import Iterable
+    6 -from dataclasses import dataclass
+    7
+
+  └ src/soccer/fixture_tools.py (+5 -2)
+    264
+    265 -def build_fixture_agent(prediction_log: PredictionLog) -> PredictionAgent:
+    266 -    tools = FixtureTools(default_catalog())
+    265 +def build_fixture_agent(
+    266 +    prediction_log: PredictionLog,
+    267 +    catalog: FixtureCatalog | None = None,
+    268 +) -> PredictionAgent:
+    269 +    tools = FixtureTools(catalog or default_catalog())
+    270      return PredictionAgent(
+
+  └ src/soccer/live_world_cup.py (+223 -0)
+      1 +"""Live FIFA World Cup catalog loading.
+      2 +
+      3 +The loader is intentionally limited to schedule catalog data: match identity, teams,
+      4 +kickoff, and venue. Rich prediction inputs such as form, injuries, odds, and weather
+      5 +remain separate tools.
+      6 +"""
+      7 +
+      8 +from __future__ import annotations
+      9 +
+     10 +import html
+     11 +import json
+     12 +import re
+     13 +from collections.abc import Iterable
+     14 +from dataclasses import dataclass
+     15 +from datetime import UTC, datetime
+     16 +from typing import Protocol
+     17 +from urllib.request import Request, urlopen
+     18 +
+     19 +from soccer.fixture_tools import FixtureCatalog
+     20 +from soccer.models import (
+     21 +    HeadToHeadRecord,
+     22 +    InjuryReport,
+     23 +    MatchRequest,
+     24 +    TeamForm,
+     25 +    Venue,
+     26 +    Weather,
+     27 +)
+     28 +
+     29 +DEFAULT_WORLD_CUP_SCHEDULE_URL = (
+     30 +    "https://www.fifa.com/en/tournaments/mens/worldcup/"
+     31 +    "canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums"
+     32 +)
+     33 +WORLD_CUP_COMPETITION_ID = "world-cup-2026"
+     34 +WORLD_CUP_COMPETITION_NAME = "FIFA World Cup 2026"
+     35 +
+     36 +
+     37 +class HttpClient(Protocol):
+     38 +    def get_text(self, url: str) -> str:
+     39 +        """Return response text for a URL."""
+     40 +
+     41 +
+     42 +@dataclass(frozen=True)
+     43 +class UrlLibHttpClient:
+     44 +    timeout_seconds: float = 20.0
+     45 +
+     46 +    def get_text(self, url: str) -> str:
+     47 +        request = Request(url, headers={"User-Agent": "soccer-forecast/0.1"})
+     48 +        with urlopen(request, timeout=self.timeout_seconds) as response:
+     49 +            body = response.read()
+     50 +        return body.decode("utf-8")
+     51 +
+     52 +
+     53 +def load_world_cup_catalog(
+     54 +    source_url: str = DEFAULT_WORLD_CUP_SCHEDULE_URL,
+     55 +    *,
+     56 +    client: HttpClient | None = None,
+     57 +) -> FixtureCatalog:
+     58 +    """Fetch and parse a World Cup catalog from a live schedule source."""
+     59 +
+     60 +    http_client = client or UrlLibHttpClient()
+     61 +    payload = http_client.get_text(source_url)
+     62 +    return catalog_from_payload(payload)
+     63 +
+     64 +
+     65 +def catalog_from_payload(payload: str) -> FixtureCatalog:
+     66 +    """Build a catalog from JSON or HTML containing embedded JSON schedule data."""
+     67 +
+     68 +    data_items = _json_documents_from_payload(payload)
+     69 +    matches = tuple(_match_from_item(item) for item in _find_match_items(data_items))
+     70 +    if not matches:
+     71 +        raise ValueError("No World Cup matches found in live catalog payload")
+     72 +
+     73 +    requests = {match.match_id: match for match in matches}
+     74 +    match_ids = tuple(match.match_id for match in sorted(matches, key=lambda item: item.kickoff))
+     75 +    teams = sorted({match.home_team for match in matches} | {match.away_team for match in matches})
+     76 +
+     77 +    return FixtureCatalog(
+     78 +        requests=requests,
+     79 +        competitions={WORLD_CUP_COMPETITION_ID: match_ids},
+     80 +        forms={team: TeamForm(team, 0, 0, 0, 0, 0, 0) for team in teams},
+     81 +        injuries={team: InjuryReport(team=team, source="live-catalog-placeholder") for team in teams},
+     82 +        head_to_heads={},
+     83 +        venues={match.match_id: venue for match, venue in matches},
+     84 +        weather={
+     85 +            match.match_id: Weather(
+     86 +                temperature_c=0.0,
+     87 +                wind_kph=0.0,
+     88 +                precipitation_mm=0.0,
+     89 +                summary="weather unavailable from live catalog",
+     90 +            )
+     91 +            for match in matches
+     92 +        },
+     93 +        odds={},
+     94 +    )
+     95 +
+     96 +
+     97 +def _json_documents_from_payload(payload: str) -> tuple[object, ...]:
+     98 +    stripped = payload.strip()
+     99 +    if stripped.startswith("{") or stripped.startswith("["):
+    100 +        return (json.loads(stripped),)
+    101 +
+    102 +    documents: list[object] = []
+    103 +    for script_body in re.findall(
+    104 +        r"<script[^>]+type=[\"']application/json[\"'][^>]*>(.*?)</script>",
+    105 +        payload,
+    106 +        flags=re.IGNORECASE | re.DOTALL,
+    107 +    ):
+    108 +        try:
+    109 +            documents.append(json.loads(html.unescape(script_body)))
+    110 +        except json.JSONDecodeError:
+    111 +            continue
+    112 +    return tuple(documents)
+    113 +
+    114 +
+    115 +def _find_match_items(documents: Iterable[object]) -> Iterable[dict[str, object]]:
+    116 +    for document in documents:
+    117 +        yield from _walk_for_match_items(document)
+    118 +
+    119 +
+    120 +def _walk_for_match_items(value: object) -> Iterable[dict[str, object]]:
+    121 +    if isinstance(value, dict):
+    122 +        if _looks_like_match(value):
+    123 +            yield value
+    124 +        for child in value.values():
+    125 +            yield from _walk_for_match_items(child)
+    126 +    elif isinstance(value, list):
+    127 +        for child in value:
+    128 +            yield from _walk_for_match_items(child)
+    129 +
+    130 +
+    131 +def _looks_like_match(item: dict[str, object]) -> bool:
+    132 +    return (
+    133 +        _first_string(item, ("match_id", "matchId", "id", "matchNumber", "match_no")) is not None
+    134 +        and _team_name(item, ("home_team", "homeTeam", "home", "team1")) is not None
+    135 +        and _team_name(item, ("away_team", "awayTeam", "away", "team2")) is not None
+    136 +        and _first_string(item, ("kickoff", "date", "datetime", "startTime", "utcDate")) is not None
+    137 +    )
+    138 +
+    139 +
+    140 +def _match_from_item(item: dict[str, object]) -> tuple[MatchRequest, Venue]:
+    141 +    match_id = _required_string(item, ("match_id", "matchId", "id", "matchNumber", "match_no"))
+    142 +    home_team = _required_team_name(item, ("home_team", "homeTeam", "home", "team1"))
+    143 +    away_team = _required_team_name(item, ("away_team", "awayTeam", "away", "team2"))
+    144 +    kickoff = _parse_datetime(
+    145 +        _required_string(item, ("kickoff", "date", "datetime", "startTime", "utcDate"))
+    146 +    )
+    147 +    venue = _venue_from_item(item)
+    148 +    return (
+    149 +        MatchRequest(
+    150 +            match_id=f"wc-2026-{_slug(match_id)}",
+    151 +            competition=WORLD_CUP_COMPETITION_NAME,
+    152 +            home_team=home_team,
+    153 +            away_team=away_team,
+    154 +            kickoff=kickoff,
+    155 +            neutral_site=venue.home_team is None or venue.home_team != home_team,
+    156 +        ),
+    157 +        venue,
+    158 +    )
+    159 +
+    160 +
+    161 +def _venue_from_item(item: dict[str, object]) -> Venue:
+    162 +    venue_value = item.get("venue") or item.get("stadium")
+    163 +    if isinstance(venue_value, dict):
+    164 +        name = _first_string(venue_value, ("name", "venueName", "stadiumName")) or "Unknown venue"
+    165 +        city = _first_string(venue_value, ("city", "hostCity")) or "Unknown city"
+    166 +        country = _first_string(venue_value, ("country", "countryName")) or "Unknown country"
+    167 +        return Venue(name=name, city=city, country=country)
+    168 +
+    169 +    name = _first_string(item, ("venue", "venueName", "stadium", "stadiumName")) or "Unknown venue"
+    170 +    city = _first_string(item, ("city", "hostCity")) or "Unknown city"
+    171 +    country = _first_string(item, ("country", "countryName")) or "Unknown country"
+    172 +    return Venue(name=name, city=city, country=country)
+    173 +
+    174 +
+    175 +def _required_string(item: dict[str, object], keys: tuple[str, ...]) -> str:
+    176 +    value = _first_string(item, keys)
+    177 +    if value is None:
+    178 +        raise ValueError(f"Live catalog match is missing one of: {', '.join(keys)}")
+    179 +    return value
+    180 +
+    181 +
+    182 +def _first_string(item: dict[str, object], keys: tuple[str, ...]) -> str | None:
+    183 +    for key in keys:
+    184 +        value = item.get(key)
+    185 +        if isinstance(value, int):
+    186 +            return str(value)
+    187 +        if isinstance(value, str) and value.strip():
+    188 +            return value.strip()
+    189 +    return None
+    190 +
+    191 +
+    192 +def _required_team_name(item: dict[str, object], keys: tuple[str, ...]) -> str:
+    193 +    value = _team_name(item, keys)
+    194 +    if value is None:
+    195 +        raise ValueError(f"Live catalog match is missing team data for: {', '.join(keys)}")
+    196 +    return value
+    197 +
+    198 +
+    199 +def _team_name(item: dict[str, object], keys: tuple[str, ...]) -> str | None:
+    200 +    for key in keys:
+    201 +        value = item.get(key)
+    202 +        if isinstance(value, str) and value.strip():
+    203 +            return value.strip()
+    204 +        if isinstance(value, dict):
+    205 +            name = _first_string(value, ("name", "teamName", "country", "countryName"))
+    206 +            if name is not None:
+    207 +                return name
+    208 +    return None
+    209 +
+    210 +
+    211 +def _parse_datetime(value: str) -> datetime:
+    212 +    normalized = value.replace("Z", "+00:00")
+    213 +    parsed = datetime.fromisoformat(normalized)
+    214 +    if parsed.tzinfo is None:
+    215 +        return parsed.replace(tzinfo=UTC)
+    216 +    return parsed.astimezone(UTC)
+    217 +
+    218 +
+    219 +def _slug(value: str) -> str:
+    220 +    slug = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    221 +    if not slug:
+    222 +        raise ValueError("Live catalog match has an empty match id")
+    223 +    return slug
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The live loader is now in place and can parse JSON payloads or embedded application/json schedule data. I’m connecting it to the CLI with explicit --live-world-cup flags so normal fixture tests remain offline and deterministic.
+
+• Edited src/soccer/cli.py (+35 -3)
+     12  from soccer.fixture_tools import build_fixture_agent, default_catalog
+     13 +from soccer.live_world_cup import (
+     14 +    DEFAULT_WORLD_CUP_SCHEDULE_URL,
+     15 +    WORLD_CUP_COMPETITION_ID,
+     16 +    load_world_cup_catalog,
+     17 +)
+     18  from soccer.models import MatchRequest, MatchResult, PredictionRecord
+        ⋮
+     32      list_matches.add_argument("competition_id", choices=sorted(catalog.competitions))
+     33 +    list_matches.add_argument(
+     34 +        "--live-world-cup",
+     35 +        action="store_true",
+     36 +        help="Fetch live World Cup catalog data instead of local fixtures",
+     37 +    )
+     38 +    list_matches.add_argument("--source-url", default=DEFAULT_WORLD_CUP_SCHEDULE_URL)
+     39
+        ⋮
+     45      predict_competition.add_argument("--log", type=Path, default=Path("predictions.jsonl"))
+     46 +    predict_competition.add_argument(
+     47 +        "--live-world-cup",
+     48 +        action="store_true",
+     49 +        help="Fetch live World Cup catalog data instead of local fixtures",
+     50 +    )
+     51 +    predict_competition.add_argument("--source-url", default=DEFAULT_WORLD_CUP_SCHEDULE_URL)
+     52
+        ⋮
+     71      elif args.command == "list-matches":
+     55 -        for request in catalog.requests_for_competition(args.competition_id):
+     72 +        active_catalog = _catalog_for_args(catalog, args.competition_id, args.live_world_cup, args.source_url)
+     73 +        for request in active_catalog.requests_for_competition(args.competition_id):
+     74              print(_format_match(request))
+     75      elif args.command == "predict-competition":
+     76 +        active_catalog = _catalog_for_args(catalog, args.competition_id, args.live_world_cup, args.source_url)
+     77          log = JsonlPredictionLog(args.log)
+     59 -        records = build_fixture_agent(log).predict_many(
+     60 -            catalog.requests_for_competition(args.competition_id)
+     78 +        records = build_fixture_agent(log, active_catalog).predict_many(
+     79 +            active_catalog.requests_for_competition(args.competition_id)
+     80          )
+        ⋮
+    129
+    130 +def _catalog_for_args(
+    131 +    fixture_catalog: object,
+    132 +    competition_id: str,
+    133 +    live_world_cup: bool,
+    134 +    source_url: str,
+    135 +) -> object:
+    136 +    if not live_world_cup:
+    137 +        return fixture_catalog
+    138 +    if competition_id != WORLD_CUP_COMPETITION_ID:
+    139 +        raise ValueError("--live-world-cup can only be used with world-cup-2026")
+    140 +    return load_world_cup_catalog(source_url)
+    141 +
+    142 +
+    143  def _load_results(path: Path) -> tuple[MatchResult, ...]:
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The CLI now has live-catalog flags. I can see one typing cleanup needed around the helper return type, so I’m tightening that before adding tests.
+
+• Edited src/soccer/cli.py (+15 -5)
+     11  from soccer.evaluation import EvaluationHarness
+     12 -from soccer.fixture_tools import build_fixture_agent, default_catalog
+     12 +from soccer.fixture_tools import FixtureCatalog, build_fixture_agent, default_catalog
+     13  from soccer.live_world_cup import (
+        ⋮
+     71      elif args.command == "list-matches":
+     72 -        active_catalog = _catalog_for_args(catalog, args.competition_id, args.live_world_cup, args.source_url)
+     72 +        active_catalog = _catalog_for_args(
+     73 +            catalog,
+     74 +            args.competition_id,
+     75 +            args.live_world_cup,
+     76 +            args.source_url,
+     77 +        )
+     78          for request in active_catalog.requests_for_competition(args.competition_id):
+        ⋮
+     80      elif args.command == "predict-competition":
+     76 -        active_catalog = _catalog_for_args(catalog, args.competition_id, args.live_world_cup, args.source_url)
+     81 +        active_catalog = _catalog_for_args(
+     82 +            catalog,
+     83 +            args.competition_id,
+     84 +            args.live_world_cup,
+     85 +            args.source_url,
+     86 +        )
+     87          log = JsonlPredictionLog(args.log)
+        ⋮
+    140  def _catalog_for_args(
+    131 -    fixture_catalog: object,
+    141 +    fixture_catalog: FixtureCatalog,
+    142      competition_id: str,
+        ⋮
+    144      source_url: str,
+    135 -) -> object:
+    145 +) -> FixtureCatalog:
+    146      if not live_world_cup:
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I found a bug in the live loader’s internal tuple handling before running tests. I’m correcting that and adding tests that cover both direct JSON and embedded HTML JSON payloads.
+
+• Edited 2 files (+89 -7)
+  └ src/soccer/live_world_cup.py (+13 -7)
+    68      data_items = _json_documents_from_payload(payload)
+    69 -    matches = tuple(_match_from_item(item) for item in _find_match_items(data_items))
+    70 -    if not matches:
+    69 +    entries = tuple(_match_from_item(item) for item in _find_match_items(data_items))
+    70 +    if not entries:
+    71          raise ValueError("No World Cup matches found in live catalog payload")
+    72
+    73 -    requests = {match.match_id: match for match in matches}
+    74 -    match_ids = tuple(match.match_id for match in sorted(matches, key=lambda item: item.kickoff))
+    75 -    teams = sorted({match.home_team for match in matches} | {match.away_team for match in matches})
+    73 +    requests = {match.match_id: match for match, _venue in entries}
+    74 +    match_ids = tuple(
+    75 +        match.match_id
+    76 +        for match, _venue in sorted(entries, key=lambda item: item[0].kickoff)
+    77 +    )
+    78 +    teams = sorted(
+    79 +        {match.home_team for match, _venue in entries}
+    80 +        | {match.away_team for match, _venue in entries}
+    81 +    )
+    82
+       ⋮
+    88          head_to_heads={},
+    83 -        venues={match.match_id: venue for match, venue in matches},
+    89 +        venues={match.match_id: venue for match, venue in entries},
+    90          weather={
+       ⋮
+    96              )
+    91 -            for match in matches
+    97 +            for match, _venue in entries
+    98          },
+
+  └ tests/test_live_world_cup.py (+76 -0)
+     1 +from soccer.live_world_cup import WORLD_CUP_COMPETITION_ID, catalog_from_payload
+     2 +
+     3 +
+     4 +def test_catalog_from_json_payload_builds_world_cup_competition() -> None:
+     5 +    payload = """
+     6 +    {
+     7 +      "fixtures": [
+     8 +        {
+     9 +          "matchNumber": 1,
+    10 +          "homeTeam": {"name": "Mexico"},
+    11 +          "awayTeam": {"name": "South Africa"},
+    12 +          "kickoff": "2026-06-11T19:00:00Z",
+    13 +          "venue": {
+    14 +            "name": "Mexico City Stadium",
+    15 +            "city": "Mexico City",
+    16 +            "country": "Mexico"
+    17 +          }
+    18 +        },
+    19 +        {
+    20 +          "matchNumber": 2,
+    21 +          "homeTeam": {"name": "Korea Republic"},
+    22 +          "awayTeam": {"name": "Czechia"},
+    23 +          "kickoff": "2026-06-12T03:00:00+00:00",
+    24 +          "venueName": "Guadalajara Stadium",
+    25 +          "city": "Guadalajara",
+    26 +          "country": "Mexico"
+    27 +        }
+    28 +      ]
+    29 +    }
+    30 +    """
+    31 +
+    32 +    catalog = catalog_from_payload(payload)
+    33 +
+    34 +    requests = catalog.requests_for_competition(WORLD_CUP_COMPETITION_ID)
+    35 +    assert len(requests) == 2
+    36 +    assert requests[0].match_id == "wc-2026-1"
+    37 +    assert requests[0].home_team == "Mexico"
+    38 +    assert requests[0].away_team == "South Africa"
+    39 +    assert catalog.venues["wc-2026-2"].name == "Guadalajara Stadium"
+    40 +    assert catalog.forms["Mexico"].matches == 0
+    41 +
+    42 +
+    43 +def test_catalog_from_html_payload_reads_embedded_json() -> None:
+    44 +    payload = """
+    45 +    <html>
+    46 +      <body>
+    47 +        <script type="application/json">
+    48 +          {
+    49 +            "props": {
+    50 +              "pageProps": {
+    51 +                "matches": [
+    52 +                  {
+    53 +                    "id": "match-10",
+    54 +                    "home": "Germany",
+    55 +                    "away": "Curacao",
+    56 +                    "date": "2026-06-14T19:00:00Z",
+    57 +                    "stadium": "Houston Stadium",
+    58 +                    "hostCity": "Houston",
+    59 +                    "countryName": "United States"
+    60 +                  }
+    61 +                ]
+    62 +              }
+    63 +            }
+    64 +          }
+    65 +        </script>
+    66 +      </body>
+    67 +    </html>
+    68 +    """
+    69 +
+    70 +    catalog = catalog_from_payload(payload)
+    71 +
+    72 +    request = catalog.requests_for_competition(WORLD_CUP_COMPETITION_ID)[0]
+    73 +    assert request.match_id == "wc-2026-match-10"
+    74 +    assert request.home_team == "Germany"
+    75 +    assert request.away_team == "Curacao"
+    76 +    assert catalog.venues[request.match_id].city == "Houston"
+
+⚠ Heads up, you have less than 10% of your monthly limit left. Run /status for a breakdown.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The live catalog parser is covered for JSON and HTML-embedded JSON. I’m running format, lint, type checking, and tests now.
+
+• Ran ruff format .
+  └ 1 file reformatted, 14 files left unchanged
+
+• Ran ruff check .
+  └ I001 [*] Import block is un-sorted or un-formatted
+      --> src/soccer/agent.py:3:1
+    … +28 lines (ctrl + t to view transcript)
+    Found 2 errors.
+    [*] 2 fixable with the `--fix` option.
+
+• Ran mypy src tests
+  └ src/soccer/live_world_cup.py:50: error: Returning Any from function declared to return "str"  [no-any-return]
+    Found 1 error in 1 file (checked 15 source files)
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +12 lines (ctrl + t to view transcript)
+
+    ============================== 9 passed in 0.03s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Tests are passing; lint and mypy found small cleanup issues in imports and URL response typing. I’m fixing those now.
+
+• Explored
+  └ Read live_world_cup.py, agent.py
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’m applying the import and typing cleanup directly, then I’ll rerun the checks.
+
+• Edited 2 files (+2 -3)
+  └ src/soccer/agent.py (+1 -1)
+    4
+    5 +from collections.abc import Iterable
+    6  from dataclasses import dataclass
+    6 -from collections.abc import Iterable
+    7
+
+  └ src/soccer/live_world_cup.py (+1 -2)
+    20  from soccer.models import (
+    21 -    HeadToHeadRecord,
+    21      InjuryReport,
+       ⋮
+    47          with urlopen(request, timeout=self.timeout_seconds) as response:
+    49 -            body = response.read()
+    48 +            body: bytes = response.read()
+    49          return body.decode("utf-8")
+
+⚠ Heads up, you have less than 5% of your monthly limit left. Run /status for a breakdown.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Cleanup is done. I’m rerunning the full validation set and then I’ll test the new live CLI path against a local sample payload.
+
+• Ran ruff check .
+  └ All checks passed!
+
+• Ran ruff format .
+  └ 15 files left unchanged
+
+• Ran mypy src tests
+  └ (no output)
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +12 lines (ctrl + t to view transcript)
+
+    ============================== 9 passed in 0.02s ===============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The full local validation set passes. I’m checking whether the official FIFA page currently exposes parseable embedded JSON for the live loader; if it does not, the loader still supports JSON API sources through the same interface.
+
+• Ran curl -L --fail --silent https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums -o /private/tmp/fifa-wc-2026-schedule.html
+  └ (no output)
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The official page downloaded successfully. I’m running the live CLI against that downloaded page to see if the current FIFA HTML contains schedule JSON in a parseable form.
+
+• Ran PYTHONPATH=src python3 -m soccer.cli list-matches world-cup-2026 --live-world-cup --source-url file:///private/tmp/fifa-wc-2026-schedule.html
+  └ Traceback (most recent call last):
+      File "<frozen runpy>", line 198, in _run_module_as_main
+    … +15 lines (ctrl + t to view transcript)
+        raise ValueError("No World Cup matches found in live catalog payload")
+    ValueError: No World Cup matches found in live catalog payload
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The official FIFA HTML does not currently expose match data in the simple embedded JSON shape the loader supports. I’m inspecting the page structure to decide whether to add another parser path or document that official FIFA requires a JSON/API feed URL.
+
+• Ran wc -c /private/tmp/fifa-wc-2026-schedule.html
+  └     5021 /private/tmp/fifa-wc-2026-schedule.html
+
+• Explored
+  └ Read fifa-wc-2026-schedule.html
+    Search __NEXT_DATA__|application/json|match-schedule|Mexico|South Africa|fixtures|matches|self.__next_f in fifa-wc-2026-schedule.html
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The FIFA page is a small SPA shell; it points to FIFA API hosts but does not embed the schedule itself. I’m looking through the app bundle for the schedule endpoint so the live loader can target the API URL directly instead of scraping the shell.
+
+• Ran curl -L --fail --silent https://www.fifa.com/static/js/main.1b8e7a8e.js -o /private/tmp/fifa-main.js
+  └ (no output)
+
+■ You've hit your usage limit. Upgrade to Plus to continue using Codex (https://chatgpt.com/explore/plus), or try again at Jul 1st, 2026 9:02 AM.
+
+• Already viewing /Users/houyang/.codex/sessions/2026/06/08/rollout-2026-06-08T11-55-38-019ea7f2-58df-7a91-ac98-9de0e928f242.jsonl.
+
+
+› resujme the work
+
+
+• I’m resuming from the live World Cup loader work. The next step is to inspect the FIFA bundle for the actual schedule API shape, then I’ll wire the loader to that endpoint if it’s discoverable; otherwise I’ll keep the current parser and make the failure mode
+  explicit.
+
+• Explored
+  └ Read live_world_cup.py
+    Search api\.fifa|schedule|fixture|match|worldcup|fifaplusweb/api in fifa-main.js
+
+• Ran git status --short
+  └ fatal: not a git repository (or any of the parent directories): .git
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’ve confirmed the FIFA page is just a shell. I’m searching the bundle more narrowly for the schedule request path and then I’ll either hook the loader to that API or stop at a clearly documented API-backed entry point if FIFA keeps it behind client code we can’t
+  safely reverse here.
+
+• Explored
+  └ Read cli.py
+    Search cxm-api\.fifa\.com|api\.fifa\.com|fifaplusweb/api in fifa-main.js
+    Search https://[^\"' ]+|/[^\"' ]*match[^\"' ]*|/[^\"' ]*schedule[^\"' ]*|/[^\"' ]*worldcup[^\"' ]* in fifa-main.js
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The page shell isn’t enough. I’m looking for the app’s match-rail module and any adjacent fetch helper names so I can infer the API path from the client bundle rather than guessing.
+
+• Explored
+  └ Search FIFA20MatchRail|MatchRail|match rail|matchRail|match-rail in fifa-main.js
+    Search cxm-api\.fifa\.com/fifaplusweb/api|api\.fifa\.com|play\.fifa\.com/components/main\.bundle\.js in fifa-main.js
+    Search schedule|fixtures|match-centre|match centre|fixture in fifa-main.js
+
+• Searching the web
+
+• Searched the web for site:fifa.com api fifa world cup 2026 schedule endpoint official
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The search results show FIFA is already publishing the full fixture text, which is enough to make the live loader meaningful. I’m now looking for the article/content endpoint in the bundle so the loader can fetch the real rendered schedule rather than just the SPA
+  shell.
+
+• Explored
+  └ Search match-schedule-fixtures-results-teams-stadiums|updated-fifa-world-cup-2026-match-schedule-now-available|world-cup-2026-match-schedule|canadamexicousa2026 in fifa-main.js
+    Search get\(\`/|post\(\`/|api\.get\(\`/|FH\.get\(\`/|axios.*api|fetch\( in fifa-main.js
+    Search cxm-api\.fifa\.com/fifaplusweb/api|fifaplusweb/api/|api/themes|articles\?|article\?|content\?|pages\? in fifa-main.js
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I haven’t found the endpoint by string search yet, so I’m switching to a more precise pass over the bundle to extract request path literals. If the API path is present, I’ll wire it in; if not, I’ll keep the loader generic and document the supported source shapes.
+
+• Ran python3 - <<'PY'
+  │ from pathlib import Path
+  │ import re
+  │ … +14 lines
+  └ //api.fifa.com
+    //api.pingone.eu/v1
+    … +106 lines (ctrl + t to view transcript)
+    https://www.tiktok.com/@fifaworldcup
+    https://www.youtube.com/FIFATV
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The bundle exposes a useful clue: FIFA’s app uses a match-centre route and a fifaplusweb/api backend. I’m testing the route itself now, because if the schedule is server-rendered there, we can load the live catalog without reverse-engineering the whole API surface.
+
+• Ran curl -L --silent --fail https://www.fifa.com/match-centre -o /private/tmp/fifa-match-centre.html && wc -c /private/tmp/fifa-match-centre.html
+  └ (no output)
+
+• Ran curl -L --silent --fail https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/updated-fifa-world-cup-2026-match-schedule-now-available -o /private/tmp/fifa-updated-schedule.html && wc -c /private/tmp/fifa-updated-schedule.html
+  └ (no output)
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The direct fetch hit the network boundary. I’m retrying with approval so I can verify whether the FIFA route is actually reachable from this environment and avoid guessing at the loader behavior.
+
+✔ You approved codex to run curl -L --silent --fail https://www.fifa.com/match-centre -o /private/tmp/fif... this time
+
+• Ran curl -L --silent --fail https://www.fifa.com/match-centre -o /private/tmp/fifa-match-centre.html && wc -c /private/tmp/fifa-match-centre.html
+  └     5021 /private/tmp/fifa-match-centre.html
+
+• Explored
+  └ Search match-centre|schedule|fixture|matches|api|worldcup in fifa-match-centre.html
+    Read fifa-match-centre.html
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The page shell still doesn’t expose data directly. I’m pulling a small context window around the match-centre string in the bundle now, which is often enough to infer the exact route shape the app expects.
+
+• Ran python3 - <<'PY'
+  │ from pathlib import Path
+  │ import re
+  │ … +7 lines
+  └ PATTERN cxm-api\.fifa\.com/fifaplusweb/api[^"\']*
+    cxm-api.fifa.com/fifaplusweb/api
+    … +32 lines (ctrl + t to view transcript)
+    /match-centre/match/
+    ---
+
+• Ran python3 - <<'PY'
+  │ from pathlib import Path
+  │ import re
+  │ … +7 lines
+  └ d 0!==n?n:e.defaultHeaderData;return void 0===r.topNav.theme&&(r.topNav.theme=e.defaultHeaderData.topNav.theme),r},h=e=>{const t=e.match(/\/match-centre\/match\/\d+\/([^/]+)/);return t&&t[1]?t[1]:null},v=(e,t)=>{if(e&&t)return null===e||void 0===e?void
+    0:e.find((e=>e.headerName===t))},g=(e,t)=>e&&null!==t&&void 0!==t&&t.themePaletteEntryId?(e.themePalette?e.themePalette.entryId=t.themePale
+    … +2 lines (ctrl + t to view transcript)
+    void 0===n||null===(r=n.find((e=>e.seasonId===t)))||void 0===r?void 0:r.identifier;return null===e||void 0===e||null===(a=e.spec
+    ---
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The bundle does include special logic for /match-centre/match/<id>/<slug>, which is enough to justify supporting the live route shape. I’m extracting a little more surrounding context to see whether it references a content API path, but I’m not going to overfit the
+  loader if the page still hides data behind several layers.
+
+• Ran python3 - <<'PY'
+  │ from pathlib import Path
+  │ import re
+  │ … +10 lines
+  └ PAT specialMatchHeaders IDX 163322
+    ch(/\/match-centre\/match\/\d+\/([^/]+)/);return t&&t[1]?t[1]:null},v=(e,t)=>{if(e&&t)return null===e||void 0===e?void 0:e.find((e=>e.headerName===t))},g=(e,t)=>e&&null!==t&&void 0!==t&&t.themePaletteEntryId?(e.themePalette?
+    … +23 lines (ctrl + t to view transcript)
+    ---
+
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’ve got enough to finish the implementation cleanly: I’m tightening the live loader typing, adding a direct test for load_world_cup_catalog, and making the failure message explicit when FIFA returns a shell instead of schedule data.
+
+• Edited 2 files (+60 -2)
+  └ src/soccer/live_world_cup.py (+6 -2)
+    16  from typing import Protocol
+    17 +from typing import cast
+    18  from urllib.request import Request, urlopen
+       ⋮
+    48          with urlopen(request, timeout=self.timeout_seconds) as response:
+    48 -            body: bytes = response.read()
+    49 +            body = cast(bytes, response.read())
+    50          return body.decode("utf-8")
+       ⋮
+    70      if not entries:
+    70 -        raise ValueError("No World Cup matches found in live catalog payload")
+    71 +        raise ValueError(
+    72 +            "No World Cup matches found in live catalog payload. "
+    73 +            "Point source_url at a JSON schedule feed or a rendered page that embeds match data."
+    74 +        )
+    75
+
+  └ tests/test_live_world_cup_loader.py (+54 -0)
+     1 +from soccer.live_world_cup import (
+     2 +    DEFAULT_WORLD_CUP_SCHEDULE_URL,
+     3 +    HttpClient,
+     4 +    load_world_cup_catalog,
+     5 +)
+     6 +
+     7 +
+     8 +class StaticHttpClient:
+     9 +    def __init__(self, payload: str) -> None:
+    10 +        self.payload = payload
+    11 +        self.requested_urls: list[str] = []
+    12 +
+    13 +    def get_text(self, url: str) -> str:
+    14 +        self.requested_urls.append(url)
+    15 +        return self.payload
+    16 +
+    17 +
+    18 +def test_load_world_cup_catalog_uses_injected_http_client() -> None:
+    19 +    payload = """
+    20 +    {
+    21 +      "matches": [
+    22 +        {
+    23 +          "matchId": "10",
+    24 +          "homeTeam": "Argentina",
+    25 +          "awayTeam": "Brazil",
+    26 +          "utcDate": "2026-06-11T19:00:00Z",
+    27 +          "venue": {
+    28 +            "name": "MetLife Stadium",
+    29 +            "city": "East Rutherford",
+    30 +            "country": "United States"
+    31 +          }
+    32 +        }
+    33 +      ]
+    34 +    }
+    35 +    """
+    36 +    client = StaticHttpClient(payload)
+    37 +
+    38 +    catalog = load_world_cup_catalog(client=client)
+    39 +
+    40 +    assert client.requested_urls == [DEFAULT_WORLD_CUP_SCHEDULE_URL]
+    41 +    request = catalog.requests_for_competition("world-cup-2026")[0]
+    42 +    assert request.home_team == "Argentina"
+    43 +    assert request.away_team == "Brazil"
+    44 +
+    45 +
+    46 +def test_live_loader_rejects_shell_only_payload() -> None:
+    47 +    client = StaticHttpClient("<html><body>No schedule data here</body></html>")
+    48 +
+    49 +    try:
+    50 +        load_world_cup_catalog(client=client)
+    51 +    except ValueError as exc:
+    52 +        assert "No World Cup matches found" in str(exc)
+    53 +    else:
+    54 +        raise AssertionError("Expected ValueError for shell-only payload")
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The live-loader tests are in place. I’m removing one unused import from the test file before I run the full checks again.
+
+• Edited tests/test_live_world_cup_loader.py (+0 -1)
+    2      DEFAULT_WORLD_CUP_SCHEDULE_URL,
+    3 -    HttpClient,
+    3      load_world_cup_catalog,
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’m running the full validation set again, then I’ll do one smoke check against a mocked live payload so we know the new loader path is exercised end to end.
+
+• Ran ruff format .
+  └ 16 files left unchanged
+
+• Ran ruff check .
+  └ I001 [*] Import block is un-sorted or un-formatted
+      --> src/soccer/live_world_cup.py:8:1
+    … +29 lines (ctrl + t to view transcript)
+    Found 1 error.
+    [*] 1 fixable with the `--fix` option.
+
+• Ran mypy src tests
+  └ Success: no issues found in 16 source files
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +13 lines (ctrl + t to view transcript)
+
+    ============================== 11 passed in 0.03s ==============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• One lint-only cleanup remains in the new live loader imports. I’m fixing that and then I’ll rerun the quick checks.
+
+• Edited src/soccer/live_world_cup.py (+1 -2)
+    15  from datetime import UTC, datetime
+    16 -from typing import Protocol
+    17 -from typing import cast
+    16 +from typing import Protocol, cast
+    17  from urllib.request import Request, urlopen
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The import ordering fix is in. I’m rerunning format, lint, mypy, and tests once more, and then I’ll smoke the live loader with the built-in mock path.
+
+• Ran ruff format .
+  └ 16 files left unchanged
+
+• Ran ruff check .
+  └ All checks passed!
+
+• Ran mypy src tests
+  └ Success: no issues found in 16 source files
+
+• Ran pytest
+  └ ============================= test session starts ==============================
+    platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0
+    … +13 lines (ctrl + t to view transcript)
+
+    ============================== 11 passed in 0.02s ==============================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• I’ve got the offline path working. I’m doing one last targeted extraction of FH.get(...) and related API calls from the FIFA bundle, because if there’s a narrow content endpoint for the World Cup schedule, that’s the missing piece for a truly live catalog fetch.
+
+• Ran python3 - <<'PY'
+  │ from pathlib import Path
+  │ import re
+  │ … +10 lines
+  └ `${a}/fifapluswebloyalty/api/static/config-static`
+    `${n}/headerManagement?locale=${e}`
+    `/popularSearches?locale=${r}&limit=5`
+    `/search?locale=${r}&limit=12`
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• The code path is done; I’m just removing the bytecode caches created by the test run so the workspace stays tidy.
+
+• Explored
+  └ Search __pycache__ in .
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Implemented the live World Cup catalog layer as a configurable fetch-and-parse path.
+
+  What changed:
+
+  - Added src/soccer/live_world_cup.py with:
+      - injectable HTTP client
+      - live catalog loader
+      - parser for JSON payloads and embedded JSON in HTML
+      - clear failure when the source is just a shell page
+
+  - Wired the CLI to use live catalog mode via --live-world-cup and --source-url in src/soccer/cli.py
+  - Kept the existing fixture catalog path intact for deterministic tests
+  - Added tests for the live loader and its failure mode:
+      - tests/test_live_world_cup.py
+      - tests/test_live_world_cup_loader.py
+
+  Validation passed:
+
+  - ruff format .
+  - ruff check .
+  - mypy src tests
+  - pytest
+
+  One important limitation: the public FIFA page I checked serves a SPA shell in this environment, not the schedule data itself. So the loader is live-ready, but it needs a schedule JSON feed or a rendered page that actually embeds match data. The code now fails
+  clearly instead of silently pretending it has live fixtures.

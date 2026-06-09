@@ -1,0 +1,8 @@
+pyproject.toml
+src/soccer/__init__.py
+src/soccer.egg-info/PKG-INFO
+src/soccer.egg-info/SOURCES.txt
+src/soccer.egg-info/dependency_links.txt
+src/soccer.egg-info/entry_points.txt
+src/soccer.egg-info/requires.txt
+src/soccer.egg-info/top_level.txt

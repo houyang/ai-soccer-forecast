@@ -1,0 +1,23 @@
+[project]
+name = "soccer-forecast"
+version = "0.1.0"
+description = "A professional soccer prediction engine using multi-tool agents."
+authors = [{name = "Codex", email = "codex@example.com"}]
+dependencies = [
+    "httpx>=0.25.0",
+    "python-dotenv>=3.1.0",
+]
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "python-dotenv>=3.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.devrsytcs"

@@ -1,0 +1,76 @@
+{
+  "form": {
+    "Real Madrid": {"team": "Real Madrid", "last_n": ["W", "W", "W", "D", "W"],
+                    "gf": 14, "ga": 4, "points": 13, "streak": "W1"},
+    "Manchester City": {"team": "Manchester City", "last_n": ["W", "D", "W", "L", "W"],
+                        "gf": 11, "ga": 6, "points": 10, "streak": "W1"},
+    "Bayern Munich": {"team": "Bayern Munich", "last_n": ["W", "W", "D", "W", "D"],
+                      "gf": 13, "ga": 5, "points": 11, "streak": "D1"},
+    "Arsenal": {"team": "Arsenal", "last_n": ["W", "W", "W", "D", "W"],
+                "gf": 12, "ga": 4, "points": 13, "streak": "W1"},
+    "Inter": {"team": "Inter", "last_n": ["D", "L", "W", "D", "L"],
+              "gf": 6, "ga": 7, "points": 5, "streak": "L1"},
+    "PSG": {"team": "PSG", "last_n": ["W", "W", "W", "W", "D"],
+            "gf": 15, "ga": 3, "points": 13, "streak": "W4"}
+  },
+  "injuries": {
+    "Real Madrid": {"team": "Real Madrid", "out": [], "doubtful": [
+      {"name": "Rotation Fullback", "status": "doubtful", "reason": "knock"}]},
+    "Manchester City": {"team": "Manchester City", "out": [
+      {"name": "Holding Midfielder", "status": "out", "reason": "knee"}],
+      "doubtful": []},
+    "Bayern Munich": {"team": "Bayern Munich", "out": [], "doubtful": []},
+    "Arsenal": {"team": "Arsenal", "out": [], "doubtful": [
+      {"name": "Starting Striker", "status": "doubtful", "reason": "illness"}]},
+    "Inter": {"team": "Inter", "out": [
+      {"name": "First Choice CB", "status": "out", "reason": "suspension"}],
+      "doubtful": []},
+    "PSG": {"team": "PSG", "out": [], "doubtful": []}
+  },
+  "h2h": {
+    "Real Madrid|Manchester City": {"home": "Real Madrid", "away": "Manchester City",
+      "meetings": [
+        {"date": "2024-05-08T00:00:00+00:00", "home": "Real Madrid",
+         "away": "Manchester City", "home_goals": 3, "away_goals": 3}],
+      "home_wins": 2, "draws": 2, "away_wins": 1},
+    "Bayern Munich|Arsenal": {"home": "Bayern Munich", "away": "Arsenal",
+      "meetings": [
+        {"date": "2024-04-17T00:00:00+00:00", "home": "Bayern Munich",
+         "away": "Arsenal", "home_goals": 1, "away_goals": 0}],
+      "home_wins": 2, "draws": 1, "away_wins": 1},
+    "Inter|PSG": {"home": "Inter", "away": "PSG",
+      "meetings": [
+        {"date": "2025-05-31T00:00:00+00:00", "home": "Inter", "away": "PSG",
+         "home_goals": 0, "away_goals": 5}],
+      "home_wins": 0, "draws": 0, "away_wins": 1}
+  },
+  "weather": {
+    "bernabeu": {"venue_id": "bernabeu", "temp_c": 12.0, "wind_kph": 8.0,
+                 "precip_mm": 0.0, "condition": "clear"},
+    "allianz": {"venue_id": "allianz", "temp_c": 4.0, "wind_kph": 14.0,
+                "precip_mm": 1.2, "condition": "light rain"},
+    "giuseppe-meazza": {"venue_id": "giuseppe-meazza", "temp_c": 9.0, "wind_kph": 6.0,
+                        "precip_mm": 0.0, "condition": "clear"}
+  },
+  "venue": {
+    "bernabeu": {"venue_id": "bernabeu", "name": "Santiago Bernabeu", "city": "Madrid",
+                 "surface": "grass", "capacity": 83186, "altitude_m": 667,
+                 "home_advantage_hint": 0.15},
+    "allianz": {"venue_id": "allianz", "name": "Allianz Arena", "city": "Munich",
+                "surface": "grass", "capacity": 75024, "altitude_m": 519,
+                "home_advantage_hint": 0.15},
+    "giuseppe-meazza": {"venue_id": "giuseppe-meazza", "name": "San Siro", "city": "Milan",
+                        "surface": "grass", "capacity": 75923, "altitude_m": 122,
+                        "home_advantage_hint": 0.12}
+  },
+  "odds": {
+    "ucl-1": {"bookmaker": "consensus", "home": 2.1, "draw": 3.5, "away": 3.2},
+    "ucl-2": {"bookmaker": "consensus", "home": 2.3, "draw": 3.4, "away": 3.0},
+    "ucl-3": {"bookmaker": "consensus", "home": 3.6, "draw": 3.6, "away": 1.95}
+  },
+  "results": {
+    "ucl-1": {"home_goals": 3, "away_goals": 1, "status": "finished"},
+    "ucl-2": {"home_goals": 1, "away_goals": 1, "status": "finished"},
+    "ucl-3": {"home_goals": 0, "away_goals": 2, "status": "finished"}
+  }
+}

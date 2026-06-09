@@ -1,0 +1,15 @@
+{
+  "brier": 0.2448979591836735,
+  "class": "IsotonicCalibrator",
+  "competition": "SerieA",
+  "ece": 1.1102230246251565e-16,
+  "n_samples": 21,
+  "state": {
+    "xs": [
+      0.7921649298486289
+    ],
+    "ys": [
+      0.5714285714285714
+    ]
+  }
+}

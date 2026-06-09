@@ -1,0 +1,28 @@
+{
+  "form": {
+    "France": {"team": "France", "last_n": ["W", "W", "D", "W", "W"], "gf": 12,
+               "ga": 3, "points": 13, "streak": "W2"},
+    "Brazil": {"team": "Brazil", "last_n": ["W", "D", "W", "W", "L"], "gf": 10,
+               "ga": 5, "points": 10, "streak": "L1"}
+  },
+  "injuries": {
+    "France": {"team": "France", "out": [], "doubtful": [
+      {"name": "Key Winger", "status": "doubtful", "reason": "hamstring"}]},
+    "Brazil": {"team": "Brazil", "out": [
+      {"name": "First Choice CB", "status": "out", "reason": "suspension"}],
+      "doubtful": []}
+  },
+  "h2h": {"France|Brazil": {"home": "France", "away": "Brazil", "meetings": [
+      {"date": "2006-07-01T00:00:00+00:00", "home": "France", "away": "Brazil",
+       "home_goals": 1, "away_goals": 0}],
+    "home_wins": 1, "draws": 0, "away_wins": 0}},
+  "weather": {"metlife": {"venue_id": "metlife", "temp_c": 28.0, "wind_kph": 12.0,
+                          "precip_mm": 0.0, "condition": "clear"}},
+  "venue": {"metlife": {"venue_id": "metlife", "name": "MetLife Stadium",
+                        "city": "East Rutherford", "surface": "grass",
+                        "capacity": 82500, "altitude_m": 7,
+                        "home_advantage_hint": 0.0}},
+  "odds": {"wc-final": {"bookmaker": "consensus", "home": 2.4, "draw": 3.2,
+                        "away": 3.0}},
+  "results": {"wc-final": {"home_goals": 2, "away_goals": 1, "status": "finished"}}
+}

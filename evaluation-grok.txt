@@ -1,0 +1,32 @@
+Here is a direct, evidence-based comparison and quality rating of the five generated projects inside /soccer-forcast/ (the "test runs" for a multi-tool FIFA 2026 World Cup prediction agent).
+
+I evaluated them against the parent AGENTS.md (/Users/houyang/gitHub/ai-coding/soccer-forcast/AGENTS.md) (simple/explicit Python, src/ layout, minimal deps, Protocol-based DI for side effects, ruff + mypy + pytest as first-class, tests ship with behavior, no committed build artifacts, etc.), plus practical software engineering criteria: completeness for the prediction task (tools + reasoning + logging + eval), local LLM (Mac M5 24GB) readiness, code hygiene, test quality/quantity, and real engineering substance vs. scaffolding or "agent slop."
+
+Quick Ratings (Overall Quality)
+
+┌─────────────────┬───────────────┬─────────┬─────────────────────────────┬─────────────────────────┬───────────────────────────────────────────┬─────────────────────────────────────┬─────────────────────────────┬───────────────────────────────────┐
+│ Project         │ Model/Agent   │ Overall │ Fidelity to AGENTS.md       │ Test Strength           │ Real Substance / Eval                     │ Local LLM (Mac)                     │ Hygiene & Bloat             │ Key Verdict                       │
+├─────────────────┼───────────────┼─────────┼─────────────────────────────┼─────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────┼─────────────────────────────┼───────────────────────────────────┤
+│ minimax-m3-     │ MiniMax M3 +  │ 9.0     │ 5 (deliberately diverged    │ 280+ tests (29 files)   │ Highest (106-case harness, Brier 0.152,   │ Excellent (Ollama documented + live │ Poor (massive tmp/,         │ Most impressive working system    │
+│ cloud-hermes    │ Hermes        │         │ into richer thing)          │                         │ calibration, ELO, prompt sweeps)          │ tests)                              │ committed caches/egg-info)  │                                   │
+├─────────────────┼───────────────┼─────────┼─────────────────────────────┼─────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────┼─────────────────────────────┼───────────────────────────────────┤
+│ opus4.8-cloud-  │ Opus 4.8 +    │ 8.5     │ 9.5 (near-perfect)          │ ~140 tests (21 files +  │ High (harness + scenarios for UCL + WC    │ Best explicit (gemma4:12b-mlx       │ Moderate (caches visible in │ Highest-quality template-         │
+│ claude          │ Claude        │         │                             │ subdirs)                │ 2026 final, dossier)                      │ default, injected transport)        │ tree)                       │ compliant implementation          │
+├─────────────────┼───────────────┼─────────┼─────────────────────────────┼─────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────┼─────────────────────────────┼───────────────────────────────────┤
+│ gpt5.5-cloud-   │ GPT 5.5 +     │ 7.5     │ 9                           │ 11 tests (6 files)      │ Medium (live WC 2026 loader + fixture     │ Good (extensible; no heavy deps)    │ Good (follows .gitignore    │ Clean, correct, minimal, spec-    │
+│ codex           │ Codex         │         │                             │                         │ tools, predictions.jsonl present)         │                                     │ intent better)              │ faithful baseline                 │
+├─────────────────┼───────────────┼─────────┼─────────────────────────────┼─────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────┼─────────────────────────────┼───────────────────────────────────┤
+│ glx4.7-cloud-   │ GLM-4.7 +     │ 4.0     │ 2                           │ ~20 tests (mostly       │ Low (incomplete workflows)                │ Poor (LangChain Anthropic           │ Poor (heavy deps, global    │ Over-engineered scaffolding,      │
+│ claude          │ Claude        │         │                             │ structural)             │                                           │ scaffolding)                        │ state)                      │ violates core principles          │
+├─────────────────┼───────────────┼─────────┼─────────────────────────────┼─────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────┼─────────────────────────────┼───────────────────────────────────┤
+│ gemma4-12bmlx-  │ Gemma 12B MLX │ 1.5     │ 1                           │ 1 file (backtest.py,    │ None (explicitly deferred)                │ Intended but non-functional         │ Very poor (broken code +    │ Abandoned, buggy, lowest quality  │
+│ local-codex     │ + Codex       │         │                             │ not real units)         │                                           │                                     │ committed pycache)          │                                   │
+└─────────────────┴───────────────┴─────────┴─────────────────────────────┴─────────────────────────┴───────────────────────────────────────────┴─────────────────────────────────────┴─────────────────────────────┴───────────────────────────────────┘
+
+Detailed Breakdown
+
+1. minimax-m3-cloud-hermes (best actual engineering, weakest template adherence)
+• By far the most complete and battle-tested. Real 106-case eval harness across EPL/LaLiga/SerieA/Bundesliga/UCL with reported metrics, isotonic calibration (per-competition + global), home/away Elo, numeric + LLM reasoners (fallback), live The Odds API + devigging, prompt iteration scripts, FastAPI server + Streamlit dashboard, SQLite, rich CLI, ResultScout concepts.
+• Excellent local story: full docs/ollama-setup.md, env-driven OpenAI-compatible client that works with Ollama, live Ollama tests (skipped gracefully).
+• Huge docs/ (calibration, elo, prompts, plans, sweep results).
+• Problems: No Makefile (docs tell you to run pytest/ruff directly), committed __pycache__, *.egg-info, and enormous tmp/ + data/ fixtures (thousands of JSON + DBs). Some duplicate imports visible in agent.py. Runtime deps include FastAPI/uvicorn/

@@ -1,0 +1,1119 @@
+Claude Code v2.1.169
+           Opus 4.8 · Claude Pro
+  ▘▘ ▝▝    ~/gitHub/ai-coding/soccer-forcast/opus4.8-cloud-claude
+
+  Feature of the week: /loop — run a prompt or slash command on a recurring interval
+
+ ⚠ 7 setup issues: MCP · /doctor
+
+❯ /init
+Credit balance too low · Add funds: https://platform.claude.com/settings/billing
+
+✻ Baked for 0s
+
+❯ /init
+
+I'll analyze the codebase to create a CLAUDE.md file. Let me start by exploring the structure.
+
+  Ran 1 shell command
+
+The working directory is empty. Let me check the surrounding context.
+
+  Ran 1 shell command
+
+The working directory is empty — this appears to be a fresh implementation slot in a multi-model comparison setup. There's an AGENTS.md spec in the parent. Let me read it and peek at a sibling implementation.
+
+  Read 1 file
+
+The current working directory is completely empty — there's no code, no pyproject.toml, nothing yet. The only source of truth is the AGENTS.md spec in the parent directory, which defines a Python project template ("soccer" package) that this slot is meant to implement. Let me quickly confirm there are no hidden files and check whether a sibling implementation exists to ground the commands accurately.
+
+  Listed 1 directory
+
+The working directory is empty — no code has been written here yet. This slot is meant to implement the Python project template defined by the governing AGENTS.md spec (one level up). Since there's no codebase to analyze, I'll ground the CLAUDE.md in that spec — capturing the standard commands, intended architecture, and the non-obvious constraints — rather than inventing details.
+
+⏺ Write(CLAUDE.md)
+Wrote 82 lines to CLAUDE.md
+ CLAUDE.md
+
+his file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# Current State
+
+his repository is **empty** — no code, packaging, or tooling exists yet. It is one slot in a
+ulti-model comparison (sibling directories under `soccer-forcast/` are independent
+mplementations by other models). The task is to build the project from scratch per the spec.
+… +72 lines
+
+I created CLAUDE.md, but with an important caveat you should know.
+
+This directory is empty. There's no code, pyproject.toml, tests, or tooling here yet — just the new CLAUDE.md. So there was no codebase to analyze. This slot (opus4.8-cloud-claude) is one of several sibling directories under soccer-forcast/, each an independent implementation of the same project by a different model. The governing spec is ../AGENTS.md.
+
+Rather than invent commands and architecture that don't exist, I grounded CLAUDE.md in that spec. It captures:
+
+- Current state — empty repo, what's meant to be built (a soccer Python package using src/ layout), and a pointer to AGENTS.md as the source of truth.
+- Commands — the make targets (format/lint/typecheck/test/coverage/check) and their raw equivalents, plus how to run a single test. These are intended commands from the spec; they won't work until the Makefile/pyproject.toml exist.
+- Non-obvious conventions — the things that actually shape the code: ruff/mypy/pytest as canonical (not advisory), dependency injection for all side effects, no import-time side effects, strict repo boundary, and tests-ship-with-behavior.
+
+Two things worth flagging:
+1. Most commands in the file are aspirational until the project is scaffolded. Once code exists, re-running /init would let me document the actual architecture.
+2. The siblings named their package soccer_agent, but AGENTS.md specifies src/soccer/. I followed the spec (soccer). Let me know if you'd prefer to match the siblings.
+
+Want me to go ahead and scaffold the project (pyproject.toml, Makefile, src/soccer, tests, CI) per the spec?
+
+✻ Cogitated for 1m 10s
+
+❯ Create a multi-tool agent that, given an upcoming match, autonomously: pulls recent form and injury news, looks up head-to-head history, checks weather and venue, compares against bookmaker odds, reasons about the matchup, and outputs a prediction with a written rationale and confidence score. Then it logs the prediction, waits for the result, and self-evaluates
+  first focus is on the agent architecture, tool design, and eval harness. The 2nd focus is on prediction accuracy and a polished UI/dashboard
+  Two immediate use cases:
+  - the UEFA Champions League 2025/26
+  - FIFA world cup 2026 final
+
+This is a substantial feature-development task — exactly the kind of creative work that needs a design conversation before any code. Let me start with the brainstorming skill.
+
+⏺ Skill(superpowers:brainstorming)
+Successfully loaded skill
+
+I've got the context I need (empty repo, governed by the AGENTS.md spec which mandates dependency injection, deterministic offline tests, and "no network/background processes without a clear requirement"). Before any design, I want to resolve a few decisions that will shape the entire architecture.
+
+First, a scope note. What you've described is really six subsystems: (1) an agent orchestrator + reasoning loop, (2) a tool layer of data fetchers, (3) prediction logging/persistence, (4) a result-settlement + self-evaluation loop, (5) an offline eval harness, and (6) a UI/dashboard. That's too much for one spec. Given your stated priorities, I'd decompose by phase:
+
+- Phase 1 (first focus): agent architecture + tool design + eval harness — the skeleton that everything else hangs off.
+- Phase 2 (second focus): prediction accuracy tuning + polished dashboard.
+
+We'd brainstorm and build Phase 1 first, then do Phase 1's spec → plan → implementation before circling back to Phase 2. The two CL/World-Cup use cases become fixtures/scenarios that exercise the Phase 1 skeleton end to end.
+
+Before I propose approaches, three decisions gate the whole architecture:
+
+⏺ User declined to answer questions
+· How should the agent get live data (form, injuries, H2H, weather, odds)? This is the biggest architectural fork because the AGENTS.md spec mandates dependency injection and deterministic, network-free tests. (Pluggable adapters (recommended) / Real live APIs only / Mock/synthetic only for now)
+· What does the 'reasons about the matchup' step use to produce the prediction + rationale? (Claude API behind a Reasoner interface (recommended) / Heuristic/statistical model only / Hybrid: heuristic baseline + Claude layer)
+· How should the 'wait for result, then self-evaluate' step work? AGENTS.md discourages background processes/daemons. (On-demand 'settle' command (recommended) / Background poller/daemon)
+
+❯ #1 Pluggable adapters; #2 use local ollama model like "gemma4:12b-mlx"; #3  settle
+
+Locked in:
+1. Pluggable adapters (Protocol per tool; real + fixture implementations; harness offline)
+2. Local Ollama reasoner (e.g. gemma4:12b-mlx) behind a swappable Reasoner interface, with a deterministic fake for tests
+3. On-demand settle command — no daemon
+
+Now the core architectural decision: how the agent orchestrates its tools and reasoning. Three approaches:
+
+Approach A — Deterministic pipeline orchestrator
+The agent runs a fixed sequence — gather form → injuries → H2H → weather/venue → odds — assembling a typed MatchDossier, then calls the reasoner once to produce the prediction + rationale + confidence. Tools are typed functions behind Protocols.
+Pros: dead-simple, fully deterministic, trivially testable, cheap, guarantees every data source is consulted. Cons: not "autonomous tool selection" — the agent doesn't decide what to fetch.
+
+Approach B — LLM-driven tool-calling loop (ReAct)
+The Ollama model decides which tools to call each step via a tool-calling loop.
+Pros: genuinely autonomous, the "agent" picks its own path. Cons: local 12B models are unreliable at structured tool-calling, slow, and the non-determinism fights the eval harness — the Phase-1 priority.
+
+Approach C — Hybrid (my recommendation)
+Approach A's deterministic pipeline for reliability + testability, but tools live in a registry behind a uniform interface. The pipeline is the default; the same registry can later drive an optional model-selection loop (Approach B) without rework. Reasoner still runs once over the assembled dossier.
+Why: your Phase-1 focus is architecture, tool design, and a working eval harness — that demands determinism and clean tool boundaries now, while leaving the autonomous-loop door open. It's also the best fit for the AGENTS.md "simple, explicit, testable, DI" rules.
+
+I recommend C. Which direction do you want — A, B, or C?
+
+✻ Baked for 39s
+
+❯ C
+
+C it is. Let me present the design in chunks and check with you as we go. Here's the first chunk — the overall architecture, module layout, and data flow.
+
+Big picture
+
+The "agent" is a PredictionAgent that runs a deterministic pipeline over a tool registry, assembles a typed MatchDossier, then calls a Reasoner (Ollama) once to produce the prediction. Three top-level operations, all on-demand:
+
+- predict — build dossier → reason → log a Prediction
+- settle — for logged predictions, fetch finished results → score + self-critique → log an Evaluation
+- eval — run the agent over fixture scenarios with known results → aggregate metrics report
+
+Module layout (src/soccer/)
+
+models.py            # all dataclasses (dossier pieces, Prediction, MatchResult, Evaluation)
+config.py            # AppConfig — env reads only at this boundary
+tools/
+  base.py            # Tool Protocol + ToolError + registry types
+  form.py            # FormProvider Protocol  → Fixture + Http adapters
+  injuries.py        # InjuryProvider …
+  head_to_head.py    # H2HProvider …
+  weather.py         # WeatherProvider …
+  venue.py           # VenueProvider …
+  odds.py            # OddsProvider …
+  results.py         # ResultProvider (used by settle) …
+registry.py          # ToolRegistry: capability → provider instance
+dossier.py           # build_dossier(match, registry) → MatchDossier  (the pipeline)
+reasoning/
+  base.py            # Reasoner Protocol + ReasonResult
+  ollama.py          # OllamaReasoner (HTTP localhost:11434, JSON mode, temp 0)
+  fake.py            # DeterministicReasoner (tests + offline harness default)
+  prompt.py          # dossier → prompt
+agent.py             # PredictionAgent.predict(match) → Prediction
+store.py             # PredictionStore: append/load JSONL (predictions/results/evals)
+settle.py            # settle(store, registry, reasoner) → list[Evaluation]
+evaluation.py        # metrics: Brier, log-loss, accuracy, calibration, vs-market
+harness.py           # run scenarios → EvalReport
+cli.py               # argparse: predict | settle | eval | report
+__main__.py          # python -m soccer …
+
+Data flow
+
+predict:  CLI → AppConfig → ToolRegistry(fixture|http) → PredictionAgent
+              → build_dossier(match) → reasoner.predict(dossier) → Prediction → store
+settle:   CLI → store.pending() → ResultProvider.get_result(match)
+              → if finished: score + reasoner.self_evaluate(pred, result) → Evaluation → store
+eval:     harness → load Scenario(matches + known results) → agent.predict each
+              → evaluation metrics + bookmaker-implied baseline → EvalReport
+
+Two design choices baked in here, both serving Phase-1 testability:
+- Providers are swapped at the registry boundary — fixtures for tests/harness, HTTP for real runs. The agent never knows which.
+- Tool failures degrade gracefully — build_dossier collects partial data and marks fields missing rather than hard-failing, so one dead provider doesn't kill a prediction; the reasoner is told what's missing.
+
+Does this skeleton and module layout look right before I detail the data model and tool interfaces?
+
+✻ Baked for 54s
+
+❯ yes
+
+Here's chunk 2 — the data model and tool interfaces.
+
+Core dataclasses (models.py)
+
+All frozen dataclasses, type-annotated. Dossier pieces carry an as_of timestamp and a source tag so the reasoner and audit log know provenance.
+
+MatchRef        # id, competition, home, away, kickoff (UTC), venue_id, season
+TeamForm        # team, last_n: list[MatchOutcome], gf, ga, points, streak, as_of, source
+InjuryReport    # team, out: list[PlayerStatus], doubtful: list[PlayerStatus], as_of, source
+H2HRecord       # home, away, meetings: list[PastMeeting], home_wins/draws/away_wins, source
+WeatherReport   # venue_id, kickoff, temp_c, wind_kph, precip_mm, condition, source
+VenueInfo       # venue_id, name, city, surface, capacity, altitude_m, home_advantage_hint
+OddsSnapshot    # bookmaker, home, draw, away (decimal), implied_probs (normalised), as_of
+MatchDossier    # match: MatchRef, form{home,away}, injuries{}, h2h, weather, venue, odds,
+                #   missing: list[str]   ← names of providers that failed/returned nothing
+
+Output / lifecycle:
+
+Prediction      # id, match_ref, created_at, probs{home,draw,away}, pick, confidence(0-1),
+                #   rationale (str), scoreline (optional "2-1"), market_probs (from odds),
+                #   dossier_digest (hashable summary for audit), reasoner_name
+MatchResult     # match_id, home_goals, away_goals, outcome(HOME|DRAW|AWAY), status, source
+Evaluation      # prediction_id, result, correct(bool), brier, log_loss,
+                #   beat_market(bool), self_critique (str), evaluated_at
+
+pick/outcome is a 3-class Outcome enum (HOME/DRAW/AWAY). Probabilities always normalized to sum 1.0; a validator enforces this on construction.
+
+Tool interfaces (tools/)
+
+Each capability is a single-method Protocol. Every method takes an as_of/match context so fixtures can be deterministic and HTTP adapters can request point-in-time data:
+
+class FormProvider(Protocol):
+    def get_form(self, team: str, as_of: datetime) -> TeamForm: ...
+
+class InjuryProvider(Protocol):
+    def get_injuries(self, team: str, as_of: datetime) -> InjuryReport: ...
+
+class H2HProvider(Protocol):
+    def get_h2h(self, home: str, away: str) -> H2HRecord: ...
+
+class WeatherProvider(Protocol):
+    def get_weather(self, venue_id: str, kickoff: datetime) -> WeatherReport: ...
+
+class VenueProvider(Protocol):
+    def get_venue(self, venue_id: str) -> VenueInfo: ...
+
+class OddsProvider(Protocol):
+    def get_odds(self, match: MatchRef) -> OddsSnapshot: ...
+
+class ResultProvider(Protocol):
+    def get_result(self, match: MatchRef) -> MatchResult | None: ...   # None = not finished
+
+Two implementations per Protocol:
+- Fixture*Provider — reads hand-authored JSON fixtures (the UCL 25/26 and WC-2026-final scenarios live here). Deterministic, offline, the harness/test default.
+- Http*Provider — real adapter. Phase 1 ships these as thin stubs with the wiring + a clear NotImplementedError/config-gated path so the architecture is proven without committing to a specific paid API (AGENTS.md: "don't invent endpoints"). Real endpoints get filled in when you pick providers.
+
+ToolError is the one exception type providers raise; build_dossier catches it per-tool, records the capability name in dossier.missing, and continues.
+
+The ToolRegistry maps capability → instance and also exposes each as a uniform Tool (name, description, callable) — that uniform view is what a future Approach-B agentic loop would consume; the Phase-1 pipeline just calls the typed methods.
+
+One open choice for you: should Prediction include a predicted scoreline (e.g. "2-1"), or stick to 1X2 outcome + probabilities + confidence only? Scoreline is nice for the dashboard but adds reasoner burden and another thing to eval.
+
+⏺ User answered Claude's questions:
+· What should a Prediction contain? → 1X2 + probabilities + confidence + rationale (recommended)
+
+1X2 + probabilities + confidence + rationale — no scoreline, no extra markets. Keeps the eval clean.
+
+Here's chunk 3 — the reasoner, persistence, and settle/self-eval flow.
+
+Reasoner (reasoning/)
+
+class Reasoner(Protocol):
+    def predict(self, dossier: MatchDossier) -> ReasonResult: ...
+    def self_evaluate(self, prediction: Prediction, result: MatchResult) -> str: ...
+
+@dataclass(frozen=True)
+class ReasonResult:
+    probs: dict[Outcome, float]   # validated, normalized to 1.0
+    confidence: float             # 0-1
+    rationale: str
+
+OllamaReasoner — POSTs to http://localhost:11434/api/chat with format: "json", temperature: 0, fixed seed, model from config (default gemma4:12b-mlx). prompt.py renders the dossier into a structured prompt and asks for a strict JSON object. The adapter parses, validates probabilities (renormalizes + clamps, raises ReasonerError on garbage), and never trusts the model blindly. Host/model/timeout all come from AppConfig. Self-eval sends the prediction + actual result and asks for a short written critique.
+
+DeterministicReasoner (fake) — derives probabilities from the dossier (blends market-implied odds with a form/H2H adjustment) using fixed arithmetic. This is the default for tests and the offline harness, so neither requires Ollama running. It also doubles as a sanity baseline.
+
+Both are swapped at the same boundary as the tools — the agent depends only on the Reasoner protocol.
+
+Persistence (store.py)
+
+Append-only JSONL under a configurable data dir (default ./data/):
+
+data/predictions.jsonl   data/results.jsonl   data/evaluations.jsonl
+
+PredictionStore takes the three paths injected (tests use tmp_path). Methods: append_prediction, append_result, append_evaluation, load_predictions, pending() (predictions with no evaluation yet). JSONL chosen over SQLite for Phase 1: human-readable, diff-able, trivial to test, and it feeds the Phase-2 dashboard directly. Each Prediction gets a stable id (hash of match id + created_at). Serialization lives in models.py (to_dict/from_dict) — no framework.
+
+Settle + self-evaluate (settle.py)
+
+settle(store, registry, reasoner):
+    for pred in store.pending():
+        result = registry.results.get_result(pred.match_ref)
+        if result is None:        # not finished → skip, try again next run
+            continue
+        ev = score(pred, result)  # correct?, brier, log_loss, beat_market?
+        ev.self_critique = reasoner.self_evaluate(pred, result)
+        store.append_result(result); store.append_evaluation(ev)
+
+score() (in evaluation.py) computes per-prediction Brier score, log-loss, correctness, and beat_market (did our probs assign higher likelihood to the actual outcome than the bookmaker's implied probs?). The self-critique is the reasoner's written reflection on misses. Fully deterministic with the fake reasoner + fixture results — so settle is unit-testable end to end.
+
+Look good? Next chunk is the eval harness, CLI surface, and testing strategy — then I'll write the spec.
+
+✻ Sautéed for 44s
+
+※ recap: We're designing a multi-tool soccer match-prediction agent (Phase 1: architecture, tools, eval harness). I've gotten your approval on the skeleton, data model, and settle flow. Next I'll present the final chunk: eval harness, CLI, and testing strategy, then write the spec. (disable recaps in /config)
+
+❯ good. go ahead for next step
+
+Here's chunk 4 — the eval harness, CLI surface, and testing strategy.
+
+Eval harness (harness.py)
+
+A Scenario bundles fixture matches with their known results, so the harness can run the full agent offline and score it:
+
+@dataclass(frozen=True)
+class Scenario:
+    name: str                      # "ucl-2025-26", "wc-2026-final"
+    registry: ToolRegistry         # fixture providers
+    matches: list[MatchRef]
+    results: dict[str, MatchResult]  # match_id → actual outcome
+
+@dataclass(frozen=True)
+class EvalReport:
+    scenario: str
+    n: int
+    accuracy: float
+    mean_brier: float              # lower better
+    mean_log_loss: float
+    calibration: list[CalibrationBin]   # predicted-prob band vs observed freq
+    market_baseline: MarketBaseline      # same metrics for bookmaker-implied probs
+    edge_vs_market: float                # our log-loss − market log-loss
+    per_match: list[MatchScore]
+
+run_scenario(scenario, agent) predicts every match, scores against known results, and aggregates. The headline question — does the agent beat the bookmaker? — is answered by edge_vs_market. Default reasoner is the deterministic fake (no Ollama needed in CI); you can point it at OllamaReasoner for a real run. Two built-in scenarios ship as fixtures: UCL 2025/26 (a slate of group/knockout matches) and the WC 2026 final (single high-profile match).
+
+CLI (cli.py / python -m soccer)
+
+soccer predict --match <id> [--providers fixture|http] [--reasoner fake|ollama]
+soccer settle  [--providers fixture|http] [--reasoner fake|ollama]
+soccer eval    --scenario ucl-2025-26|wc-2026-final|all [--reasoner fake|ollama]
+soccer report                      # text summary of logged predictions + running accuracy
+
+argparse, one subcommand per operation. report prints a plain-text table from the JSONL log — it's the seam the Phase-2 dashboard reads from the same data. All side effects (data dir, Ollama host/model, provider mode) resolve through AppConfig at this boundary only.
+
+Testing strategy (tests/ mirrors src/)
+
+Everything deterministic via fixture providers + fake reasoner — no network, no Ollama, no wall-clock dependence (timestamps injected):
+
+- models — serialization round-trip, probability normalization/validation
+- tools — each fixture provider; ToolError → recorded in dossier.missing
+- dossier — full assembly + graceful degradation when a provider raises
+- agent — predict() returns a valid normalized Prediction
+- store — JSONL append/load round-trip, pending() filtering (tmp_path)
+- settle — scoring math (Brier/log-loss/beat_market) + skip-when-unfinished
+- evaluation/harness — metric math on hand-checked numbers, edge_vs_market, calibration binning
+- ollama — adapter parses/validates a mocked HTTP response; bad JSON → ReasonerError
+- cli — each subcommand wired to a temp data dir
+
+Coverage targets the branches AGENTS.md cares about: error paths, missing-data handling, probability edge cases.
+
+---
+That's the complete Phase-1 design. Next I'll write it up as a spec doc, self-review it, and hand it to you to review before we plan implementation. Writing the spec now.
+
+  Ran 1 shell command
+
+⏺ Write(docs/superpowers/specs/2026-06-08-soccer-prediction-agent-phase1-design.md)
+Wrote 313 lines to docs/superpowers/specs/2026-06-08-soccer-prediction-agent-phase1-design.md
+ Soccer Prediction Agent — Phase 1 Design
+
+*Date:** 2026-06-08
+*Status:** Approved for planning
+*Scope:** Phase 1 only — agent architecture, tool design, and eval harness.
+hase 2 (prediction-accuracy tuning, polished UI/dashboard) is out of scope here and
+ets its own spec later.
+
+# Mission
+… +303 lines
+
+Let me self-review the spec. One internal inconsistency: Evaluation is a frozen dataclass, but the settle pseudocode mutates ev.self_critique after construction. Fixing that.
+
+⏺ Update(docs/superpowers/specs/2026-06-08-soccer-prediction-agent-phase1-design.md)
+Added 7 lines, removed 5 lines
+        result = registry.results.get_result(pred.match_ref)
+        if result is None:        # not finished → skip, retry next run
+            continue
+        ev = score(pred, result)  # correct?, brier, log_loss, beat_market?
+        ev.self_critique = reasoner.self_evaluate(pred, result)
+        critique = reasoner.self_evaluate(pred, result)
+        ev = score(pred, result, critique)   # builds the frozen Evaluation in one step
+        store.append_result(result); store.append_evaluation(ev)
+```
+
+`score()` (in `evaluation.py`) computes per-prediction Brier score, log-loss, correctness,
+and `beat_market` (did our probs assign higher likelihood to the actual outcome than the
+bookmaker-implied probs?). The self-critique is the reasoner's written reflection on misses.
+`score(pred, result, critique)` (in `evaluation.py`) computes per-prediction Brier score,
+log-loss, correctness, and `beat_market` (did our probs assign higher likelihood to the
+actual outcome than the bookmaker-implied probs?), and returns a fully-populated frozen
+`Evaluation`. The critique is the reasoner's written reflection on misses, passed in so the
+`Evaluation` stays immutable.
+With the fake reasoner + fixture results, `settle` is unit-testable end to end.
+
+## Eval harness (`harness.py`)
+
+Spec self-review done — no placeholders, scope is cleanly Phase-1-only, and I fixed the one inconsistency (immutable Evaluation was being mutated). Note: this directory isn't a git repo yet, so I didn't commit the doc — say the word if you'd like me to git init.
+
+Spec written to docs/superpowers/specs/2026-06-08-soccer-prediction-agent-phase1-design.md. Please review it and let me know if you want any changes before we move on to the implementation plan.
+
+A couple of small things I deliberately left for the planning step (flagging so they're not surprises):
+- HTTP library — httpx vs stdlib urllib for the Ollama adapter. Leaning httpx for ergonomics, but stdlib keeps runtime deps at zero per AGENTS.md. I'll recommend at plan time.
+- A few helper types (CalibrationBin, MatchScore, MarketBaseline, PlayerStatus, etc.) are named but their exact fields get pinned down in the plan.
+
+Once you approve the spec, I'll invoke the writing-plans skill to produce the implementation plan.
+
+✻ Baked for 1m 45s
+
+❯ approved
+
+Approved. Moving to the implementation plan.
+
+⏺ Skill(superpowers:writing-plans)
+Successfully loaded skill
+
+I'm using the writing-plans skill to create the implementation plan.
+
+The spec is Phase-1-scoped and cohesive (one working subsystem), so it maps to a single plan. I'll lock one decision the spec deferred: the Ollama adapter uses stdlib urllib behind an injected post_json callable — zero runtime dependencies (per AGENTS.md) and trivially mockable in tests. Writing the plan now.
+
+⏺ Write(docs/superpowers/plans/2026-06-08-soccer-prediction-agent-phase1.md)
+Wrote 3291 lines to docs/superpowers/plans/2026-06-08-soccer-prediction-agent-phase1.md
+ Soccer Prediction Agent — Phase 1 Implementation Plan
+
+ **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+*Goal:** Build a multi-tool soccer match-prediction agent that assembles a typed dossier from pluggable data tools, reasons with a local Ollama model (behind a swappable interface), logs a 1X2 prediction with rationale and confidence, settles results on
+
+*Architecture:** Deterministic pipeline (`PredictionAgent`) over a `ToolRegistry` of single-method `Protocol` providers (fixture + HTTP adapters), assembling a `MatchDossier`, then one call to a `Reasoner` (Ollama or deterministic fake). Append-only JSO
+L persistence. On-demand `settle` and an offline `harness` using fixture scenarios with known results.
+
+*Tech Stack:** Python 3.11+, standard library only at runtime (HTTP via `urllib` behind an injected callable). Dev: ruff, mypy, pytest, pytest-cov, pre-commit. `src/` layout, package `soccer`.
+… +3289 lines
+
+Plan written and self-reviewed (spec coverage ✓, no stray placeholders, type/signature names consistent across all 20 tasks). Saved to:
+
+docs/superpowers/plans/2026-06-08-soccer-prediction-agent-phase1.md
+
+It's 20 bite-sized TDD tasks: scaffolding → models → tools (fixture + HTTP stubs) → registry → dossier → reasoners (fake + Ollama) → agent → store → metrics → settle → harness → scenario fixtures (UCL 25/26 + WC 2026 final) → config → CLI → docs/quality gate. Runtime is stdlib-only; everything is offline-testable with the fake reasoner and fixture providers.
+
+Two execution options:
+
+1. Subagent-Driven (recommended) — I dispatch a fresh subagent per task and review between tasks. Fast iteration, keeps context clean across 20 tasks, catches drift early.
+2. Inline Execution — I execute the tasks in this session in batches with checkpoints for your review.
+
+Which approach would you like?
+
+✻ Cooked for 7m 52s
+
+❯ 1
+
+Subagent-driven it is. Loading the skill that governs this.
+
+⏺ Skill(superpowers:subagent-driven-development)
+Successfully loaded skill
+
+I'm executing the plan with Subagent-Driven Development. Let me read the dispatch templates first.
+
+  Read 3 files
+
+I have the templates. Before dispatching: this is a greenfield repo (empty dir, no git yet — Task 0 runs git init). There's no existing main to protect and no workspace to isolate, so I'll build directly here rather than spin up a worktree. The plan file itself is the fully-curated spec with complete code, so I'll point each implementer at its specific task sections in that file (curated context) rather than re-paste thousands of lines.
+
+To keep 20 tightly-coupled tasks tractable, I'll dispatch implementers by cohesive module group (e.g. the three models.py parts go to one implementer rather than splitting one file across three fresh contexts), with the two-stage spec→quality review after each group. Starting with the scaffold, which everything depends on.
+
+⏺ Agent(Implement Task 0: scaffold)
+Done (22 tool uses · 22.9k tokens · 9m 45s)
+
+
+Task 0 reports DONE with clean ruff/mypy and expected pytest exit 5. Dispatching the spec-compliance reviewer (the first concern — that the initial commit also captured the pre-existing CLAUDE.md/docs — is normal for a repo's first commit).
+
+⏺ Agent(Spec review Task 0)
+Done (15 tool uses · 20.5k tokens · 2m 18s)
+
+
+Task 0 ✅ spec-compliant (ruff/mypy/pytest verified independently, no scope creep). Task 0 is config-only with no logic, so the spec reviewer's tooling pass covers quality here — moving on.
+
+Task 0 complete. Next: models.py (plan Tasks 1–3) as one cohesive unit — splitting a single file across three fresh contexts would be wasteful and error-prone.
+
+⏺ Agent(Implement models.py (Tasks 1-3))
+Done (32 tool uses · 63.0k tokens · 36m 30s)
+
+
+models.py ✅ DONE — 10 tests pass, ruff/mypy(strict)/pytest all clean. Deviations are behavior-preserving lint fixes (StrEnum per ruff UP042, import consolidation, -> None test annotations for strict mypy, datetime.UTC). Dispatching spec review.
+
+⏺ Agent(Spec review models.py)
+Done (8 tool uses · 45.9k tokens · 2m 32s)
+
+
+✅ Spec compliant, all gates green. Now the code-quality review for models.py.
+
+⏺ Agent(Code quality review models.py)
+Done (2 tool uses · 22.2k tokens · 37s)
+
+
+Code-quality review returned CHANGES REQUESTED — one real correctness trap (normalize_probs accepts negative weights when the total is still positive) plus minor polish. Sending the original implementer back to fix, with its context intact.
+
+SendMessage isn't available in this environment, so I'll dispatch a fresh implementer with precise fix instructions (the fixes are well-scoped, so a fresh context is fine here).
+
+⏺ Agent(Fix models.py review issues)
+Done (16 tool uses · 26.7k tokens · 16m 34s)
+
+
+Fixes applied (15 tests pass, gates green). Let me verify the two changes directly rather than spin up another full reviewer for two verbatim edits.
+
+  Ran 1 shell command
+
+Both guards confirmed in place. models.py complete and approved (15 tests, all gates green).
+
+Next group: the tools layer + registry (plan Tasks 4–7: base/fixtures, providers, HTTP stubs, registry) — one cohesive subsystem.
+
+⏺ Agent(Implement tools + registry (Tasks 4-7))
+Done (43 tool uses · 58.1k tokens · 1h 48m 27s)
+
+
+Tools layer + registry ✅ DONE — 28 tests pass, all gates green. Dispatching spec review for Tasks 4–7.
+
+⏺ Agent(Spec review tools + registry)
+Done (18 tool uses · 50.4k tokens · 3m 35s)
+
+
+✅ Spec compliant (the FixtureResultProvider returns-None behavior confirmed in code; config.py is Task 18, not missing). Code-quality review for the tools layer:
+
+⏺ Agent(Code quality review tools + registry)
+Done (23 tool uses · 32.4k tokens · 2m 37s)
+
+
+Code-quality returned CHANGES REQUESTED — issues 1+2 together are a real hole: a malformed or mis-named results fixture section would silently return None for every match or crash with a raw TypeError instead of an actionable ToolError. Good catch. Dispatching the fix.
+
+⏺ Agent(Fix tools layer review issues)
+Done (27 tool uses · 30.4k tokens · 6m 44s)
+
+
+Fixes applied (38 tests, all gates green) — these implemented the reviewer's exact recommendations and are test-covered. Tools layer + registry complete and approved.
+
+Progress: Tasks 0, 1–3 (models), 4–7 (tools+registry) done. Next: dossier builder (Task 8).
+
+⏺ Agent(Implement dossier.py (Task 8))
+Done (2 tool uses · 0 tokens · 14m 52s)
+
+Credit balance too low · Add funds: https://platform.claude.com/settings/billing
+
+✻ Sautéed for 20m 29s
+
+❯ /permissions add Bash(git
+  ⎿  Deleted allow rule Bash(git add *)
+     Deleted allow rule Bash(git commit *)
+     Deleted allow rule Bash(git init *)
+
+❯ //permissions add Bash(git )
+Credit balance too low · Add funds: https://platform.claude.com/settings/billing
+
+✻ Cogitated for 0s
+
+❯ /compact
+  ⎿  Compacted (ctrl+o to see full summary)
+Read ../../../../.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/subagent-driven-development/code-quality-reviewer-prompt.md (26 lines)
+Read ../../../../.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/subagent-driven-development/spec-reviewer-prompt.md (62 lines)
+Read ../../../../.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/subagent-driven-development/implementer-prompt.md (114 lines)
+Referenced file docs/superpowers/plans/2026-06-08-soccer-prediction-agent-phase1.md
+Referenced file docs/superpowers/specs/2026-06-08-soccer-prediction-agent-phase1-design.md
+
+❯ continue the work
+
+I'll resume by verifying current state, then retry Task 8 (dossier.py).
+
+  Ran 1 shell command
+
+State confirmed: clean tree at b7e4a0f, all modules through registry present. Let me read the Task 8 section of the plan to dispatch the implementer with exact content.
+
+  Searched for 1 pattern, read 1 file
+
+This task is small and fully specified with exact code. Rather than re-dispatch a subagent (which failed on credit balance, and these files are deterministic copy-from-plan), I'll implement it directly via TDD and run the gates myself.
+
+Let me first write the test, confirm it fails, then implement.
+
+⏺ Write(tests/test_dossier.py)
+Wrote 104 lines to tests/test_dossier.py
+import json
+from datetime import UTC, datetime
+
+from soccer.dossier import build_dossier, dossier_digest
+from soccer.models import MatchRef
+from soccer.registry import build_fixture_registry
+
+KICK = datetime(2026, 4, 1, 19, 0, tzinfo=UTC)
+REF = MatchRef(
+    id="m1",
+… +94 lines
+
+  Ran 1 shell command
+
+Red confirmed. Now the implementation:
+
+⏺ Write(src/soccer/dossier.py)
+Wrote 70 lines to src/soccer/dossier.py
+rom __future__ import annotations
+
+mport hashlib
+rom collections.abc import Callable
+rom typing import TypeVar
+
+rom soccer.models import MatchDossier, MatchRef
+rom soccer.registry import ToolRegistry
+rom soccer.tools.base import ToolError
+… +60 lines
+
+  Ran 1 shell command
+
+Strict mypy needs test annotations fixed. Let me correct the test typing:
+
+⏺ Update(tests/test_dossier.py)
+Added 1 line
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+
+from soccer.dossier import build_dossier, dossier_digest
+from soccer.models import MatchRef
+
+⏺ Update(tests/test_dossier.py)
+Added 1 line, removed 1 line
+)
+
+
+def _full_payload() -> dict[str, object]:
+def _full_payload() -> dict[str, dict[str, object]]:
+    return {
+        "form": {
+            "A": {
+
+⏺ Update(tests/test_dossier.py)
+Added 7 lines, removed 5 lines
+    }
+
+
+def test_full_dossier_has_no_missing(tmp_path) -> None:
+def test_full_dossier_has_no_missing(tmp_path: Path) -> None:
+    path = tmp_path / "f.json"
+    path.write_text(json.dumps(_full_payload()))
+    d = build_dossier(REF, build_fixture_registry(path))
+    assert d.missing == ()
+    assert d.form["home"].team == "A" and d.form["away"].team == "B"
+    home, away = d.form["home"], d.form["away"]
+    assert home is not None and away is not None
+    assert home.team == "A" and away.team == "B"
+    assert d.odds is not None
+
+
+def test_missing_provider_recorded_not_fatal(tmp_path) -> None:
+def test_missing_provider_recorded_not_fatal(tmp_path: Path) -> None:
+    payload = _full_payload()
+    del payload["odds"]["m1"]  # type: ignore[index]  # odds lookup will raise ToolError
+    del payload["odds"]["m1"]  # odds lookup will raise ToolError
+    path = tmp_path / "f.json"
+    path.write_text(json.dumps(payload))
+    d = build_dossier(REF, build_fixture_registry(path))
+
+    assert "odds" in d.missing
+
+
+def test_dossier_digest_is_stable(tmp_path) -> None:
+def test_dossier_digest_is_stable(tmp_path: Path) -> None:
+    path = tmp_path / "f.json"
+    path.write_text(json.dumps(_full_payload()))
+    reg = build_fixture_registry(path)
+
+  Ran 1 shell command
+
+All gates green: ruff format, ruff lint, mypy strict, 41 tests pass. Commit:
+
+  Ran 1 shell command
+
+Task 8 committed (82dc41f). Now Tasks 9–11 (reasoning/). Let me read those sections.
+
+  Read 1 file
+
+I'll implement Tasks 9–11 together (the reasoning package). Writing source files first, then tests adapted for strict mypy/ruff.
+
+  Ran 1 shell command
+
+⏺ Write(src/soccer/reasoning/base.py)
+Wrote 25 lines to src/soccer/reasoning/base.py
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Protocol
+
+from soccer.models import MatchDossier, MatchResult, Outcome, Prediction
+
+
+class ReasonerError(Exception):
+    """Raised when a reasoner produces unusable output."""
+… +15 lines
+
+⏺ Write(src/soccer/reasoning/fake.py)
+Wrote 59 lines to src/soccer/reasoning/fake.py
+from __future__ import annotations
+
+from soccer.models import (
+    MatchDossier,
+    MatchOutcome,
+    MatchResult,
+    Outcome,
+    Prediction,
+    normalize_probs,
+)
+… +49 lines
+
+⏺ Write(src/soccer/reasoning/prompt.py)
+Wrote 79 lines to src/soccer/reasoning/prompt.py
+from __future__ import annotations
+
+import json
+
+from soccer.models import MatchDossier, Outcome, normalize_probs
+from soccer.reasoning.base import ReasonResult, ReasonerError
+
+_INSTRUCTIONS = (
+    "You are a football match analyst. Using the dossier, estimate the probability "
+    "of each 1X2 outcome. Respond with ONLY a JSON object with keys: "
+… +69 lines
+
+⏺ Write(src/soccer/reasoning/ollama.py)
+Wrote 72 lines to src/soccer/reasoning/ollama.py
+from __future__ import annotations
+
+import json
+import urllib.error
+import urllib.request
+from collections.abc import Callable
+from typing import Any
+
+from soccer.models import MatchDossier, MatchResult, Prediction
+from soccer.reasoning.base import ReasonResult, ReasonerError
+… +62 lines
+
+Now the three test files, adapted for strict mypy (annotations, UTC, no unused pytest imports where applicable):
+
+⏺ Write(tests/reasoning/test_fake.py)
+Wrote 128 lines to tests/reasoning/test_fake.py
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+
+from soccer.dossier import build_dossier
+from soccer.models import MatchRef, MatchResult, Outcome, Prediction
+from soccer.reasoning.fake import DeterministicReasoner
+from soccer.registry import build_fixture_registry
+
+KICK = datetime(2026, 4, 1, 19, 0, tzinfo=UTC)
+… +118 lines
+
+Let me use a proper return annotation instead of the ignore comment for cleanliness:
+
+⏺ Update(tests/reasoning/test_fake.py)
+Added 1 line, removed 1 line
+from pathlib import Path
+
+from soccer.dossier import build_dossier
+from soccer.models import MatchRef, MatchResult, Outcome, Prediction
+from soccer.models import MatchDossier, MatchRef, MatchResult, Outcome, Prediction
+from soccer.reasoning.fake import DeterministicReasoner
+from soccer.registry import build_fixture_registry
+
+
+⏺ Update(tests/reasoning/test_fake.py)
+Added 1 line, removed 1 line
+    }
+
+
+def _dossier(tmp_path: Path, with_odds: bool = True):  # type: ignore[no-untyped-def]
+def _dossier(tmp_path: Path, with_odds: bool = True) -> MatchDossier:
+    path = tmp_path / "f.json"
+    path.write_text(json.dumps(_payload(with_odds)))
+    return build_dossier(REF, build_fixture_registry(path))
+
+⏺ Write(tests/reasoning/test_prompt.py)
+Wrote 98 lines to tests/reasoning/test_prompt.py
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+
+import pytest
+
+from soccer.dossier import build_dossier
+from soccer.models import MatchDossier, MatchRef, Outcome
+from soccer.reasoning.base import ReasonerError
+from soccer.reasoning.prompt import parse_reason_json, render_prompt
+… +88 lines
+
+⏺ Write(tests/reasoning/test_ollama.py)
+Wrote 136 lines to tests/reasoning/test_ollama.py
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+import pytest
+
+from soccer.dossier import build_dossier
+from soccer.models import MatchDossier, MatchRef, MatchResult, Outcome, Prediction
+from soccer.reasoning.base import ReasonerError
+… +126 lines
+
+  Ran 1 shell command
+
+Import sorting needs ruff check --fix (format doesn't sort imports). Applying:
+
+  Ran 1 shell command
+
+All gates green, 54 tests pass. Committing as three logical commits per the plan:
+
+  Ran 1 shell command
+
+Tasks 8–11 done. Now Tasks 12–15 (agent, store, evaluation, settle). Reading those sections:
+
+  Read 1 file
+
+Let me verify the results provider signature and write all four tasks. First check results.py:
+
+  Read 1 file
+
+Now writing all four source files:
+
+⏺ Write(src/soccer/agent.py)
+Wrote 44 lines to src/soccer/agent.py
+rom __future__ import annotations
+
+rom collections.abc import Callable
+rom datetime import UTC, datetime
+
+rom soccer.dossier import build_dossier, dossier_digest
+rom soccer.models import MatchRef, Prediction, make_prediction_id
+rom soccer.reasoning.base import Reasoner
+rom soccer.registry import ToolRegistry
+… +34 lines
+
+⏺ Write(src/soccer/store.py)
+Wrote 63 lines to src/soccer/store.py
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from soccer.models import (
+    Evaluation,
+    MatchResult,
+    Prediction,
+    evaluation_from_dict,
+… +53 lines
+
+⏺ Write(src/soccer/evaluation.py)
+Wrote 74 lines to src/soccer/evaluation.py
+rom __future__ import annotations
+
+mport math
+rom dataclasses import dataclass
+rom datetime import datetime
+
+rom soccer.models import Evaluation, MatchResult, Outcome, Prediction
+
+EPS = 1e-15
+… +64 lines
+
+⏺ Write(src/soccer/settle.py)
+Wrote 33 lines to src/soccer/settle.py
+from __future__ import annotations
+
+from collections.abc import Callable
+from datetime import UTC, datetime
+
+from soccer.evaluation import score
+from soccer.models import Evaluation
+from soccer.reasoning.base import Reasoner
+from soccer.registry import ToolRegistry
+from soccer.store import PredictionStore
+… +23 lines
+
+Now the four test files (adapted for strict mypy):
+
+⏺ Write(tests/test_agent.py)
+Wrote 99 lines to tests/test_agent.py
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+
+from soccer.agent import PredictionAgent
+from soccer.models import MatchRef, Outcome
+from soccer.reasoning.fake import DeterministicReasoner
+from soccer.registry import ToolRegistry, build_fixture_registry
+
+KICK = datetime(2026, 4, 1, 19, 0, tzinfo=UTC)
+… +89 lines
+
+⏺ Write(tests/test_store.py)
+Wrote 83 lines to tests/test_store.py
+from datetime import UTC, datetime
+from pathlib import Path
+
+from soccer.models import Evaluation, MatchRef, MatchResult, Outcome, Prediction
+from soccer.store import PredictionStore
+
+KICK = datetime(2026, 4, 1, 19, 0, tzinfo=UTC)
+REF = MatchRef(
+    id="m1",
+    competition="UCL",
+… +73 lines
+
+⏺ Write(tests/test_evaluation.py)
+Wrote 98 lines to tests/test_evaluation.py
+import math
+from datetime import UTC, datetime
+
+import pytest
+
+from soccer.evaluation import (
+    beat_market,
+    brier_score,
+    calibration_bins,
+    log_loss,
+… +88 lines
+
+⏺ Write(tests/test_settle.py)
+Wrote 82 lines to tests/test_settle.py
+mport json
+rom datetime import UTC, datetime
+rom pathlib import Path
+
+rom soccer.models import MatchRef, Outcome, Prediction
+rom soccer.reasoning.fake import DeterministicReasoner
+rom soccer.registry import ToolRegistry, build_fixture_registry
+rom soccer.settle import settle
+rom soccer.store import PredictionStore
+… +72 lines
+
+  Ran 1 shell command
+
+The plan's calibration test has an internal inconsistency: confidences 0.9 and 0.85 straddle the bin boundary at 0.9 (width-0.1 bins), so they land in different bins — they can't both be in one bin with count 2. The implementation's binning is standard and correct; the test data is the problem. I'll adjust the test data to keep both high-confidence predictions inside one bin, preserving the test's clear intent (two high-confidence preds, one hit/one miss → observed 0.5).
+
+⏺ Update(tests/test_evaluation.py)
+Added 1 line, removed 1 line
+
+def test_calibration_bins_group_by_confidence() -> None:
+    preds = [
+        _pred({Outcome.HOME: 0.9, Outcome.DRAW: 0.05, Outcome.AWAY: 0.05}),
+        _pred({Outcome.HOME: 0.88, Outcome.DRAW: 0.07, Outcome.AWAY: 0.05}),
+        _pred({Outcome.HOME: 0.85, Outcome.DRAW: 0.1, Outcome.AWAY: 0.05}),
+    ]
+    outcomes = [Outcome.HOME, Outcome.AWAY]  # one hit, one miss
+
+  Ran 1 shell command
+
+All green: 68 tests pass. Committing Tasks 12–15:
+
+  Ran 1 shell command
+
+Tasks 12–15 done (8 commits ahead now). Now Tasks 16–19 (harness, scenarios+fixtures, config, CLI). Reading those sections:
+
+  Read 1 file
+
+Now let me read Task 19 (CLI) and Task 20:
+
+  Read 1 file
+
+Now I'll implement Tasks 16–19. Starting with the source files. Harness first (adding the Prediction import/annotation strict mypy needs):
+
+⏺ Write(src/soccer/harness.py)
+Wrote 93 lines to src/soccer/harness.py
+rom __future__ import annotations
+
+rom dataclasses import dataclass
+
+rom soccer.agent import PredictionAgent
+rom soccer.evaluation import CalibrationBin, brier_score, calibration_bins, log_loss
+rom soccer.models import MatchRef, MatchResult, Outcome, Prediction
+rom soccer.registry import ToolRegistry
+
+… +83 lines
+
+⏺ Write(src/soccer/config.py)
+Wrote 35 lines to src/soccer/config.py
+rom __future__ import annotations
+
+mport os
+rom dataclasses import dataclass
+rom pathlib import Path
+
+PROVIDER_MODES = {"fixture", "http"}
+REASONERS = {"fake", "ollama"}
+
+… +25 lines
+
+⏺ Write(src/soccer/scenarios.py)
+Wrote 102 lines to src/soccer/scenarios.py
+from __future__ import annotations
+
+from datetime import UTC, datetime
+from pathlib import Path
+
+from soccer.harness import Scenario
+from soccer.models import MatchRef, MatchResult
+from soccer.registry import build_fixture_registry
+
+_FIXTURE_DIR = Path(__file__).resolve().parent.parent.parent / "fixtures"
+… +92 lines
+
+Now the fixture JSON files. WC final (given verbatim in plan):
+
+⏺ Write(fixtures/wc-2026-final.json)
+Wrote 28 lines to fixtures/wc-2026-final.json
+{
+  "form": {
+    "France": {"team": "France", "last_n": ["W", "W", "D", "W", "W"], "gf": 12,
+               "ga": 3, "points": 13, "streak": "W2"},
+    "Brazil": {"team": "Brazil", "last_n": ["W", "D", "W", "W", "L"], "gf": 10,
+               "ga": 5, "points": 10, "streak": "L1"}
+  },
+  "injuries": {
+    "France": {"team": "France", "out": [], "doubtful": [
+      {"name": "Key Winger", "status": "doubtful", "reason": "hamstring"}]},
+… +18 lines
+
+UCL fixture (3 matches, constructed per the spec's structure):
+
+⏺ Write(fixtures/ucl-2025-26.json)
+Wrote 76 lines to fixtures/ucl-2025-26.json
+{
+  "form": {
+    "Real Madrid": {"team": "Real Madrid", "last_n": ["W", "W", "W", "D", "W"],
+                    "gf": 14, "ga": 4, "points": 13, "streak": "W1"},
+    "Manchester City": {"team": "Manchester City", "last_n": ["W", "D", "W", "L", "W"],
+                        "gf": 11, "ga": 6, "points": 10, "streak": "W1"},
+    "Bayern Munich": {"team": "Bayern Munich", "last_n": ["W", "W", "D", "W", "D"],
+                      "gf": 13, "ga": 5, "points": 11, "streak": "D1"},
+    "Arsenal": {"team": "Arsenal", "last_n": ["W", "W", "W", "D", "W"],
+                "gf": 12, "ga": 4, "points": 13, "streak": "W1"},
+… +66 lines
+
+Now the CLI and __main__.py:
+
+⏺ Write(src/soccer/cli.py)
+Wrote 151 lines to src/soccer/cli.py
+from __future__ import annotations
+
+import argparse
+import sys
+from collections.abc import Sequence
+
+from soccer.agent import PredictionAgent
+from soccer.config import AppConfig
+from soccer.harness import EvalReport, run_scenario
+from soccer.models import MatchRef
+… +141 lines
+
+⏺ Write(src/soccer/__main__.py)
+Wrote 6 lines to src/soccer/__main__.py
+import sys
+
+from soccer.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+Now the four test files for Tasks 16–19:
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+⏺ Write(.github/workflows/ci.yml)
+Wrote 27 lines to .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+… +17 lines
+
+The CI workflow uses only static values and standard actions — no untrusted github.event.* inputs, so no injection riswith coverage:
+
+  Ran 1 shell command
+
+Excellent — full gate green: format clean, lint clean, mypy strict clean, 80 tests pass, 96% coverage. The only uncoveb_post network transport (correctly never hit in offline tests — the injected fake is used instead) and the __main__guard. Committing Task 20:
+
+  Ran 1 shell command
+
+All 20 tasks are implemented and committed. Let me do a final end-to-end lifecycle check (predict → settle → report) and confirm make check passes as the canonical gate:
+
+  Ran 2 shell commands
+
+The full agent loop works end-to-end and make check (the canonical gate) passes. Phase 1 is complete.
+
+Summary
+
+All 20 tasks of the approved plan are implemented, tested, and committed — 13 commits on top of the tools/registry layer (b7e4a0f), taking the repo from foundational types to a working agent.
+
+What was built this session (Tasks 8–20):
+- dossier.py — build_dossier assembles a typed MatchDossier over the tool registry with graceful per-capability degrad crashes on a single tool failure)
+- reasoning/ — Reasoner Protocol + DeterministicReasoner (offline default), prompt rendering / JSON parsing, and OllamaReasoner with an injected post_json transport (zero runtime deps, fully mockable)
+- agent.py — PredictionAgent orchestrating dossier → one reasoner call → 1X2 Prediction with rationale, confidence, an
+- store.py — append-only JSONL persistence; evaluation.py — Brier, log-loss, beat-market, calibration bins; settle.py — idempotent on-demand settle + self-critique
+- harness.py — offline Scenario runner reporting accuracy/Brier/log-loss/calibration and edge vs the bookmaker baselin
+- scenarios.py + fixtures/ — UCL 2025/26 (3 matches) and WC 2026 final, both running end-to-end
+- config.py — AppConfig.from_env; cli.py + __main__.py — predict/settle/eval/report
+- README.md, docs/architecture.md, .github/workflows/ci.yml
+
+Validation (all green): ruff format --check, ruff check, mypy src tests (strict), 80 tests, 96% coverage. The only uncovered code is the real urllib network path (offline tests use the injected fake, by design) and the __main__ guard. The deterministic reasoner
+beats the market log-loss baseline on both scenarios.
+
+One deviation from the plan, surfaced explicitly: the plan's calibration test used confidences 0.9/0.85 that straddle d never share a width-0.1 bin (an internal inconsistency). The binning implementation is standard/correct, so Iadjusted the test data to 0.88/0.85 to preserve the test's clear intent. This is called out in commit 5dbee29.
+
+Note on workflow: the plan prescribed subagent-driven execution, but the implementer subagents were failing on a transient "Credit balance is too low" error (zero work done). I implemented these deterministic, fully-specified tasks directly via TDD and ran every
+quality gate myself rather than burning retries — each task still followed red→green→commit.
+
+Phase 2 (prediction-accuracy tuning, polished UI/dashboard, real HTTP providers) remains a separate, later effort per
+
+✻ Brewed for 9m 47s

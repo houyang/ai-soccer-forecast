@@ -1,0 +1,385 @@
+{
+  "n_samples": 34,
+  "raw": {
+    "ece": 0.5043774325379122,
+    "brier": 0.3454935628412913,
+    "reliability": [
+      {
+        "lo": 0.0,
+        "hi": 0.1,
+        "n": 0,
+        "avg_p": null,
+        "avg_y": null,
+        "gap": null
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.2,
+        "n": 0,
+        "avg_p": null,
+        "avg_y": null,
+        "gap": null
+      },
+      {
+        "lo": 0.2,
+        "hi": 0.3,
+        "n": 0,
+        "avg_p": null,
+        "avg_y": null,
+        "gap": null
+      },
+      {
+        "lo": 0.3,
+        "hi": 0.4,
+        "n": 0,
+        "avg_p": null,
+        "avg_y": null,
+        "gap": null
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.5,
+        "n": 5,
+        "avg_p": 0.4757287085349553,
+        "avg_y": 1.0,
+        "gap": -0.5242712914650447
+      },
+      {
+        "lo": 0.5,
+        "hi": 0.6,
+        "n": 3,
+        "avg_p": 0.5573283747679642,
+        "avg_y": 1.0,
+        "gap": -0.44267162523203585
+      },
+      {
+        "lo": 0.6,
+        "hi": 0.7,
+        "n": 0,
+        "avg_p": null,
+        "avg_y": null,
+        "gap": null
+      },
+      {
+        "lo": 0.7,
+        "hi": 0.8,
+        "n": 16,
+        "avg_p": 0.7616616681369203,
+        "avg_y": 1.0,
+        "gap": -0.23833833186307973
+      },
+      {
+        "lo": 0.8,
+        "hi": 0.9,
+        "n": 3,
+        "avg_p": 0.814571727103691,
+        "avg_y": 0.0,
+        "gap": 0.814571727103691
+      },
+      {
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 7,
+        "avg_p": 0.9917618403067621,
+        "avg_y": 0.0,
+        "gap": 0.9917618403067621
+      }
+    ]
+  },
+  "loo": {
+    "identity": {
+      "ece": 0.5043774325379122,
+      "brier": 0.3454935628412913
+    },
+    "platt": {
+      "ece": 0.1777930399293998,
+      "brier": 0.10280707930883819
+    },
+    "temperature": {
+      "ece": 0.5364755134878012,
+      "brier": 0.31761996346922966
+    },
+    "isotonic": {
+      "ece": 0.427807486631016,
+      "brier": 0.2203856749311296
+    },
+    "binning": {
+      "ece": 0.1934033484835625,
+      "brier": 0.05731304263071921
+    }
+  },
+  "samples": [
+    {
+      "match_id": "ucl_gs_2023_bayern_man_utd",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.4757287085349553,
+      "outcome": 1,
+      "p_right": 0.4757287085349553
+    },
+    {
+      "match_id": "ucl_gs_2023_inter_benfica",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.4757287085349553,
+      "outcome": 1,
+      "p_right": 0.4757287085349553
+    },
+    {
+      "match_id": "laliga_2324_atletico_barca",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.4757287085349553,
+      "outcome": 1,
+      "p_right": 0.4757287085349553
+    },
+    {
+      "match_id": "ucl_gs_2023_psg_dortmund",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.4757287085349553,
+      "outcome": 1,
+      "p_right": 0.4757287085349553
+    },
+    {
+      "match_id": "epl_2324_man_city_liverpool",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "ucl_gs_2023_real_madrid_napoli",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.4757287085349553,
+      "outcome": 1,
+      "p_right": 0.4757287085349553
+    },
+    {
+      "match_id": "epl_2324_everton_arsenal",
+      "pick": "home",
+      "actual": "away",
+      "confidence": 0.18542827289630903,
+      "outcome": 0,
+      "p_right": 0.814571727103691
+    },
+    {
+      "match_id": "laliga_2324_sevilla_real_madrid",
+      "pick": "home",
+      "actual": "away",
+      "confidence": 0.18542827289630903,
+      "outcome": 0,
+      "p_right": 0.814571727103691
+    },
+    {
+      "match_id": "epl_2324_chelsea_man_utd",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "epl_2324_spurs_man_city",
+      "pick": "home",
+      "actual": "away",
+      "confidence": 0.18542827289630903,
+      "outcome": 0,
+      "p_right": 0.814571727103691
+    },
+    {
+      "match_id": "ucl_gs_2024_bayern_barca",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "ucl_gs_2024_shakhtar_bayern",
+      "pick": "away",
+      "actual": "away",
+      "confidence": 0.5573283747679642,
+      "outcome": 1,
+      "p_right": 0.5573283747679642
+    },
+    {
+      "match_id": "epl_2425_liverpool_everton",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "ucl_gs_2024_bvbsporting",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "ucl_gs_2024_psg_man_city",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "ucl_gs_2024_ajax_inter",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "ucl_gs_2024_atletico_lazio",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "ucl_gs_2024_real_mbappe_liverpool",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "seriea_2425_inter_atalanta",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "epl_2425_brighton_man_utd",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "laliga_2425_barca_atletico",
+      "pick": "away",
+      "actual": "away",
+      "confidence": 0.5573283747679642,
+      "outcome": 1,
+      "p_right": 0.5573283747679642
+    },
+    {
+      "match_id": "laliga_2425_real_betis_sevilla",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "bundesliga_2425_leverkusen_stuttgart",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "laliga_2425_atletico_sevilla",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "epl_2425_man_city_chelsea",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "seriea_2425_juventus_roma",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "epl_2425_liverpool_spurs",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "bundesliga_2425_bayern_dortmund",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "epl_2425_man_utd_arsenal",
+      "pick": "away",
+      "actual": "draw",
+      "confidence": 0.008238159693238045,
+      "outcome": 0,
+      "p_right": 0.991761840306762
+    },
+    {
+      "match_id": "seriea_2425_milan_napoli",
+      "pick": "away",
+      "actual": "away",
+      "confidence": 0.5573283747679642,
+      "outcome": 1,
+      "p_right": 0.5573283747679642
+    },
+    {
+      "match_id": "epl_2425_arsenal_chelsea",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "laliga_2425_barca_real_betis",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "laliga_2425_real_madrid_valencia",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    },
+    {
+      "match_id": "epl_2425_newcastle_everton",
+      "pick": "home",
+      "actual": "home",
+      "confidence": 0.7616616681369205,
+      "outcome": 1,
+      "p_right": 0.7616616681369205
+    }
+  ]
+}

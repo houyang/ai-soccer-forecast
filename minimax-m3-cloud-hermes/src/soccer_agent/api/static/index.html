@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>soccer-agent dashboard</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>soccer-agent</h1>
+  <div class="meta">
+    <span id="generated_at">—</span>
+    <button id="refresh" type="button">Refresh</button>
+  </div>
+</header>
+
+<!-- ===== summary tiles ===== -->
+<section id="summary" class="tiles">
+  <div class="tile"><div class="label">Predictions</div><div class="value" id="t_n_predictions">—</div></div>
+  <div class="tile"><div class="label">Resolved</div><div class="value" id="t_n_resolved">—</div></div>
+  <div class="tile"><div class="label">Accuracy</div><div class="value" id="t_accuracy">—</div></div>
+  <div class="tile"><div class="label">Brier</div><div class="value" id="t_brier">—</div></div>
+  <div class="tile"><div class="label">Log&nbsp;loss</div><div class="value" id="t_log_loss">—</div></div>
+  <div class="tile"><div class="label">ECE</div><div class="value" id="t_ece">—</div></div>
+</section>
+
+<!-- ===== Task 33: live calibration monitor ===== -->
+<section id="calibration-monitor" class="tiles">
+  <div class="tile"><div class="label">With raw</div><div class="value" id="calmon_n">—</div></div>
+  <div class="tile"><div class="label">Calibrated</div><div class="value" id="calmon_n_calibrated">—</div></div>
+  <div class="tile"><div class="label">Mean Δ</div><div class="value" id="calmon_mean_delta">—</div></div>
+  <div class="tile"><div class="label">|Δ| mean</div><div class="value" id="calmon_abs_mean">—</div></div>
+  <div class="tile wide"><div class="label">In use</div><div class="value" id="calmon_breakdown">—</div></div>
+</section>
+
+<!-- ===== reliability chart ===== -->
+<section class="card">
+  <h2>Reliability</h2>
+  <p class="caption">Average stated confidence per bucket (x) vs. actual win rate (y). Dashed line is perfect calibration. n=<span id="cal_n">—</span>.</p>
+  <svg id="reliability" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Reliability diagram"></svg>
+  <div class="legend">
+    <span><i class="sw sw-bar"></i> observed</span>
+    <span><i class="sw sw-diag"></i> perfect</span>
+  </div>
+</section>
+
+<!-- ===== predict form ===== -->
+<section class="card">
+  <h2>Predict a match</h2>
+  <form id="predict">
+    <label>Home <input name="home_id" required placeholder="manchester_city" /></label>
+    <label>Away <input name="away_id" required placeholder="real_madrid" /></label>
+    <label>Venue <input name="venue_id" required placeholder="etihad_stadium" /></label>
+    <label>Kickoff (ISO) <input name="kickoff" required placeholder="2026-05-30T20:00:00" /></label>
+    <label>Competition <input name="competition" value="UCL" /></label>
+    <label>Round <input name="round" placeholder="Final" /></label>
+    <button type="submit">Run prediction</button>
+    <div id="predict_status" class="status"></div>
+  </form>
+</section>
+
+<!-- ===== record result ===== -->
+<section class="card">
+  <h2>Record a result</h2>
+  <form id="result">
+    <label>Match ID <input name="match_id" required placeholder="manchester_city_vs_real_madrid__2026-05-30" /></label>
+    <label>Home goals <input name="home_goals" type="number" min="0" required value="0" /></label>
+    <label>Away goals <input name="away_goals" type="number" min="0" required value="0" /></label>
+    <button type="submit">Save result</button>
+    <div id="result_status" class="status"></div>
+  </form>
+</section>
+
+<!-- ===== predictions table ===== -->
+<section class="card">
+  <h2>Predictions</h2>
+  <table id="predictions">
+    <thead>
+      <tr>
+        <th>Match</th>
+        <th>Pick</th>
+        <th>Conf.</th>
+        <th>Cal.</th>
+        <th>Result</th>
+        <th>Brier</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<footer>
+  <small>Phase 2 dashboard &middot; <a href="/docs" target="_blank">API docs</a> &middot; <a href="/health" target="_blank">/health</a></small>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
