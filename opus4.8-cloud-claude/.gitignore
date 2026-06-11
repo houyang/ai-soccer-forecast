@@ -1,0 +1,14 @@
+# Secrets and local data — never commit
+.env
+data/
+
+# Python / tooling artifacts
+.venv/
+__pycache__/
+*.pyc
+.coverage
+.coverage.*
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+src/*.egg-info/
