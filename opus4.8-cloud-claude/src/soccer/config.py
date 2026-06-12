@@ -16,6 +16,9 @@ class AppConfig:
     ollama_timeout: float
     provider_mode: str
     reasoner: str
+    api_football_base_url: str
+    api_football_key: str | None
+    prediction_dir: Path
 
     @classmethod
     def from_env(cls) -> AppConfig:
@@ -32,4 +35,9 @@ class AppConfig:
             ollama_timeout=float(os.environ.get("SOCCER_OLLAMA_TIMEOUT", "60")),
             provider_mode=provider_mode,
             reasoner=reasoner,
+            api_football_base_url=os.environ.get(
+                "SOCCER_API_FOOTBALL_BASE_URL", "https://v3.football.api-sports.io"
+            ),
+            api_football_key=os.environ.get("SOCCER_API_FOOTBALL_KEY") or None,
+            prediction_dir=Path(os.environ.get("SOCCER_PREDICTION_DIR", "./perdiction")),
         )

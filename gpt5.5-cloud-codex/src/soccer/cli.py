@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import cast
 
+from soccer.api_football import ApiFootballClient, fetch_world_cup_2026_snapshot
 from soccer.evaluation import EvaluationHarness
 from soccer.fixture_tools import FixtureCatalog, build_fixture_agent, default_catalog
 from soccer.live_world_cup import (
@@ -17,6 +19,14 @@ from soccer.live_world_cup import (
 )
 from soccer.models import MatchRequest, MatchResult, PredictionRecord
 from soccer.storage import JsonlPredictionLog
+from soccer.world_cup_2026 import (
+    DEFAULT_WORLD_CUP_DATA_DIR,
+    load_world_cup_dataset,
+    predict_group_stage_scores,
+    prediction_to_json,
+    rank_world_cup_entities,
+    render_group_stage_markdown,
+)
 
 
 def main() -> None:
@@ -62,6 +72,26 @@ def main() -> None:
 
     evaluate = subparsers.add_parser("evaluate", help="Evaluate settled predictions")
     evaluate.add_argument("log", type=Path)
+
+    fetch_world_cup_data = subparsers.add_parser(
+        "fetch-world-cup-data",
+        help="Fetch API-Football snapshots for FIFA World Cup 2026 modeling",
+    )
+    fetch_world_cup_data.add_argument("--api-key")
+    fetch_world_cup_data.add_argument("--data-dir", type=Path, default=DEFAULT_WORLD_CUP_DATA_DIR)
+    fetch_world_cup_data.add_argument("--world-cup-league-id", type=int, default=1)
+    fetch_world_cup_data.add_argument("--world-cup-season", type=int, default=2026)
+    fetch_world_cup_data.add_argument("--club-season", type=int, default=2025)
+    fetch_world_cup_data.add_argument("--recent-fixture-count", type=int, default=20)
+    fetch_world_cup_data.add_argument("--request-delay-seconds", type=float, default=0.0)
+
+    world_cup_scores = subparsers.add_parser(
+        "predict-world-cup-group-stage",
+        help="Predict final scores for FIFA World Cup 2026 group stage matches",
+    )
+    world_cup_scores.add_argument("--data-dir", type=Path, default=DEFAULT_WORLD_CUP_DATA_DIR)
+    world_cup_scores.add_argument("--output", choices=("text", "json", "markdown"), default="text")
+    world_cup_scores.add_argument("--expected-teams", type=int, default=48)
 
     args = parser.parse_args()
     if args.command == "predict":
@@ -111,11 +141,51 @@ def main() -> None:
         records = build_fixture_agent(log).record_results(_load_results(args.results_file))
         print(f"Recorded {len(records)} results")
     elif args.command == "evaluate":
-        summary = EvaluationHarness(JsonlPredictionLog(args.log)).evaluate()
-        print(f"Settled: {summary.settled_count}")
-        print(f"Accuracy: {summary.accuracy:.3f}")
-        print(f"Average confidence: {summary.average_confidence:.3f}")
-        print(f"Brier score: {summary.brier_score:.3f}")
+        evaluation_summary = EvaluationHarness(JsonlPredictionLog(args.log)).evaluate()
+        print(f"Settled: {evaluation_summary.settled_count}")
+        print(f"Accuracy: {evaluation_summary.accuracy:.3f}")
+        print(f"Average confidence: {evaluation_summary.average_confidence:.3f}")
+        print(f"Brier score: {evaluation_summary.brier_score:.3f}")
+    elif args.command == "fetch-world-cup-data":
+        api_key = args.api_key or os.environ.get("API_FOOTBALL_KEY")
+        if api_key is None:
+            raise ValueError("Provide --api-key or set API_FOOTBALL_KEY")
+        fetch_summary = fetch_world_cup_2026_snapshot(
+            ApiFootballClient(api_key),
+            args.data_dir,
+            world_cup_league_id=args.world_cup_league_id,
+            world_cup_season=args.world_cup_season,
+            club_season=args.club_season,
+            recent_fixture_count=args.recent_fixture_count,
+            request_delay_seconds=args.request_delay_seconds,
+        )
+        print(f"Snapshot directory: {fetch_summary.output_dir}")
+        print(f"National teams: {fetch_summary.national_teams}")
+        print(f"Players: {fetch_summary.players}")
+        print(f"Coaches: {fetch_summary.coaches}")
+        print(f"Clubs: {fetch_summary.clubs}")
+        print(f"Leagues: {fetch_summary.leagues}")
+        print(f"Files written: {fetch_summary.files_written}")
+    elif args.command == "predict-world-cup-group-stage":
+        dataset = load_world_cup_dataset(
+            args.data_dir,
+            expected_team_count=args.expected_teams,
+        )
+        rankings = rank_world_cup_entities(dataset)
+        predictions = predict_group_stage_scores(dataset, rankings)
+        if args.output == "json":
+            print(json.dumps([prediction_to_json(prediction) for prediction in predictions]))
+        elif args.output == "markdown":
+            print(render_group_stage_markdown(predictions), end="")
+        else:
+            for prediction in predictions:
+                group = f"{prediction.group} | " if prediction.group else ""
+                print(
+                    f"{prediction.match_id} | {group}{prediction.home_team} "
+                    f"{prediction.home_score}-{prediction.away_score} "
+                    f"{prediction.away_team} | {prediction.outcome.value} | "
+                    f"{prediction.confidence:.3f}"
+                )
 
 
 def _format_match(request: MatchRequest) -> str:

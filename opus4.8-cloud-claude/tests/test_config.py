@@ -13,6 +13,9 @@ def test_from_env_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
         "SOCCER_OLLAMA_TIMEOUT",
         "SOCCER_PROVIDER_MODE",
         "SOCCER_REASONER",
+        "SOCCER_API_FOOTBALL_KEY",
+        "SOCCER_API_FOOTBALL_BASE_URL",
+        "SOCCER_PREDICTION_DIR",
     ]:
         monkeypatch.delenv(var, raising=False)
     cfg = AppConfig.from_env()
@@ -20,6 +23,9 @@ def test_from_env_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
     assert cfg.ollama_model == "gemma4:12b-mlx"
     assert cfg.provider_mode == "fixture"
     assert cfg.reasoner == "fake"
+    assert cfg.api_football_key is None
+    assert cfg.api_football_base_url == "https://v3.football.api-sports.io"
+    assert cfg.prediction_dir == Path("./perdiction")
 
 
 def test_from_env_overrides(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -7,7 +7,10 @@ name = "soccer"
 version = "0.1.0"
 description = "Multi-tool soccer match-prediction agent"
 requires-python = ">=3.11"
-dependencies = []
+# certifi supplies the CA bundle for TLS verification in the API-Football client
+# (the only networked path). The offline pipeline imports it lazily and degrades to the
+# stdlib default context if it is absent.
+dependencies = ["certifi>=2024.2.2"]
 
 [project.optional-dependencies]
 dev = ["ruff>=0.5", "mypy>=1.10", "pytest>=8", "pytest-cov>=5", "pre-commit>=3"]

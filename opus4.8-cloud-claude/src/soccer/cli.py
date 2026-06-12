@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 
 from soccer.agent import PredictionAgent
 from soccer.config import AppConfig
@@ -15,6 +15,7 @@ from soccer.registry import ToolRegistry
 from soccer.scenarios import SCENARIO_NAMES, load_scenario
 from soccer.settle import settle
 from soccer.store import PredictionStore
+from soccer.worldcup.cli import add_wc_subparser
 
 
 def _make_reasoner(name: str, config: AppConfig) -> Reasoner:
@@ -136,11 +137,17 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     sub.add_parser("report", help="summarize logged predictions")
 
+    add_wc_subparser(sub)
+
     args = parser.parse_args(argv)
     config = AppConfig.from_env()
     # CLI flag overrides env for reasoner selection where present.
     if getattr(args, "reasoner", None) is None:
         args.reasoner = config.reasoner
+
+    if args.command == "wc":
+        func: Callable[[argparse.Namespace, AppConfig], int] = args.func
+        return func(args, config)
 
     handlers = {
         "predict": _cmd_predict,

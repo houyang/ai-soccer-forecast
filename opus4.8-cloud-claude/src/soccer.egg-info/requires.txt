@@ -1,3 +1,4 @@
+certifi>=2024.2.2
 
 [dev]
 ruff>=0.5

@@ -32,6 +32,28 @@ soccer-forecast list-matches world-cup-2026
 soccer-forecast predict-competition world-cup-2026 --log predictions.jsonl
 ```
 
+Fetch and model the FIFA 2026 World Cup group stage with API-Football snapshots:
+
+```bash
+export API_FOOTBALL_KEY="..."
+soccer-forecast fetch-world-cup-data
+soccer-forecast predict-world-cup-group-stage
+```
+
+`fetch-world-cup-data` stores raw provider JSON under
+`data/api-football/world-cup-2026/` by default. `predict-world-cup-group-stage` then
+loads those local snapshots, builds player, coach, club, league, and national-team
+rankings on a 0-100 scale, and predicts final scores for the first-round group stage.
+Use `--output json` to emit machine-readable score predictions, or `--output markdown`
+to print one human-friendly result table per group. Re-running
+`fetch-world-cup-data` resumes from existing snapshot files; add
+`--request-delay-seconds 0.5` if the provider starts rate limiting requests.
+
+Optional model inputs that API-Football does not consistently provide, such as league
+average attendance and club major-title counts, can be added in
+`data/api-football/world-cup-2026/external_factors.json`. See
+`docs/world-cup-2026.md` for the supported keys.
+
 Attach completed scores in batches:
 
 ```bash
@@ -60,5 +82,7 @@ soccer-forecast evaluate predictions.jsonl
 - `soccer.reasoning.MatchupReasoner` turns gathered evidence into a prediction.
 - `soccer.storage.JsonlPredictionLog` persists predictions and completed results.
 - `soccer.evaluation.EvaluationHarness` scores settled predictions.
+- `soccer.api_football` fetches API-Football snapshots for World Cup data.
+- `soccer.world_cup_2026` normalizes snapshots, ranks entities, and predicts scores.
 
 See `docs/architecture.md` for the current design and extension points.
