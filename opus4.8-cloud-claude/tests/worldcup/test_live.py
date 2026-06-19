@@ -39,7 +39,9 @@ def _fixture(fid: int, home: int, away: int, status: str, hg: int, ag: int) -> d
     }
 
 
-def _lineup_block(team: int, formation: str, starters: list[int], subs: list[int]) -> dict[str, Any]:
+def _lineup_block(
+    team: int, formation: str, starters: list[int], subs: list[int]
+) -> dict[str, Any]:
     return {
         "team": {"id": team},
         "formation": formation,

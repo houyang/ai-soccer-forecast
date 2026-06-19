@@ -44,6 +44,24 @@ Poisson model.
 `worldcup-2026-predictions.md` (a human-friendly report grouped by group, then matchday,
 ordered by kickoff time).
 
+Once matchdays have been played, refresh and re-forecast the rest of the group stage:
+
+    # pull live results + lineups into the cached dataset (incremental, needs the API key)
+    soccer wc refresh
+
+    # re-forecast only the unplayed matches, folding in actual results, starting XIs,
+    # and formations; writes a named .json/.md pair to the chosen directory
+    soccer wc predict --remaining --out-dir perdictions \
+        --name worldcup-2026-predictions-after1st-group
+
+`refresh` re-pulls only the `fixtures` and `fixtures/lineups` endpoints (the static
+player/club/coach data is reused), so it costs only a handful of API calls. `predict
+--remaining` then applies bounded per-team adjustments — momentum from each result versus
+the pre-tournament line, a lineup-quality term from who actually started, and a small
+formation lean — to every not-yet-played match. The `.json` carries the predictions, the
+completed results, and the per-team adjustments; the `.md` lists actual results first, then
+the updated predictions per group and matchday.
+
 `fetch` is the only command that touches the network; it caches every API response under
 `data/api/`, so it is replayable for free and `rank`/`predict` never need a key. Both the
 key and the `data/` cache are git-ignored.
