@@ -11,10 +11,13 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from soccer.worldcup.entities import WcMatch, WorldCup
 from soccer.worldcup.ranking import Rankings
+
+if TYPE_CHECKING:
+    from soccer.worldcup.adjust import TeamAdjustment
 
 BASE_MATCH_GOALS = 2.6  # typical World Cup goals per match, split between the sides
 SUPREMACY_PER_10 = 0.62  # goal supremacy added per 10 effective rating points of edge
@@ -63,6 +66,8 @@ class MatchPrediction:
     p_draw: float
     p_away: float
     rationale: str
+    home_adjustment: float = 0.0
+    away_adjustment: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -82,6 +87,8 @@ class MatchPrediction:
             "p_draw": self.p_draw,
             "p_away": self.p_away,
             "rationale": self.rationale,
+            "home_adjustment": self.home_adjustment,
+            "away_adjustment": self.away_adjustment,
         }
 
 
@@ -147,25 +154,42 @@ def predict_match(
     return _predict(wc, rankings, match)
 
 
-def _predict(wc: WorldCup, rankings: Rankings, match: WcMatch) -> MatchPrediction:
+def _predict(
+    wc: WorldCup,
+    rankings: Rankings,
+    match: WcMatch,
+    adjustments: dict[int, TeamAdjustment] | None = None,
+) -> MatchPrediction:
     home = wc.teams[match.home_id]
     away = wc.teams[match.away_id]
-    base_h = rankings.teams.get(match.home_id, 50.0)
-    base_a = rankings.teams.get(match.away_id, 50.0)
+    adj = adjustments or {}
+    adj_h = adj.get(match.home_id)
+    adj_a = adj.get(match.away_id)
+    rd_h = adj_h.rating_delta if adj_h else 0.0
+    rd_a = adj_a.rating_delta if adj_a else 0.0
+    base_h = rankings.teams.get(match.home_id, 50.0) + rd_h
+    base_a = rankings.teams.get(match.away_id, 50.0) + rd_a
     eff_h = _effective_rating(wc, match.home_id, base_h, is_home=True, venue=match.venue)
     eff_a = _effective_rating(wc, match.away_id, base_a, is_home=False, venue=match.venue)
 
     supremacy = SUPREMACY_PER_10 * (eff_h - eff_a) / 10.0
-    lam_home = max(BASE_MATCH_GOALS / 2.0 + supremacy / 2.0, LAMBDA_FLOOR)
-    lam_away = max(BASE_MATCH_GOALS / 2.0 - supremacy / 2.0, LAMBDA_FLOOR)
+    atk_h = adj_h.attack_lean if adj_h else 0.0
+    def_h = adj_h.defense_lean if adj_h else 0.0
+    atk_a = adj_a.attack_lean if adj_a else 0.0
+    def_a = adj_a.defense_lean if adj_a else 0.0
+    lam_home = max(BASE_MATCH_GOALS / 2.0 + supremacy / 2.0 + atk_h - def_a, LAMBDA_FLOOR)
+    lam_away = max(BASE_MATCH_GOALS / 2.0 - supremacy / 2.0 + atk_a - def_h, LAMBDA_FLOOR)
 
     matrix = _scoreline_matrix(lam_home, lam_away)
     p_home, p_draw, p_away = _outcome_probs(matrix)
     score_home, score_away = _modal_score(matrix)
     rationale = (
         f"Effective rating {eff_h:.1f} vs {eff_a:.1f} -> supremacy {supremacy:+.2f}; "
-        f"xG {lam_home:.2f}-{lam_away:.2f}."
+        f"xG {lam_home:.2f}-{lam_away:.2f}"
     )
+    if rd_h or rd_a:
+        rationale += f"; adj {rd_h:+.2f}/{rd_a:+.2f}"
+    rationale += "."
     return MatchPrediction(
         fixture_id=match.fixture_id,
         matchday=match.matchday,
@@ -183,9 +207,24 @@ def _predict(wc: WorldCup, rankings: Rankings, match: WcMatch) -> MatchPredictio
         p_draw=round(p_draw, 4),
         p_away=round(p_away, 4),
         rationale=rationale,
+        home_adjustment=round(rd_h, 3),
+        away_adjustment=round(rd_a, 3),
     )
 
 
 def predict_group_stage(wc: WorldCup, rankings: Rankings) -> list[MatchPrediction]:
     ordered = sorted(wc.matches, key=lambda m: (m.matchday, m.group, m.fixture_id))
     return [_predict(wc, rankings, m) for m in ordered]
+
+
+def predict_remaining(
+    wc: WorldCup,
+    rankings: Rankings,
+    adjustments: dict[int, TeamAdjustment],
+) -> list[MatchPrediction]:
+    """Predict only the not-yet-played matches, applying per-team adjustments."""
+    ordered = sorted(
+        (m for m in wc.matches if not m.played),
+        key=lambda m: (m.matchday, m.group, m.fixture_id),
+    )
+    return [_predict(wc, rankings, m, adjustments) for m in ordered]

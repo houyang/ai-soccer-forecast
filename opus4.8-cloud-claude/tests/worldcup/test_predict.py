@@ -44,6 +44,31 @@ def test_hot_venue_detection() -> None:
     assert not _is_hot("BC Place / Vancouver")
 
 
+def test_predict_remaining_only_unplayed_and_shifts_lambda(sample_world_cup: WorldCup) -> None:
+    from dataclasses import replace
+
+    from soccer.worldcup.adjust import TeamAdjustment
+    from soccer.worldcup.predict import predict_remaining
+
+    rankings = rank_all(sample_world_cup)
+    # Baseline (no adjustments) for fixture 9001.
+    base = predict_remaining(sample_world_cup, rankings, {})
+    assert len(base) == 1  # the single match is unplayed
+    base_lambda_home = base[0].lambda_home
+
+    # Boost England (home, id 1) -> its lambda_home should rise vs baseline.
+    boosted = predict_remaining(
+        sample_world_cup, rankings, {1: TeamAdjustment(rating_delta=5.0)}
+    )
+    assert boosted[0].lambda_home > base_lambda_home
+    assert boosted[0].home_adjustment == 5.0
+
+    # A played match drops out of the remaining set.
+    played = replace(sample_world_cup.matches[0], home_goals=1, away_goals=0)
+    wc_played = replace(sample_world_cup, matches=(played,))
+    assert predict_remaining(wc_played, rank_all(wc_played), {}) == []
+
+
 def test_predict_group_stage_covers_all_matches(sample_world_cup: WorldCup) -> None:
     preds = predict_group_stage(sample_world_cup, rank_all(sample_world_cup))
     assert len(preds) == len(sample_world_cup.matches)
