@@ -9,7 +9,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import cast
 
-from soccer.api_football import ApiFootballClient, fetch_world_cup_2026_snapshot
+from soccer.api_football import (
+    ApiFootballClient,
+    fetch_world_cup_2026_match_updates,
+    fetch_world_cup_2026_snapshot,
+)
 from soccer.evaluation import EvaluationHarness
 from soccer.fixture_tools import FixtureCatalog, build_fixture_agent, default_catalog
 from soccer.live_world_cup import (
@@ -85,6 +89,23 @@ def main() -> None:
     fetch_world_cup_data.add_argument("--recent-fixture-count", type=int, default=20)
     fetch_world_cup_data.add_argument("--request-delay-seconds", type=float, default=0.0)
 
+    fetch_world_cup_updates = subparsers.add_parser(
+        "fetch-world-cup-match-updates",
+        help="Refresh FIFA World Cup 2026 fixture results, standings, lineups, and events",
+    )
+    fetch_world_cup_updates.add_argument("--api-key")
+    fetch_world_cup_updates.add_argument(
+        "--data-dir", type=Path, default=DEFAULT_WORLD_CUP_DATA_DIR
+    )
+    fetch_world_cup_updates.add_argument("--world-cup-league-id", type=int, default=1)
+    fetch_world_cup_updates.add_argument("--world-cup-season", type=int, default=2026)
+    fetch_world_cup_updates.add_argument(
+        "--completed-round-limit",
+        type=int,
+        help="Only fetch tactical snapshots for completed group-stage matches through this round",
+    )
+    fetch_world_cup_updates.add_argument("--request-delay-seconds", type=float, default=0.0)
+
     world_cup_scores = subparsers.add_parser(
         "predict-world-cup-group-stage",
         help="Predict final scores for FIFA World Cup 2026 group stage matches",
@@ -92,6 +113,16 @@ def main() -> None:
     world_cup_scores.add_argument("--data-dir", type=Path, default=DEFAULT_WORLD_CUP_DATA_DIR)
     world_cup_scores.add_argument("--output", choices=("text", "json", "markdown"), default="text")
     world_cup_scores.add_argument("--expected-teams", type=int, default=48)
+    world_cup_scores.add_argument(
+        "--completed-round-limit",
+        type=int,
+        help="Use completed-match updates only through this group-stage round",
+    )
+    world_cup_scores.add_argument(
+        "--remaining-only",
+        action="store_true",
+        help="Only output matches not completed within the selected update window",
+    )
 
     args = parser.parse_args()
     if args.command == "predict":
@@ -166,13 +197,35 @@ def main() -> None:
         print(f"Clubs: {fetch_summary.clubs}")
         print(f"Leagues: {fetch_summary.leagues}")
         print(f"Files written: {fetch_summary.files_written}")
+    elif args.command == "fetch-world-cup-match-updates":
+        api_key = args.api_key or os.environ.get("API_FOOTBALL_KEY")
+        if api_key is None:
+            raise ValueError("Provide --api-key or set API_FOOTBALL_KEY")
+        update_summary = fetch_world_cup_2026_match_updates(
+            ApiFootballClient(api_key),
+            args.data_dir,
+            world_cup_league_id=args.world_cup_league_id,
+            world_cup_season=args.world_cup_season,
+            completed_round_limit=args.completed_round_limit,
+            request_delay_seconds=args.request_delay_seconds,
+        )
+        print(f"Snapshot directory: {update_summary.output_dir}")
+        print(f"Fixtures: {update_summary.fixtures}")
+        print(f"Standings refreshed: {update_summary.standings_refreshed}")
+        print(f"Tactical fixtures: {update_summary.tactical_fixtures}")
+        print(f"Files written: {update_summary.files_written}")
     elif args.command == "predict-world-cup-group-stage":
         dataset = load_world_cup_dataset(
             args.data_dir,
             expected_team_count=args.expected_teams,
+            completed_round_limit=args.completed_round_limit,
         )
         rankings = rank_world_cup_entities(dataset)
-        predictions = predict_group_stage_scores(dataset, rankings)
+        predictions = predict_group_stage_scores(
+            dataset,
+            rankings,
+            remaining_only=args.remaining_only,
+        )
         if args.output == "json":
             print(json.dumps([prediction_to_json(prediction) for prediction in predictions]))
         elif args.output == "markdown":

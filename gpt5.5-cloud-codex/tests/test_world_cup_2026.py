@@ -6,6 +6,7 @@ from pathlib import Path
 from soccer.world_cup_2026 import (
     load_world_cup_dataset,
     predict_group_stage_scores,
+    prediction_to_json,
     rank_world_cup_entities,
     render_group_stage_markdown,
 )
@@ -55,6 +56,106 @@ def test_world_cup_dataset_ranks_entities_and_predicts_scores(tmp_path: Path) ->
     assert (
         f"| 1 | Alpha | {prediction.home_score}-{prediction.away_score} | Beta | Alpha win |"
     ) in table
+
+
+def test_world_cup_predictions_use_first_round_tactical_updates(
+    tmp_path: Path,
+) -> None:
+    _write_world_cup_snapshot(tmp_path)
+    _write_json(
+        tmp_path / "fixtures_world_cup.json",
+        {
+            "response": [
+                {
+                    "fixture": {
+                        "id": 1,
+                        "date": "2026-06-11T19:00:00Z",
+                        "status": {"short": "FT"},
+                        "venue": {
+                            "name": "Example Stadium",
+                            "city": "Dallas",
+                            "country": "United States",
+                        },
+                    },
+                    "league": {"round": "Group Stage - 1"},
+                    "teams": {
+                        "home": {"id": 1, "name": "Alpha"},
+                        "away": {"id": 2, "name": "Beta"},
+                    },
+                    "goals": {"home": 3, "away": 0},
+                },
+                {
+                    "fixture": {
+                        "id": 2,
+                        "date": "2026-06-18T19:00:00Z",
+                        "status": {"short": "NS"},
+                        "venue": {
+                            "name": "Example Stadium",
+                            "city": "Dallas",
+                            "country": "United States",
+                        },
+                    },
+                    "league": {"round": "Group Stage - 2"},
+                    "teams": {
+                        "home": {"id": 2, "name": "Beta"},
+                        "away": {"id": 1, "name": "Alpha"},
+                    },
+                },
+            ]
+        },
+    )
+    _write_json(
+        tmp_path / "fixture_1_lineups.json",
+        {
+            "response": [
+                {
+                    "team": {"id": 1, "name": "Alpha"},
+                    "formation": "4-3-3",
+                    "startXI": [
+                        {"player": {"id": 11, "name": "Alpha Forward"}},
+                        {"player": {"id": 12, "name": "Alpha Midfielder"}},
+                    ],
+                },
+                {
+                    "team": {"id": 2, "name": "Beta"},
+                    "formation": "5-4-1",
+                    "startXI": [{"player": {"id": 21, "name": "Beta Forward"}}],
+                },
+            ]
+        },
+    )
+    _write_json(
+        tmp_path / "fixture_1_events.json",
+        {
+            "response": [
+                {
+                    "team": {"id": 1, "name": "Alpha"},
+                    "type": "subst",
+                    "player": {"id": 12, "name": "Alpha Midfielder"},
+                }
+            ]
+        },
+    )
+
+    dataset = load_world_cup_dataset(
+        tmp_path,
+        expected_team_count=2,
+        completed_round_limit=1,
+    )
+    rankings = rank_world_cup_entities(dataset)
+    predictions = predict_group_stage_scores(dataset, rankings, remaining_only=True)
+
+    assert set(dataset.completed_matches) == {"wc-2026-1"}
+    assert dataset.team_updates["Alpha"].formations == ("4-3-3",)
+    assert dataset.team_updates["Alpha"].starter_ids == (11, 12)
+    assert dataset.team_updates["Alpha"].substitute_ids == (12,)
+    assert len(predictions) == 1
+    assert predictions[0].match_id == "wc-2026-2"
+    assert predictions[0].away_tournament_adjustment > 0
+
+    serialized = prediction_to_json(predictions[0])
+    assert serialized["away_tournament_adjustment"] == predictions[0].away_tournament_adjustment
+    assert "4-3-3" in predictions[0].rationale
 
 
 def _write_world_cup_snapshot(path: Path) -> None:

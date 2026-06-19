@@ -37,6 +37,7 @@ Fetch and model the FIFA 2026 World Cup group stage with API-Football snapshots:
 ```bash
 export API_FOOTBALL_KEY="..."
 soccer-forecast fetch-world-cup-data
+soccer-forecast fetch-world-cup-match-updates --completed-round-limit 1
 soccer-forecast predict-world-cup-group-stage
 ```
 
@@ -45,7 +46,10 @@ soccer-forecast predict-world-cup-group-stage
 loads those local snapshots, builds player, coach, club, league, and national-team
 rankings on a 0-100 scale, and predicts final scores for the first-round group stage.
 Use `--output json` to emit machine-readable score predictions, or `--output markdown`
-to print one human-friendly result table per group. Re-running
+to print one human-friendly result table per group. Use
+`--completed-round-limit 1 --remaining-only` after the first group-stage round to apply
+first-round results, formations, starting XIs, and substitutions while outputting only
+the remaining group matches. Re-running
 `fetch-world-cup-data` resumes from existing snapshot files; add
 `--request-delay-seconds 0.5` if the provider starts rate limiting requests.
 

@@ -5,8 +5,9 @@ from __future__ import annotations
 import json
 import re
 import unicodedata
+from collections import Counter
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import TypeVar, cast
@@ -19,27 +20,33 @@ DEFAULT_WORLD_CUP_DATA_DIR = Path("data/api-football/world-cup-2026")
 HOST_COUNTRIES = {"Canada", "Mexico", "United States"}
 HOT_WEATHER_CITIES = {
     "Atlanta",
+    "Arlington",
     "Dallas",
     "Houston",
     "Kansas City",
     "Miami",
+    "Miami Gardens",
     "Monterrey",
 }
 HOST_CITY_COUNTRIES = {
     "Atlanta": "United States",
+    "Arlington": "United States",
     "Boston": "United States",
     "Dallas": "United States",
     "East Rutherford": "United States",
     "Guadalajara": "Mexico",
     "Houston": "United States",
+    "Inglewood": "United States",
     "Kansas City": "United States",
     "Los Angeles": "United States",
     "Mexico City": "Mexico",
     "Miami": "United States",
+    "Miami Gardens": "United States",
     "Monterrey": "Mexico",
     "New York New Jersey": "United States",
     "New York/New Jersey": "United States",
     "Philadelphia": "United States",
+    "Santa Clara": "United States",
     "San Francisco Bay Area": "United States",
     "Seattle": "United States",
     "Toronto": "Canada",
@@ -221,12 +228,55 @@ class GroupStageMatch:
 
     match_id: str
     group: str | None
+    round_number: int | None
     home_team: str
     away_team: str
     kickoff: datetime
     venue_name: str
     venue_city: str
     venue_country: str
+
+
+@dataclass(frozen=True)
+class CompletedGroupMatch:
+    """A completed group-stage match result used for tournament updates."""
+
+    match_id: str
+    group: str | None
+    round_number: int | None
+    home_team: str
+    away_team: str
+    home_score: int
+    away_score: int
+    outcome: Outcome
+
+
+@dataclass(frozen=True)
+class TeamTournamentUpdate:
+    """In-tournament evidence from completed matches and tactical snapshots."""
+
+    team: str
+    matches: int
+    wins: int
+    draws: int
+    losses: int
+    goals_for: int
+    goals_against: int
+    formations: tuple[str, ...]
+    starter_ids: tuple[int, ...]
+    substitute_ids: tuple[int, ...]
+
+    @property
+    def points_per_match(self) -> float:
+        if self.matches == 0:
+            return 0.0
+        return ((self.wins * 3) + self.draws) / self.matches
+
+    @property
+    def goal_difference_per_match(self) -> float:
+        if self.matches == 0:
+            return 0.0
+        return (self.goals_for - self.goals_against) / self.matches
 
 
 @dataclass(frozen=True)
@@ -239,6 +289,8 @@ class WorldCupDataSet:
     leagues: dict[int, LeagueProfile]
     national_teams: dict[str, NationalTeamProfile]
     matches: tuple[GroupStageMatch, ...]
+    completed_matches: dict[str, CompletedGroupMatch]
+    team_updates: dict[str, TeamTournamentUpdate]
     external_factors: JsonObject
 
 
@@ -267,6 +319,8 @@ class WorldCupScorePrediction:
     confidence: float
     home_adjusted_rating: float
     away_adjusted_rating: float
+    home_tournament_adjustment: float
+    away_tournament_adjustment: float
     home_expected_goals: float
     away_expected_goals: float
     rationale: str
@@ -276,6 +330,7 @@ def load_world_cup_dataset(
     snapshot_dir: Path = DEFAULT_WORLD_CUP_DATA_DIR,
     *,
     expected_team_count: int | None = None,
+    completed_round_limit: int | None = None,
 ) -> WorldCupDataSet:
     """Load normalized World Cup data from a local API-Football snapshot directory."""
 
@@ -288,6 +343,10 @@ def load_world_cup_dataset(
     external_factors = _read_optional_json(snapshot_dir / "external_factors.json")
     fixtures_payload = _read_json(fixtures_path)
     matches, team_ids, group_by_team = _matches_from_payload(fixtures_payload)
+    completed_matches = _completed_matches_from_payload(
+        fixtures_payload,
+        max_round=completed_round_limit,
+    )
 
     team_payload = _read_optional_json(snapshot_dir / "teams_world_cup.json")
     team_ids.update(_team_ids_from_teams_payload(team_payload))
@@ -313,6 +372,11 @@ def load_world_cup_dataset(
         recent_forms,
         external_factors,
     )
+    team_updates = _load_team_tournament_updates(
+        snapshot_dir,
+        matches,
+        completed_matches,
+    )
 
     if expected_team_count is not None and len(national_teams) != expected_team_count:
         raise ValueError(
@@ -326,6 +390,8 @@ def load_world_cup_dataset(
         leagues=leagues,
         national_teams=national_teams,
         matches=matches,
+        completed_matches=completed_matches,
+        team_updates=team_updates,
         external_factors=external_factors,
     )
 
@@ -356,17 +422,23 @@ def rank_world_cup_entities(dataset: WorldCupDataSet) -> WorldCupRankings:
 def predict_group_stage_scores(
     dataset: WorldCupDataSet,
     rankings: WorldCupRankings,
+    *,
+    remaining_only: bool = False,
 ) -> tuple[WorldCupScorePrediction, ...]:
     """Predict final scores for every first-round group stage match in the dataset."""
 
     predictions: list[WorldCupScorePrediction] = []
     for match in sorted(dataset.matches, key=lambda item: item.kickoff):
+        if remaining_only and match.match_id in dataset.completed_matches:
+            continue
         home_base = rankings.national_teams.get(match.home_team, 50.0)
         away_base = rankings.national_teams.get(match.away_team, 50.0)
         home_location = _location_adjustment(match.home_team, match, is_home=True)
         away_location = _location_adjustment(match.away_team, match, is_home=False)
-        home_rating = _clamp_score(home_base + home_location)
-        away_rating = _clamp_score(away_base + away_location)
+        home_tournament = _tournament_adjustment(dataset, rankings, match.home_team)
+        away_tournament = _tournament_adjustment(dataset, rankings, match.away_team)
+        home_rating = _clamp_score(home_base + home_location + home_tournament)
+        away_rating = _clamp_score(away_base + away_location + away_tournament)
 
         home_xg, away_xg = _expected_goals(dataset, match, home_rating, away_rating)
         home_score = _score_from_expected_goals(home_xg)
@@ -384,8 +456,11 @@ def predict_group_stage_scores(
             f"{match.home_team} adjusted rating {home_rating:.1f} vs "
             f"{match.away_team} {away_rating:.1f}; expected goals "
             f"{home_xg:.2f}-{away_xg:.2f}. Location adjustment is "
-            f"{home_location:+.1f}/{away_location:+.1f} for "
-            f"{match.venue_city}, {match.venue_country}."
+            f"{home_location:+.1f}/{away_location:+.1f} and tournament "
+            f"update is {home_tournament:+.1f}/{away_tournament:+.1f} "
+            f"for {match.venue_city}, {match.venue_country}. "
+            f"{_team_update_summary(dataset, rankings, match.home_team)} "
+            f"{_team_update_summary(dataset, rankings, match.away_team)}"
         )
         predictions.append(
             WorldCupScorePrediction(
@@ -399,6 +474,8 @@ def predict_group_stage_scores(
                 confidence=confidence,
                 home_adjusted_rating=round(home_rating, 3),
                 away_adjusted_rating=round(away_rating, 3),
+                home_tournament_adjustment=round(home_tournament, 3),
+                away_tournament_adjustment=round(away_tournament, 3),
                 home_expected_goals=round(home_xg, 3),
                 away_expected_goals=round(away_xg, 3),
                 rationale=rationale,
@@ -421,20 +498,26 @@ def prediction_to_json(prediction: WorldCupScorePrediction) -> JsonObject:
         "confidence": prediction.confidence,
         "home_adjusted_rating": prediction.home_adjusted_rating,
         "away_adjusted_rating": prediction.away_adjusted_rating,
+        "home_tournament_adjustment": prediction.home_tournament_adjustment,
+        "away_tournament_adjustment": prediction.away_tournament_adjustment,
         "home_expected_goals": prediction.home_expected_goals,
         "away_expected_goals": prediction.away_expected_goals,
         "rationale": prediction.rationale,
     }
 
 
-def render_group_stage_markdown(predictions: Iterable[WorldCupScorePrediction]) -> str:
+def render_group_stage_markdown(
+    predictions: Iterable[WorldCupScorePrediction],
+    *,
+    title: str = "FIFA 2026 World Cup Group Stage Predictions",
+) -> str:
     """Render score predictions as one Markdown table per World Cup group."""
 
     grouped: dict[str, list[WorldCupScorePrediction]] = {}
     for prediction in predictions:
         grouped.setdefault(prediction.group or "Ungrouped", []).append(prediction)
 
-    lines = ["# FIFA 2026 World Cup Group Stage Predictions", ""]
+    lines = [f"# {title}", ""]
     for group in sorted(grouped, key=_group_sort_key):
         lines.extend(
             [
@@ -488,6 +571,7 @@ def _matches_from_payload(
             GroupStageMatch(
                 match_id=f"wc-2026-{_slug(match_id)}",
                 group=group,
+                round_number=_round_number_from_fixture(item),
                 home_team=home_name,
                 away_team=away_name,
                 kickoff=kickoff or datetime(2026, 6, 11, tzinfo=UTC),
@@ -547,6 +631,7 @@ def _matches_with_group_mapping(
             GroupStageMatch(
                 match_id=match.match_id,
                 group=group,
+                round_number=match.round_number,
                 home_team=match.home_team,
                 away_team=match.away_team,
                 kickoff=match.kickoff,
@@ -556,6 +641,201 @@ def _matches_with_group_mapping(
             )
         )
     return tuple(updated)
+
+
+def _completed_matches_from_payload(
+    payload: JsonObject,
+    *,
+    max_round: int | None,
+) -> dict[str, CompletedGroupMatch]:
+    completed: dict[str, CompletedGroupMatch] = {}
+    completed_statuses = {"FT", "AET", "PEN"}
+    for item in _response_items(payload):
+        group = _group_from_fixture(item)
+        if not _is_group_stage_fixture(item, group):
+            continue
+        round_number = _round_number_from_fixture(item)
+        if max_round is not None and (round_number is None or round_number > max_round):
+            continue
+        fixture = _mapping(item.get("fixture")) or item
+        status = _mapping(fixture.get("status")) or {}
+        if _first_text(status, ("short",)) not in completed_statuses:
+            continue
+        home_name, _home_id = _fixture_team(item, "home")
+        away_name, _away_id = _fixture_team(item, "away")
+        home_score, away_score = _fixture_score(item)
+        match_id = _string_value(fixture.get("id")) or _string_value(item.get("match_id"))
+        if (
+            home_name is None
+            or away_name is None
+            or home_score is None
+            or away_score is None
+            or match_id is None
+        ):
+            continue
+        normalized_match_id = f"wc-2026-{_slug(match_id)}"
+        completed[normalized_match_id] = CompletedGroupMatch(
+            match_id=normalized_match_id,
+            group=group,
+            round_number=round_number,
+            home_team=home_name,
+            away_team=away_name,
+            home_score=home_score,
+            away_score=away_score,
+            outcome=_outcome_for_score(home_score, away_score),
+        )
+    return completed
+
+
+def _load_team_tournament_updates(
+    snapshot_dir: Path,
+    matches: Iterable[GroupStageMatch],
+    completed_matches: Mapping[str, CompletedGroupMatch],
+) -> dict[str, TeamTournamentUpdate]:
+    match_by_id = {match.match_id: match for match in matches}
+    builders: dict[str, _TeamTournamentUpdateBuilder] = {}
+    for completed in completed_matches.values():
+        _record_completed_match_update(builders, completed.home_team, completed, is_home=True)
+        _record_completed_match_update(builders, completed.away_team, completed, is_home=False)
+
+        match = match_by_id.get(completed.match_id)
+        if match is None:
+            continue
+        fixture_id = _fixture_id_from_match_id(match.match_id)
+        if fixture_id is None:
+            continue
+        _record_lineup_updates(snapshot_dir, fixture_id, builders)
+        _record_substitution_updates(snapshot_dir, fixture_id, builders)
+
+    return {
+        team: TeamTournamentUpdate(
+            team=team,
+            matches=builder.matches,
+            wins=builder.wins,
+            draws=builder.draws,
+            losses=builder.losses,
+            goals_for=builder.goals_for,
+            goals_against=builder.goals_against,
+            formations=tuple(
+                formation
+                for formation, count in sorted(
+                    builder.formations.items(),
+                    key=lambda item: (-item[1], item[0]),
+                )
+                for _index in range(count)
+            ),
+            starter_ids=tuple(builder.starter_ids),
+            substitute_ids=tuple(builder.substitute_ids),
+        )
+        for team, builder in builders.items()
+    }
+
+
+@dataclass
+class _TeamTournamentUpdateBuilder:
+    matches: int = 0
+    wins: int = 0
+    draws: int = 0
+    losses: int = 0
+    goals_for: int = 0
+    goals_against: int = 0
+    formations: Counter[str] = field(default_factory=Counter)
+    starter_ids: list[int] = field(default_factory=list)
+    substitute_ids: list[int] = field(default_factory=list)
+
+
+def _record_completed_match_update(
+    builders: dict[str, _TeamTournamentUpdateBuilder],
+    team_name: str,
+    completed: CompletedGroupMatch,
+    *,
+    is_home: bool,
+) -> None:
+    builder = builders.setdefault(team_name, _TeamTournamentUpdateBuilder())
+    builder.matches += 1
+    team_score = completed.home_score if is_home else completed.away_score
+    opponent_score = completed.away_score if is_home else completed.home_score
+    builder.goals_for += team_score
+    builder.goals_against += opponent_score
+    if team_score > opponent_score:
+        builder.wins += 1
+    elif team_score < opponent_score:
+        builder.losses += 1
+    else:
+        builder.draws += 1
+
+
+def _record_lineup_updates(
+    snapshot_dir: Path,
+    fixture_id: int,
+    builders: dict[str, _TeamTournamentUpdateBuilder],
+) -> None:
+    payload = _read_optional_json(snapshot_dir / f"fixture_{fixture_id}_lineups.json")
+    for item in _response_items(payload):
+        team = _mapping(item.get("team")) or {}
+        team_name = _first_text(team, ("name",))
+        if team_name is None:
+            continue
+        builder = builders.setdefault(team_name, _TeamTournamentUpdateBuilder())
+        formation = _first_text(item, ("formation",))
+        if formation is not None:
+            builder.formations[formation] += 1
+        builder.starter_ids.extend(_player_ids_from_lineup_items(item.get("startXI")))
+
+
+def _record_substitution_updates(
+    snapshot_dir: Path,
+    fixture_id: int,
+    builders: dict[str, _TeamTournamentUpdateBuilder],
+) -> None:
+    payload = _read_optional_json(snapshot_dir / f"fixture_{fixture_id}_events.json")
+    for event in _response_items(payload):
+        if (_first_text(event, ("type",)) or "").lower() != "subst":
+            continue
+        team = _mapping(event.get("team")) or {}
+        team_name = _first_text(team, ("name",))
+        if team_name is None:
+            continue
+        builder = builders.setdefault(team_name, _TeamTournamentUpdateBuilder())
+        for key in ("player", "assist"):
+            player = _mapping(event.get(key)) or {}
+            player_id = _int_value(player.get("id"))
+            if player_id is not None:
+                builder.substitute_ids.append(player_id)
+
+
+def _player_ids_from_lineup_items(value: object) -> tuple[int, ...]:
+    if not isinstance(value, list):
+        return ()
+    player_ids: list[int] = []
+    for lineup_item in value:
+        item = _mapping(lineup_item)
+        if not item:
+            continue
+        player = _mapping(item.get("player")) or item
+        player_id = _int_value(player.get("id"))
+        if player_id is not None:
+            player_ids.append(player_id)
+    return tuple(player_ids)
+
+
+def _fixture_score(item: JsonObject) -> tuple[int | None, int | None]:
+    goals = _mapping(item.get("goals")) or {}
+    home_score = _int_value(goals.get("home"))
+    away_score = _int_value(goals.get("away"))
+    if home_score is not None and away_score is not None:
+        return home_score, away_score
+
+    score = _mapping(item.get("score")) or {}
+    fulltime = _mapping(score.get("fulltime")) or {}
+    return _int_value(fulltime.get("home")), _int_value(fulltime.get("away"))
+
+
+def _fixture_id_from_match_id(match_id: str) -> int | None:
+    prefix = "wc-2026-"
+    if not match_id.startswith(prefix):
+        return None
+    return _int_value(match_id.removeprefix(prefix))
 
 
 def _load_players(
@@ -987,6 +1267,100 @@ def _location_adjustment(team_name: str, match: GroupStageMatch, *, is_home: boo
     return adjustment
 
 
+def _tournament_adjustment(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    team_name: str,
+) -> float:
+    update = dataset.team_updates.get(team_name)
+    if update is None or update.matches == 0:
+        return 0.0
+
+    result_adjustment = (
+        (update.points_per_match - 1.0) * 2.4
+        + update.goal_difference_per_match * 1.1
+        + ((update.goals_for / update.matches) - 1.25) * 0.5
+        - ((update.goals_against / update.matches) - 1.25) * 0.35
+    )
+    starter_adjustment, substitute_adjustment = _lineup_quality_adjustments(
+        dataset,
+        rankings,
+        team_name,
+    )
+    formation_adjustment = _formation_adjustment(update)
+    return round(
+        _clamp(
+            result_adjustment + starter_adjustment + substitute_adjustment + formation_adjustment,
+            -10.0,
+            10.0,
+        ),
+        3,
+    )
+
+
+def _lineup_quality_adjustments(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    team_name: str,
+) -> tuple[float, float]:
+    update = dataset.team_updates.get(team_name)
+    team = dataset.national_teams.get(team_name)
+    if update is None or team is None:
+        return 0.0, 0.0
+
+    roster_average = _player_score_average(rankings, team.roster)
+    if roster_average <= 0:
+        roster_average = 50.0
+
+    starter_average = _player_score_average(rankings, update.starter_ids)
+    substitute_average = _player_score_average(rankings, update.substitute_ids)
+    starter_adjustment = 0.0
+    substitute_adjustment = 0.0
+    if starter_average > 0:
+        starter_adjustment = _clamp((starter_average - roster_average) * 0.06, -3.0, 3.0)
+    if substitute_average > 0:
+        substitute_adjustment = _clamp((substitute_average - roster_average) * 0.03, -1.5, 1.5)
+    return starter_adjustment, substitute_adjustment
+
+
+def _formation_adjustment(update: TeamTournamentUpdate) -> float:
+    if not update.formations or update.matches == 0:
+        return 0.0
+    most_common_count = Counter(update.formations).most_common(1)[0][1]
+    return min(0.6, (most_common_count / update.matches) * 0.6)
+
+
+def _player_score_average(
+    rankings: WorldCupRankings,
+    player_ids: Iterable[int],
+) -> float:
+    return _average(
+        rankings.players[player_id] for player_id in player_ids if player_id in rankings.players
+    )
+
+
+def _team_update_summary(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    team_name: str,
+) -> str:
+    update = dataset.team_updates.get(team_name)
+    if update is None or update.matches == 0:
+        return f"{team_name} has no completed tournament update."
+
+    starter_adjustment, substitute_adjustment = _lineup_quality_adjustments(
+        dataset,
+        rankings,
+        team_name,
+    )
+    formation = update.formations[0] if update.formations else "unknown shape"
+    return (
+        f"{team_name} update: {update.matches} match, {formation}, "
+        f"{update.points_per_match:.2f} ppm, {update.goal_difference_per_match:+.1f} GD/m, "
+        f"XI {starter_adjustment:+.1f}, subs {substitute_adjustment:+.1f}."
+    )
+
+
 def _recent_team_form(snapshot_dir: Path, team_id: int) -> tuple[int, int, int, int, int]:
     payload = _read_optional_json(snapshot_dir / f"team_{team_id}_recent_fixtures.json")
     wins = draws = losses = goals_for = goals_against = 0
@@ -1137,6 +1511,23 @@ def _group_from_fixture(item: JsonObject) -> str | None:
         match = re.search(r"\bgroup\s+([A-L])\b", value, flags=re.IGNORECASE)
         if match:
             return f"Group {match.group(1).upper()}"
+    return None
+
+
+def _round_number_from_fixture(item: JsonObject) -> int | None:
+    league = _mapping(item.get("league")) or {}
+    for value in (
+        _first_text(league, ("round",)),
+        _first_text(item, ("round", "stage")),
+    ):
+        if value is None:
+            continue
+        match = re.search(r"\b(?:stage|round)\s*-\s*(\d+)\b", value, flags=re.IGNORECASE)
+        if match:
+            return int(match.group(1))
+        match = re.search(r"\bmatchday\s+(\d+)\b", value, flags=re.IGNORECASE)
+        if match:
+            return int(match.group(1))
     return None
 
 

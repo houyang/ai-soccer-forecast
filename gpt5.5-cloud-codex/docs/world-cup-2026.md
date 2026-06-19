@@ -23,6 +23,27 @@ soccer-forecast fetch-world-cup-data \
 The fetch command is resumable. If the provider returns a rate-limit response, wait for
 the limit window to clear and run the same command again; existing JSON files are reused.
 
+During the tournament, refresh match results and tactical inputs separately:
+
+```bash
+soccer-forecast fetch-world-cup-match-updates \
+  --data-dir data/api-football/world-cup-2026 \
+  --completed-round-limit 1 \
+  --request-delay-seconds 0.5
+```
+
+This overwrites the mutable fixture and standings snapshots, then stores raw lineup,
+event, and match-statistics payloads for completed group-stage fixtures through the
+selected round. Use the same round limit when predicting if you want a reproducible
+"after round N" model run:
+
+```bash
+soccer-forecast predict-world-cup-group-stage \
+  --completed-round-limit 1 \
+  --remaining-only \
+  --output markdown
+```
+
 To create a human-friendly group-by-group result table:
 
 ```bash
@@ -38,6 +59,8 @@ The fetcher stores raw JSON files for:
 - Each coach trophy history.
 - Clubs represented by those players, including last-season team statistics.
 - Leagues represented by those clubs, including standings and fixture counts.
+- Completed World Cup results plus tactical match snapshots when
+  `fetch-world-cup-match-updates` is run.
 
 The default World Cup league id is `1`, which is the common API-Football id for the
 FIFA World Cup. Override it if your API account or provider response uses a different id.
@@ -84,5 +107,7 @@ All rankings are clamped to `0-100`.
   quality, coach quality, and recent results.
 
 Match score predictions then apply venue adjustments for host-country advantage, travel
-proxy effects, and hot-weather city context before converting adjusted team ratings into
-expected goals and final scores.
+proxy effects, and hot-weather city context. When match updates are available, the model
+also applies bounded tournament adjustments from completed-match points, goal difference,
+the most-used formation, selected starting XI quality, and substitution participants
+before converting adjusted team ratings into expected goals and final scores.

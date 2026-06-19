@@ -4,7 +4,12 @@ import json
 from collections.abc import Mapping
 from pathlib import Path
 
-from soccer.api_football import ApiParam, JsonObject, fetch_world_cup_2026_snapshot
+from soccer.api_football import (
+    ApiParam,
+    JsonObject,
+    fetch_world_cup_2026_match_updates,
+    fetch_world_cup_2026_snapshot,
+)
 
 
 class FakeFootballApi:
@@ -19,12 +24,17 @@ class FakeFootballApi:
             return {
                 "response": [
                     {
-                        "fixture": {"id": 1, "date": "2026-06-11T19:00:00Z"},
+                        "fixture": {
+                            "id": 1,
+                            "date": "2026-06-11T19:00:00Z",
+                            "status": {"short": "FT"},
+                        },
                         "league": {"round": "Group A - 1"},
                         "teams": {
                             "home": {"id": 1, "name": "Alpha"},
                             "away": {"id": 2, "name": "Beta"},
                         },
+                        "goals": {"home": 2, "away": 0},
                     }
                 ]
             }
@@ -136,6 +146,28 @@ class FakeFootballApi:
             return {"response": [{"league": {"standings": [[{"team": {"id": 1}}]]}}]}
         if endpoint == "fixtures" and request_params.get("league") != 1:
             return {"response": [{"fixture": {"id": 100}}]}
+        if endpoint == "fixtures/lineups":
+            return {
+                "response": [
+                    {
+                        "team": {"id": 1, "name": "Alpha"},
+                        "formation": "4-3-3",
+                        "startXI": [{"player": {"id": 11, "name": "Player 11"}}],
+                    }
+                ]
+            }
+        if endpoint == "fixtures/events":
+            return {
+                "response": [
+                    {
+                        "team": {"id": 1, "name": "Alpha"},
+                        "type": "subst",
+                        "player": {"id": 12, "name": "Player 12"},
+                    }
+                ]
+            }
+        if endpoint == "fixtures/statistics":
+            return {"response": [{"team": {"id": 1, "name": "Alpha"}, "statistics": []}]}
         raise AssertionError(f"Unexpected API call: {endpoint} {request_params}")
 
 
@@ -156,3 +188,25 @@ def test_fetch_world_cup_snapshot_writes_related_api_payloads(tmp_path: Path) ->
     stored = json.loads((tmp_path / "teams_world_cup.json").read_text(encoding="utf-8"))
     assert stored["response"][0]["team"]["name"] == "Alpha"
     assert ("players/squads", {"team": 1}) in api.calls
+
+
+def test_fetch_world_cup_match_updates_refreshes_completed_tactical_payloads(
+    tmp_path: Path,
+) -> None:
+    api = FakeFootballApi()
+
+    summary = fetch_world_cup_2026_match_updates(
+        api,
+        tmp_path,
+        completed_round_limit=1,
+    )
+
+    assert summary.fixtures == 1
+    assert summary.standings_refreshed is True
+    assert summary.tactical_fixtures == 1
+    assert (tmp_path / "fixtures_world_cup.json").exists()
+    assert (tmp_path / "standings_world_cup.json").exists()
+    assert (tmp_path / "fixture_1_lineups.json").exists()
+    assert (tmp_path / "fixture_1_events.json").exists()
+    assert (tmp_path / "fixture_1_statistics.json").exists()
+    assert ("fixtures/lineups", {"fixture": 1}) in api.calls
