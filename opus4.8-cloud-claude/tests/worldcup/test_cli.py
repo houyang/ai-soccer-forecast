@@ -57,6 +57,30 @@ def test_predict_writes_file(
     assert "### Matchday 1" in report
 
 
+def test_predict_remaining_writes_named_files(
+    tmp_path: Path, sample_world_cup: WorldCup
+) -> None:
+    from dataclasses import replace
+
+    from soccer.worldcup.cli import cmd_predict
+
+    # Mark the only match as played so "remaining" has nothing to forecast but a result to show.
+    played = replace(sample_world_cup.matches[0], home_goals=2, away_goals=0)
+    wc = replace(sample_world_cup, matches=(played,))
+    _write_dataset(tmp_path, wc)
+
+    args = argparse.Namespace(
+        remaining=True, out_dir=str(tmp_path / "perdictions"), name="after1st"
+    )
+    rc = cmd_predict(args, _config(tmp_path))
+    assert rc == 0
+    out_dir = tmp_path / "perdictions"
+    payload = json.loads((out_dir / "after1st.json").read_text())
+    assert set(payload) == {"predictions", "results", "adjustments"}
+    report = (out_dir / "after1st.md").read_text()
+    assert "Completed results" in report
+
+
 def test_fetch_without_key_fails(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     rc = cmd_fetch(argparse.Namespace(throttle=0.0), _config(tmp_path, key=None))
     assert rc == 1

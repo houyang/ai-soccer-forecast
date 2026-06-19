@@ -9,15 +9,18 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+from dataclasses import asdict
 from datetime import UTC
 from pathlib import Path
 
 from soccer.config import AppConfig
+from soccer.worldcup.adjust import compute_adjustments
 from soccer.worldcup.apifootball import ApiFootballClient, ApiFootballError, urllib_transport
 from soccer.worldcup.cache import JsonCache
 from soccer.worldcup.entities import WorldCup
 from soccer.worldcup.ingest import ingest_world_cup
-from soccer.worldcup.predict import MatchPrediction, predict_group_stage
+from soccer.worldcup.live import refresh_live
+from soccer.worldcup.predict import MatchPrediction, predict_group_stage, predict_remaining
 from soccer.worldcup.ranking import Rankings, rank_all, top_n
 
 
@@ -29,12 +32,47 @@ def _prediction_dir(config: AppConfig) -> Path:
     return config.prediction_dir
 
 
-def _predictions_path(config: AppConfig) -> Path:
-    return _prediction_dir(config) / "worldcup-2026-predictions.json"
+def _resolve_outputs(args: argparse.Namespace, config: AppConfig) -> tuple[Path, Path]:
+    out_dir = Path(args.out_dir) if getattr(args, "out_dir", None) else _prediction_dir(config)
+    name = getattr(args, "name", None) or "worldcup-2026-predictions"
+    return out_dir / f"{name}.json", out_dir / f"{name}.md"
 
 
-def _report_path(config: AppConfig) -> Path:
-    return _prediction_dir(config) / "worldcup-2026-predictions.md"
+def _render_remaining_report(wc: WorldCup, predictions: list[MatchPrediction]) -> str:
+    """Markdown: completed actual results first, then updated predictions per group/matchday."""
+    lines = [
+        "# FIFA 2026 World Cup — Updated Predictions (after Matchday 1)",
+        "",
+        "Actual results so far, then predicted result and final score for every remaining",
+        "group-stage match. Percentages are home win / draw / away win.",
+        "",
+        "## Completed results",
+        "",
+    ]
+    played = sorted((m for m in wc.matches if m.played), key=lambda m: (m.matchday, m.kickoff))
+    for match in played:
+        home = wc.teams[match.home_id].name
+        away = wc.teams[match.away_id].name
+        lines.append(
+            f"- `MD{match.matchday}` **{home} {match.home_goals}-{match.away_goals} {away}**"
+        )
+    lines.append("")
+    by_group: dict[str, dict[int, list[MatchPrediction]]] = {}
+    for pred in predictions:
+        by_group.setdefault(pred.group, {}).setdefault(pred.matchday, []).append(pred)
+    for group in sorted(by_group):
+        lines += [f"## {group}", ""]
+        for matchday in sorted(by_group[group]):
+            lines += [f"### Matchday {matchday}", ""]
+            for pred in sorted(by_group[group][matchday], key=lambda p: p.kickoff):
+                kickoff = pred.kickoff.astimezone(UTC).strftime("%Y-%m-%d %H:%M UTC")
+                lines.append(
+                    f"- `{kickoff}`  **{pred.home_name} {pred.score_home}-{pred.score_away} "
+                    f"{pred.away_name}**  "
+                    f"(W {pred.p_home:.0%} / D {pred.p_draw:.0%} / L {pred.p_away:.0%})"
+                )
+            lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def load_dataset(path: Path) -> WorldCup:
@@ -143,15 +181,67 @@ def _render_report(predictions: list[MatchPrediction]) -> str:
 
 def cmd_predict(args: argparse.Namespace, config: AppConfig) -> int:
     wc = load_dataset(_dataset_path(config))
-    predictions = predict_group_stage(wc, rank_all(wc))
-    _print_predictions(predictions)
-    json_path = _predictions_path(config)
+    rankings = rank_all(wc)
+    remaining = getattr(args, "remaining", False)
+    json_path, report_path = _resolve_outputs(args, config)
     json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps([p.to_dict() for p in predictions], indent=2), encoding="utf-8")
-    report_path = _report_path(config)
-    report_path.write_text(_render_report(predictions), encoding="utf-8")
+    if remaining:
+        adjustments = compute_adjustments(wc, rankings)
+        predictions = predict_remaining(wc, rankings, adjustments)
+        results = [
+            {
+                "fixture_id": m.fixture_id,
+                "matchday": m.matchday,
+                "group": m.group,
+                "home_name": wc.teams[m.home_id].name,
+                "away_name": wc.teams[m.away_id].name,
+                "home_goals": m.home_goals,
+                "away_goals": m.away_goals,
+            }
+            for m in sorted(
+                (m for m in wc.matches if m.played), key=lambda m: (m.matchday, m.kickoff)
+            )
+        ]
+        payload: object = {
+            "predictions": [p.to_dict() for p in predictions],
+            "results": results,
+            "adjustments": {str(tid): asdict(a) for tid, a in adjustments.items()},
+        }
+        report = _render_remaining_report(wc, predictions)
+    else:
+        predictions = predict_group_stage(wc, rankings)
+        payload = [p.to_dict() for p in predictions]
+        report = _render_report(predictions)
+    _print_predictions(predictions)
+    json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    report_path.write_text(report, encoding="utf-8")
     print(f"\nwrote {len(predictions)} predictions -> {json_path}")
     print(f"wrote readable report -> {report_path}")
+    return 0
+
+
+def cmd_refresh(args: argparse.Namespace, config: AppConfig) -> int:
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    if not config.api_football_key:
+        print("SOCCER_API_FOOTBALL_KEY is not set; cannot refresh live data", flush=True)
+        return 1
+    wc = load_dataset(_dataset_path(config))
+    client = ApiFootballClient(
+        config.api_football_key,
+        base_url=config.api_football_base_url,
+        transport=urllib_transport(timeout=30.0),
+        cache=JsonCache(config.data_dir / "api"),
+        throttle_seconds=args.throttle,
+    )
+    try:
+        updated = refresh_live(wc, client)
+    except ApiFootballError as exc:
+        print(f"refresh failed: {exc}")
+        return 1
+    path = _dataset_path(config)
+    path.write_text(json.dumps(updated.to_dict()), encoding="utf-8")
+    played = sum(1 for m in updated.matches if m.played)
+    print(f"refreshed {played} played matches, {len(updated.lineups)} lineups -> {path}")
     return 0
 
 
@@ -167,5 +257,16 @@ def add_wc_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentPar
     p_rank.add_argument("--top", type=int, default=15)
     p_rank.set_defaults(func=cmd_rank)
 
-    p_predict = wc_sub.add_parser("predict", help="predict all group-stage scorelines")
+    p_predict = wc_sub.add_parser("predict", help="predict group-stage scorelines")
+    p_predict.add_argument(
+        "--remaining",
+        action="store_true",
+        help="forecast only unplayed matches, using actual results + lineups",
+    )
+    p_predict.add_argument("--out-dir", default=None, help="output directory for the files")
+    p_predict.add_argument("--name", default=None, help="basename for the .json/.md files")
     p_predict.set_defaults(func=cmd_predict)
+
+    p_refresh = wc_sub.add_parser("refresh", help="merge live results + lineups into the dataset")
+    p_refresh.add_argument("--throttle", type=float, default=0.02, help="seconds between calls")
+    p_refresh.set_defaults(func=cmd_refresh)
