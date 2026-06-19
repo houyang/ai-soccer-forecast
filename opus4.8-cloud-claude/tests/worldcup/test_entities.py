@@ -34,3 +34,24 @@ def test_match_played_flag(sample_world_cup: WorldCup) -> None:
 def test_empty_world_cup_round_trips() -> None:
     wc = WorldCup()
     assert WorldCup.from_dict(wc.to_dict()).to_dict() == wc.to_dict()
+
+
+def test_lineup_round_trips() -> None:
+    from soccer.worldcup.entities import Lineup
+
+    lu = Lineup(
+        fixture_id=9001,
+        team_id=1,
+        formation="4-3-3",
+        start_ids=(1, 2, 3),
+        sub_ids=(4, 5),
+    )
+    assert Lineup.from_dict(lu.to_dict()) == lu
+
+
+def test_world_cup_round_trips_lineups() -> None:
+    from soccer.worldcup.entities import Lineup
+
+    wc = WorldCup(lineups=(Lineup(9001, 1, "4-3-3", (1, 2), (3,)),))
+    restored = WorldCup.from_dict(wc.to_dict())
+    assert restored.lineups == wc.lineups

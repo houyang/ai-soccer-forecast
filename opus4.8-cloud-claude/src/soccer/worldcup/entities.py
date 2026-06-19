@@ -261,6 +261,34 @@ class WcMatch:
 
 
 @dataclass(frozen=True)
+class Lineup:
+    fixture_id: int
+    team_id: int
+    formation: str
+    start_ids: tuple[int, ...]
+    sub_ids: tuple[int, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "fixture_id": self.fixture_id,
+            "team_id": self.team_id,
+            "formation": self.formation,
+            "start_ids": list(self.start_ids),
+            "sub_ids": list(self.sub_ids),
+        }
+
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any]) -> Lineup:
+        return cls(
+            fixture_id=int(raw["fixture_id"]),
+            team_id=int(raw["team_id"]),
+            formation=str(raw["formation"]),
+            start_ids=tuple(int(x) for x in raw["start_ids"]),
+            sub_ids=tuple(int(x) for x in raw["sub_ids"]),
+        )
+
+
+@dataclass(frozen=True)
 class WorldCup:
     """Root of the normalized dataset. Entities are keyed by id for O(1) lookup."""
 
@@ -270,6 +298,7 @@ class WorldCup:
     coaches: dict[int, Coach] = field(default_factory=dict)
     teams: dict[int, NationalTeam] = field(default_factory=dict)
     matches: tuple[WcMatch, ...] = ()
+    lineups: tuple[Lineup, ...] = ()
 
     def squad(self, team_id: int) -> list[Player]:
         team = self.teams[team_id]
@@ -289,6 +318,7 @@ class WorldCup:
             "coaches": [v.to_dict() for v in self.coaches.values()],
             "teams": [v.to_dict() for v in self.teams.values()],
             "matches": [m.to_dict() for m in self.matches],
+            "lineups": [lu.to_dict() for lu in self.lineups],
         }
 
     @classmethod
@@ -300,4 +330,5 @@ class WorldCup:
             coaches={x["id"]: Coach.from_dict(x) for x in raw.get("coaches", [])},
             teams={x["id"]: NationalTeam.from_dict(x) for x in raw.get("teams", [])},
             matches=tuple(WcMatch.from_dict(x) for x in raw.get("matches", [])),
+            lineups=tuple(Lineup.from_dict(x) for x in raw.get("lineups", [])),
         )
