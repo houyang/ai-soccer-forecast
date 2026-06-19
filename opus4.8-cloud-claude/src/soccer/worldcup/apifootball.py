@@ -89,9 +89,11 @@ class ApiFootballClient:
         query = "&".join(f"{k}={params[k]}" for k in sorted(params))
         return f"{path}?{query}&page={page}"
 
-    def _fetch_page(self, path: str, params: Mapping[str, Any], page: int) -> dict[str, Any]:
+    def _fetch_page(
+        self, path: str, params: Mapping[str, Any], page: int, *, force_refresh: bool = False
+    ) -> dict[str, Any]:
         key = self._cache_key(path, params, page)
-        if self._cache is not None:
+        if self._cache is not None and not force_refresh:
             cached = self._cache.load(key)
             if cached is not None:
                 return dict(cached)
@@ -116,13 +118,19 @@ class ApiFootballClient:
             self._cache.store(key, payload)
         return payload
 
-    def get(self, path: str, params: Mapping[str, Any] | None = None) -> list[dict[str, Any]]:
+    def get(
+        self,
+        path: str,
+        params: Mapping[str, Any] | None = None,
+        *,
+        force_refresh: bool = False,
+    ) -> list[dict[str, Any]]:
         """Return the concatenated ``response`` array across all pages."""
         params = dict(params or {})
         out: list[dict[str, Any]] = []
         page = 1
         while page <= _MAX_PAGES:
-            payload = self._fetch_page(path, params, page)
+            payload = self._fetch_page(path, params, page, force_refresh=force_refresh)
             out.extend(payload.get("response", []))
             paging = payload.get("paging") or {}
             current = int(paging.get("current", page))

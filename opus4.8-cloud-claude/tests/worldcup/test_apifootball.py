@@ -74,6 +74,19 @@ def test_api_errors_field_raises() -> None:
         client.get("teams")
 
 
+def test_force_refresh_bypasses_cache_read_but_stores(tmp_path: Path) -> None:
+    base = "https://api.test"
+    transport = RecordingTransport(
+        {f"{base}/fixtures?league=1": (200, _page([{"id": 7}], 1, 1))}
+    )
+    cache = JsonCache(tmp_path)
+    client = ApiFootballClient("k", base_url=base, transport=transport, cache=cache)
+    client.get("fixtures", {"league": 1})  # warms the cache
+    client.get("fixtures", {"league": 1}, force_refresh=True)  # ignores cache, refetches
+    assert len(transport.calls) == 2
+    assert cache.has("fixtures?league=1&page=1")
+
+
 def test_cache_prevents_second_network_call(tmp_path: Path) -> None:
     base = "https://api.test"
     transport = RecordingTransport({f"{base}/teams?league=1": (200, _page([{"id": 7}], 1, 1))})
