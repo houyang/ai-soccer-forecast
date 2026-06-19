@@ -19,8 +19,21 @@ information available at the time it is run.
 - PDF output via `reportlab`, exposed behind a new optional dependency extra `[pdf]`.
 - JSON output of the same card model for inspection/testing.
 
-Out of scope: knockout-stage bracketing, odds integration, multi-match batch PDFs, any new
-networked entity ingest beyond a single fixture's lineup/result refresh.
+Out of scope (this phase): odds integration, multi-match batch PDFs, any new networked entity
+ingest beyond a single fixture's lineup/result refresh.
+
+### Next phase: knockout-stage matches
+
+The same `wc card <fixture_id>` flow must also work for knockout-stage matches (Round of 32 →
+Final) in a later phase. To keep that cheap, this phase is built fixture-id-first and
+stage-agnostic wherever possible:
+
+- The command keys off a `fixture_id`, not a group, so any ingested fixture is addressable.
+- The projection, card model, and Poisson prediction read no group-only assumptions; `group` is
+  carried as a display label, not prediction input.
+- Deferred to the knockout phase: ingesting knockout fixtures into the dataset, and modelling
+  draw-breakers (extra time / penalties) so the card can show a qualified side rather than only a
+  90-minute scoreline. The `MatchCard`/PDF layout should leave room for that without a rewrite.
 
 ## Decisions (from brainstorming)
 
