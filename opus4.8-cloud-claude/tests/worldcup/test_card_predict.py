@@ -1,4 +1,3 @@
-# tests/worldcup/test_card_predict.py
 from __future__ import annotations
 
 from soccer.worldcup.adjust import adjustment_for_match

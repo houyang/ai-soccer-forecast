@@ -111,8 +111,6 @@ def test_card_writes_json(tmp_path: Path, sample_world_cup: WorldCup) -> None:
 
 
 def test_card_writes_pdf(tmp_path: Path, sample_world_cup: WorldCup) -> None:
-    import pytest
-
     pytest.importorskip("reportlab")
     from soccer.worldcup.cli import cmd_card
 

@@ -1,4 +1,3 @@
-# tests/worldcup/test_cardpdf.py
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,4 +1,3 @@
-# src/soccer/worldcup/cardpdf.py
 """Render a :class:`~soccer.worldcup.card.MatchCard` to a one-page PDF.
 
 ``reportlab`` is imported lazily inside :func:`render_card_pdf` so the rest of the package
