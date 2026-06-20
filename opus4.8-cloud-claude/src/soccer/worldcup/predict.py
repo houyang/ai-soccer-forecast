@@ -13,7 +13,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import TYPE_CHECKING, Any
 
-from soccer.worldcup.entities import WcMatch, WorldCup
+from soccer.worldcup.entities import Lineup, WcMatch, WorldCup
+from soccer.worldcup.lineup import ProjectedLineup
 from soccer.worldcup.ranking import Rankings
 
 if TYPE_CHECKING:
@@ -228,3 +229,34 @@ def predict_remaining(
         key=lambda m: (m.matchday, m.group, m.fixture_id),
     )
     return [_predict(wc, rankings, m, adjustments) for m in ordered]
+
+
+def top_scorelines(
+    lambda_home: float, lambda_away: float, n: int = 3
+) -> list[tuple[int, int, float]]:
+    """Return the ``n`` most likely exact scorelines as (home_goals, away_goals, prob)."""
+    matrix = _scoreline_matrix(lambda_home, lambda_away)
+    cells = [(i, j, p) for i, row in enumerate(matrix) for j, p in enumerate(row)]
+    cells.sort(key=lambda cell: cell[2], reverse=True)
+    return cells[:n]
+
+
+def predict_one(
+    wc: WorldCup,
+    rankings: Rankings,
+    fixture_id: int,
+    home_lineup: Lineup | ProjectedLineup | None,
+    away_lineup: Lineup | ProjectedLineup | None,
+) -> MatchPrediction:
+    """Lineup-aware forecast for a single fixture (confirmed or projected lineups)."""
+    # Imported here to avoid an import cycle: adjust imports predict at module load.
+    from soccer.worldcup.adjust import adjustment_for_match
+
+    match = next((m for m in wc.matches if m.fixture_id == fixture_id), None)
+    if match is None:
+        raise ValueError(f"fixture {fixture_id} not found in dataset")
+    adjustments = {
+        match.home_id: adjustment_for_match(wc, rankings, match.home_id, home_lineup),
+        match.away_id: adjustment_for_match(wc, rankings, match.away_id, away_lineup),
+    }
+    return _predict(wc, rankings, match, adjustments)
