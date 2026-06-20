@@ -13,7 +13,8 @@ requires-python = ">=3.11"
 dependencies = ["certifi>=2024.2.2"]
 
 [project.optional-dependencies]
-dev = ["ruff>=0.5", "mypy>=1.10", "pytest>=8", "pytest-cov>=5", "pre-commit>=3"]
+pdf = ["reportlab>=4"]
+dev = ["ruff>=0.5", "mypy>=1.10", "pytest>=8", "pytest-cov>=5", "pre-commit>=3", "reportlab>=4", "types-reportlab"]
 
 [project.scripts]
 soccer = "soccer.cli:main"
