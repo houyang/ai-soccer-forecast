@@ -62,6 +62,28 @@ formation lean — to every not-yet-played match. The `.json` carries the predic
 completed results, and the per-team adjustments; the `.md` lists actual results first, then
 the updated predictions per group and matchday.
 
+### `soccer wc card <fixture_id>`
+
+Build a one-match pre-match preview: each team's coach, projected (or confirmed) starting XI
+and formation, likely substitutes, and a lineup-aware prediction. Writes a PDF and JSON to the
+prediction directory (`card-<fixture_id>.pdf` / `.json`).
+
+```bash
+soccer wc card 1320001                 # PDF + JSON from the cached dataset
+soccer wc card 1320001 --format json   # JSON only (no reportlab needed)
+soccer wc card 1320001 --refresh       # pull the official lineup/result first (needs API key)
+```
+
+Lineups are **projected** from each team's most recent earlier-matchday lineup (or, on
+Matchday 1, from the coach-preferred formation and top-rated squad players) until the official
+XI is published — run with `--refresh` close to kickoff to pick up the **confirmed** lineup.
+
+PDF output needs the optional extra:
+
+```bash
+python -m pip install -e ".[pdf]"   # or: pip install 'soccer[pdf]'
+```
+
 `fetch` is the only command that touches the network; it caches every API response under
 `data/api/`, so it is replayable for free and `rank`/`predict` never need a key. Both the
 key and the `data/` cache are git-ignored.
