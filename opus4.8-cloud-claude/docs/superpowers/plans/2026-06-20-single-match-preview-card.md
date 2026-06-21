@@ -1006,7 +1006,7 @@ def test_card_writes_json(tmp_path: Path, sample_world_cup: WorldCup) -> None:
     )
     rc = cmd_card(args, _config(tmp_path))
     assert rc == 0
-    data = json.loads((tmp_path / "perdiction" / "card-9001.json").read_text())
+    data = json.loads((tmp_path / "prediction" / "card-9001.json").read_text())
     assert data["fixture_id"] == 9001
     assert data["home"]["name"] == "England"
     assert "prediction" in data
@@ -1024,7 +1024,7 @@ def test_card_writes_pdf(tmp_path: Path, sample_world_cup: WorldCup) -> None:
     )
     rc = cmd_card(args, _config(tmp_path))
     assert rc == 0
-    assert (tmp_path / "perdiction" / "card-9001.pdf").read_bytes()[:4] == b"%PDF"
+    assert (tmp_path / "prediction" / "card-9001.pdf").read_bytes()[:4] == b"%PDF"
 
 
 def test_card_unknown_fixture_returns_error(

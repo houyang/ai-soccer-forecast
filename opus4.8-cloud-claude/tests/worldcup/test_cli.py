@@ -21,7 +21,7 @@ def _config(data_dir: Path, key: str | None = None) -> AppConfig:
         reasoner="fake",
         api_football_base_url="https://api.test",
         api_football_key=key,
-        prediction_dir=data_dir / "perdiction",
+        prediction_dir=data_dir / "prediction",
     )
 
 
@@ -47,7 +47,7 @@ def test_predict_writes_file(
     _write_dataset(tmp_path, sample_world_cup)
     rc = cmd_predict(argparse.Namespace(), _config(tmp_path))
     assert rc == 0
-    pred_dir = tmp_path / "perdiction"
+    pred_dir = tmp_path / "prediction"
     written = json.loads((pred_dir / "worldcup-2026-predictions.json").read_text())
     assert len(written) == len(sample_world_cup.matches)
     assert {"score_home", "score_away", "p_home", "kickoff"} <= set(written[0])
@@ -68,11 +68,11 @@ def test_predict_remaining_writes_named_files(tmp_path: Path, sample_world_cup: 
     _write_dataset(tmp_path, wc)
 
     args = argparse.Namespace(
-        remaining=True, out_dir=str(tmp_path / "perdictions"), name="after1st"
+        remaining=True, out_dir=str(tmp_path / "predictions"), name="after1st"
     )
     rc = cmd_predict(args, _config(tmp_path))
     assert rc == 0
-    out_dir = tmp_path / "perdictions"
+    out_dir = tmp_path / "predictions"
     payload = json.loads((out_dir / "after1st.json").read_text())
     assert set(payload) == {"predictions", "results", "adjustments"}
     report = (out_dir / "after1st.md").read_text()
@@ -104,7 +104,7 @@ def test_card_writes_json(tmp_path: Path, sample_world_cup: WorldCup) -> None:
     )
     rc = cmd_card(args, _config(tmp_path))
     assert rc == 0
-    data = json.loads((tmp_path / "perdiction" / "card-9001.json").read_text())
+    data = json.loads((tmp_path / "prediction" / "card-9001.json").read_text())
     assert data["fixture_id"] == 9001
     assert data["home"]["name"] == "England"
     assert "prediction" in data
@@ -120,7 +120,7 @@ def test_card_writes_pdf(tmp_path: Path, sample_world_cup: WorldCup) -> None:
     )
     rc = cmd_card(args, _config(tmp_path))
     assert rc == 0
-    assert (tmp_path / "perdiction" / "card-9001.pdf").read_bytes()[:4] == b"%PDF"
+    assert (tmp_path / "prediction" / "card-9001.pdf").read_bytes()[:4] == b"%PDF"
 
 
 def test_card_unknown_fixture_returns_error(

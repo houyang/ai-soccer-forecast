@@ -77,13 +77,13 @@ constants with a one-line rationale, matching `ranking.py`'s style.
   gains the adjustment breakdown. `MatchPrediction` gains `home_adjustment` / `away_adjustment`
   float fields (default `0.0`, appended last so existing constructors/tests are unaffected). The
   original `predict_group_stage` stays intact as the baseline.
-- **CLI** — `wc predict --remaining --out-dir perdictions --name worldcup-2026-predictions-after1st-group`.
+- **CLI** — `wc predict --remaining --out-dir predictions --name worldcup-2026-predictions-after1st-group`.
   Writes the JSON (remaining-game predictions + per-team adjustments) and a Markdown report. The
   report lists completed **actual** results (MD1 and any finished MD2) at the top for context,
   then the updated predictions per group / matchday. Default (no `--remaining`) keeps the original
   full-slate behavior and file names.
-- **Final deliverables:** `perdictions/worldcup-2026-predictions-after1st-group.json` and
-  `perdictions/worldcup-2026-predictions-after1st-group.md`.
+- **Final deliverables:** `predictions/worldcup-2026-predictions-after1st-group.json` and
+  `predictions/worldcup-2026-predictions-after1st-group.md`.
 
 ### 4. Testing (all offline, per CLAUDE.md)
 
@@ -106,6 +106,6 @@ Then `make check` (ruff format, ruff lint, mypy, pytest + coverage).
 - New/updated modules: `entities.py`, `apifootball.py`, `live.py`, `adjust.py`, `predict.py`,
   `cli.py`, plus tests for each.
 - `data/worldcup-2026.json` refreshed with MD1 results + lineups.
-- `perdictions/worldcup-2026-predictions-after1st-group.{json,md}` generated.
+- `predictions/worldcup-2026-predictions-after1st-group.{json,md}` generated.
 - `make check` passes; docs/README updated for the new `wc refresh` and `wc predict --remaining`
   commands.

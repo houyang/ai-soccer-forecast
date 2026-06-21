@@ -39,7 +39,7 @@ Poisson model.
     soccer wc rank --top 15        # league / club / player / coach / team tables
     soccer wc predict              # 72 predicted scorelines
 
-`predict` writes two files to `./perdiction/` (override with `SOCCER_PREDICTION_DIR`):
+`predict` writes two files to `./prediction/` (override with `SOCCER_PREDICTION_DIR`):
 `worldcup-2026-predictions.json` (full machine-readable output) and
 `worldcup-2026-predictions.md` (a human-friendly report grouped by group, then matchday,
 ordered by kickoff time).
@@ -51,7 +51,7 @@ Once matchdays have been played, refresh and re-forecast the rest of the group s
 
     # re-forecast only the unplayed matches, folding in actual results, starting XIs,
     # and formations; writes a named .json/.md pair to the chosen directory
-    soccer wc predict --remaining --out-dir perdictions \
+    soccer wc predict --remaining --out-dir predictions \
         --name worldcup-2026-predictions-after1st-group
 
 `refresh` re-pulls only the `fixtures` and `fixtures/lineups` endpoints (the static
