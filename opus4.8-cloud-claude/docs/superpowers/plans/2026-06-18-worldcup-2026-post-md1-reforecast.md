@@ -837,11 +837,11 @@ def test_predict_remaining_writes_named_files(
     _write_dataset(tmp_path, wc)
 
     args = argparse.Namespace(
-        remaining=True, out_dir=str(tmp_path / "perdictions"), name="after1st"
+        remaining=True, out_dir=str(tmp_path / "predictions"), name="after1st"
     )
     rc = cmd_predict(args, _config(tmp_path))
     assert rc == 0
-    out_dir = tmp_path / "perdictions"
+    out_dir = tmp_path / "predictions"
     payload = json.loads((out_dir / "after1st.json").read_text())
     assert set(payload) == {"predictions", "results", "adjustments"}
     report = (out_dir / "after1st.md").read_text()
@@ -1027,7 +1027,7 @@ git commit -m "feat(wc): add 'wc refresh' and 'wc predict --remaining' commands"
 
 **Files:**
 - Modify: `README.md`
-- Generated: `data/worldcup-2026.json` (refreshed), `perdictions/worldcup-2026-predictions-after1st-group.{json,md}`
+- Generated: `data/worldcup-2026.json` (refreshed), `prediction/worldcup-2026-predictions-after1st-group.{json,md}`
 
 - [ ] **Step 1: Document the new commands in README**
 
@@ -1036,7 +1036,7 @@ In `README.md`, in the World Cup section, add after the `predict` description:
 ```markdown
 - `soccer wc refresh` — pull live matchday results and lineups into the cached dataset
   (incremental; reuses the static player/club data, needs `SOCCER_API_FOOTBALL_KEY`).
-- `soccer wc predict --remaining --out-dir perdictions --name worldcup-2026-predictions-after1st-group`
+- `soccer wc predict --remaining --out-dir prediction --name worldcup-2026-predictions-after1st-group`
   — re-forecast only the unplayed matches, folding in actual results, starting XIs, and
   formations. Writes a `.json` (predictions + results + per-team adjustments) and a `.md` report.
 ```
@@ -1070,14 +1070,14 @@ Expected: prints `refreshed N played matches, M lineups -> data/worldcup-2026.js
 Run:
 
 ```bash
-python -m soccer wc predict --remaining --out-dir perdictions --name worldcup-2026-predictions-after1st-group
+python -m soccer wc predict --remaining --out-dir prediction --name worldcup-2026-predictions-after1st-group
 ```
 
-Expected: writes `perdictions/worldcup-2026-predictions-after1st-group.json` and `.md`.
+Expected: writes `prediction/worldcup-2026-predictions-after1st-group.json` and `.md`.
 
 - [ ] **Step 6: Sanity-check the output**
 
-Run: `head -40 perdictions/worldcup-2026-predictions-after1st-group.md`
+Run: `head -40 prediction/worldcup-2026-predictions-after1st-group.md`
 Expected: a "Completed results" section listing real MD1 scores, then per-group predicted
 remaining matches. Confirm no played match appears in the predictions and the adjustments look
 bounded (|rating_delta| ≤ 5).
@@ -1085,7 +1085,7 @@ bounded (|rating_delta| ≤ 5).
 - [ ] **Step 7: Commit the generated artifacts**
 
 ```bash
-git add perdictions/ data/worldcup-2026.json
+git add prediction/ data/worldcup-2026.json
 git commit -m "data(wc): refreshed dataset + after-MD1 remaining-game predictions"
 ```
 

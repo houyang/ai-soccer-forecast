@@ -39,5 +39,5 @@ class AppConfig:
                 "SOCCER_API_FOOTBALL_BASE_URL", "https://v3.football.api-sports.io"
             ),
             api_football_key=os.environ.get("SOCCER_API_FOOTBALL_KEY") or None,
-            prediction_dir=Path(os.environ.get("SOCCER_PREDICTION_DIR", "./perdiction")),
+            prediction_dir=Path(os.environ.get("SOCCER_PREDICTION_DIR", "./prediction")),
         )
