@@ -51,7 +51,7 @@ Once matchdays have been played, refresh and re-forecast the rest of the group s
 
     # re-forecast only the unplayed matches, folding in actual results, starting XIs,
     # and formations; writes a named .json/.md pair to the chosen directory
-    soccer wc predict --remaining --out-dir predictions \
+    soccer wc predict --remaining --out-dir prediction \
         --name worldcup-2026-predictions-after1st-group
 
 `refresh` re-pulls only the `fixtures` and `fixtures/lineups` endpoints (the static
