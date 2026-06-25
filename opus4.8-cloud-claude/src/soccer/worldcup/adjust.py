@@ -9,6 +9,7 @@ prediction layer degrades exactly to the pre-tournament baseline.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Protocol
 
 from soccer.worldcup.entities import Lineup, WcMatch, WorldCup
 from soccer.worldcup.predict import SUPREMACY_PER_10, _effective_rating
@@ -36,6 +37,14 @@ class TeamAdjustment:
     lineup: float = 0.0
     attack_lean: float = 0.0
     defense_lean: float = 0.0
+
+
+class _LineupLike(Protocol):
+    @property
+    def formation(self) -> str: ...
+
+    @property
+    def start_ids(self) -> tuple[int, ...]: ...
 
 
 def _clamp(value: float, cap: float) -> float:
@@ -82,20 +91,18 @@ def _momentum(wc: WorldCup, rankings: Rankings, team_id: int, played: list[WcMat
 
 
 def _lineup_delta(
-    wc: WorldCup, rankings: Rankings, team_id: int, lineup: Lineup | None
+    wc: WorldCup, rankings: Rankings, team_id: int, lineup: _LineupLike | None
 ) -> float:
     if lineup is None or not lineup.start_ids:
         return 0.0
     team = wc.teams[team_id]
-    squad = sorted(
-        (rankings.players.get(pid, _NEUTRAL) for pid in team.player_ids), reverse=True
-    )
+    squad = sorted((rankings.players.get(pid, _NEUTRAL) for pid in team.player_ids), reverse=True)
     squad_core = _mean(squad[:_SQUAD_CORE]) if squad else _NEUTRAL
     xi = _mean([rankings.players.get(pid, _NEUTRAL) for pid in lineup.start_ids])
     return _clamp(K_LU * (xi - squad_core), CAP_LU)
 
 
-def _formation_lean(lineup: Lineup | None) -> tuple[float, float]:
+def _formation_lean(lineup: _LineupLike | None) -> tuple[float, float]:
     if lineup is None:
         return 0.0, 0.0
     parsed = parse_formation(lineup.formation)
@@ -128,3 +135,24 @@ def compute_adjustments(wc: WorldCup, rankings: Rankings) -> dict[int, TeamAdjus
             defense_lean=defense_lean,
         )
     return out
+
+
+def adjustment_for_match(
+    wc: WorldCup, rankings: Rankings, team_id: int, lineup: _LineupLike | None
+) -> TeamAdjustment:
+    """Adjustment for an upcoming match: momentum from played games plus this match's XI.
+
+    Unlike :func:`compute_adjustments` (which uses each team's last finished lineup), this is
+    driven by the confirmed-or-projected lineup for the specific fixture being previewed.
+    """
+    played = [m for m in wc.matches if m.played and team_id in (m.home_id, m.away_id)]
+    momentum = _momentum(wc, rankings, team_id, played)
+    lineup_delta = _lineup_delta(wc, rankings, team_id, lineup)
+    attack_lean, defense_lean = _formation_lean(lineup)
+    return TeamAdjustment(
+        rating_delta=_clamp(momentum + lineup_delta, CAP_TOTAL),
+        momentum=momentum,
+        lineup=lineup_delta,
+        attack_lean=attack_lean,
+        defense_lean=defense_lean,
+    )

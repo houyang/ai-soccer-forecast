@@ -93,3 +93,17 @@ def refresh_live(wc: WorldCup, client: _Client) -> WorldCup:
             continue
         lineups.extend(_parse_lineups(match.fixture_id, blocks))
     return replace(wc, matches=matches, lineups=tuple(lineups))
+
+
+def refresh_fixture(wc: WorldCup, client: _Client, fixture_id: int) -> WorldCup:
+    """Merge a single fixture's latest result and lineup into ``wc``.
+
+    Costs at most two API calls. Used by ``wc card --refresh`` to pick up an official lineup
+    (or a finished scoreline) for the one match being previewed.
+    """
+    fixtures = client.get("fixtures", {"id": fixture_id}, force_refresh=True)
+    matches = _apply_results(wc.matches, _results_by_fixture(fixtures))
+    blocks = client.get("fixtures/lineups", {"fixture": fixture_id})
+    new_lineups = _parse_lineups(fixture_id, blocks) if blocks else []
+    kept = [lu for lu in wc.lineups if lu.fixture_id != fixture_id]
+    return replace(wc, matches=matches, lineups=tuple(kept) + tuple(new_lineups))

@@ -14,3 +14,15 @@ Swap points (all at the registry/config boundary): provider mode (`fixture|http`
 reasoner (`fake|ollama`). The agent depends only on `ToolRegistry` and the `Reasoner`
 protocol. The registry's `as_tools()` view is the seam for a future model-driven
 tool-selection loop.
+
+## World Cup pipeline
+
+### Single-match preview card
+
+`soccer wc card <fixture_id>` previews one upcoming match. `lineup.project_lineup` resolves the
+most likely XI/formation (confirmed → prior matchday → squad projection); `predict.predict_one`
+reuses the Poisson core but applies tournament momentum plus that match's lineup-quality and
+formation lean via `adjust.adjustment_for_match`; `card.build_card` packages coaches, lineups,
+and the forecast; and `cardpdf.render_card_pdf` renders it with reportlab (the optional `[pdf]`
+extra, imported lazily). `--refresh` merges one fixture's latest lineup/result via
+`live.refresh_fixture`.
