@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1539011,
+  "group": "Group F",
+  "kickoff": "2026-06-25T23:00:00+00:00",
+  "venue": "AT&T Stadium / Dallas",
+  "home": {
+    "team_id": 12,
+    "name": "Japan",
+    "coach_name": "H. Moriyasu",
+    "coach_record": [
+      10,
+      3,
+      2
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 199578,
+        "name": "Z. Suzuki",
+        "position": "Goalkeeper",
+        "rating": 36.7
+      },
+      {
+        "player_id": 32858,
+        "name": "T. Watanabe",
+        "position": "Defender",
+        "rating": 58.0
+      },
+      {
+        "player_id": 32954,
+        "name": "S. Taniguchi",
+        "position": "Defender",
+        "rating": 40.2
+      },
+      {
+        "player_id": 32893,
+        "name": "H. Ito",
+        "position": "Defender",
+        "rating": 63.0
+      },
+      {
+        "player_id": 2598,
+        "name": "R. Doan",
+        "position": "Midfielder",
+        "rating": 61.4
+      },
+      {
+        "player_id": 33889,
+        "name": "K. Sano",
+        "position": "Midfielder",
+        "rating": 49.4
+      },
+      {
+        "player_id": 2601,
+        "name": "D. Kamada",
+        "position": "Midfielder",
+        "rating": 55.3
+      },
+      {
+        "player_id": 33321,
+        "name": "Keito Nakamura",
+        "position": "Midfielder",
+        "rating": 51.0
+      },
+      {
+        "player_id": 32862,
+        "name": "T. Kubo",
+        "position": "Attacker",
+        "rating": 42.5
+      },
+      {
+        "player_id": 33224,
+        "name": "D. Maeda",
+        "position": "Attacker",
+        "rating": 44.0
+      },
+      {
+        "player_id": 72155,
+        "name": "A. Ueda",
+        "position": "Attacker",
+        "rating": 56.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 33034,
+        "name": "K. Osako",
+        "position": "Goalkeeper",
+        "rating": 27.3
+      },
+      {
+        "player_id": 304782,
+        "name": "T. Hayakawa",
+        "position": "Goalkeeper",
+        "rating": 28.1
+      },
+      {
+        "player_id": 440,
+        "name": "Y. Nagatomo",
+        "position": "Defender",
+        "rating": 22.3
+      },
+      {
+        "player_id": 38114,
+        "name": "K. Itakura",
+        "position": "Defender",
+        "rating": 35.9
+      },
+      {
+        "player_id": 2597,
+        "name": "T. Tomiyasu",
+        "position": "Defender",
+        "rating": 27.7
+      },
+      {
+        "player_id": 33165,
+        "name": "A. Seko",
+        "position": "Defender",
+        "rating": 35.0
+      },
+      {
+        "player_id": 32887,
+        "name": "Y. Sugawara",
+        "position": "Defender",
+        "rating": 36.1
+      },
+      {
+        "player_id": 106851,
+        "name": "#106851",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 199143,
+        "name": "Y. Suzuki",
+        "position": "Midfielder",
+        "rating": 62.6
+      },
+      {
+        "player_id": 351014,
+        "name": "J. Suzuki",
+        "position": "Defender",
+        "rating": 40.4
+      },
+      {
+        "player_id": 375930,
+        "name": "K. Goto",
+        "position": "Attacker",
+        "rating": 42.7
+      },
+      {
+        "player_id": 1942,
+        "name": "J. Ito",
+        "position": "Attacker",
+        "rating": 42.4
+      },
+      {
+        "player_id": 33289,
+        "name": "Koki Ogawa",
+        "position": "Attacker",
+        "rating": 41.0
+      },
+      {
+        "player_id": 32966,
+        "name": "A. Tanaka",
+        "position": "Midfielder",
+        "rating": 53.7
+      },
+      {
+        "player_id": 422572,
+        "name": "K. Shiogai",
+        "position": "Attacker",
+        "rating": 50.4
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 5,
+    "name": "Sweden",
+    "coach_name": "G. Potter",
+    "coach_record": [
+      6,
+      3,
+      6
+    ],
+    "formation": "3-1-4-2",
+    "starters": [
+      {
+        "player_id": 2851,
+        "name": "K. Nordfeldt",
+        "position": "Goalkeeper",
+        "rating": 24.0
+      },
+      {
+        "player_id": 137721,
+        "name": "G. Lagerbielke",
+        "position": "Defender",
+        "rating": 42.4
+      },
+      {
+        "player_id": 137976,
+        "name": "I. Hien",
+        "position": "Defender",
+        "rating": 41.6
+      },
+      {
+        "player_id": 889,
+        "name": "V. Lindel\u00f6f",
+        "position": "Defender",
+        "rating": 49.0
+      },
+      {
+        "player_id": 48047,
+        "name": "J. Karlstr\u00f6m",
+        "position": "Midfielder",
+        "rating": 36.0
+      },
+      {
+        "player_id": 47696,
+        "name": "A. Bernhardsson",
+        "position": "Midfielder",
+        "rating": 39.9
+      },
+      {
+        "player_id": 48002,
+        "name": "B. Nygren",
+        "position": "Attacker",
+        "rating": 52.0
+      },
+      {
+        "player_id": 265820,
+        "name": "Y. Ayari",
+        "position": "Midfielder",
+        "rating": 61.5
+      },
+      {
+        "player_id": 47969,
+        "name": "G. Gudmundsson",
+        "position": "Midfielder",
+        "rating": 47.5
+      },
+      {
+        "player_id": 18979,
+        "name": "V. Gy\u00f6keres",
+        "position": "Attacker",
+        "rating": 74.1
+      },
+      {
+        "player_id": 2864,
+        "name": "A. Isak",
+        "position": "Attacker",
+        "rating": 53.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 48033,
+        "name": "J. Widell Zetterstr\u00f6m",
+        "position": "Goalkeeper",
+        "rating": 34.7
+      },
+      {
+        "player_id": 158700,
+        "name": "V. Johansson",
+        "position": "Goalkeeper",
+        "rating": 34.3
+      },
+      {
+        "player_id": 47988,
+        "name": "C. Starfelt",
+        "position": "Defender",
+        "rating": 42.0
+      },
+      {
+        "player_id": 15683,
+        "name": "G. Nilsson",
+        "position": "Attacker",
+        "rating": 36.6
+      },
+      {
+        "player_id": 30484,
+        "name": "M. Svanberg",
+        "position": "Midfielder",
+        "rating": 44.0
+      },
+      {
+        "player_id": 161504,
+        "name": "H. Johansson",
+        "position": "Midfielder",
+        "rating": 49.3
+      },
+      {
+        "player_id": 160925,
+        "name": "T. Ali",
+        "position": "Midfielder",
+        "rating": 33.0
+      },
+      {
+        "player_id": 2860,
+        "name": "K. Sema",
+        "position": "Midfielder",
+        "rating": 32.1
+      },
+      {
+        "player_id": 8486,
+        "name": "E. Smith",
+        "position": "Defender",
+        "rating": 52.1
+      },
+      {
+        "player_id": 47903,
+        "name": "H. Ekdal",
+        "position": "Defender",
+        "rating": 42.4
+      },
+      {
+        "player_id": 153430,
+        "name": "A. Elanga",
+        "position": "Attacker",
+        "rating": 50.4
+      },
+      {
+        "player_id": 226765,
+        "name": "E. Stroud",
+        "position": "Midfielder",
+        "rating": 56.3
+      },
+      {
+        "player_id": 198654,
+        "name": "D. Svensson",
+        "position": "Defender",
+        "rating": 66.0
+      },
+      {
+        "player_id": 347316,
+        "name": "L. Bergvall",
+        "position": "Midfielder",
+        "rating": 50.3
+      },
+      {
+        "player_id": 350850,
+        "name": "B. Zeneli",
+        "position": "Midfielder",
+        "rating": 41.8
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1539011,
+    "matchday": 3,
+    "group": "Group F",
+    "kickoff": "2026-06-25T23:00:00+00:00",
+    "home_id": 12,
+    "away_id": 5,
+    "home_name": "Japan",
+    "away_name": "Sweden",
+    "lambda_home": 1.384,
+    "lambda_away": 1.136,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4258,
+    "p_draw": 0.2663,
+    "p_away": 0.3079,
+    "rationale": "Effective rating 61.1 vs 56.1 -> supremacy +0.31; xG 1.38-1.14; adj +0.39/+2.19.",
+    "home_adjustment": 0.387,
+    "away_adjustment": 2.19
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1265005247621769
+    ],
+    [
+      1,
+      0,
+      0.11135609574135291
+    ],
+    [
+      0,
+      1,
+      0.09140211326746886
+    ]
+  ]
+}

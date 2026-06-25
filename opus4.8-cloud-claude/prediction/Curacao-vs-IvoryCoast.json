@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1489409,
+  "group": "Group E",
+  "kickoff": "2026-06-25T20:00:00+00:00",
+  "venue": "Lincoln Financial Field / Philadelphia",
+  "home": {
+    "team_id": 5530,
+    "name": "Cura\u00e7ao",
+    "coach_name": "D. Advocaat",
+    "coach_record": [
+      6,
+      5,
+      4
+    ],
+    "formation": "4-3-1-2",
+    "starters": [
+      {
+        "player_id": 221,
+        "name": "E. Room",
+        "position": "Goalkeeper",
+        "rating": 31.2
+      },
+      {
+        "player_id": 36970,
+        "name": "S. Floranus",
+        "position": "Defender",
+        "rating": 28.4
+      },
+      {
+        "player_id": 37175,
+        "name": "R. Bazoer",
+        "position": "Defender",
+        "rating": 18.8
+      },
+      {
+        "player_id": 228,
+        "name": "A. Obispo",
+        "position": "Defender",
+        "rating": 46.9
+      },
+      {
+        "player_id": 353808,
+        "name": "Deveron Fonville",
+        "position": "Defender",
+        "rating": 31.9
+      },
+      {
+        "player_id": 309763,
+        "name": "L. Comenencia",
+        "position": "Midfielder",
+        "rating": 24.9
+      },
+      {
+        "player_id": 18997,
+        "name": "L. Bacuna",
+        "position": "Midfielder",
+        "rating": 44.4
+      },
+      {
+        "player_id": 19047,
+        "name": "J. Bacuna",
+        "position": "Midfielder",
+        "rating": 30.6
+      },
+      {
+        "player_id": 906,
+        "name": "T. Chong",
+        "position": "Midfielder",
+        "rating": 27.3
+      },
+      {
+        "player_id": 18981,
+        "name": "J. Locadia",
+        "position": "Attacker",
+        "rating": 33.6
+      },
+      {
+        "player_id": 161884,
+        "name": "S. Hansen",
+        "position": "Attacker",
+        "rating": 29.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 36967,
+        "name": "T. Doornbusch",
+        "position": "Goalkeeper",
+        "rating": 19.2
+      },
+      {
+        "player_id": 214129,
+        "name": "T. Bodak",
+        "position": "Goalkeeper",
+        "rating": 31.8
+      },
+      {
+        "player_id": 37272,
+        "name": "B. Kuwas",
+        "position": "Attacker",
+        "rating": 35.5
+      },
+      {
+        "player_id": 41627,
+        "name": "K. Gorr\u00e9",
+        "position": "Attacker",
+        "rating": 26.7
+      },
+      {
+        "player_id": 37461,
+        "name": "K. Felida",
+        "position": "Midfielder",
+        "rating": 41.5
+      },
+      {
+        "player_id": 37066,
+        "name": "R. van Eijma",
+        "position": "Defender",
+        "rating": 26.1
+      },
+      {
+        "player_id": 163220,
+        "name": "J. Antonisse",
+        "position": "Attacker",
+        "rating": 21.7
+      },
+      {
+        "player_id": 162199,
+        "name": "A. Martha",
+        "position": "Midfielder",
+        "rating": 26.0
+      },
+      {
+        "player_id": 406846,
+        "name": "T. Noslin",
+        "position": "Midfielder",
+        "rating": 33.0
+      },
+      {
+        "player_id": 195067,
+        "name": "J. Margaritha",
+        "position": "Attacker",
+        "rating": 53.1
+      },
+      {
+        "player_id": 706,
+        "name": "J. Brenet",
+        "position": "Defender",
+        "rating": 19.2
+      },
+      {
+        "player_id": 38708,
+        "name": "G. Kastaneer",
+        "position": "Attacker",
+        "rating": 40.0
+      },
+      {
+        "player_id": 36842,
+        "name": "G. Roemeratoe",
+        "position": "Midfielder",
+        "rating": 24.8
+      },
+      {
+        "player_id": 36857,
+        "name": "J. Gaari",
+        "position": "Defender",
+        "rating": 46.3
+      },
+      {
+        "player_id": 194645,
+        "name": "S. Sambo",
+        "position": "Defender",
+        "rating": 26.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 1501,
+    "name": "Ivory Coast",
+    "coach_name": "I. Kamara",
+    "coach_record": [
+      11,
+      2,
+      2
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 64190,
+        "name": "Y. Fofana",
+        "position": "Goalkeeper",
+        "rating": 24.9
+      },
+      {
+        "player_id": 161747,
+        "name": "G. Dou\u00e9",
+        "position": "Defender",
+        "rating": 55.8
+      },
+      {
+        "player_id": 30504,
+        "name": "W. Singo",
+        "position": "Defender",
+        "rating": 42.7
+      },
+      {
+        "player_id": 135068,
+        "name": "E. Agbadou",
+        "position": "Defender",
+        "rating": 59.5
+      },
+      {
+        "player_id": 22002,
+        "name": "G. Konan",
+        "position": "Defender",
+        "rating": 28.3
+      },
+      {
+        "player_id": 513776,
+        "name": "Y. Diomande",
+        "position": "Midfielder",
+        "rating": 77.2
+      },
+      {
+        "player_id": 1642,
+        "name": "F. Kessi\u00e9",
+        "position": "Midfielder",
+        "rating": 58.0
+      },
+      {
+        "player_id": 30807,
+        "name": "S. Fofana",
+        "position": "Midfielder",
+        "rating": 47.1
+      },
+      {
+        "player_id": 387643,
+        "name": "B. Tour\u00e9",
+        "position": "Attacker",
+        "rating": 54.4
+      },
+      {
+        "player_id": 3246,
+        "name": "N. P\u00e9p\u00e9",
+        "position": "Attacker",
+        "rating": 55.6
+      },
+      {
+        "player_id": 162707,
+        "name": "E. Wahi",
+        "position": "Attacker",
+        "rating": 47.3
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 277046,
+        "name": "M. Kon\u00e9",
+        "position": "Goalkeeper",
+        "rating": 34.9
+      },
+      {
+        "player_id": 30393,
+        "name": "A. Lafont",
+        "position": "Goalkeeper",
+        "rating": 24.5
+      },
+      {
+        "player_id": 3243,
+        "name": "J. Seri",
+        "position": "Midfielder",
+        "rating": 24.2
+      },
+      {
+        "player_id": 22149,
+        "name": "I. Sangar\u00e9",
+        "position": "Midfielder",
+        "rating": 53.0
+      },
+      {
+        "player_id": 1807,
+        "name": "E. Ndicka",
+        "position": "Defender",
+        "rating": 59.2
+      },
+      {
+        "player_id": 20836,
+        "name": "C. Operi",
+        "position": "Defender",
+        "rating": 41.0
+      },
+      {
+        "player_id": 354753,
+        "name": "O. Diomande",
+        "position": "Defender",
+        "rating": 41.0
+      },
+      {
+        "player_id": 48119,
+        "name": "O. Kossounou",
+        "position": "Defender",
+        "rating": 41.4
+      },
+      {
+        "player_id": 137303,
+        "name": "E. Guessand",
+        "position": "Attacker",
+        "rating": 53.7
+      },
+      {
+        "player_id": 157997,
+        "name": "A. Diallo",
+        "position": "Attacker",
+        "rating": 59.2
+      },
+      {
+        "player_id": 263228,
+        "name": "P. Guiagon",
+        "position": "Midfielder",
+        "rating": 53.8
+      },
+      {
+        "player_id": 301771,
+        "name": "S. Adingra",
+        "position": "Attacker",
+        "rating": 52.7
+      },
+      {
+        "player_id": 275651,
+        "name": "A. Bonny",
+        "position": "Attacker",
+        "rating": 46.8
+      },
+      {
+        "player_id": 334429,
+        "name": "O. Diakit\u00e9",
+        "position": "Midfielder",
+        "rating": 46.3
+      },
+      {
+        "player_id": 474591,
+        "name": "C. Inao Oulai",
+        "position": "Midfielder",
+        "rating": 34.2
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489409,
+    "matchday": 3,
+    "group": "Group E",
+    "kickoff": "2026-06-25T20:00:00+00:00",
+    "home_id": 5530,
+    "away_id": 1501,
+    "home_name": "Cura\u00e7ao",
+    "away_name": "Ivory Coast",
+    "lambda_home": 0.59,
+    "lambda_away": 1.89,
+    "score_home": 0,
+    "score_away": 1,
+    "p_home": 0.1077,
+    "p_draw": 0.2066,
+    "p_away": 0.6857,
+    "rationale": "Effective rating 39.3 vs 60.3 -> supremacy -1.30; xG 0.59-1.89; adj -4.00/-0.14.",
+    "home_adjustment": -3.999,
+    "away_adjustment": -0.144
+  },
+  "top_scorelines": [
+    [
+      0,
+      1,
+      0.15827469636925037
+    ],
+    [
+      0,
+      2,
+      0.1495695880689416
+    ],
+    [
+      0,
+      3,
+      0.09422884048343322
+    ]
+  ]
+}
