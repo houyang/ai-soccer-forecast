@@ -39,6 +39,9 @@ export API_FOOTBALL_KEY="..."
 soccer-forecast fetch-world-cup-data
 soccer-forecast fetch-world-cup-match-updates --completed-round-limit 1
 soccer-forecast predict-world-cup-group-stage
+soccer-forecast predict-world-cup-match-preview 1489416 \
+  --output predictions/wc-2026-1489416-preview.pdf \
+  --json-output predictions/wc-2026-1489416-preview.json
 ```
 
 `fetch-world-cup-data` stores raw provider JSON under
@@ -49,7 +52,9 @@ Use `--output json` to emit machine-readable score predictions, or `--output mar
 to print one human-friendly result table per group. Use
 `--completed-round-limit 1 --remaining-only` after the first group-stage round to apply
 first-round results, formations, starting XIs, and substitutions while outputting only
-the remaining group matches. Re-running
+the remaining group matches. Use `predict-world-cup-match-preview` before a single match
+starts to refresh the target fixture, load any announced lineups, project fallback starters
+and substitutes when lineups are not yet announced, and write PDF/JSON reports. Re-running
 `fetch-world-cup-data` resumes from existing snapshot files; add
 `--request-delay-seconds 0.5` if the provider starts rate limiting requests.
 
@@ -88,5 +93,6 @@ soccer-forecast evaluate predictions.jsonl
 - `soccer.evaluation.EvaluationHarness` scores settled predictions.
 - `soccer.api_football` fetches API-Football snapshots for World Cup data.
 - `soccer.world_cup_2026` normalizes snapshots, ranks entities, and predicts scores.
+- `soccer.world_cup_preview` builds single-match PDF previews.
 
 See `docs/architecture.md` for the current design and extension points.

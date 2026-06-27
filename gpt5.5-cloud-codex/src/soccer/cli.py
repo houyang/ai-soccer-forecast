@@ -11,6 +11,7 @@ from typing import cast
 
 from soccer.api_football import (
     ApiFootballClient,
+    fetch_world_cup_2026_match_preview_updates,
     fetch_world_cup_2026_match_updates,
     fetch_world_cup_2026_snapshot,
 )
@@ -25,11 +26,18 @@ from soccer.models import MatchRequest, MatchResult, PredictionRecord
 from soccer.storage import JsonlPredictionLog
 from soccer.world_cup_2026 import (
     DEFAULT_WORLD_CUP_DATA_DIR,
+    GroupStageMatch,
+    WorldCupDataSet,
     load_world_cup_dataset,
     predict_group_stage_scores,
     prediction_to_json,
     rank_world_cup_entities,
     render_group_stage_markdown,
+)
+from soccer.world_cup_preview import (
+    build_world_cup_match_preview,
+    match_preview_to_json,
+    render_world_cup_match_preview_pdf,
 )
 
 
@@ -122,6 +130,25 @@ def main() -> None:
         "--remaining-only",
         action="store_true",
         help="Only output matches not completed within the selected update window",
+    )
+
+    world_cup_preview = subparsers.add_parser(
+        "predict-world-cup-match-preview",
+        help="Predict one not-started World Cup match and write PDF/JSON previews",
+    )
+    world_cup_preview.add_argument("match_id", help="Fixture id, with or without wc-2026- prefix")
+    world_cup_preview.add_argument("--api-key")
+    world_cup_preview.add_argument("--data-dir", type=Path, default=DEFAULT_WORLD_CUP_DATA_DIR)
+    world_cup_preview.add_argument("--world-cup-league-id", type=int, default=1)
+    world_cup_preview.add_argument("--world-cup-season", type=int, default=2026)
+    world_cup_preview.add_argument("--expected-teams", type=int)
+    world_cup_preview.add_argument("--output", type=Path)
+    world_cup_preview.add_argument("--json-output", type=Path)
+    world_cup_preview.add_argument("--request-delay-seconds", type=float, default=0.0)
+    world_cup_preview.add_argument(
+        "--no-refresh",
+        action="store_true",
+        help="Use existing local snapshots instead of refreshing provider match updates",
     )
 
     args = parser.parse_args()
@@ -239,6 +266,53 @@ def main() -> None:
                     f"{prediction.away_team} | {prediction.outcome.value} | "
                     f"{prediction.confidence:.3f}"
                 )
+    elif args.command == "predict-world-cup-match-preview":
+        match_id = _normalize_world_cup_match_id(args.match_id)
+        if not args.no_refresh:
+            api_key = args.api_key or os.environ.get("API_FOOTBALL_KEY")
+            if api_key is None:
+                raise ValueError("Provide --api-key, set API_FOOTBALL_KEY, or use --no-refresh")
+            preview_update_summary = fetch_world_cup_2026_match_preview_updates(
+                ApiFootballClient(api_key),
+                args.data_dir,
+                match_id,
+                world_cup_league_id=args.world_cup_league_id,
+                world_cup_season=args.world_cup_season,
+                request_delay_seconds=args.request_delay_seconds,
+            )
+            print(f"Refreshed fixture: {preview_update_summary.target_fixture_id}")
+            print(f"Prior completed fixtures: {preview_update_summary.prior_completed_fixtures}")
+            print(f"Files written: {preview_update_summary.files_written}")
+
+        base_dataset = load_world_cup_dataset(
+            args.data_dir,
+            expected_team_count=args.expected_teams,
+        )
+        if match_id in base_dataset.completed_matches:
+            raise ValueError(f"{match_id} is already completed in the loaded dataset")
+        target_match = _world_cup_match_for_id(base_dataset, match_id)
+        dataset = load_world_cup_dataset(
+            args.data_dir,
+            expected_team_count=args.expected_teams,
+            completed_before=target_match.kickoff,
+        )
+        rankings = rank_world_cup_entities(dataset)
+        preview = build_world_cup_match_preview(
+            dataset,
+            rankings,
+            match_id,
+            snapshot_dir=args.data_dir,
+        )
+        output_path = args.output or Path("predictions") / f"{match_id}-preview.pdf"
+        render_world_cup_match_preview_pdf(preview, output_path)
+        print(f"PDF written: {output_path}")
+        if args.json_output is not None:
+            args.json_output.parent.mkdir(parents=True, exist_ok=True)
+            args.json_output.write_text(
+                json.dumps(match_preview_to_json(preview), indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            print(f"JSON written: {args.json_output}")
 
 
 def _format_match(request: MatchRequest) -> str:
@@ -299,6 +373,20 @@ def _result_from_mapping(item: dict[str, object]) -> MatchResult:
         away_score=away_score,
         completed_at=datetime.fromisoformat(completed_at),
     )
+
+
+def _normalize_world_cup_match_id(match_id: str) -> str:
+    value = match_id.strip()
+    if value.startswith("wc-2026-"):
+        return value
+    return f"wc-2026-{value}"
+
+
+def _world_cup_match_for_id(dataset: WorldCupDataSet, match_id: str) -> GroupStageMatch:
+    for match in dataset.matches:
+        if match.match_id == match_id:
+            return match
+    raise ValueError(f"World Cup match {match_id!r} was not found")
 
 
 if __name__ == "__main__":

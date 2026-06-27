@@ -7,6 +7,7 @@ from pathlib import Path
 from soccer.api_football import (
     ApiParam,
     JsonObject,
+    fetch_world_cup_2026_match_preview_updates,
     fetch_world_cup_2026_match_updates,
     fetch_world_cup_2026_snapshot,
 )
@@ -35,7 +36,20 @@ class FakeFootballApi:
                             "away": {"id": 2, "name": "Beta"},
                         },
                         "goals": {"home": 2, "away": 0},
-                    }
+                    },
+                    {
+                        "fixture": {
+                            "id": 2,
+                            "date": "2026-06-18T19:00:00Z",
+                            "status": {"short": "NS"},
+                        },
+                        "league": {"round": "Group A - 2"},
+                        "teams": {
+                            "home": {"id": 2, "name": "Beta"},
+                            "away": {"id": 1, "name": "Alpha"},
+                        },
+                        "goals": {"home": None, "away": None},
+                    },
                 ]
             }
         if endpoint == "teams":
@@ -201,7 +215,7 @@ def test_fetch_world_cup_match_updates_refreshes_completed_tactical_payloads(
         completed_round_limit=1,
     )
 
-    assert summary.fixtures == 1
+    assert summary.fixtures == 2
     assert summary.standings_refreshed is True
     assert summary.tactical_fixtures == 1
     assert (tmp_path / "fixtures_world_cup.json").exists()
@@ -210,3 +224,18 @@ def test_fetch_world_cup_match_updates_refreshes_completed_tactical_payloads(
     assert (tmp_path / "fixture_1_events.json").exists()
     assert (tmp_path / "fixture_1_statistics.json").exists()
     assert ("fixtures/lineups", {"fixture": 1}) in api.calls
+
+
+def test_fetch_world_cup_match_preview_updates_fetches_prior_and_target_payloads(
+    tmp_path: Path,
+) -> None:
+    api = FakeFootballApi()
+
+    summary = fetch_world_cup_2026_match_preview_updates(api, tmp_path, "wc-2026-2")
+
+    assert summary.target_fixture_id == 2
+    assert summary.target_status == "NS"
+    assert summary.prior_completed_fixtures == 1
+    assert (tmp_path / "fixture_1_lineups.json").exists()
+    assert (tmp_path / "fixture_2_lineups.json").exists()
+    assert ("fixtures/lineups", {"fixture": 2}) in api.calls

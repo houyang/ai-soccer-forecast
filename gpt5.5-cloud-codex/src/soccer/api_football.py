@@ -11,6 +11,7 @@ import json
 import time
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Protocol, cast
 from urllib.parse import urlencode
@@ -87,6 +88,17 @@ class WorldCupMatchUpdateSummary:
     fixtures: int
     standings_refreshed: bool
     tactical_fixtures: int
+    files_written: int
+
+
+@dataclass(frozen=True)
+class WorldCupMatchPreviewUpdateSummary:
+    """Counts from a refreshed single-match preview snapshot fetch."""
+
+    output_dir: Path
+    target_fixture_id: int
+    target_status: str
+    prior_completed_fixtures: int
     files_written: int
 
 
@@ -308,6 +320,81 @@ def fetch_world_cup_2026_match_updates(
     )
 
 
+def fetch_world_cup_2026_match_preview_updates(
+    client: FootballApiClient,
+    output_dir: Path,
+    match_id: str,
+    *,
+    world_cup_league_id: int = DEFAULT_WORLD_CUP_LEAGUE_ID,
+    world_cup_season: int = DEFAULT_WORLD_CUP_SEASON,
+    request_delay_seconds: float = 0.0,
+) -> WorldCupMatchPreviewUpdateSummary:
+    """Refresh the mutable snapshots needed to preview one not-started match."""
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    files_written = 0
+    target_fixture_id = _fixture_id_from_match_id(match_id)
+
+    fixtures = client.get_json(
+        "fixtures",
+        {"league": world_cup_league_id, "season": world_cup_season},
+    )
+    if request_delay_seconds > 0:
+        time.sleep(request_delay_seconds)
+    files_written += _write_snapshot(output_dir / "fixtures_world_cup.json", fixtures)
+
+    target_fixture = _fixture_item_by_id(fixtures, target_fixture_id)
+    if target_fixture is None:
+        raise ValueError(f"World Cup fixture {match_id!r} was not found in provider fixtures")
+
+    target_status = _fixture_status(target_fixture) or "unknown"
+    if target_status not in {"NS", "TBD"}:
+        raise ValueError(
+            f"Fixture {match_id!r} has status {target_status!r}; "
+            "single-match previews require a match that has not started"
+        )
+
+    standings = client.get_json(
+        "standings",
+        {"league": world_cup_league_id, "season": world_cup_season},
+    )
+    if request_delay_seconds > 0:
+        time.sleep(request_delay_seconds)
+    files_written += _write_snapshot(output_dir / "standings_world_cup.json", standings)
+
+    target_kickoff = _fixture_datetime(target_fixture)
+    target_team_ids = _fixture_team_ids(target_fixture)
+    prior_fixture_ids = tuple(
+        _completed_group_fixture_ids_before(
+            fixtures,
+            before=target_kickoff,
+            team_ids=target_team_ids,
+        )
+    )
+    tactical_fixture_ids = sorted({*prior_fixture_ids, target_fixture_id})
+    for fixture_id in tactical_fixture_ids:
+        for endpoint, suffix in (
+            ("fixtures/lineups", "lineups"),
+            ("fixtures/events", "events"),
+            ("fixtures/statistics", "statistics"),
+        ):
+            payload = client.get_json(endpoint, {"fixture": fixture_id})
+            if request_delay_seconds > 0:
+                time.sleep(request_delay_seconds)
+            files_written += _write_snapshot(
+                output_dir / f"fixture_{fixture_id}_{suffix}.json",
+                payload,
+            )
+
+    return WorldCupMatchPreviewUpdateSummary(
+        output_dir=output_dir,
+        target_fixture_id=target_fixture_id,
+        target_status=target_status,
+        prior_completed_fixtures=len(prior_fixture_ids),
+        files_written=files_written,
+    )
+
+
 def _write_snapshot(path: Path, payload: JsonObject) -> int:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return 1
@@ -420,6 +507,78 @@ def _completed_group_fixture_ids(
             continue
         if _round_name_from_fixture(item) is not None:
             yield fixture_id
+
+
+def _completed_group_fixture_ids_before(
+    payload: JsonObject,
+    *,
+    before: datetime | None,
+    team_ids: set[int],
+) -> Iterable[int]:
+    completed_statuses = {"FT", "AET", "PEN"}
+    for item in _response_items(payload):
+        fixture = _mapping(item.get("fixture")) or item
+        fixture_id = _int_value(fixture.get("id"))
+        if fixture_id is None or _fixture_status(item) not in completed_statuses:
+            continue
+        kickoff = _fixture_datetime(item)
+        if before is not None and kickoff is not None and kickoff >= before:
+            continue
+        if team_ids and not _fixture_team_ids(item).intersection(team_ids):
+            continue
+        if _round_name_from_fixture(item) is not None:
+            yield fixture_id
+
+
+def _fixture_id_from_match_id(match_id: str) -> int:
+    raw_match_id = match_id.removeprefix("wc-2026-")
+    fixture_id = _int_value(raw_match_id)
+    if fixture_id is None:
+        raise ValueError(f"World Cup match id {match_id!r} must include a numeric fixture id")
+    return fixture_id
+
+
+def _fixture_item_by_id(payload: JsonObject, fixture_id: int) -> JsonObject | None:
+    for item in _response_items(payload):
+        fixture = _mapping(item.get("fixture")) or item
+        if _int_value(fixture.get("id")) == fixture_id:
+            return item
+    return None
+
+
+def _fixture_status(item: JsonObject) -> str | None:
+    fixture = _mapping(item.get("fixture")) or item
+    status = _mapping(fixture.get("status")) or {}
+    return _first_text(status, ("short",))
+
+
+def _fixture_team_ids(item: JsonObject) -> set[int]:
+    teams = _mapping(item.get("teams")) or {}
+    team_ids: set[int] = set()
+    for side in ("home", "away"):
+        team = _mapping(teams.get(side))
+        if team is None:
+            continue
+        team_id = _int_value(team.get("id"))
+        if team_id is not None:
+            team_ids.add(team_id)
+    return team_ids
+
+
+def _fixture_datetime(item: JsonObject) -> datetime | None:
+    fixture = _mapping(item.get("fixture")) or item
+    timestamp = _int_value(fixture.get("timestamp"))
+    if timestamp is not None:
+        return datetime.fromtimestamp(timestamp, UTC)
+
+    value = _first_text(fixture, ("date",)) or _first_text(item, ("kickoff",))
+    if value is None:
+        return None
+    normalized = value.replace("Z", "+00:00")
+    parsed = datetime.fromisoformat(normalized)
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
 
 
 def _round_number_from_fixture(item: JsonObject) -> int | None:

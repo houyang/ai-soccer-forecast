@@ -331,6 +331,7 @@ def load_world_cup_dataset(
     *,
     expected_team_count: int | None = None,
     completed_round_limit: int | None = None,
+    completed_before: datetime | None = None,
 ) -> WorldCupDataSet:
     """Load normalized World Cup data from a local API-Football snapshot directory."""
 
@@ -346,6 +347,7 @@ def load_world_cup_dataset(
     completed_matches = _completed_matches_from_payload(
         fixtures_payload,
         max_round=completed_round_limit,
+        before=completed_before,
     )
 
     team_payload = _read_optional_json(snapshot_dir / "teams_world_cup.json")
@@ -647,6 +649,7 @@ def _completed_matches_from_payload(
     payload: JsonObject,
     *,
     max_round: int | None,
+    before: datetime | None,
 ) -> dict[str, CompletedGroupMatch]:
     completed: dict[str, CompletedGroupMatch] = {}
     completed_statuses = {"FT", "AET", "PEN"}
@@ -658,6 +661,9 @@ def _completed_matches_from_payload(
         if max_round is not None and (round_number is None or round_number > max_round):
             continue
         fixture = _mapping(item.get("fixture")) or item
+        kickoff = _datetime_value(fixture.get("date")) or _datetime_value(item.get("kickoff"))
+        if before is not None and kickoff is not None and kickoff >= before:
+            continue
         status = _mapping(fixture.get("status")) or {}
         if _first_text(status, ("short",)) not in completed_statuses:
             continue

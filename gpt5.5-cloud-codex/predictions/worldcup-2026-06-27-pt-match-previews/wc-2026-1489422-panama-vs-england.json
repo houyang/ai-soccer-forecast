@@ -1,0 +1,414 @@
+{
+  "match": {
+    "match_id": "wc-2026-1489422",
+    "group": "Group L",
+    "round_number": 3,
+    "home_team": "Panama",
+    "away_team": "England",
+    "kickoff": "2026-06-27T21:00:00+00:00",
+    "venue_name": "MetLife Stadium",
+    "venue_city": "New York New Jersey",
+    "venue_country": "United States"
+  },
+  "prediction": {
+    "match_id": "wc-2026-1489422",
+    "group": "Group L",
+    "home_team": "Panama",
+    "away_team": "England",
+    "home_score": 1,
+    "away_score": 2,
+    "outcome": "away_win",
+    "confidence": 0.508,
+    "home_adjusted_rating": 34.592,
+    "away_adjusted_rating": 58.175,
+    "home_tournament_adjustment": -3.64,
+    "away_tournament_adjustment": 4.608,
+    "home_expected_goals": 0.76,
+    "away_expected_goals": 1.737,
+    "rationale": "Panama adjusted rating 34.6 vs England 58.2; expected goals 0.76-1.74. Location adjustment is +1.5/-0.8 and tournament update is -3.6/+4.6 for New York New Jersey, United States. Panama update: 2 match, 3-4-3, 0.00 ppm, -1.0 GD/m, XI +0.1, subs +0.0. England update: 2 match, 4-2-3-1, 2.00 ppm, +1.0 GD/m, XI +0.0, subs +0.0."
+  },
+  "home": {
+    "team": "Panama",
+    "coach": "Thomas Christiansen",
+    "formation": "5-4-1",
+    "lineup_source": "projected from latest lineup in wc-2026-1489403",
+    "starters": [
+      {
+        "player_id": 2968,
+        "name": "O. Mosquera",
+        "position": "G",
+        "number": 22,
+        "score": 18.465
+      },
+      {
+        "player_id": 2973,
+        "name": "M. Murillo",
+        "position": "D",
+        "number": 23,
+        "score": 16.095
+      },
+      {
+        "player_id": 57667,
+        "name": "J. Ramos",
+        "position": "D",
+        "number": 13,
+        "score": 16.182
+      },
+      {
+        "player_id": 57739,
+        "name": "J. Cordoba",
+        "position": "D",
+        "number": 3,
+        "score": 24.95
+      },
+      {
+        "player_id": 7197,
+        "name": "A. Andrade",
+        "position": "D",
+        "number": 16,
+        "score": 29.734
+      },
+      {
+        "player_id": 2975,
+        "name": "C. Blackman",
+        "position": "D",
+        "number": 2,
+        "score": 20.738
+      },
+      {
+        "player_id": 554208,
+        "name": "C. Martinez",
+        "position": "Midfielder",
+        "number": 6,
+        "score": 29.212
+      },
+      {
+        "player_id": 71230,
+        "name": "C. Harvey",
+        "position": "M",
+        "number": 14,
+        "score": 28.689
+      },
+      {
+        "player_id": 46855,
+        "name": "Y. Barcenas",
+        "position": "M",
+        "number": 11,
+        "score": 21.231
+      },
+      {
+        "player_id": 2979,
+        "name": "J. Rodriguez",
+        "position": "M",
+        "number": 7,
+        "score": 21.213
+      },
+      {
+        "player_id": 2983,
+        "name": "J. Fajardo",
+        "position": "F",
+        "number": 17,
+        "score": 17.226
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 57861,
+        "name": "C. Samudio",
+        "position": "G",
+        "number": 12,
+        "score": 19.368
+      },
+      {
+        "player_id": 2967,
+        "name": "L. Mejia",
+        "position": "G",
+        "number": 1,
+        "score": 19.735
+      },
+      {
+        "player_id": 2977,
+        "name": "A. Godoy",
+        "position": "M",
+        "number": 20,
+        "score": 21.913
+      },
+      {
+        "player_id": 51648,
+        "name": "C. Waterman",
+        "position": "F",
+        "number": 18,
+        "score": 27.065
+      },
+      {
+        "player_id": 81659,
+        "name": "R. Miller",
+        "position": "D",
+        "number": 25,
+        "score": 29.212
+      },
+      {
+        "player_id": 2971,
+        "name": "F. Escobar",
+        "position": "D",
+        "number": 4,
+        "score": 16.406
+      },
+      {
+        "player_id": 57910,
+        "name": "T. Rodriguez",
+        "position": "F",
+        "number": 9,
+        "score": 15.771
+      },
+      {
+        "player_id": 57875,
+        "name": "C. Yanis",
+        "position": "F",
+        "number": 21,
+        "score": 14.623
+      },
+      {
+        "player_id": 292396,
+        "name": "A. Londono",
+        "position": "F",
+        "number": 24,
+        "score": 22.689
+      },
+      {
+        "player_id": 328148,
+        "name": "E. Farina",
+        "position": "D",
+        "number": 5,
+        "score": 16.651
+      },
+      {
+        "player_id": 2970,
+        "name": "E. Davis",
+        "position": "D",
+        "number": 15,
+        "score": 20.673
+      },
+      {
+        "player_id": 2978,
+        "name": "A. Quintero",
+        "position": "F",
+        "number": 19,
+        "score": 18.735
+      },
+      {
+        "player_id": 96615,
+        "name": "I. Diaz",
+        "position": "F",
+        "number": 10,
+        "score": 15.055
+      },
+      {
+        "player_id": 57807,
+        "name": "A. Carrasquilla",
+        "position": "M",
+        "number": 8,
+        "score": 25.181
+      },
+      {
+        "player_id": 57803,
+        "name": "J. Gutierrez",
+        "position": "D",
+        "number": 26,
+        "score": 19.096
+      }
+    ]
+  },
+  "away": {
+    "team": "England",
+    "coach": "Thomas Tuchel",
+    "formation": "4-2-3-1",
+    "lineup_source": "projected from latest lineup in wc-2026-1489402",
+    "starters": [
+      {
+        "player_id": 2932,
+        "name": "J. Pickford",
+        "position": "G",
+        "number": 1,
+        "score": 32.912
+      },
+      {
+        "player_id": 19545,
+        "name": "R. James",
+        "position": "D",
+        "number": 24,
+        "score": 32.093
+      },
+      {
+        "player_id": 19354,
+        "name": "E. Konsa",
+        "position": "D",
+        "number": 2,
+        "score": 35.583
+      },
+      {
+        "player_id": 67971,
+        "name": "M. Guehi",
+        "position": "D",
+        "number": 6,
+        "score": 23.65
+      },
+      {
+        "player_id": 19235,
+        "name": "D. Spence",
+        "position": "D",
+        "number": 25,
+        "score": 25.106
+      },
+      {
+        "player_id": 138908,
+        "name": "E. Anderson",
+        "position": "M",
+        "number": 8,
+        "score": 24.388
+      },
+      {
+        "player_id": 2937,
+        "name": "D. Rice",
+        "position": "M",
+        "number": 4,
+        "score": 28.502
+      },
+      {
+        "player_id": 136723,
+        "name": "N. Madueke",
+        "position": "M",
+        "number": 20,
+        "score": 23.785
+      },
+      {
+        "player_id": 129718,
+        "name": "J. Bellingham",
+        "position": "M",
+        "number": 10,
+        "score": 33.947
+      },
+      {
+        "player_id": 138787,
+        "name": "A. Gordon",
+        "position": "M",
+        "number": 18,
+        "score": 37.321
+      },
+      {
+        "player_id": 184,
+        "name": "H. Kane",
+        "position": "F",
+        "number": 9,
+        "score": 37.9
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 19088,
+        "name": "D. Henderson",
+        "position": "G",
+        "number": 13,
+        "score": 23.179
+      },
+      {
+        "player_id": 162489,
+        "name": "J. Trafford",
+        "position": "G",
+        "number": 23,
+        "score": 22.54
+      },
+      {
+        "player_id": 292,
+        "name": "J. Henderson",
+        "position": "M",
+        "number": 14,
+        "score": 34.661
+      },
+      {
+        "player_id": 18961,
+        "name": "D. Burn",
+        "position": "D",
+        "number": 15,
+        "score": 29.336
+      },
+      {
+        "player_id": 19366,
+        "name": "O. Watkins",
+        "position": "F",
+        "number": 19,
+        "score": 34.969
+      },
+      {
+        "player_id": 19720,
+        "name": "T. Chalobah",
+        "position": "D",
+        "number": 12,
+        "score": null
+      },
+      {
+        "player_id": 19170,
+        "name": "M. Rogers",
+        "position": "M",
+        "number": 17,
+        "score": 39.665
+      },
+      {
+        "player_id": 1460,
+        "name": "B. Saka",
+        "position": "F",
+        "number": 7,
+        "score": 29.603
+      },
+      {
+        "player_id": 284322,
+        "name": "K. Mainoo",
+        "position": "M",
+        "number": 16,
+        "score": 34.14
+      },
+      {
+        "player_id": 307123,
+        "name": "N. O'Reilly",
+        "position": "D",
+        "number": 3,
+        "score": 33.634
+      },
+      {
+        "player_id": 626,
+        "name": "J. Stones",
+        "position": "D",
+        "number": 5,
+        "score": 31.276
+      },
+      {
+        "player_id": 19974,
+        "name": "I. Toney",
+        "position": "F",
+        "number": 22,
+        "score": 19.016
+      },
+      {
+        "player_id": 909,
+        "name": "M. Rashford",
+        "position": "F",
+        "number": 11,
+        "score": 48.694
+      },
+      {
+        "player_id": 19586,
+        "name": "E. Eze",
+        "position": "M",
+        "number": 21,
+        "score": 25.537
+      },
+      {
+        "player_id": 158698,
+        "name": "J. Quansah",
+        "position": "D",
+        "number": 26,
+        "score": 33.306
+      }
+    ]
+  }
+}

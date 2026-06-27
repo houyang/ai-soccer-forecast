@@ -50,6 +50,24 @@ To create a human-friendly group-by-group result table:
 soccer-forecast predict-world-cup-group-stage --output markdown
 ```
 
+To create a single-match PDF preview and structured JSON result before kickoff:
+
+```bash
+soccer-forecast predict-world-cup-match-preview 1489416 \
+  --data-dir data/api-football/world-cup-2026 \
+  --output predictions/wc-2026-1489416-preview.pdf \
+  --json-output predictions/wc-2026-1489416-preview.json \
+  --request-delay-seconds 0.5
+```
+
+The preview command refreshes the mutable fixture and standings snapshots, fetches
+tactical snapshots for completed fixtures before the target kickoff, and fetches the
+target fixture's lineup/event/statistics payloads. If the provider has announced the
+starting XIs, the report uses those coaches, formations, starters, and substitutes. If
+not, it falls back to the latest tournament lineup for each team, then to squad ranking
+projections. Use `--json-output` when a machine-readable copy of the same preview and
+prediction is needed.
+
 The fetcher stores raw JSON files for:
 
 - World Cup fixtures and national teams.
@@ -61,6 +79,8 @@ The fetcher stores raw JSON files for:
 - Leagues represented by those clubs, including standings and fixture counts.
 - Completed World Cup results plus tactical match snapshots when
   `fetch-world-cup-match-updates` is run.
+- Target-match tactical snapshots when `predict-world-cup-match-preview` refreshes a
+  single-match report.
 
 The default World Cup league id is `1`, which is the common API-Football id for the
 FIFA World Cup. Override it if your API account or provider response uses a different id.
@@ -111,3 +131,5 @@ proxy effects, and hot-weather city context. When match updates are available, t
 also applies bounded tournament adjustments from completed-match points, goal difference,
 the most-used formation, selected starting XI quality, and substitution participants
 before converting adjusted team ratings into expected goals and final scores.
+Single-match PDF/JSON previews use the same ratings, then add coach, formation, starter,
+and possible-substitute sections for both teams.
