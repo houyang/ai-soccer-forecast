@@ -1,0 +1,414 @@
+{
+  "match": {
+    "match_id": "wc-2026-1489419",
+    "group": "Group K",
+    "round_number": 3,
+    "home_team": "Colombia",
+    "away_team": "Portugal",
+    "kickoff": "2026-06-27T23:30:00+00:00",
+    "venue_name": "Hard Rock Stadium",
+    "venue_city": "Miami",
+    "venue_country": "United States"
+  },
+  "prediction": {
+    "match_id": "wc-2026-1489419",
+    "group": "Group K",
+    "home_team": "Colombia",
+    "away_team": "Portugal",
+    "home_score": 1,
+    "away_score": 1,
+    "outcome": "draw",
+    "confidence": 0.383,
+    "home_adjusted_rating": 50.586,
+    "away_adjusted_rating": 56.649,
+    "home_tournament_adjustment": 7.826,
+    "away_tournament_adjustment": 6.996,
+    "home_expected_goals": 1.118,
+    "away_expected_goals": 1.389,
+    "rationale": "Colombia adjusted rating 50.6 vs Portugal 56.6; expected goals 1.12-1.39. Location adjustment is +2.5/-1.3 and tournament update is +7.8/+7.0 for Miami, United States. Colombia update: 2 match, 4-3-3, 3.00 ppm, +1.5 GD/m, XI +0.1, subs +0.1. Portugal update: 2 match, 4-2-3-1, 2.00 ppm, +2.5 GD/m, XI +0.1, subs -0.0."
+  },
+  "home": {
+    "team": "Colombia",
+    "coach": "Nestor Lorenzo",
+    "formation": "4-3-3",
+    "lineup_source": "projected from latest lineup in wc-2026-1539008",
+    "starters": [
+      {
+        "player_id": 2482,
+        "name": "C. Vargas",
+        "position": "G",
+        "number": 12,
+        "score": 15.159
+      },
+      {
+        "player_id": 13736,
+        "name": "D. Munoz",
+        "position": "D",
+        "number": 2,
+        "score": 25.065
+      },
+      {
+        "player_id": 168,
+        "name": "D. Sanchez",
+        "position": "D",
+        "number": 23,
+        "score": 31.561
+      },
+      {
+        "player_id": 1929,
+        "name": "J. Lucumi",
+        "position": "D",
+        "number": 3,
+        "score": 18.749
+      },
+      {
+        "player_id": 64268,
+        "name": "J. Mojica",
+        "position": "D",
+        "number": 17,
+        "score": 20.436
+      },
+      {
+        "player_id": 324034,
+        "name": "G. Puerta",
+        "position": "M",
+        "number": 14,
+        "score": 23.374
+      },
+      {
+        "player_id": 2490,
+        "name": "J. Lerma",
+        "position": "M",
+        "number": 16,
+        "score": 22.235
+      },
+      {
+        "player_id": 13708,
+        "name": "J. Arias",
+        "position": "M",
+        "number": 11,
+        "score": 29.831
+      },
+      {
+        "player_id": 517,
+        "name": "J. Rodriguez",
+        "position": "F",
+        "number": 10,
+        "score": 16.942
+      },
+      {
+        "player_id": 47237,
+        "name": "L. Suarez",
+        "position": "F",
+        "number": 25,
+        "score": 27.104
+      },
+      {
+        "player_id": 2489,
+        "name": "L. Diaz",
+        "position": "F",
+        "number": 7,
+        "score": 32.428
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 313,
+        "name": "D. Ospina",
+        "position": "G",
+        "number": 1,
+        "score": 18.745
+      },
+      {
+        "player_id": 2481,
+        "name": "A. Montero",
+        "position": "G",
+        "number": 24,
+        "score": 17.876
+      },
+      {
+        "player_id": 24810,
+        "name": "J. Cordoba",
+        "position": "F",
+        "number": 9,
+        "score": 17.912
+      },
+      {
+        "player_id": 2484,
+        "name": "Y. Mina",
+        "position": "D",
+        "number": 13,
+        "score": 20.825
+      },
+      {
+        "player_id": 2483,
+        "name": "D. Machado",
+        "position": "D",
+        "number": 22,
+        "score": 34.707
+      },
+      {
+        "player_id": 47582,
+        "name": "C. Hernandez",
+        "position": "F",
+        "number": 19,
+        "score": 20.248
+      },
+      {
+        "player_id": 13151,
+        "name": "J. Portilla",
+        "position": "M",
+        "number": 15,
+        "score": 17.225
+      },
+      {
+        "player_id": 30,
+        "name": "S. Arias",
+        "position": "D",
+        "number": 4,
+        "score": 20.681
+      },
+      {
+        "player_id": 6005,
+        "name": "J. Quintero",
+        "position": "M",
+        "number": 20,
+        "score": 20.427
+      },
+      {
+        "player_id": 5994,
+        "name": "J. Carrascal",
+        "position": "M",
+        "number": 8,
+        "score": 17.036
+      },
+      {
+        "player_id": 13376,
+        "name": "J. Campaz",
+        "position": "M",
+        "number": 21,
+        "score": 19.983
+      },
+      {
+        "player_id": 13571,
+        "name": "W. Ditta",
+        "position": "D",
+        "number": 18,
+        "score": 18.175
+      },
+      {
+        "player_id": 195104,
+        "name": "R. Rios",
+        "position": "M",
+        "number": 6,
+        "score": 29.066
+      },
+      {
+        "player_id": 289592,
+        "name": "K. Castano",
+        "position": "M",
+        "number": 5,
+        "score": 26.927
+      },
+      {
+        "player_id": 345748,
+        "name": "A. Gomez",
+        "position": "F",
+        "number": 26,
+        "score": 22.725
+      }
+    ]
+  },
+  "away": {
+    "team": "Portugal",
+    "coach": "Roberto Martinez",
+    "formation": "4-2-3-1",
+    "lineup_source": "projected from latest lineup in wc-2026-1489404",
+    "starters": [
+      {
+        "player_id": 369,
+        "name": "D. Costa",
+        "position": "G",
+        "number": 1,
+        "score": 30.016
+      },
+      {
+        "player_id": 855,
+        "name": "J. Cancelo",
+        "position": "D",
+        "number": 20,
+        "score": 30.884
+      },
+      {
+        "player_id": 567,
+        "name": "R. Dias",
+        "position": "D",
+        "number": 3,
+        "score": 35.049
+      },
+      {
+        "player_id": 336671,
+        "name": "R. Veiga",
+        "position": "D",
+        "number": 13,
+        "score": 27.221
+      },
+      {
+        "player_id": 263482,
+        "name": "N. Mendes",
+        "position": "D",
+        "number": 25,
+        "score": 27.136
+      },
+      {
+        "player_id": 335051,
+        "name": "J. Neves",
+        "position": "M",
+        "number": 15,
+        "score": 29.023
+      },
+      {
+        "player_id": 128384,
+        "name": "Vitinha",
+        "position": "M",
+        "number": 23,
+        "score": 28.552
+      },
+      {
+        "player_id": 1864,
+        "name": "P. Neto",
+        "position": "M",
+        "number": 18,
+        "score": 36.474
+      },
+      {
+        "player_id": 1485,
+        "name": "B. Fernandes",
+        "position": "M",
+        "number": 8,
+        "score": 43.977
+      },
+      {
+        "player_id": 583,
+        "name": "Joao Felix",
+        "position": "M",
+        "number": 11,
+        "score": 29.347
+      },
+      {
+        "player_id": 874,
+        "name": "C. Ronaldo",
+        "position": "F",
+        "number": 7,
+        "score": 43.543
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 1590,
+        "name": "J. Sa",
+        "position": "G",
+        "number": 12,
+        "score": 21.33
+      },
+      {
+        "player_id": 46672,
+        "name": "R. Silva",
+        "position": "G",
+        "number": 22,
+        "score": 25.899
+      },
+      {
+        "player_id": 925,
+        "name": "G. Guedes",
+        "position": "F",
+        "number": 19,
+        "score": 29.542
+      },
+      {
+        "player_id": 130,
+        "name": "N. Semedo",
+        "position": "D",
+        "number": 2,
+        "score": 27.022
+      },
+      {
+        "player_id": 886,
+        "name": "D. Dalot",
+        "position": "D",
+        "number": 5,
+        "score": 37.499
+      },
+      {
+        "player_id": 41585,
+        "name": "G. Ramos",
+        "position": "F",
+        "number": 9,
+        "score": 28.045
+      },
+      {
+        "player_id": 265595,
+        "name": "G. Inacio",
+        "position": "D",
+        "number": 14,
+        "score": 27.88
+      },
+      {
+        "player_id": 190485,
+        "name": "Samu Costa",
+        "position": "M",
+        "number": 24,
+        "score": 22.956
+      },
+      {
+        "player_id": 41621,
+        "name": "M. Nunes",
+        "position": "M",
+        "number": 6,
+        "score": 35.049
+      },
+      {
+        "player_id": 636,
+        "name": "B. Silva",
+        "position": "M",
+        "number": 10,
+        "score": 37.374
+      },
+      {
+        "player_id": 2676,
+        "name": "R. Neves",
+        "position": "M",
+        "number": 21,
+        "score": 35.944
+      },
+      {
+        "player_id": 22236,
+        "name": "R. Leao",
+        "position": "F",
+        "number": 17,
+        "score": 30.586
+      },
+      {
+        "player_id": 41112,
+        "name": "Trincao",
+        "position": "F",
+        "number": 16,
+        "score": 27.078
+      },
+      {
+        "player_id": 161939,
+        "name": "T. Araujo",
+        "position": "D",
+        "number": 4,
+        "score": 22.956
+      },
+      {
+        "player_id": 161585,
+        "name": "F. Conceicao",
+        "position": "F",
+        "number": 26,
+        "score": 25.684
+      }
+    ]
+  }
+}

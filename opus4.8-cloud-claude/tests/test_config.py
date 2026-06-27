@@ -25,7 +25,7 @@ def test_from_env_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
     assert cfg.reasoner == "fake"
     assert cfg.api_football_key is None
     assert cfg.api_football_base_url == "https://v3.football.api-sports.io"
-    assert cfg.prediction_dir == Path("./perdiction")
+    assert cfg.prediction_dir == Path("./prediction")
 
 
 def test_from_env_overrides(monkeypatch: pytest.MonkeyPatch) -> None:

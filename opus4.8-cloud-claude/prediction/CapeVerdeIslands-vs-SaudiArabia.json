@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1489413,
+  "group": "Group H",
+  "kickoff": "2026-06-27T00:00:00+00:00",
+  "venue": "NRG Stadium / Houston",
+  "home": {
+    "team_id": 1533,
+    "name": "Cape Verde Islands",
+    "coach_name": "L\u00facio Antunes",
+    "coach_record": [
+      8,
+      6,
+      1
+    ],
+    "formation": "4-1-4-1",
+    "starters": [
+      {
+        "player_id": 15304,
+        "name": "V\u00f3zinha",
+        "position": "Goalkeeper",
+        "rating": 22.6
+      },
+      {
+        "player_id": 22139,
+        "name": "S. Moreira",
+        "position": "Defender",
+        "rating": 34.7
+      },
+      {
+        "player_id": 69260,
+        "name": "Pico",
+        "position": "Defender",
+        "rating": 32.1
+      },
+      {
+        "player_id": 41608,
+        "name": "Diney Borges",
+        "position": "Defender",
+        "rating": 47.0
+      },
+      {
+        "player_id": 308689,
+        "name": "S. Lopes Cabral",
+        "position": "Defender",
+        "rating": 42.6
+      },
+      {
+        "player_id": 96512,
+        "name": "Kevin Pina",
+        "position": "Midfielder",
+        "rating": 36.2
+      },
+      {
+        "player_id": 50270,
+        "name": "Ryan Mendes",
+        "position": "Midfielder",
+        "rating": 41.7
+      },
+      {
+        "player_id": 37436,
+        "name": "L. Duarte",
+        "position": "Midfielder",
+        "rating": 25.9
+      },
+      {
+        "player_id": 50745,
+        "name": "Jamiro Monteiro",
+        "position": "Midfielder",
+        "rating": 32.6
+      },
+      {
+        "player_id": 1494,
+        "name": "Jovane Cabral",
+        "position": "Attacker",
+        "rating": 31.3
+      },
+      {
+        "player_id": 343287,
+        "name": "D. Livramento",
+        "position": "Attacker",
+        "rating": 26.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 41764,
+        "name": "M\u00e1rcio Rosa",
+        "position": "Goalkeeper",
+        "rating": 22.6
+      },
+      {
+        "player_id": 163200,
+        "name": "C. dos Santos",
+        "position": "Goalkeeper",
+        "rating": 34.0
+      },
+      {
+        "player_id": 44612,
+        "name": "Garry Rodrigues",
+        "position": "Midfielder",
+        "rating": 35.2
+      },
+      {
+        "player_id": 37435,
+        "name": "Deroy Duarte",
+        "position": "Midfielder",
+        "rating": 26.9
+      },
+      {
+        "player_id": 21997,
+        "name": "Logan Costa",
+        "position": "Defender",
+        "rating": 56.1
+      },
+      {
+        "player_id": 268806,
+        "name": "Kelvin Pires",
+        "position": "Defender",
+        "rating": 21.3
+      },
+      {
+        "player_id": 142016,
+        "name": "Jo\u00e3o Paulo",
+        "position": "Midfielder",
+        "rating": 32.0
+      },
+      {
+        "player_id": 265556,
+        "name": "Telmo Arcanjo",
+        "position": "Midfielder",
+        "rating": 32.0
+      },
+      {
+        "player_id": 291024,
+        "name": "H\u00e9lio Varela",
+        "position": "Midfielder",
+        "rating": 44.9
+      },
+      {
+        "player_id": 2331,
+        "name": "Stopira",
+        "position": "Defender",
+        "rating": 34.4
+      },
+      {
+        "player_id": 22265,
+        "name": "Nuno da Costa",
+        "position": "Attacker",
+        "rating": 30.5
+      },
+      {
+        "player_id": 113580,
+        "name": "Willy Semedo",
+        "position": "Midfielder",
+        "rating": 53.6
+      },
+      {
+        "player_id": 128007,
+        "name": "Yannick Semedo",
+        "position": "Midfielder",
+        "rating": 29.4
+      },
+      {
+        "player_id": 309182,
+        "name": "Gilson Benchimol",
+        "position": "Attacker",
+        "rating": 35.3
+      },
+      {
+        "player_id": 332056,
+        "name": "Wagner Pina",
+        "position": "Defender",
+        "rating": 38.1
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 23,
+    "name": "Saudi Arabia",
+    "coach_name": "R. Mancini",
+    "coach_record": [
+      6,
+      2,
+      6
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 44411,
+        "name": "Mohammed Al Owais",
+        "position": "Goalkeeper",
+        "rating": 35.5
+      },
+      {
+        "player_id": 44594,
+        "name": "Saud Abdulhamid",
+        "position": "Defender",
+        "rating": 65.3
+      },
+      {
+        "player_id": 44475,
+        "name": "Abdulelah Al Amri",
+        "position": "Defender",
+        "rating": 58.7
+      },
+      {
+        "player_id": 44362,
+        "name": "Hassan Tambakti",
+        "position": "Defender",
+        "rating": 47.0
+      },
+      {
+        "player_id": 202381,
+        "name": "Moteb Al Harbi",
+        "position": "Defender",
+        "rating": 53.5
+      },
+      {
+        "player_id": 403087,
+        "name": "Mohammed Abu Al Shamat",
+        "position": "Midfielder",
+        "rating": 47.2
+      },
+      {
+        "player_id": 44349,
+        "name": "Mohamed Kanno",
+        "position": "Midfielder",
+        "rating": 56.8
+      },
+      {
+        "player_id": 44315,
+        "name": "Abdullah Al Khaibari",
+        "position": "Midfielder",
+        "rating": 38.6
+      },
+      {
+        "player_id": 44340,
+        "name": "Salem Al Dawsari",
+        "position": "Midfielder",
+        "rating": 63.4
+      },
+      {
+        "player_id": 44324,
+        "name": "Feras Al Brikan",
+        "position": "Attacker",
+        "rating": 44.7
+      },
+      {
+        "player_id": 306380,
+        "name": "Musab Al Juwayr",
+        "position": "Attacker",
+        "rating": 47.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 44449,
+        "name": "Ahmed Al Kassar",
+        "position": "Goalkeeper",
+        "rating": 34.5
+      },
+      {
+        "player_id": 193288,
+        "name": "Nawaf Al Aqidi",
+        "position": "Goalkeeper",
+        "rating": 38.1
+      },
+      {
+        "player_id": 44551,
+        "name": "Saleh Al Shehri",
+        "position": "Attacker",
+        "rating": 35.8
+      },
+      {
+        "player_id": 2639,
+        "name": "Sultan Mandash",
+        "position": "Attacker",
+        "rating": 46.5
+      },
+      {
+        "player_id": 44507,
+        "name": "Ali Lajami",
+        "position": "Defender",
+        "rating": 38.1
+      },
+      {
+        "player_id": 44339,
+        "name": "Nasser Al Dawsari",
+        "position": "Midfielder",
+        "rating": 40.3
+      },
+      {
+        "player_id": 44367,
+        "name": "Ali Majrashi",
+        "position": "Defender",
+        "rating": 41.2
+      },
+      {
+        "player_id": 44701,
+        "name": "Khalid Al Ghannam",
+        "position": "Attacker",
+        "rating": 49.5
+      },
+      {
+        "player_id": 44382,
+        "name": "Abdullah Al Hamdan",
+        "position": "Attacker",
+        "rating": 46.3
+      },
+      {
+        "player_id": 269172,
+        "name": "Ziyad Al Johani",
+        "position": "Midfielder",
+        "rating": 37.1
+      },
+      {
+        "player_id": 44335,
+        "name": "Hassan Kadesh",
+        "position": "Defender",
+        "rating": 53.2
+      },
+      {
+        "player_id": 593759,
+        "name": "Ala Al Haji",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 147812,
+        "name": "Ayman Yahya",
+        "position": "Attacker",
+        "rating": 39.3
+      },
+      {
+        "player_id": 134995,
+        "name": "Nawaf Boushal",
+        "position": "Defender",
+        "rating": 39.5
+      },
+      {
+        "player_id": 543059,
+        "name": "J. Thakri",
+        "position": "Defender",
+        "rating": 40.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489413,
+    "matchday": 3,
+    "group": "Group H",
+    "kickoff": "2026-06-27T00:00:00+00:00",
+    "home_id": 1533,
+    "away_id": 23,
+    "home_name": "Cape Verde Islands",
+    "away_name": "Saudi Arabia",
+    "lambda_home": 1.098,
+    "lambda_away": 1.322,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3092,
+    "p_draw": 0.2731,
+    "p_away": 0.4177,
+    "rationale": "Effective rating 46.9 vs 49.6 -> supremacy -0.16; xG 1.10-1.32; adj +0.52/+0.67.",
+    "home_adjustment": 0.517,
+    "away_adjustment": 0.667
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.129074707352877
+    ],
+    [
+      0,
+      1,
+      0.11755437828130871
+    ],
+    [
+      1,
+      0,
+      0.09763593597040618
+    ]
+  ]
+}

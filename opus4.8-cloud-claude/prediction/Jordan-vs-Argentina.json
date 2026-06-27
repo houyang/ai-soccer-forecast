@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1489421,
+  "group": "Group J",
+  "kickoff": "2026-06-28T02:00:00+00:00",
+  "venue": "AT&T Stadium / Dallas",
+  "home": {
+    "team_id": 1548,
+    "name": "Jordan",
+    "coach_name": "V. Borkelmans",
+    "coach_record": [
+      6,
+      3,
+      6
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 140607,
+        "name": "Yazid Abu Layla",
+        "position": "Goalkeeper",
+        "rating": 43.6
+      },
+      {
+        "player_id": 310835,
+        "name": "Abdallah Naseeb",
+        "position": "Defender",
+        "rating": 38.8
+      },
+      {
+        "player_id": 53900,
+        "name": "Yazan Al Arab",
+        "position": "Defender",
+        "rating": 22.6
+      },
+      {
+        "player_id": 102538,
+        "name": "M. Abualnadi",
+        "position": "Defender",
+        "rating": 41.2
+      },
+      {
+        "player_id": 53902,
+        "name": "Ehsan Haddad",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 213980,
+        "name": "Nizar Al Rashdan",
+        "position": "Midfielder",
+        "rating": 29.5
+      },
+      {
+        "player_id": 140609,
+        "name": "Noor Al Rawabdeh",
+        "position": "Midfielder",
+        "rating": 36.2
+      },
+      {
+        "player_id": 310785,
+        "name": "Mohannad Abu Taha",
+        "position": "Defender",
+        "rating": 38.5
+      },
+      {
+        "player_id": 568556,
+        "name": "O. Al Fakhouri",
+        "position": "Attacker",
+        "rating": 40.0
+      },
+      {
+        "player_id": 164026,
+        "name": "Ali Olwan",
+        "position": "Attacker",
+        "rating": 18.7
+      },
+      {
+        "player_id": 15286,
+        "name": "Mousa Tamari",
+        "position": "Midfielder",
+        "rating": 56.3
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 163908,
+        "name": "Noureddin Zaid",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 163884,
+        "name": "Abdallah Al Fakhouri",
+        "position": "Goalkeeper",
+        "rating": 41.5
+      },
+      {
+        "player_id": 104242,
+        "name": "Rajaei Ayed",
+        "position": "Midfielder",
+        "rating": 39.2
+      },
+      {
+        "player_id": 651096,
+        "name": "M. Al Daoud",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 72140,
+        "name": "Saleem Obaid",
+        "position": "Defender",
+        "rating": 34.8
+      },
+      {
+        "player_id": 542768,
+        "name": "Ibrahim Sa'deh",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 213978,
+        "name": "Saed Al Rosan",
+        "position": "Defender",
+        "rating": 39.2
+      },
+      {
+        "player_id": 542710,
+        "name": "M. Abu Hasheesh",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 542822,
+        "name": "H. Abu Al Dahab",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 123530,
+        "name": "Mahmoud Al Mardi",
+        "position": "Attacker",
+        "rating": 18.4
+      },
+      {
+        "player_id": 198211,
+        "name": "Amer Jamous",
+        "position": "Midfielder",
+        "rating": 37.8
+      },
+      {
+        "player_id": 72142,
+        "name": "Mohammed Abu Zurayq",
+        "position": "Attacker",
+        "rating": 40.0
+      },
+      {
+        "player_id": 664028,
+        "name": "A. Badawi",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 575283,
+        "name": "A. Azaizeh",
+        "position": "Attacker",
+        "rating": 28.2
+      },
+      {
+        "player_id": 601853,
+        "name": "#601853",
+        "position": "?",
+        "rating": 50.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 26,
+    "name": "Argentina",
+    "coach_name": "L. Scaloni",
+    "coach_record": [
+      11,
+      1,
+      1
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 19599,
+        "name": "E. Mart\u00ednez",
+        "position": "Goalkeeper",
+        "rating": 53.8
+      },
+      {
+        "player_id": 2468,
+        "name": "G. Montiel",
+        "position": "Defender",
+        "rating": 54.9
+      },
+      {
+        "player_id": 30776,
+        "name": "C. Romero",
+        "position": "Defender",
+        "rating": 72.3
+      },
+      {
+        "player_id": 2467,
+        "name": "Lisandro Mart\u00ednez",
+        "position": "Defender",
+        "rating": 56.4
+      },
+      {
+        "player_id": 6231,
+        "name": "F. Medina",
+        "position": "Defender",
+        "rating": 39.4
+      },
+      {
+        "player_id": 2472,
+        "name": "R. De Paul",
+        "position": "Midfielder",
+        "rating": 45.4
+      },
+      {
+        "player_id": 6716,
+        "name": "A. Mac Allister",
+        "position": "Midfielder",
+        "rating": 66.1
+      },
+      {
+        "player_id": 5996,
+        "name": "E. Fern\u00e1ndez",
+        "position": "Midfielder",
+        "rating": 73.2
+      },
+      {
+        "player_id": 6067,
+        "name": "T. Almada",
+        "position": "Midfielder",
+        "rating": 51.2
+      },
+      {
+        "player_id": 154,
+        "name": "L. Messi",
+        "position": "Attacker",
+        "rating": 69.0
+      },
+      {
+        "player_id": 217,
+        "name": "Lautaro Mart\u00ednez",
+        "position": "Attacker",
+        "rating": 65.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 47296,
+        "name": "G. Rulli",
+        "position": "Goalkeeper",
+        "rating": 44.7
+      },
+      {
+        "player_id": 2465,
+        "name": "J. Musso",
+        "position": "Goalkeeper",
+        "rating": 51.4
+      },
+      {
+        "player_id": 624,
+        "name": "N. Otamendi",
+        "position": "Defender",
+        "rating": 61.1
+      },
+      {
+        "player_id": 271,
+        "name": "L. Paredes",
+        "position": "Midfielder",
+        "rating": 45.8
+      },
+      {
+        "player_id": 6002,
+        "name": "E. Palacios",
+        "position": "Midfielder",
+        "rating": 49.5
+      },
+      {
+        "player_id": 26315,
+        "name": "N. Gonz\u00e1lez",
+        "position": "Attacker",
+        "rating": 47.8
+      },
+      {
+        "player_id": 6503,
+        "name": "N. Molina",
+        "position": "Defender",
+        "rating": 51.4
+      },
+      {
+        "player_id": 323935,
+        "name": "G. Simeone",
+        "position": "Midfielder",
+        "rating": 58.1
+      },
+      {
+        "player_id": 529,
+        "name": "N. Tagliafico",
+        "position": "Defender",
+        "rating": 37.9
+      },
+      {
+        "player_id": 1578,
+        "name": "G. Lo Celso",
+        "position": "Midfielder",
+        "rating": 51.0
+      },
+      {
+        "player_id": 6610,
+        "name": "#6610",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 6009,
+        "name": "J. \u00c1lvarez",
+        "position": "Attacker",
+        "rating": 67.8
+      },
+      {
+        "player_id": 295513,
+        "name": "J. L\u00f3pez",
+        "position": "Attacker",
+        "rating": 61.6
+      },
+      {
+        "player_id": 319572,
+        "name": "V. Barco",
+        "position": "Midfielder",
+        "rating": 53.7
+      },
+      {
+        "player_id": 350037,
+        "name": "N. Paz",
+        "position": "Attacker",
+        "rating": 55.7
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489421,
+    "matchday": 3,
+    "group": "Group J",
+    "kickoff": "2026-06-28T02:00:00+00:00",
+    "home_id": 1548,
+    "away_id": 26,
+    "home_name": "Jordan",
+    "away_name": "Argentina",
+    "lambda_home": 0.18,
+    "lambda_away": 2.423,
+    "score_home": 0,
+    "score_away": 2,
+    "p_home": 0.0131,
+    "p_draw": 0.1199,
+    "p_away": 0.867,
+    "rationale": "Effective rating 41.4 vs 78.0 -> supremacy -2.27; xG 0.18-2.42; adj -1.30/+1.33.",
+    "home_adjustment": -1.304,
+    "away_adjustment": 1.33
+  },
+  "top_scorelines": [
+    [
+      0,
+      2,
+      0.21757462517501205
+    ],
+    [
+      0,
+      3,
+      0.17572777226635142
+    ],
+    [
+      0,
+      1,
+      0.17474214634361265
+    ]
+  ]
+}

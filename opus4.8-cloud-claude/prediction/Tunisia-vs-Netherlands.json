@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1489412,
+  "group": "Group F",
+  "kickoff": "2026-06-25T23:00:00+00:00",
+  "venue": "Arrowhead Stadium / Kansas City",
+  "home": {
+    "team_id": 28,
+    "name": "Tunisia",
+    "coach_name": "S. Lamouchi",
+    "coach_record": [
+      5,
+      6,
+      4
+    ],
+    "formation": "5-3-2",
+    "starters": [
+      {
+        "player_id": 533394,
+        "name": "C. Abdelmouhib",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 18942,
+        "name": "Y. Valery",
+        "position": "Defender",
+        "rating": 24.6
+      },
+      {
+        "player_id": 163068,
+        "name": "O. Rekik",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 50030,
+        "name": "M. Talbi",
+        "position": "Defender",
+        "rating": 47.8
+      },
+      {
+        "player_id": 135059,
+        "name": "A. Ben Hmida",
+        "position": "Defender",
+        "rating": 39.4
+      },
+      {
+        "player_id": 49583,
+        "name": "A. Abdi",
+        "position": "Defender",
+        "rating": 56.7
+      },
+      {
+        "player_id": 25300,
+        "name": "R. Khedira",
+        "position": "Midfielder",
+        "rating": 50.7
+      },
+      {
+        "player_id": 21587,
+        "name": "E. Skhiri",
+        "position": "Midfielder",
+        "rating": 44.0
+      },
+      {
+        "player_id": 180560,
+        "name": "H. Mejbri",
+        "position": "Midfielder",
+        "rating": 46.2
+      },
+      {
+        "player_id": 323974,
+        "name": "E. Saad",
+        "position": "Attacker",
+        "rating": 26.0
+      },
+      {
+        "player_id": 199310,
+        "name": "A. Ben Slimane",
+        "position": "Midfielder",
+        "rating": 41.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 49423,
+        "name": "S. Ben Hsan",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 49424,
+        "name": "A. Dahmen",
+        "position": "Goalkeeper",
+        "rating": 32.5
+      },
+      {
+        "player_id": 2962,
+        "name": "F. Chaouat",
+        "position": "Attacker",
+        "rating": 33.6
+      },
+      {
+        "player_id": 57518,
+        "name": "S. Tounekti",
+        "position": "Attacker",
+        "rating": 38.9
+      },
+      {
+        "player_id": 42012,
+        "name": "E. Achouri",
+        "position": "Midfielder",
+        "rating": 39.2
+      },
+      {
+        "player_id": 67195,
+        "name": "H. Mahmoud",
+        "position": "Midfielder",
+        "rating": 30.2
+      },
+      {
+        "player_id": 310196,
+        "name": "Isma\u00ebl Gharbi",
+        "position": "Attacker",
+        "rating": 38.4
+      },
+      {
+        "player_id": 375608,
+        "name": "M. Neffati",
+        "position": "Defender",
+        "rating": 30.5
+      },
+      {
+        "player_id": 533295,
+        "name": "K. Ayari",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 533360,
+        "name": "R. Chikhaoui",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 566059,
+        "name": "R. Elloumi",
+        "position": "Attacker",
+        "rating": 37.2
+      },
+      {
+        "player_id": 49469,
+        "name": "M. Ben Ouanes",
+        "position": "Midfielder",
+        "rating": 28.4
+      },
+      {
+        "player_id": 2945,
+        "name": "D. Bronn",
+        "position": "Defender",
+        "rating": 22.1
+      },
+      {
+        "player_id": 344862,
+        "name": "H. Mastouri",
+        "position": "Attacker",
+        "rating": 27.8
+      },
+      {
+        "player_id": 393977,
+        "name": "A. Arous",
+        "position": "Defender",
+        "rating": 34.2
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 1118,
+    "name": "Netherlands",
+    "coach_name": "R. Koeman",
+    "coach_record": [
+      8,
+      6,
+      1
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 129058,
+        "name": "B. Verbruggen",
+        "position": "Goalkeeper",
+        "rating": 51.8
+      },
+      {
+        "player_id": 226,
+        "name": "D. Dumfries",
+        "position": "Defender",
+        "rating": 58.5
+      },
+      {
+        "player_id": 38695,
+        "name": "J. van Hecke",
+        "position": "Defender",
+        "rating": 69.3
+      },
+      {
+        "player_id": 290,
+        "name": "V. van Dijk",
+        "position": "Defender",
+        "rating": 77.7
+      },
+      {
+        "player_id": 152849,
+        "name": "M. van de Ven",
+        "position": "Defender",
+        "rating": 67.5
+      },
+      {
+        "player_id": 542,
+        "name": "R. Gravenberch",
+        "position": "Midfielder",
+        "rating": 67.2
+      },
+      {
+        "player_id": 538,
+        "name": "F. de Jong",
+        "position": "Midfielder",
+        "rating": 54.9
+      },
+      {
+        "player_id": 36902,
+        "name": "T. Reijnders",
+        "position": "Midfielder",
+        "rating": 69.3
+      },
+      {
+        "player_id": 37724,
+        "name": "C. Summerville",
+        "position": "Attacker",
+        "rating": 58.2
+      },
+      {
+        "player_id": 249,
+        "name": "D. Malen",
+        "position": "Attacker",
+        "rating": 71.3
+      },
+      {
+        "player_id": 247,
+        "name": "C. Gakpo",
+        "position": "Attacker",
+        "rating": 61.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 26232,
+        "name": "M. Flekken",
+        "position": "Goalkeeper",
+        "rating": 48.1
+      },
+      {
+        "player_id": 194536,
+        "name": "R. Roefs",
+        "position": "Goalkeeper",
+        "rating": 51.9
+      },
+      {
+        "player_id": 667,
+        "name": "M. Depay",
+        "position": "Attacker",
+        "rating": 45.6
+      },
+      {
+        "player_id": 25416,
+        "name": "W. Weghorst",
+        "position": "Attacker",
+        "rating": 40.3
+      },
+      {
+        "player_id": 38747,
+        "name": "Q. Timber",
+        "position": "Midfielder",
+        "rating": 41.4
+      },
+      {
+        "player_id": 38750,
+        "name": "B. Brobbey",
+        "position": "Attacker",
+        "rating": 53.8
+      },
+      {
+        "player_id": 92993,
+        "name": "M. Wieffer",
+        "position": "Defender",
+        "rating": 57.0
+      },
+      {
+        "player_id": 30432,
+        "name": "M. de Roon",
+        "position": "Midfielder",
+        "rating": 44.1
+      },
+      {
+        "player_id": 18861,
+        "name": "N. Ak\u00e9",
+        "position": "Defender",
+        "rating": 56.1
+      },
+      {
+        "player_id": 36899,
+        "name": "T. Koopmeiners",
+        "position": "Midfielder",
+        "rating": 46.3
+      },
+      {
+        "player_id": 792,
+        "name": "J. Kluivert",
+        "position": "Attacker",
+        "rating": 44.2
+      },
+      {
+        "player_id": 36905,
+        "name": "G. Til",
+        "position": "Midfielder",
+        "rating": 58.3
+      },
+      {
+        "player_id": 544,
+        "name": "N. Lang",
+        "position": "Attacker",
+        "rating": 44.1
+      },
+      {
+        "player_id": 37143,
+        "name": "#37143",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 341642,
+        "name": "J. Hato",
+        "position": "Defender",
+        "rating": 55.3
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489412,
+    "matchday": 3,
+    "group": "Group F",
+    "kickoff": "2026-06-25T23:00:00+00:00",
+    "home_id": 28,
+    "away_id": 1118,
+    "home_name": "Tunisia",
+    "away_name": "Netherlands",
+    "lambda_home": 0.438,
+    "lambda_away": 2.052,
+    "score_home": 0,
+    "score_away": 2,
+    "p_home": 0.0676,
+    "p_draw": 0.1761,
+    "p_away": 0.7563,
+    "rationale": "Effective rating 44.5 vs 70.4 -> supremacy -1.60; xG 0.44-2.05; adj -3.03/-0.35.",
+    "home_adjustment": -3.028,
+    "away_adjustment": -0.349
+  },
+  "top_scorelines": [
+    [
+      0,
+      2,
+      0.17455466394897295
+    ],
+    [
+      0,
+      1,
+      0.17013125141225435
+    ],
+    [
+      0,
+      3,
+      0.1193953901410975
+    ]
+  ]
+}

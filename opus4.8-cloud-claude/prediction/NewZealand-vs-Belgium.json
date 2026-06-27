@@ -1,0 +1,377 @@
+{
+  "fixture_id": 1489415,
+  "group": "Group G",
+  "kickoff": "2026-06-27T03:00:00+00:00",
+  "venue": "BC Place / Vancouver",
+  "home": {
+    "team_id": 4673,
+    "name": "New Zealand",
+    "coach_name": "F. Schmid",
+    "coach_record": [
+      5,
+      1,
+      9
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 18110,
+        "name": "M. Crocombe",
+        "position": "Goalkeeper",
+        "rating": 34.4
+      },
+      {
+        "player_id": 94346,
+        "name": "T. Payne",
+        "position": "Defender",
+        "rating": 20.6
+      },
+      {
+        "player_id": 210165,
+        "name": "F. Surman",
+        "position": "Defender",
+        "rating": 35.3
+      },
+      {
+        "player_id": 51149,
+        "name": "M. Boxall",
+        "position": "Defender",
+        "rating": 38.9
+      },
+      {
+        "player_id": 6931,
+        "name": "L. Cacace",
+        "position": "Defender",
+        "rating": 34.3
+      },
+      {
+        "player_id": 94541,
+        "name": "J. Bell",
+        "position": "Midfielder",
+        "rating": 40.5
+      },
+      {
+        "player_id": 179862,
+        "name": "M. Stamenic",
+        "position": "Midfielder",
+        "rating": 36.2
+      },
+      {
+        "player_id": 94322,
+        "name": "C. McCowatt",
+        "position": "Midfielder",
+        "rating": 49.1
+      },
+      {
+        "player_id": 6935,
+        "name": "S. Singh",
+        "position": "Midfielder",
+        "rating": 27.6
+      },
+      {
+        "player_id": 94333,
+        "name": "E. Just",
+        "position": "Midfielder",
+        "rating": 44.1
+      },
+      {
+        "player_id": 18931,
+        "name": "C. Wood",
+        "position": "Attacker",
+        "rating": 50.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 36777,
+        "name": "M. Woud",
+        "position": "Goalkeeper",
+        "rating": 31.6
+      },
+      {
+        "player_id": 94360,
+        "name": "A. Paulsen",
+        "position": "Goalkeeper",
+        "rating": 22.0
+      },
+      {
+        "player_id": 51307,
+        "name": "T. Smith",
+        "position": "Defender",
+        "rating": 29.8
+      },
+      {
+        "player_id": 242,
+        "name": "R. Thomas",
+        "position": "Midfielder",
+        "rating": 35.0
+      },
+      {
+        "player_id": 6938,
+        "name": "B. Waine",
+        "position": "Attacker",
+        "rating": 30.9
+      },
+      {
+        "player_id": 179856,
+        "name": "B. Old",
+        "position": "Attacker",
+        "rating": 27.5
+      },
+      {
+        "player_id": 158688,
+        "name": "J. Randall",
+        "position": "Attacker",
+        "rating": 40.7
+      },
+      {
+        "player_id": 405957,
+        "name": "L. Bayliss",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 6865,
+        "name": "K. Barbarouses",
+        "position": "Attacker",
+        "rating": 24.2
+      },
+      {
+        "player_id": 6934,
+        "name": "A. Rufer",
+        "position": "Midfielder",
+        "rating": 33.7
+      },
+      {
+        "player_id": 94405,
+        "name": "F. de Vries",
+        "position": "Defender",
+        "rating": 37.3
+      },
+      {
+        "player_id": 6932,
+        "name": "C. Elliot",
+        "position": "Defender",
+        "rating": 26.4
+      },
+      {
+        "player_id": 94344,
+        "name": "N. Pijnaker",
+        "position": "Defender",
+        "rating": 49.5
+      },
+      {
+        "player_id": 430835,
+        "name": "Tyler Bindon",
+        "position": "Defender",
+        "rating": 36.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 1,
+    "name": "Belgium",
+    "coach_name": "R. Garcia",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 730,
+        "name": "T. Courtois",
+        "position": "Goalkeeper",
+        "rating": 47.1
+      },
+      {
+        "player_id": 264,
+        "name": "T. Meunier",
+        "position": "Defender",
+        "rating": 51.1
+      },
+      {
+        "player_id": 312964,
+        "name": "N. Ngoy",
+        "position": "Defender",
+        "rating": 55.8
+      },
+      {
+        "player_id": 69,
+        "name": "B. Mechele",
+        "position": "Defender",
+        "rating": 59.1
+      },
+      {
+        "player_id": 2920,
+        "name": "T. Castagne",
+        "position": "Defender",
+        "rating": 46.7
+      },
+      {
+        "player_id": 162714,
+        "name": "A. Onana",
+        "position": "Midfielder",
+        "rating": 59.0
+      },
+      {
+        "player_id": 2926,
+        "name": "Y. Tielemans",
+        "position": "Midfielder",
+        "rating": 61.2
+      },
+      {
+        "player_id": 1946,
+        "name": "L. Trossard",
+        "position": "Midfielder",
+        "rating": 77.2
+      },
+      {
+        "player_id": 629,
+        "name": "K. De Bruyne",
+        "position": "Midfielder",
+        "rating": 52.9
+      },
+      {
+        "player_id": 1422,
+        "name": "J. Doku",
+        "position": "Midfielder",
+        "rating": 85.1
+      },
+      {
+        "player_id": 147859,
+        "name": "C. De Ketelaere",
+        "position": "Attacker",
+        "rating": 49.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 162511,
+        "name": "S. Lammens",
+        "position": "Goalkeeper",
+        "rating": 54.3
+      },
+      {
+        "player_id": 340151,
+        "name": "M. Penders",
+        "position": "Goalkeeper",
+        "rating": 43.9
+      },
+      {
+        "player_id": 20,
+        "name": "A. Witsel",
+        "position": "Midfielder",
+        "rating": 37.7
+      },
+      {
+        "player_id": 907,
+        "name": "R. Lukaku",
+        "position": "Attacker",
+        "rating": 34.8
+      },
+      {
+        "player_id": 78,
+        "name": "H. Vanaken",
+        "position": "Midfielder",
+        "rating": 62.4
+      },
+      {
+        "player_id": 1417,
+        "name": "A. Saelemaekers",
+        "position": "Attacker",
+        "rating": 49.2
+      },
+      {
+        "player_id": 2120,
+        "name": "N. Raskin",
+        "position": "Midfielder",
+        "rating": 47.0
+      },
+      {
+        "player_id": 204043,
+        "name": "A. Theate",
+        "position": "Defender",
+        "rating": 46.6
+      },
+      {
+        "player_id": 340077,
+        "name": "M. Fernandez-Pardo",
+        "position": "Attacker",
+        "rating": 50.7
+      },
+      {
+        "player_id": 335056,
+        "name": "D. Moreira",
+        "position": "Attacker",
+        "rating": 50.4
+      },
+      {
+        "player_id": 25458,
+        "name": "D. Lukebakio",
+        "position": "Attacker",
+        "rating": 37.1
+      },
+      {
+        "player_id": 162007,
+        "name": "M. De Cuyper",
+        "position": "Defender",
+        "rating": 58.9
+      },
+      {
+        "player_id": 162141,
+        "name": "K. De Winter",
+        "position": "Defender",
+        "rating": 46.1
+      },
+      {
+        "player_id": 375974,
+        "name": "J. Seys",
+        "position": "Defender",
+        "rating": 54.7
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489415,
+    "matchday": 3,
+    "group": "Group G",
+    "kickoff": "2026-06-27T03:00:00+00:00",
+    "home_id": 4673,
+    "away_id": 1,
+    "home_name": "New Zealand",
+    "away_name": "Belgium",
+    "lambda_home": 0.449,
+    "lambda_away": 2.031,
+    "score_home": 0,
+    "score_away": 2,
+    "p_home": 0.0708,
+    "p_draw": 0.1795,
+    "p_away": 0.7497,
+    "rationale": "Effective rating 39.4 vs 66.8 -> supremacy -1.70; xG 0.45-2.03; adj +0.15/-0.57.",
+    "home_adjustment": 0.154,
+    "away_adjustment": -0.571
+  },
+  "top_scorelines": [
+    [
+      0,
+      2,
+      0.17271876979100512
+    ],
+    [
+      0,
+      1,
+      0.17008249117774998
+    ],
+    [
+      0,
+      3,
+      0.11693060714851049
+    ]
+  ]
+}

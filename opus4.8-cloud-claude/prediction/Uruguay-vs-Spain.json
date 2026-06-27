@@ -1,0 +1,377 @@
+{
+  "fixture_id": 1489417,
+  "group": "Group H",
+  "kickoff": "2026-06-27T00:00:00+00:00",
+  "venue": "Estadio Akron / Guadalajara",
+  "home": {
+    "team_id": 7,
+    "name": "Uruguay",
+    "coach_name": "M. Bielsa",
+    "coach_record": [
+      5,
+      7,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 429,
+        "name": "F. Muslera",
+        "position": "Goalkeeper",
+        "rating": 33.6
+      },
+      {
+        "player_id": 1290,
+        "name": "G. Varela",
+        "position": "Defender",
+        "rating": 47.3
+      },
+      {
+        "player_id": 51535,
+        "name": "S. C\u00e1ceres",
+        "position": "Defender",
+        "rating": 39.5
+      },
+      {
+        "player_id": 47254,
+        "name": "M. Olivera",
+        "position": "Defender",
+        "rating": 38.0
+      },
+      {
+        "player_id": 51572,
+        "name": "M. Vi\u00f1a",
+        "position": "Defender",
+        "rating": 27.9
+      },
+      {
+        "player_id": 51494,
+        "name": "M. Ugarte",
+        "position": "Midfielder",
+        "rating": 49.8
+      },
+      {
+        "player_id": 863,
+        "name": "R. Bentancur",
+        "position": "Midfielder",
+        "rating": 49.0
+      },
+      {
+        "player_id": 756,
+        "name": "F. Valverde",
+        "position": "Midfielder",
+        "rating": 70.6
+      },
+      {
+        "player_id": 51530,
+        "name": "F. Vi\u00f1as",
+        "position": "Attacker",
+        "rating": 47.2
+      },
+      {
+        "player_id": 51776,
+        "name": "M. Ara\u00fajo",
+        "position": "Midfielder",
+        "rating": 50.2
+      },
+      {
+        "player_id": 51617,
+        "name": "D. N\u00fa\u00f1ez",
+        "position": "Attacker",
+        "rating": 49.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 50077,
+        "name": "S. Rochet",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 61895,
+        "name": "S. Mele",
+        "position": "Goalkeeper",
+        "rating": 26.0
+      },
+      {
+        "player_id": 31,
+        "name": "J. Gim\u00e9nez",
+        "position": "Defender",
+        "rating": 50.1
+      },
+      {
+        "player_id": 51618,
+        "name": "B. Rodr\u00edguez",
+        "position": "Attacker",
+        "rating": 56.7
+      },
+      {
+        "player_id": 153083,
+        "name": "E. Mart\u00ednez",
+        "position": "Midfielder",
+        "rating": 39.1
+      },
+      {
+        "player_id": 16482,
+        "name": "R. Aguirre",
+        "position": "Attacker",
+        "rating": 33.4
+      },
+      {
+        "player_id": 5995,
+        "name": "N. de la Cruz",
+        "position": "Midfielder",
+        "rating": 52.1
+      },
+      {
+        "player_id": 135334,
+        "name": "S. Bueno",
+        "position": "Defender",
+        "rating": 66.0
+      },
+      {
+        "player_id": 51603,
+        "name": "A. Canobbio",
+        "position": "Midfielder",
+        "rating": 54.7
+      },
+      {
+        "player_id": 51466,
+        "name": "J. Piquerez",
+        "position": "Attacker",
+        "rating": 45.7
+      },
+      {
+        "player_id": 162891,
+        "name": "J. Sanabria",
+        "position": "Midfielder",
+        "rating": 36.8
+      },
+      {
+        "player_id": 108563,
+        "name": "R. Zalazar",
+        "position": "Midfielder",
+        "rating": 55.4
+      },
+      {
+        "player_id": 70078,
+        "name": "F. Pellistri",
+        "position": "Attacker",
+        "rating": 20.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 9,
+    "name": "Spain",
+    "coach_name": "Fernando Hierro",
+    "coach_record": [
+      8,
+      6,
+      0
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 47270,
+        "name": "Unai Sim\u00f3n",
+        "position": "Goalkeeper",
+        "rating": 35.9
+      },
+      {
+        "player_id": 753,
+        "name": "Marcos Llorente",
+        "position": "Midfielder",
+        "rating": 58.9
+      },
+      {
+        "player_id": 396623,
+        "name": "Pau Cubars\u00ed Paredes",
+        "position": "Defender",
+        "rating": 55.8
+      },
+      {
+        "player_id": 622,
+        "name": "Aymeric Laporte",
+        "position": "Defender",
+        "rating": 37.5
+      },
+      {
+        "player_id": 47380,
+        "name": "Marc Cucurella",
+        "position": "Defender",
+        "rating": 53.0
+      },
+      {
+        "player_id": 328,
+        "name": "Fabi\u00e1n Ruiz",
+        "position": "Midfielder",
+        "rating": 58.6
+      },
+      {
+        "player_id": 44,
+        "name": "Rodri",
+        "position": "Midfielder",
+        "rating": 67.3
+      },
+      {
+        "player_id": 133609,
+        "name": "Pedri",
+        "position": "Midfielder",
+        "rating": 60.0
+      },
+      {
+        "player_id": 931,
+        "name": "Ferran Torres",
+        "position": "Midfielder",
+        "rating": 65.8
+      },
+      {
+        "player_id": 47323,
+        "name": "Mikel Oyarzabal",
+        "position": "Attacker",
+        "rating": 60.9
+      },
+      {
+        "player_id": 296667,
+        "name": "Gavi",
+        "position": "Midfielder",
+        "rating": 51.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19465,
+        "name": "David Raya",
+        "position": "Goalkeeper",
+        "rating": 58.8
+      },
+      {
+        "player_id": 182718,
+        "name": "Joan Garc\u00eda",
+        "position": "Goalkeeper",
+        "rating": 54.5
+      },
+      {
+        "player_id": 47519,
+        "name": "Pedro Porro",
+        "position": "Defender",
+        "rating": 59.7
+      },
+      {
+        "player_id": 47315,
+        "name": "Mart\u00edn Zubimendi",
+        "position": "Midfielder",
+        "rating": 71.6
+      },
+      {
+        "player_id": 386828,
+        "name": "Lamine Yamal",
+        "position": "Attacker",
+        "rating": 83.5
+      },
+      {
+        "player_id": 563,
+        "name": "\u00c1lex Grimaldo",
+        "position": "Defender",
+        "rating": 71.7
+      },
+      {
+        "player_id": 47348,
+        "name": "Borja Iglesias",
+        "position": "Attacker",
+        "rating": 54.2
+      },
+      {
+        "player_id": 47311,
+        "name": "Mikel Merino",
+        "position": "Midfielder",
+        "rating": 68.6
+      },
+      {
+        "player_id": 1323,
+        "name": "Dani Olmo",
+        "position": "Midfielder",
+        "rating": 66.2
+      },
+      {
+        "player_id": 619,
+        "name": "Eric Garc\u00eda",
+        "position": "Defender",
+        "rating": 53.9
+      },
+      {
+        "player_id": 182219,
+        "name": "\u00c1lex Baena",
+        "position": "Midfielder",
+        "rating": 66.6
+      },
+      {
+        "player_id": 184226,
+        "name": "Yeremy Pino",
+        "position": "Midfielder",
+        "rating": 62.9
+      },
+      {
+        "player_id": 183799,
+        "name": "Nico Williams",
+        "position": "Attacker",
+        "rating": 45.1
+      },
+      {
+        "player_id": 338751,
+        "name": "V\u00edctor Mu\u00f1oz",
+        "position": "Attacker",
+        "rating": 43.9
+      },
+      {
+        "player_id": 295793,
+        "name": "Marc Pubill",
+        "position": "Defender",
+        "rating": 54.3
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489417,
+    "matchday": 3,
+    "group": "Group H",
+    "kickoff": "2026-06-27T00:00:00+00:00",
+    "home_id": 7,
+    "away_id": 9,
+    "home_name": "Uruguay",
+    "away_name": "Spain",
+    "lambda_home": 0.801,
+    "lambda_away": 1.679,
+    "score_home": 0,
+    "score_away": 1,
+    "p_home": 0.1769,
+    "p_draw": 0.2405,
+    "p_away": 0.5826,
+    "rationale": "Effective rating 58.4 vs 70.6 -> supremacy -0.76; xG 0.80-1.68; adj -1.89/-2.82.",
+    "home_adjustment": -1.894,
+    "away_adjustment": -2.816
+  },
+  "top_scorelines": [
+    [
+      0,
+      1,
+      0.14060487576929703
+    ],
+    [
+      0,
+      2,
+      0.11803779320832486
+    ],
+    [
+      1,
+      1,
+      0.11262450549120691
+    ]
+  ]
+}

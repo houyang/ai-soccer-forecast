@@ -1,0 +1,383 @@
+{
+  "fixture_id": 1489422,
+  "group": "Group L",
+  "kickoff": "2026-06-27T21:00:00+00:00",
+  "venue": "MetLife Stadium / New York New Jersey",
+  "home": {
+    "team_id": 11,
+    "name": "Panama",
+    "coach_name": "Thomas Christiansen",
+    "coach_record": [
+      6,
+      7,
+      2
+    ],
+    "formation": "3-4-3",
+    "starters": [
+      {
+        "player_id": 2968,
+        "name": "O. Mosquera",
+        "position": "Goalkeeper",
+        "rating": 31.6
+      },
+      {
+        "player_id": 57667,
+        "name": "J. Ramos",
+        "position": "Defender",
+        "rating": 10.0
+      },
+      {
+        "player_id": 57739,
+        "name": "J. C\u00f3rdoba",
+        "position": "Defender",
+        "rating": 36.5
+      },
+      {
+        "player_id": 7197,
+        "name": "A. Andrade",
+        "position": "Defender",
+        "rating": 50.4
+      },
+      {
+        "player_id": 2973,
+        "name": "A. Murillo",
+        "position": "Defender",
+        "rating": 53.5
+      },
+      {
+        "player_id": 71230,
+        "name": "C. Harvey",
+        "position": "Midfielder",
+        "rating": 42.5
+      },
+      {
+        "player_id": 46855,
+        "name": "Y. B\u00e1rcenas",
+        "position": "Midfielder",
+        "rating": 34.8
+      },
+      {
+        "player_id": 2975,
+        "name": "C. Blackman",
+        "position": "Defender",
+        "rating": 35.6
+      },
+      {
+        "player_id": 50911,
+        "name": "#50911",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 51648,
+        "name": "C. Waterman",
+        "position": "Attacker",
+        "rating": 48.2
+      },
+      {
+        "player_id": 2979,
+        "name": "J. Rodr\u00edguez",
+        "position": "Midfielder",
+        "rating": 38.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 292396,
+        "name": "A. Londo\u00f1o",
+        "position": "Midfielder",
+        "rating": 49.3
+      },
+      {
+        "player_id": 2983,
+        "name": "J. Fajardo",
+        "position": "Attacker",
+        "rating": 33.4
+      },
+      {
+        "player_id": 96615,
+        "name": "I. D\u00edaz",
+        "position": "Midfielder",
+        "rating": 53.3
+      },
+      {
+        "player_id": 2977,
+        "name": "A. Godoy",
+        "position": "Midfielder",
+        "rating": 38.7
+      },
+      {
+        "player_id": 57861,
+        "name": "C. Samudio",
+        "position": "Goalkeeper",
+        "rating": 29.0
+      },
+      {
+        "player_id": 2967,
+        "name": "L. Mej\u00eda",
+        "position": "Goalkeeper",
+        "rating": 31.3
+      },
+      {
+        "player_id": 2971,
+        "name": "F. Escobar",
+        "position": "Defender",
+        "rating": 31.5
+      },
+      {
+        "player_id": 328148,
+        "name": "E. Fari\u00f1a",
+        "position": "Defender",
+        "rating": 27.2
+      },
+      {
+        "player_id": 2970,
+        "name": "\u00c9. Davis",
+        "position": "Defender",
+        "rating": 29.9
+      },
+      {
+        "player_id": 81659,
+        "name": "R. Miller",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 57803,
+        "name": "J. Guti\u00e9rrez",
+        "position": "Defender",
+        "rating": 35.4
+      },
+      {
+        "player_id": 57807,
+        "name": "A. Carrasquilla",
+        "position": "Midfielder",
+        "rating": 48.1
+      },
+      {
+        "player_id": 2978,
+        "name": "A. Quintero",
+        "position": "Midfielder",
+        "rating": 28.8
+      },
+      {
+        "player_id": 57875,
+        "name": "C. Yanis",
+        "position": "Midfielder",
+        "rating": 29.6
+      },
+      {
+        "player_id": 57910,
+        "name": "T. Rodr\u00edguez",
+        "position": "Attacker",
+        "rating": 32.5
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 10,
+    "name": "England",
+    "coach_name": "T. Tuchel",
+    "coach_record": [
+      12,
+      1,
+      2
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 2932,
+        "name": "J. Pickford",
+        "position": "Goalkeeper",
+        "rating": 49.8
+      },
+      {
+        "player_id": 19545,
+        "name": "R. James",
+        "position": "Defender",
+        "rating": 72.0
+      },
+      {
+        "player_id": 19354,
+        "name": "E. Konsa",
+        "position": "Defender",
+        "rating": 64.5
+      },
+      {
+        "player_id": 626,
+        "name": "J. Stones",
+        "position": "Defender",
+        "rating": 56.2
+      },
+      {
+        "player_id": 307123,
+        "name": "N. Oreilly",
+        "position": "Defender",
+        "rating": 76.4
+      },
+      {
+        "player_id": 138908,
+        "name": "E. Anderson",
+        "position": "Midfielder",
+        "rating": 66.5
+      },
+      {
+        "player_id": 2937,
+        "name": "D. Rice",
+        "position": "Midfielder",
+        "rating": 75.0
+      },
+      {
+        "player_id": 136723,
+        "name": "N. Madueke",
+        "position": "Midfielder",
+        "rating": 76.9
+      },
+      {
+        "player_id": 129718,
+        "name": "J. Bellingham",
+        "position": "Midfielder",
+        "rating": 69.3
+      },
+      {
+        "player_id": 138787,
+        "name": "A. Gordon",
+        "position": "Midfielder",
+        "rating": 74.7
+      },
+      {
+        "player_id": 184,
+        "name": "H. Kane",
+        "position": "Attacker",
+        "rating": 87.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19170,
+        "name": "M. Rogers",
+        "position": "Midfielder",
+        "rating": 72.9
+      },
+      {
+        "player_id": 1460,
+        "name": "B. Saka",
+        "position": "Attacker",
+        "rating": 73.8
+      },
+      {
+        "player_id": 909,
+        "name": "M. Rashford",
+        "position": "Midfielder",
+        "rating": 68.3
+      },
+      {
+        "player_id": 19235,
+        "name": "D. Spence",
+        "position": "Defender",
+        "rating": 43.8
+      },
+      {
+        "player_id": 67971,
+        "name": "M. Gu\u00e9hi",
+        "position": "Defender",
+        "rating": 77.2
+      },
+      {
+        "player_id": 19088,
+        "name": "D. Henderson",
+        "position": "Goalkeeper",
+        "rating": 50.4
+      },
+      {
+        "player_id": 162489,
+        "name": "J. Trafford",
+        "position": "Goalkeeper",
+        "rating": 59.9
+      },
+      {
+        "player_id": 18961,
+        "name": "D. Burn",
+        "position": "Defender",
+        "rating": 55.9
+      },
+      {
+        "player_id": 158698,
+        "name": "J. Quansah",
+        "position": "Defender",
+        "rating": 65.2
+      },
+      {
+        "player_id": 19586,
+        "name": "E. Eze",
+        "position": "Midfielder",
+        "rating": 77.6
+      },
+      {
+        "player_id": 292,
+        "name": "J. Henderson",
+        "position": "Midfielder",
+        "rating": 48.1
+      },
+      {
+        "player_id": 284322,
+        "name": "K. Mainoo",
+        "position": "Midfielder",
+        "rating": 52.8
+      },
+      {
+        "player_id": 19974,
+        "name": "I. Toney",
+        "position": "Attacker",
+        "rating": 60.9
+      },
+      {
+        "player_id": 19366,
+        "name": "O. Watkins",
+        "position": "Midfielder",
+        "rating": 71.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489422,
+    "matchday": 3,
+    "group": "Group L",
+    "kickoff": "2026-06-27T21:00:00+00:00",
+    "home_id": 11,
+    "away_id": 10,
+    "home_name": "Panama",
+    "away_name": "England",
+    "lambda_home": 0.239,
+    "lambda_away": 2.411,
+    "score_home": 0,
+    "score_away": 2,
+    "p_home": 0.0188,
+    "p_draw": 0.13,
+    "p_away": 0.8512,
+    "rationale": "Effective rating 46.9 vs 81.2 -> supremacy -2.12; xG 0.24-2.41; adj -1.28/+0.43.",
+    "home_adjustment": -1.28,
+    "away_adjustment": 0.435
+  },
+  "top_scorelines": [
+    [
+      0,
+      2,
+      0.2055277920407135
+    ],
+    [
+      0,
+      3,
+      0.1651758355367201
+    ],
+    [
+      0,
+      1,
+      0.16437961069768053
+    ]
+  ]
+}

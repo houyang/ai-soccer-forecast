@@ -1,0 +1,377 @@
+{
+  "fixture_id": 1489407,
+  "group": "Group A",
+  "kickoff": "2026-06-25T01:00:00+00:00",
+  "venue": "Estadio BBVA / Monterrey",
+  "home": {
+    "team_id": 1531,
+    "name": "South Africa",
+    "coach_name": "M. Ntseki",
+    "coach_record": [
+      6,
+      5,
+      3
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 3275,
+        "name": "R. Williams",
+        "position": "Goalkeeper",
+        "rating": 32.5
+      },
+      {
+        "player_id": 46601,
+        "name": "K. Mudau",
+        "position": "Defender",
+        "rating": 37.0
+      },
+      {
+        "player_id": 406752,
+        "name": "I. Okon",
+        "position": "Defender",
+        "rating": 34.9
+      },
+      {
+        "player_id": 510799,
+        "name": "M. Mbokazi",
+        "position": "Defender",
+        "rating": 35.2
+      },
+      {
+        "player_id": 46334,
+        "name": "A. Modiba",
+        "position": "Defender",
+        "rating": 36.9
+      },
+      {
+        "player_id": 194430,
+        "name": "T. Mbatha",
+        "position": "Midfielder",
+        "rating": 39.8
+      },
+      {
+        "player_id": 3287,
+        "name": "T. Mokoena",
+        "position": "Midfielder",
+        "rating": 55.1
+      },
+      {
+        "player_id": 268710,
+        "name": "J. Adams",
+        "position": "Midfielder",
+        "rating": 35.8
+      },
+      {
+        "player_id": 354831,
+        "name": "T. Maseko",
+        "position": "Attacker",
+        "rating": 19.0
+      },
+      {
+        "player_id": 127429,
+        "name": "I. Rayners",
+        "position": "Attacker",
+        "rating": 48.7
+      },
+      {
+        "player_id": 179893,
+        "name": "O. Appollis",
+        "position": "Attacker",
+        "rating": 56.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 414149,
+        "name": "R. Mofokeng",
+        "position": "Attacker",
+        "rating": 49.5
+      },
+      {
+        "player_id": 201354,
+        "name": "E. Makgopa",
+        "position": "Attacker",
+        "rating": 38.5
+      },
+      {
+        "player_id": 359561,
+        "name": "K. Sebelebele",
+        "position": "Midfielder",
+        "rating": 46.1
+      },
+      {
+        "player_id": 46417,
+        "name": "S. Chaine",
+        "position": "Goalkeeper",
+        "rating": 32.8
+      },
+      {
+        "player_id": 46245,
+        "name": "R. Goss",
+        "position": "Goalkeeper",
+        "rating": 26.3
+      },
+      {
+        "player_id": 330174,
+        "name": "T. Matuludi",
+        "position": "Defender",
+        "rating": 39.1
+      },
+      {
+        "player_id": 474630,
+        "name": "K. Ndamane",
+        "position": "Defender",
+        "rating": 26.5
+      },
+      {
+        "player_id": 430078,
+        "name": "S. Kabini",
+        "position": "Defender",
+        "rating": 35.4
+      },
+      {
+        "player_id": 46458,
+        "name": "N. Sibisi",
+        "position": "Defender",
+        "rating": 32.0
+      },
+      {
+        "player_id": 392387,
+        "name": "O. Makhanya",
+        "position": "Defender",
+        "rating": 39.3
+      },
+      {
+        "player_id": 163041,
+        "name": "B. Cross",
+        "position": "Defender",
+        "rating": 28.1
+      },
+      {
+        "player_id": 295977,
+        "name": "T. Moremi",
+        "position": "Midfielder",
+        "rating": 44.5
+      },
+      {
+        "player_id": 98936,
+        "name": "L. Foster",
+        "position": "Attacker",
+        "rating": 49.5
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 2
+  },
+  "away": {
+    "team_id": 17,
+    "name": "South Korea",
+    "coach_name": "Kim Do-Hoon",
+    "coach_record": [
+      10,
+      1,
+      4
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 2892,
+        "name": "Kim Seung-Gyu",
+        "position": "Goalkeeper",
+        "rating": 26.9
+      },
+      {
+        "player_id": 237218,
+        "name": "Lee Han-Beom",
+        "position": "Defender",
+        "rating": 29.6
+      },
+      {
+        "player_id": 2897,
+        "name": "Kim Min-Jae",
+        "position": "Defender",
+        "rating": 61.0
+      },
+      {
+        "player_id": 304951,
+        "name": "Lee Gi-Hyuk",
+        "position": "Defender",
+        "rating": 24.2
+      },
+      {
+        "player_id": 197985,
+        "name": "Seol Young-Woo",
+        "position": "Midfielder",
+        "rating": 36.1
+      },
+      {
+        "player_id": 2901,
+        "name": "Hwang In-Beom",
+        "position": "Midfielder",
+        "rating": 36.7
+      },
+      {
+        "player_id": 2909,
+        "name": "Paik Seung-Ho",
+        "position": "Midfielder",
+        "rating": 40.7
+      },
+      {
+        "player_id": 237220,
+        "name": "Lee Tae-Seok",
+        "position": "Midfielder",
+        "rating": 41.9
+      },
+      {
+        "player_id": 927,
+        "name": "Lee Kang-In",
+        "position": "Midfielder",
+        "rating": 53.6
+      },
+      {
+        "player_id": 2906,
+        "name": "Lee Jae-Sung",
+        "position": "Midfielder",
+        "rating": 53.8
+      },
+      {
+        "player_id": 186,
+        "name": "Son Heung-Min",
+        "position": "Attacker",
+        "rating": 62.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 2890,
+        "name": "Jo Hyeon-Woo",
+        "position": "Goalkeeper",
+        "rating": 23.8
+      },
+      {
+        "player_id": 34374,
+        "name": "Song Bum-Keun",
+        "position": "Goalkeeper",
+        "rating": 34.8
+      },
+      {
+        "player_id": 24888,
+        "name": "Hwang Hee-Chan",
+        "position": "Attacker",
+        "rating": 47.2
+      },
+      {
+        "player_id": 34168,
+        "name": "Kim Jin-Gyu",
+        "position": "Midfielder",
+        "rating": 32.0
+      },
+      {
+        "player_id": 99211,
+        "name": "Park Jin-Seop",
+        "position": "Midfielder",
+        "rating": 37.4
+      },
+      {
+        "player_id": 34431,
+        "name": "Lee Dong-Gyeong",
+        "position": "Attacker",
+        "rating": 42.0
+      },
+      {
+        "player_id": 34211,
+        "name": "Cho Gue-Sung",
+        "position": "Attacker",
+        "rating": 30.1
+      },
+      {
+        "player_id": 34710,
+        "name": "Oh Hyeon-Gyu",
+        "position": "Attacker",
+        "rating": 52.3
+      },
+      {
+        "player_id": 237050,
+        "name": "Eom Ji-Sung",
+        "position": "Attacker",
+        "rating": 36.0
+      },
+      {
+        "player_id": 280358,
+        "name": "J. Castrop",
+        "position": "Midfielder",
+        "rating": 44.9
+      },
+      {
+        "player_id": 2912,
+        "name": "Kim Moon-Hwan",
+        "position": "Defender",
+        "rating": 24.2
+      },
+      {
+        "player_id": 34418,
+        "name": "Kim Tae-Hyeon",
+        "position": "Defender",
+        "rating": 28.2
+      },
+      {
+        "player_id": 304958,
+        "name": "Yang Hyun-Jun",
+        "position": "Attacker",
+        "rating": 39.3
+      },
+      {
+        "player_id": 357286,
+        "name": "Bae Jun-Ho",
+        "position": "Attacker",
+        "rating": 31.3
+      },
+      {
+        "player_id": 547307,
+        "name": "Cho Wi-Je",
+        "position": "Defender",
+        "rating": 40.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489407,
+    "matchday": 3,
+    "group": "Group A",
+    "kickoff": "2026-06-25T01:00:00+00:00",
+    "home_id": 1531,
+    "away_id": 17,
+    "home_name": "South Africa",
+    "away_name": "South Korea",
+    "lambda_home": 1.048,
+    "lambda_away": 1.482,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.2676,
+    "p_draw": 0.2606,
+    "p_away": 0.4719,
+    "rationale": "Effective rating 45.5 vs 55.3 -> supremacy -0.60; xG 1.05-1.48; adj -0.63/+0.45.",
+    "home_adjustment": -0.635,
+    "away_adjustment": 0.453
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12372129213075851
+    ],
+    [
+      0,
+      1,
+      0.11805466806370087
+    ],
+    [
+      1,
+      2,
+      0.09167747746889207
+    ]
+  ]
+}

@@ -1,0 +1,414 @@
+{
+  "match": {
+    "match_id": "wc-2026-1539013",
+    "group": "Group K",
+    "round_number": 3,
+    "home_team": "Congo DR",
+    "away_team": "Uzbekistan",
+    "kickoff": "2026-06-27T23:30:00+00:00",
+    "venue_name": "Mercedes-Benz Stadium",
+    "venue_city": "Atlanta",
+    "venue_country": "United States"
+  },
+  "prediction": {
+    "match_id": "wc-2026-1539013",
+    "group": "Group K",
+    "home_team": "Congo DR",
+    "away_team": "Uzbekistan",
+    "home_score": 2,
+    "away_score": 1,
+    "outcome": "home_win",
+    "confidence": 0.429,
+    "home_adjusted_rating": 43.241,
+    "away_adjusted_rating": 30.825,
+    "home_tournament_adjustment": -1.256,
+    "away_tournament_adjustment": -7.002,
+    "home_expected_goals": 1.615,
+    "away_expected_goals": 0.914,
+    "rationale": "Congo DR adjusted rating 43.2 vs Uzbekistan 30.8; expected goals 1.62-0.91. Location adjustment is +0.2/+0.2 and tournament update is -1.3/-7.0 for Atlanta, United States. Congo DR update: 2 match, 5-3-2, 0.50 ppm, -0.5 GD/m, XI +0.1, subs +0.0. Uzbekistan update: 2 match, 3-4-2-1, 0.00 ppm, -3.5 GD/m, XI -0.0, subs +0.0."
+  },
+  "home": {
+    "team": "Congo DR",
+    "coach": "Sebastien Desabre",
+    "formation": "5-3-2",
+    "lineup_source": "projected from latest lineup in wc-2026-1539008",
+    "starters": [
+      {
+        "player_id": 24012,
+        "name": "L. Mpasi-Nzau",
+        "position": "G",
+        "number": 1,
+        "score": 26.431
+      },
+      {
+        "player_id": 18846,
+        "name": "A. Wan-Bissaka",
+        "position": "D",
+        "number": 2,
+        "score": 21.555
+      },
+      {
+        "player_id": 375,
+        "name": "C. Mbemba",
+        "position": "D",
+        "number": 22,
+        "score": 28.269
+      },
+      {
+        "player_id": 19182,
+        "name": "A. Tuanzebe",
+        "position": "D",
+        "number": 4,
+        "score": 25.353
+      },
+      {
+        "player_id": 199767,
+        "name": "S. Kapuadi",
+        "position": "D",
+        "number": 3,
+        "score": 18.962
+      },
+      {
+        "player_id": 18816,
+        "name": "A. Masuaku",
+        "position": "D",
+        "number": 26,
+        "score": 29.724
+      },
+      {
+        "player_id": 375598,
+        "name": "N. Mukau",
+        "position": "M",
+        "number": 6,
+        "score": 34.575
+      },
+      {
+        "player_id": 21101,
+        "name": "S. Moutoussamy",
+        "position": "M",
+        "number": 8,
+        "score": 15.682
+      },
+      {
+        "player_id": 1424,
+        "name": "E. Kayembe",
+        "position": "M",
+        "number": 25,
+        "score": 22.033
+      },
+      {
+        "player_id": 3033,
+        "name": "C. Bakambu",
+        "position": "F",
+        "number": 17,
+        "score": 23.846
+      },
+      {
+        "player_id": 20649,
+        "name": "Y. Wissa",
+        "position": "F",
+        "number": 20,
+        "score": 27.142
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 314509,
+        "name": "M. Epolo",
+        "position": "G",
+        "number": 21,
+        "score": 21.906
+      },
+      {
+        "player_id": 48501,
+        "name": "T. Fayulu",
+        "position": "G",
+        "number": 16,
+        "score": 18.911
+      },
+      {
+        "player_id": 21098,
+        "name": "J. Kayembe",
+        "position": "D",
+        "number": 12,
+        "score": 22.637
+      },
+      {
+        "player_id": 48555,
+        "name": "C. Pickel",
+        "position": "M",
+        "number": 18,
+        "score": 15.924
+      },
+      {
+        "player_id": 24245,
+        "name": "G. Kalulu",
+        "position": "D",
+        "number": 24,
+        "score": 22.878
+      },
+      {
+        "player_id": 20674,
+        "name": "S. Banza",
+        "position": "F",
+        "number": 23,
+        "score": 16.873
+      },
+      {
+        "player_id": 129670,
+        "name": "N. Mbuku",
+        "position": "F",
+        "number": 7,
+        "score": 21.585
+      },
+      {
+        "player_id": 279482,
+        "name": "B. Cipenga",
+        "position": "F",
+        "number": 9,
+        "score": 25.812
+      },
+      {
+        "player_id": 179699,
+        "name": "F. Mayele",
+        "position": "F",
+        "number": 19,
+        "score": 23.963
+      },
+      {
+        "player_id": 365331,
+        "name": "N. Sadiki",
+        "position": "M",
+        "number": 14,
+        "score": 29.961
+      },
+      {
+        "player_id": 47545,
+        "name": "G. Kakuta",
+        "position": "M",
+        "number": 11,
+        "score": 17.077
+      },
+      {
+        "player_id": 8445,
+        "name": "D. Batubinsika",
+        "position": "D",
+        "number": 5,
+        "score": 16.639
+      },
+      {
+        "player_id": 8627,
+        "name": "T. Bongonda",
+        "position": "M",
+        "number": 10,
+        "score": 17.865
+      },
+      {
+        "player_id": 44791,
+        "name": "A. Tshibola",
+        "position": "M",
+        "number": 15,
+        "score": 16.647
+      },
+      {
+        "player_id": 3034,
+        "name": "M. Elia",
+        "position": "F",
+        "number": 13,
+        "score": 21.349
+      }
+    ]
+  },
+  "away": {
+    "team": "Uzbekistan",
+    "coach": "Fabio Cannavaro",
+    "formation": "3-4-2-1",
+    "lineup_source": "projected from latest lineup in wc-2026-1489404",
+    "starters": [
+      {
+        "player_id": 73507,
+        "name": "A. Nematov",
+        "position": "G",
+        "number": 12,
+        "score": 19.692
+      },
+      {
+        "player_id": 360114,
+        "name": "A. Khusanov",
+        "position": "D",
+        "number": 2,
+        "score": 31.276
+      },
+      {
+        "player_id": 73418,
+        "name": "A. Abdullaev",
+        "position": "D",
+        "number": 18,
+        "score": 19.761
+      },
+      {
+        "player_id": 34121,
+        "name": "R. Ashurmatov",
+        "position": "D",
+        "number": 5,
+        "score": 20.715
+      },
+      {
+        "player_id": 416964,
+        "name": "B. Karimov",
+        "position": "M",
+        "number": 24,
+        "score": 16.922
+      },
+      {
+        "player_id": 53835,
+        "name": "O. Khamrobekov",
+        "position": "M",
+        "number": 9,
+        "score": 17.637
+      },
+      {
+        "player_id": 50272,
+        "name": "O. Shukurov",
+        "position": "M",
+        "number": 7,
+        "score": 15.86
+      },
+      {
+        "player_id": 73514,
+        "name": "S. Nasrullaev",
+        "position": "M",
+        "number": 13,
+        "score": 19.692
+      },
+      {
+        "player_id": 73520,
+        "name": "A. Ganiev",
+        "position": "F",
+        "number": 19,
+        "score": 17.944
+      },
+      {
+        "player_id": 263676,
+        "name": "A. Fayzullaev",
+        "position": "F",
+        "number": 22,
+        "score": 17.243
+      },
+      {
+        "player_id": 53535,
+        "name": "E. Shomurodov",
+        "position": "F",
+        "number": 14,
+        "score": 20.224
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 73534,
+        "name": "U. Yusupov",
+        "position": "G",
+        "number": 1,
+        "score": 18.585
+      },
+      {
+        "player_id": 72120,
+        "name": "B. Ergashev",
+        "position": "G",
+        "number": 16,
+        "score": 18.936
+      },
+      {
+        "player_id": 72128,
+        "name": "I. Sergeev",
+        "position": "F",
+        "number": 21,
+        "score": 26.125
+      },
+      {
+        "player_id": 65576,
+        "name": "J. Iskanderov",
+        "position": "M",
+        "number": 8,
+        "score": 17.637
+      },
+      {
+        "player_id": 53834,
+        "name": "D. Khamdamov",
+        "position": "M",
+        "number": 17,
+        "score": 19.761
+      },
+      {
+        "player_id": 72122,
+        "name": "K. Alizhonov",
+        "position": "D",
+        "number": 3,
+        "score": 19.761
+      },
+      {
+        "player_id": 65571,
+        "name": "A. Ulmasaliev",
+        "position": "D",
+        "number": 25,
+        "score": 16.421
+      },
+      {
+        "player_id": 73510,
+        "name": "U. Eshmurodov",
+        "position": "D",
+        "number": 15,
+        "score": 19.692
+      },
+      {
+        "player_id": 72127,
+        "name": "O. Urunov",
+        "position": "M",
+        "number": 11,
+        "score": 19.237
+      },
+      {
+        "player_id": 65584,
+        "name": "A. Amonov",
+        "position": "F",
+        "number": 20,
+        "score": 17.895
+      },
+      {
+        "player_id": 73522,
+        "name": "A. Mozgovoy",
+        "position": "M",
+        "number": 6,
+        "score": 19.692
+      },
+      {
+        "player_id": 312231,
+        "name": "R. Jiyanov",
+        "position": "M",
+        "number": 10,
+        "score": null
+      },
+      {
+        "player_id": 358427,
+        "name": "J. Urozov",
+        "position": "D",
+        "number": 26,
+        "score": 18.52
+      },
+      {
+        "player_id": 363723,
+        "name": "S. Esanov",
+        "position": "M",
+        "number": 23,
+        "score": 29.212
+      },
+      {
+        "player_id": 532759,
+        "name": "F. Sayfiev",
+        "position": "Defender",
+        "number": 4,
+        "score": 29.212
+      }
+    ]
+  }
+}

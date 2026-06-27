@@ -17,9 +17,11 @@ from soccer.config import AppConfig
 from soccer.worldcup.adjust import compute_adjustments
 from soccer.worldcup.apifootball import ApiFootballClient, ApiFootballError, urllib_transport
 from soccer.worldcup.cache import JsonCache
+from soccer.worldcup.card import build_card
+from soccer.worldcup.cardpdf import render_card_pdf
 from soccer.worldcup.entities import WorldCup
 from soccer.worldcup.ingest import ingest_world_cup
-from soccer.worldcup.live import refresh_live
+from soccer.worldcup.live import refresh_fixture, refresh_live
 from soccer.worldcup.predict import MatchPrediction, predict_group_stage, predict_remaining
 from soccer.worldcup.ranking import Rankings, rank_all, top_n
 
@@ -245,6 +247,62 @@ def cmd_refresh(args: argparse.Namespace, config: AppConfig) -> int:
     return 0
 
 
+def cmd_card(args: argparse.Namespace, config: AppConfig) -> int:
+    wc = load_dataset(_dataset_path(config))
+    if getattr(args, "refresh", False):
+        logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+        if not config.api_football_key:
+            print("SOCCER_API_FOOTBALL_KEY is not set; cannot refresh live data", flush=True)
+            return 1
+        client = ApiFootballClient(
+            config.api_football_key,
+            base_url=config.api_football_base_url,
+            transport=urllib_transport(timeout=30.0),
+            cache=JsonCache(config.data_dir / "api"),
+            throttle_seconds=args.throttle,
+        )
+        try:
+            wc = refresh_fixture(wc, client, args.fixture_id)
+        except ApiFootballError as exc:
+            print(f"refresh failed: {exc}")
+            return 1
+        _dataset_path(config).write_text(json.dumps(wc.to_dict()), encoding="utf-8")
+
+    rankings = rank_all(wc)
+    try:
+        card = build_card(wc, rankings, args.fixture_id)
+    except ValueError as exc:
+        print(f"{exc}; run `soccer wc predict` to list fixture ids")
+        return 1
+
+    out_dir = Path(args.out_dir) if args.out_dir else _prediction_dir(config)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    name = args.name or f"card-{args.fixture_id}"
+    written: list[Path] = []
+    if args.format in ("json", "both"):
+        json_path = out_dir / f"{name}.json"
+        json_path.write_text(json.dumps(card.to_dict(), indent=2), encoding="utf-8")
+        written.append(json_path)
+    if args.format in ("pdf", "both"):
+        pdf_path = out_dir / f"{name}.pdf"
+        try:
+            render_card_pdf(card, pdf_path)
+        except RuntimeError as exc:
+            print(str(exc))
+            return 1
+        written.append(pdf_path)
+
+    pred = card.prediction
+    print(
+        f"{card.home.name} {pred.score_home}-{pred.score_away} {card.away.name} "
+        f"(W {pred.p_home:.0%} / D {pred.p_draw:.0%} / L {pred.p_away:.0%}); "
+        f"lineups {card.home.source}/{card.away.source}"
+    )
+    for path in written:
+        print(f"wrote {path}")
+    return 0
+
+
 def add_wc_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser("wc", help="FIFA 2026 World Cup pipeline")
     wc_sub = parser.add_subparsers(dest="wc_command", required=True)
@@ -270,3 +328,18 @@ def add_wc_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentPar
     p_refresh = wc_sub.add_parser("refresh", help="merge live results + lineups into the dataset")
     p_refresh.add_argument("--throttle", type=float, default=0.02, help="seconds between calls")
     p_refresh.set_defaults(func=cmd_refresh)
+
+    p_card = wc_sub.add_parser("card", help="single-match pre-match preview (PDF/JSON)")
+    p_card.add_argument("fixture_id", type=int, help="fixture id to preview")
+    p_card.add_argument(
+        "--refresh",
+        action="store_true",
+        help="pull this fixture's latest lineup/result first (needs an API key)",
+    )
+    p_card.add_argument("--out-dir", default=None, help="output directory for the files")
+    p_card.add_argument("--name", default=None, help="basename for the output files")
+    p_card.add_argument(
+        "--format", choices=["pdf", "json", "both"], default="both", help="output format"
+    )
+    p_card.add_argument("--throttle", type=float, default=0.02, help="seconds between calls")
+    p_card.set_defaults(func=cmd_card)

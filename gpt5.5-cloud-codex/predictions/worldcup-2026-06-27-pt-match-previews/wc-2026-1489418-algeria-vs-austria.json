@@ -1,0 +1,407 @@
+{
+  "match": {
+    "match_id": "wc-2026-1489418",
+    "group": "Group J",
+    "round_number": 3,
+    "home_team": "Algeria",
+    "away_team": "Austria",
+    "kickoff": "2026-06-28T02:00:00+00:00",
+    "venue_name": "Arrowhead Stadium",
+    "venue_city": "Kansas City",
+    "venue_country": "United States"
+  },
+  "prediction": {
+    "match_id": "wc-2026-1489418",
+    "group": "Group J",
+    "home_team": "Algeria",
+    "away_team": "Austria",
+    "home_score": 1,
+    "away_score": 1,
+    "outcome": "draw",
+    "confidence": 0.372,
+    "home_adjusted_rating": 40.682,
+    "away_adjusted_rating": 45.112,
+    "home_tournament_adjustment": 0.238,
+    "away_tournament_adjustment": 1.925,
+    "home_expected_goals": 1.204,
+    "away_expected_goals": 1.307,
+    "rationale": "Algeria adjusted rating 40.7 vs Austria 45.1; expected goals 1.20-1.31. Location adjustment is +0.2/-1.3 and tournament update is +0.2/+1.9 for Kansas City, United States. Algeria update: 2 match, 4-2-3-1, 1.50 ppm, -1.0 GD/m, XI +0.1, subs +0.1. Austria update: 2 match, 4-2-3-1, 1.50 ppm, +0.0 GD/m, XI +0.1, subs -0.0."
+  },
+  "home": {
+    "team": "Algeria",
+    "coach": "Vladimir Petkovic",
+    "formation": "4-2-3-1",
+    "lineup_source": "projected from latest lineup in wc-2026-1489400",
+    "starters": [
+      {
+        "player_id": 732,
+        "name": "L. Zidane",
+        "position": "G",
+        "number": 23,
+        "score": 21.909
+      },
+      {
+        "player_id": 303362,
+        "name": "R. Belghali",
+        "position": "D",
+        "number": 17,
+        "score": 17.792
+      },
+      {
+        "player_id": 1567,
+        "name": "A. Mandi",
+        "position": "D",
+        "number": 2,
+        "score": 32.216
+      },
+      {
+        "player_id": 2194,
+        "name": "R. Bensebaini",
+        "position": "D",
+        "number": 21,
+        "score": 31.087
+      },
+      {
+        "player_id": 21138,
+        "name": "R. Ait-Nouri",
+        "position": "D",
+        "number": 15,
+        "score": 36.464
+      },
+      {
+        "player_id": 4399,
+        "name": "H. Boudaoui",
+        "position": "M",
+        "number": 14,
+        "score": 27.344
+      },
+      {
+        "player_id": 129047,
+        "name": "R. Zerrouki",
+        "position": "M",
+        "number": 6,
+        "score": 29.008
+      },
+      {
+        "player_id": 635,
+        "name": "R. Mahrez",
+        "position": "M",
+        "number": 7,
+        "score": 18.107
+      },
+      {
+        "player_id": 380587,
+        "name": "I. Maza",
+        "position": "M",
+        "number": 22,
+        "score": 29.532
+      },
+      {
+        "player_id": 276670,
+        "name": "F. Chaibi",
+        "position": "M",
+        "number": 10,
+        "score": 22.111
+      },
+      {
+        "player_id": 85041,
+        "name": "A. Gouiri",
+        "position": "F",
+        "number": 9,
+        "score": 21.866
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 304229,
+        "name": "M. Mastil",
+        "position": "G",
+        "number": 1,
+        "score": 29.212
+      },
+      {
+        "player_id": 4414,
+        "name": "O. Benbot",
+        "position": "G",
+        "number": 16,
+        "score": 15.829
+      },
+      {
+        "player_id": 409,
+        "name": "N. Bentaleb",
+        "position": "M",
+        "number": 19,
+        "score": 37.719
+      },
+      {
+        "player_id": 658,
+        "name": "H. Aouar",
+        "position": "M",
+        "number": 8,
+        "score": 31.597
+      },
+      {
+        "player_id": 20869,
+        "name": "S. Chergui",
+        "position": "D",
+        "number": 26,
+        "score": 21.165
+      },
+      {
+        "player_id": 271539,
+        "name": "J. Hadjam",
+        "position": "D",
+        "number": 13,
+        "score": 21.289
+      },
+      {
+        "player_id": 327599,
+        "name": "Y. Titraoui",
+        "position": "M",
+        "number": 24,
+        "score": 19.192
+      },
+      {
+        "player_id": 329163,
+        "name": "A. Boulbina",
+        "position": "F",
+        "number": 20,
+        "score": 23.545
+      },
+      {
+        "player_id": 334915,
+        "name": "F. Ghedjemis",
+        "position": "F",
+        "number": 25,
+        "score": 18.368
+      },
+      {
+        "player_id": 4569,
+        "name": "M. Tougai",
+        "position": "D",
+        "number": 4,
+        "score": 20.325
+      },
+      {
+        "player_id": 4561,
+        "name": "Z. Belaid",
+        "position": "D",
+        "number": 5,
+        "score": 20.576
+      },
+      {
+        "player_id": 292924,
+        "name": "N. Benbouali",
+        "position": "F",
+        "number": 12,
+        "score": 19.673
+      },
+      {
+        "player_id": 342740,
+        "name": "A. Abada",
+        "position": "D",
+        "number": 3,
+        "score": 15.481
+      },
+      {
+        "player_id": 326067,
+        "name": "A. Hadj Moussa",
+        "position": "F",
+        "number": 11,
+        "score": 34.885
+      }
+    ]
+  },
+  "away": {
+    "team": "Austria",
+    "coach": "Ralf Rangnick",
+    "formation": "4-2-3-1",
+    "lineup_source": "projected from latest lineup in wc-2026-1489399",
+    "starters": [
+      {
+        "player_id": 7525,
+        "name": "A. Schlager",
+        "position": "G",
+        "number": 1,
+        "score": 26.665
+      },
+      {
+        "player_id": 711,
+        "name": "S. Posch",
+        "position": "D",
+        "number": 5,
+        "score": 27.863
+      },
+      {
+        "player_id": 25287,
+        "name": "K. Danso",
+        "position": "D",
+        "number": 3,
+        "score": 26.05
+      },
+      {
+        "player_id": 505,
+        "name": "D. Alaba",
+        "position": "D",
+        "number": 8,
+        "score": 29.264
+      },
+      {
+        "player_id": 1157,
+        "name": "K. Laimer",
+        "position": "D",
+        "number": 20,
+        "score": 30.456
+      },
+      {
+        "player_id": 7328,
+        "name": "N. Seiwald",
+        "position": "M",
+        "number": 6,
+        "score": 26.635
+      },
+      {
+        "player_id": 1095,
+        "name": "X. Schlager",
+        "position": "M",
+        "number": 4,
+        "score": 25.692
+      },
+      {
+        "player_id": 7562,
+        "name": "R. Schmid",
+        "position": "M",
+        "number": 18,
+        "score": 21.238
+      },
+      {
+        "player_id": 327895,
+        "name": "P. Wanner",
+        "position": "M",
+        "number": 24,
+        "score": 22.054
+      },
+      {
+        "player_id": 1159,
+        "name": "M. Sabitzer",
+        "position": "M",
+        "number": 9,
+        "score": 30.568
+      },
+      {
+        "player_id": 25297,
+        "name": "M. Gregoritsch",
+        "position": "F",
+        "number": 11,
+        "score": 19.556
+      }
+    ],
+    "substitutes": [
+      {
+        "player_id": 7598,
+        "name": "P. Pentz",
+        "position": "G",
+        "number": 13,
+        "score": 20.143
+      },
+      {
+        "player_id": 221605,
+        "name": "F. Wiegele",
+        "position": "G",
+        "number": 12,
+        "score": 24.827
+      },
+      {
+        "player_id": 18830,
+        "name": "M. Arnautovic",
+        "position": "F",
+        "number": 7,
+        "score": 22.684
+      },
+      {
+        "player_id": 719,
+        "name": "F. Grillitsch",
+        "position": "M",
+        "number": 10,
+        "score": 25.358
+      },
+      {
+        "player_id": 1725,
+        "name": "D. Ljubicic",
+        "position": "M",
+        "number": 19,
+        "score": null
+      },
+      {
+        "player_id": 7722,
+        "name": "S. Kalajdzic",
+        "position": "F",
+        "number": 14,
+        "score": 28.406
+      },
+      {
+        "player_id": 7090,
+        "name": "M. Svoboda",
+        "position": "D",
+        "number": 25,
+        "score": 19.777
+      },
+      {
+        "player_id": 7327,
+        "name": "A. Prass",
+        "position": "D",
+        "number": 22,
+        "score": 21.238
+      },
+      {
+        "player_id": 126640,
+        "name": "D. Affengruber",
+        "position": "D",
+        "number": 2,
+        "score": 21.238
+      },
+      {
+        "player_id": 417,
+        "name": "A. Schopf",
+        "position": "M",
+        "number": 26,
+        "score": 19.071
+      },
+      {
+        "player_id": 25915,
+        "name": "P. Mwene",
+        "position": "D",
+        "number": 16,
+        "score": 23.422
+      },
+      {
+        "player_id": 26240,
+        "name": "P. Lienhart",
+        "position": "D",
+        "number": 15,
+        "score": 23.95
+      },
+      {
+        "player_id": 25314,
+        "name": "M. Friedl",
+        "position": "D",
+        "number": 23,
+        "score": 19.298
+      },
+      {
+        "player_id": 126642,
+        "name": "P. Wimmer",
+        "position": "M",
+        "number": 21,
+        "score": 33.278
+      },
+      {
+        "player_id": 138935,
+        "name": "C. Chukwuemeka",
+        "position": "M",
+        "number": 17,
+        "score": 22.54
+      }
+    ]
+  }
+}

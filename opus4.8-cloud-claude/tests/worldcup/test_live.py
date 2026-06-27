@@ -77,3 +77,52 @@ def test_refresh_live_skips_unfinished_and_tolerates_missing_lineups(
     updated = refresh_live(sample_world_cup, client)
     assert not any(m.played for m in updated.matches)
     assert updated.lineups == ()
+
+
+def test_refresh_fixture_attaches_confirmed_lineup_pre_match(
+    sample_world_cup: WorldCup,
+) -> None:
+    from soccer.worldcup.live import refresh_fixture
+
+    # Pre-match: status not finished, but the official lineup is already published.
+    client = FakeClient(
+        fixtures=[_fixture(9001, 1, 2, "NS", 0, 0)],
+        lineups={9001: [_lineup_block(1, "4-2-3-1", [1, 2], [3])]},
+    )
+    updated = refresh_fixture(sample_world_cup, client, 9001)
+    assert not any(m.played for m in updated.matches)  # no result yet
+    home = next(lu for lu in updated.lineups if lu.team_id == 1)
+    assert home.fixture_id == 9001
+    assert home.formation == "4-2-3-1"
+    assert home.start_ids == (1, 2)
+
+
+def test_refresh_fixture_fills_result_when_finished(sample_world_cup: WorldCup) -> None:
+    from soccer.worldcup.live import refresh_fixture
+
+    client = FakeClient(fixtures=[_fixture(9001, 1, 2, "FT", 3, 1)], lineups={})
+    updated = refresh_fixture(sample_world_cup, client, 9001)
+    played = next(m for m in updated.matches if m.fixture_id == 9001)
+    assert played.played and played.home_goals == 3 and played.away_goals == 1
+    assert client.forced == ["fixtures"]
+
+
+def test_refresh_fixture_replaces_stale_lineup(sample_world_cup: WorldCup) -> None:
+    from dataclasses import replace
+
+    from soccer.worldcup.entities import Lineup
+    from soccer.worldcup.live import refresh_fixture
+
+    # Build a WorldCup with a stale lineup for fixture 9001 team 1
+    stale_wc = replace(sample_world_cup, lineups=(Lineup(9001, 1, "5-4-1", (4, 3), ()),))
+    # FakeClient with freshly fetched lineup for fixture 9001 team 1 (different formation)
+    client = FakeClient(
+        fixtures=[_fixture(9001, 1, 2, "NS", 0, 0)],
+        lineups={9001: [_lineup_block(1, "4-3-3", [1, 2], [])]},
+    )
+    updated = refresh_fixture(stale_wc, client, 9001)
+    # Assert exactly one lineup for fixture 9001 team 1, with the new formation
+    fixture_lineups = [lu for lu in updated.lineups if lu.fixture_id == 9001 and lu.team_id == 1]
+    assert len(fixture_lineups) == 1
+    assert fixture_lineups[0].formation == "4-3-3"
+    assert fixture_lineups[0].start_ids == (1, 2)

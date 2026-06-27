@@ -23,11 +23,50 @@ soccer-forecast fetch-world-cup-data \
 The fetch command is resumable. If the provider returns a rate-limit response, wait for
 the limit window to clear and run the same command again; existing JSON files are reused.
 
+During the tournament, refresh match results and tactical inputs separately:
+
+```bash
+soccer-forecast fetch-world-cup-match-updates \
+  --data-dir data/api-football/world-cup-2026 \
+  --completed-round-limit 1 \
+  --request-delay-seconds 0.5
+```
+
+This overwrites the mutable fixture and standings snapshots, then stores raw lineup,
+event, and match-statistics payloads for completed group-stage fixtures through the
+selected round. Use the same round limit when predicting if you want a reproducible
+"after round N" model run:
+
+```bash
+soccer-forecast predict-world-cup-group-stage \
+  --completed-round-limit 1 \
+  --remaining-only \
+  --output markdown
+```
+
 To create a human-friendly group-by-group result table:
 
 ```bash
 soccer-forecast predict-world-cup-group-stage --output markdown
 ```
+
+To create a single-match PDF preview and structured JSON result before kickoff:
+
+```bash
+soccer-forecast predict-world-cup-match-preview 1489416 \
+  --data-dir data/api-football/world-cup-2026 \
+  --output predictions/wc-2026-1489416-preview.pdf \
+  --json-output predictions/wc-2026-1489416-preview.json \
+  --request-delay-seconds 0.5
+```
+
+The preview command refreshes the mutable fixture and standings snapshots, fetches
+tactical snapshots for completed fixtures before the target kickoff, and fetches the
+target fixture's lineup/event/statistics payloads. If the provider has announced the
+starting XIs, the report uses those coaches, formations, starters, and substitutes. If
+not, it falls back to the latest tournament lineup for each team, then to squad ranking
+projections. Use `--json-output` when a machine-readable copy of the same preview and
+prediction is needed.
 
 The fetcher stores raw JSON files for:
 
@@ -38,6 +77,10 @@ The fetcher stores raw JSON files for:
 - Each coach trophy history.
 - Clubs represented by those players, including last-season team statistics.
 - Leagues represented by those clubs, including standings and fixture counts.
+- Completed World Cup results plus tactical match snapshots when
+  `fetch-world-cup-match-updates` is run.
+- Target-match tactical snapshots when `predict-world-cup-match-preview` refreshes a
+  single-match report.
 
 The default World Cup league id is `1`, which is the common API-Football id for the
 FIFA World Cup. Override it if your API account or provider response uses a different id.
@@ -84,5 +127,9 @@ All rankings are clamped to `0-100`.
   quality, coach quality, and recent results.
 
 Match score predictions then apply venue adjustments for host-country advantage, travel
-proxy effects, and hot-weather city context before converting adjusted team ratings into
-expected goals and final scores.
+proxy effects, and hot-weather city context. When match updates are available, the model
+also applies bounded tournament adjustments from completed-match points, goal difference,
+the most-used formation, selected starting XI quality, and substitution participants
+before converting adjusted team ratings into expected goals and final scores.
+Single-match PDF/JSON previews use the same ratings, then add coach, formation, starter,
+and possible-substitute sections for both teams.
