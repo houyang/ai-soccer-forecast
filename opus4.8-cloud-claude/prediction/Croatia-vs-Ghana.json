@@ -1,0 +1,383 @@
+{
+  "fixture_id": 1489420,
+  "group": "Group L",
+  "kickoff": "2026-06-27T21:00:00+00:00",
+  "venue": "Lincoln Financial Field / Philadelphia",
+  "home": {
+    "team_id": 3,
+    "name": "Croatia",
+    "coach_name": "Z. Dali\u0107",
+    "coach_record": [
+      10,
+      2,
+      3
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 1305,
+        "name": "D. Livakovic",
+        "position": "Goalkeeper",
+        "rating": 33.2
+      },
+      {
+        "player_id": 14701,
+        "name": "J. Sutalo",
+        "position": "Defender",
+        "rating": 29.9
+      },
+      {
+        "player_id": 387521,
+        "name": "L. Vuskovic",
+        "position": "Defender",
+        "rating": 64.7
+      },
+      {
+        "player_id": 129033,
+        "name": "J. Gvardiol",
+        "position": "Defender",
+        "rating": 68.7
+      },
+      {
+        "player_id": 125171,
+        "name": "J. Stanisic",
+        "position": "Defender",
+        "rating": 68.0
+      },
+      {
+        "player_id": 754,
+        "name": "L. Modric",
+        "position": "Midfielder",
+        "rating": 52.0
+      },
+      {
+        "player_id": 2763,
+        "name": "M. Pasalic",
+        "position": "Midfielder",
+        "rating": 59.0
+      },
+      {
+        "player_id": 207,
+        "name": "I. Perisic",
+        "position": "Midfielder",
+        "rating": 61.6
+      },
+      {
+        "player_id": 348205,
+        "name": "P. Sucic",
+        "position": "Midfielder",
+        "rating": 50.4
+      },
+      {
+        "player_id": 295026,
+        "name": "M. Baturina",
+        "position": "Midfielder",
+        "rating": 63.0
+      },
+      {
+        "player_id": 66055,
+        "name": "P. Musa",
+        "position": "Attacker",
+        "rating": 55.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 2291,
+        "name": "M. Kovacic",
+        "position": "Midfielder",
+        "rating": 56.0
+      },
+      {
+        "player_id": 260865,
+        "name": "M. Pasalic",
+        "position": "Midfielder",
+        "rating": 55.7
+      },
+      {
+        "player_id": 202696,
+        "name": "I. Matanovic",
+        "position": "Attacker",
+        "rating": 57.2
+      },
+      {
+        "player_id": 842,
+        "name": "N. Vlasic",
+        "position": "Midfielder",
+        "rating": 56.5
+      },
+      {
+        "player_id": 726,
+        "name": "A. Kramaric",
+        "position": "Midfielder",
+        "rating": 68.9
+      },
+      {
+        "player_id": 524,
+        "name": "D. Kotarski",
+        "position": "Goalkeeper",
+        "rating": 28.1
+      },
+      {
+        "player_id": 14268,
+        "name": "I. Pandur",
+        "position": "Goalkeeper",
+        "rating": 33.7
+      },
+      {
+        "player_id": 1902,
+        "name": "D. Caleta-Car",
+        "position": "Defender",
+        "rating": 41.5
+      },
+      {
+        "player_id": 1084,
+        "name": "M. Pongracic",
+        "position": "Defender",
+        "rating": 37.6
+      },
+      {
+        "player_id": 30827,
+        "name": "M. Erlic",
+        "position": "Defender",
+        "rating": 48.8
+      },
+      {
+        "player_id": 14395,
+        "name": "K. Jakic",
+        "position": "Midfielder",
+        "rating": 44.8
+      },
+      {
+        "player_id": 7332,
+        "name": "L. Sucic",
+        "position": "Midfielder",
+        "rating": 48.7
+      },
+      {
+        "player_id": 1322,
+        "name": "N. Moro",
+        "position": "Midfielder",
+        "rating": 43.6
+      },
+      {
+        "player_id": 284869,
+        "name": "T. Fruk",
+        "position": "Midfielder",
+        "rating": 51.0
+      },
+      {
+        "player_id": 46746,
+        "name": "A. Budimir",
+        "position": "Attacker",
+        "rating": 56.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 1504,
+    "name": "Ghana",
+    "coach_name": "Carlos Queiroz",
+    "coach_record": [
+      6,
+      2,
+      7
+    ],
+    "formation": "4-4-1-1",
+    "starters": [
+      {
+        "player_id": 3412,
+        "name": "L. Zigi",
+        "position": "Goalkeeper",
+        "rating": 30.5
+      },
+      {
+        "player_id": 191240,
+        "name": "M. Senaya",
+        "position": "Defender",
+        "rating": 40.9
+      },
+      {
+        "player_id": 369425,
+        "name": "J. Adjetey",
+        "position": "Defender",
+        "rating": 31.5
+      },
+      {
+        "player_id": 137223,
+        "name": "J. Opoku",
+        "position": "Defender",
+        "rating": 32.4
+      },
+      {
+        "player_id": 7578,
+        "name": "G. Mensah",
+        "position": "Defender",
+        "rating": 36.1
+      },
+      {
+        "player_id": 350856,
+        "name": "E. Nuamah",
+        "position": "Attacker",
+        "rating": 39.2
+      },
+      {
+        "player_id": 475575,
+        "name": "Caleb Marfo Yirenkyi",
+        "position": "Midfielder",
+        "rating": 33.7
+      },
+      {
+        "player_id": 21010,
+        "name": "E. Owusu",
+        "position": "Midfielder",
+        "rating": 35.0
+      },
+      {
+        "player_id": 19281,
+        "name": "A. Semenyo",
+        "position": "Attacker",
+        "rating": 68.7
+      },
+      {
+        "player_id": 199837,
+        "name": "K. Sulemana",
+        "position": "Attacker",
+        "rating": 39.0
+      },
+      {
+        "player_id": 3428,
+        "name": "J. Ayew",
+        "position": "Attacker",
+        "rating": 33.8
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 480108,
+        "name": "B. Asare",
+        "position": "Goalkeeper",
+        "rating": 43.0
+      },
+      {
+        "player_id": 303467,
+        "name": "A. Fatawu",
+        "position": "Midfielder",
+        "rating": 50.6
+      },
+      {
+        "player_id": 82090,
+        "name": "B. Thomas-Asante",
+        "position": "Attacker",
+        "rating": 47.1
+      },
+      {
+        "player_id": 3608,
+        "name": "K. Sibo",
+        "position": "Midfielder",
+        "rating": 31.5
+      },
+      {
+        "player_id": 410016,
+        "name": "P. Adu",
+        "position": "Midfielder",
+        "rating": 44.5
+      },
+      {
+        "player_id": 144709,
+        "name": "J. Anang",
+        "position": "Goalkeeper",
+        "rating": 24.1
+      },
+      {
+        "player_id": 196187,
+        "name": "A. Seidu",
+        "position": "Defender",
+        "rating": 44.4
+      },
+      {
+        "player_id": 15900,
+        "name": "A. Mumin",
+        "position": "Defender",
+        "rating": 30.4
+      },
+      {
+        "player_id": 21996,
+        "name": "A. Baba",
+        "position": "Defender",
+        "rating": 38.7
+      },
+      {
+        "player_id": 404172,
+        "name": "K. Peprah Oppong",
+        "position": "Defender",
+        "rating": 42.5
+      },
+      {
+        "player_id": 25341,
+        "name": "D. Luckassen",
+        "position": "Defender",
+        "rating": 31.0
+      },
+      {
+        "player_id": 411800,
+        "name": "C. Bonsu Baah",
+        "position": "Attacker",
+        "rating": 42.7
+      },
+      {
+        "player_id": 47294,
+        "name": "I. Williams",
+        "position": "Attacker",
+        "rating": 45.6
+      },
+      {
+        "player_id": 337426,
+        "name": "A. Boakye",
+        "position": "Midfielder",
+        "rating": 43.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489420,
+    "matchday": 3,
+    "group": "Group L",
+    "kickoff": "2026-06-27T21:00:00+00:00",
+    "home_id": 3,
+    "away_id": 1504,
+    "home_name": "Croatia",
+    "away_name": "Ghana",
+    "lambda_home": 1.838,
+    "lambda_away": 0.642,
+    "score_home": 2,
+    "score_away": 0,
+    "p_home": 0.6458,
+    "p_draw": 0.2456,
+    "p_away": 0.1086,
+    "rationale": "Effective rating 65.3 vs 48.0 -> supremacy +1.08; xG 1.84-0.64; adj -1.50/-0.06.",
+    "home_adjustment": -1.496,
+    "away_adjustment": -0.061
+  },
+  "top_scorelines": [
+    [
+      2,
+      0,
+      0.1414706476748252
+    ],
+    [
+      1,
+      0,
+      0.13911536920972747
+    ],
+    [
+      1,
+      1,
+      0.11365373142363812
+    ]
+  ]
+}

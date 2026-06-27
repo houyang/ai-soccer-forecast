@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1489419,
+  "group": "Group K",
+  "kickoff": "2026-06-27T23:30:00+00:00",
+  "venue": "Hard Rock Stadium / Miami",
+  "home": {
+    "team_id": 8,
+    "name": "Colombia",
+    "coach_name": "N.  Lorenzo",
+    "coach_record": [
+      7,
+      4,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 2482,
+        "name": "C. Vargas",
+        "position": "Goalkeeper",
+        "rating": 31.0
+      },
+      {
+        "player_id": 13736,
+        "name": "D. Mu\u00f1oz",
+        "position": "Defender",
+        "rating": 70.8
+      },
+      {
+        "player_id": 168,
+        "name": "D. S\u00e1nchez",
+        "position": "Defender",
+        "rating": 45.5
+      },
+      {
+        "player_id": 1929,
+        "name": "J. Lucum\u00ed",
+        "position": "Defender",
+        "rating": 49.9
+      },
+      {
+        "player_id": 64268,
+        "name": "J. Mojica",
+        "position": "Defender",
+        "rating": 33.9
+      },
+      {
+        "player_id": 324034,
+        "name": "G. Puerta",
+        "position": "Midfielder",
+        "rating": 40.9
+      },
+      {
+        "player_id": 2490,
+        "name": "J. Lerma",
+        "position": "Midfielder",
+        "rating": 54.0
+      },
+      {
+        "player_id": 13708,
+        "name": "J. Arias",
+        "position": "Midfielder",
+        "rating": 66.0
+      },
+      {
+        "player_id": 517,
+        "name": "J. Rodr\u00edguez",
+        "position": "Midfielder",
+        "rating": 47.6
+      },
+      {
+        "player_id": 47237,
+        "name": "L. Su\u00e1rez",
+        "position": "Attacker",
+        "rating": 60.5
+      },
+      {
+        "player_id": 2489,
+        "name": "L. D\u00edaz",
+        "position": "Midfielder",
+        "rating": 80.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 13376,
+        "name": "J. Campaz",
+        "position": "Midfielder",
+        "rating": 42.7
+      },
+      {
+        "player_id": 195104,
+        "name": "R. Rios",
+        "position": "Midfielder",
+        "rating": 58.1
+      },
+      {
+        "player_id": 47582,
+        "name": "C. Hern\u00e1ndez",
+        "position": "Attacker",
+        "rating": 56.3
+      },
+      {
+        "player_id": 289592,
+        "name": "K. Casta\u00f1o",
+        "position": "Midfielder",
+        "rating": 32.1
+      },
+      {
+        "player_id": 345748,
+        "name": "A. G\u00f3mez",
+        "position": "Midfielder",
+        "rating": 35.8
+      },
+      {
+        "player_id": 2481,
+        "name": "\u00c1. Montero",
+        "position": "Goalkeeper",
+        "rating": 29.1
+      },
+      {
+        "player_id": 313,
+        "name": "D. Ospina",
+        "position": "Goalkeeper",
+        "rating": 26.3
+      },
+      {
+        "player_id": 2483,
+        "name": "D. Machado",
+        "position": "Defender",
+        "rating": 30.9
+      },
+      {
+        "player_id": 30,
+        "name": "S. Arias",
+        "position": "Defender",
+        "rating": 38.4
+      },
+      {
+        "player_id": 13571,
+        "name": "W. Ditta",
+        "position": "Defender",
+        "rating": 33.6
+      },
+      {
+        "player_id": 2484,
+        "name": "Y. Mina",
+        "position": "Defender",
+        "rating": 46.1
+      },
+      {
+        "player_id": 5994,
+        "name": "J. Carrascal",
+        "position": "Midfielder",
+        "rating": 44.0
+      },
+      {
+        "player_id": 13151,
+        "name": "J. Portilla",
+        "position": "Midfielder",
+        "rating": 29.9
+      },
+      {
+        "player_id": 6005,
+        "name": "J. Quintero",
+        "position": "Midfielder",
+        "rating": 40.4
+      },
+      {
+        "player_id": 24810,
+        "name": "J. C\u00f3rdoba",
+        "position": "Attacker",
+        "rating": 56.3
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 27,
+    "name": "Portugal",
+    "coach_name": "Roberto Mart\u00ednez",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 369,
+        "name": "Diogo Costa",
+        "position": "Goalkeeper",
+        "rating": 36.5
+      },
+      {
+        "player_id": 855,
+        "name": "Jo\u00e3o Cancelo",
+        "position": "Defender",
+        "rating": 72.3
+      },
+      {
+        "player_id": 161939,
+        "name": "Tom\u00e1s Ara\u00fajo",
+        "position": "Defender",
+        "rating": 43.1
+      },
+      {
+        "player_id": 336671,
+        "name": "Renato Veiga",
+        "position": "Defender",
+        "rating": 49.2
+      },
+      {
+        "player_id": 263482,
+        "name": "Nuno Mendes",
+        "position": "Defender",
+        "rating": 71.6
+      },
+      {
+        "player_id": 335051,
+        "name": "Jo\u00e3o Neves",
+        "position": "Midfielder",
+        "rating": 71.4
+      },
+      {
+        "player_id": 128384,
+        "name": "Vitinha",
+        "position": "Midfielder",
+        "rating": 72.5
+      },
+      {
+        "player_id": 636,
+        "name": "Bernardo Silva",
+        "position": "Midfielder",
+        "rating": 67.0
+      },
+      {
+        "player_id": 1485,
+        "name": "Bruno Fernandes",
+        "position": "Midfielder",
+        "rating": 84.3
+      },
+      {
+        "player_id": 1864,
+        "name": "Pedro Neto",
+        "position": "Midfielder",
+        "rating": 72.1
+      },
+      {
+        "player_id": 874,
+        "name": "Cristiano Ronaldo",
+        "position": "Attacker",
+        "rating": 63.8
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 161585,
+        "name": "Francisco Concei\u00e7\u00e3o",
+        "position": "Midfielder",
+        "rating": 56.2
+      },
+      {
+        "player_id": 22236,
+        "name": "Rafael Le\u00e3o",
+        "position": "Midfielder",
+        "rating": 61.4
+      },
+      {
+        "player_id": 130,
+        "name": "N\u00e9lson Semedo",
+        "position": "Defender",
+        "rating": 34.7
+      },
+      {
+        "player_id": 41585,
+        "name": "Gon\u00e7alo Ramos",
+        "position": "Attacker",
+        "rating": 57.1
+      },
+      {
+        "player_id": 1590,
+        "name": "Jos\u00e9 S\u00e1",
+        "position": "Goalkeeper",
+        "rating": 45.7
+      },
+      {
+        "player_id": 46672,
+        "name": "Rui Silva",
+        "position": "Goalkeeper",
+        "rating": 37.9
+      },
+      {
+        "player_id": 567,
+        "name": "R\u00faben Dias",
+        "position": "Defender",
+        "rating": 70.1
+      },
+      {
+        "player_id": 886,
+        "name": "Diogo Dalot",
+        "position": "Defender",
+        "rating": 57.2
+      },
+      {
+        "player_id": 265595,
+        "name": "Gon\u00e7alo In\u00e1cio",
+        "position": "Defender",
+        "rating": 59.2
+      },
+      {
+        "player_id": 41621,
+        "name": "Matheus Nunes",
+        "position": "Midfielder",
+        "rating": 60.0
+      },
+      {
+        "player_id": 190485,
+        "name": "Sam\u00fa Costa",
+        "position": "Midfielder",
+        "rating": 53.5
+      },
+      {
+        "player_id": 2676,
+        "name": "R\u00faben Neves",
+        "position": "Midfielder",
+        "rating": 72.2
+      },
+      {
+        "player_id": 41112,
+        "name": "Trinc\u00e3o",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 925,
+        "name": "Gon\u00e7alo Guedes",
+        "position": "Attacker",
+        "rating": 48.9
+      },
+      {
+        "player_id": 583,
+        "name": "Jo\u00e3o F\u00e9lix",
+        "position": "Attacker",
+        "rating": 69.4
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489419,
+    "matchday": 3,
+    "group": "Group K",
+    "kickoff": "2026-06-27T23:30:00+00:00",
+    "home_id": 8,
+    "away_id": 27,
+    "home_name": "Colombia",
+    "away_name": "Portugal",
+    "lambda_home": 1.023,
+    "lambda_away": 1.577,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.2278,
+    "p_draw": 0.288,
+    "p_away": 0.4842,
+    "rationale": "Effective rating 61.2 vs 70.2 -> supremacy -0.55; xG 1.02-1.58; adj +0.64/-1.58.",
+    "home_adjustment": 0.635,
+    "away_adjustment": -1.579
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.13780270955151605
+    ],
+    [
+      0,
+      1,
+      0.09916008650672441
+    ],
+    [
+      1,
+      2,
+      0.09448472737510472
+    ]
+  ]
+}
