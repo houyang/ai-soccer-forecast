@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1539074,
+  "group": "Group I",
+  "kickoff": "2026-06-26T19:00:00+00:00",
+  "venue": "BMO Field / Toronto",
+  "home": {
+    "team_id": 13,
+    "name": "Senegal",
+    "coach_name": "J. Koto",
+    "coach_record": [
+      10,
+      2,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 2986,
+        "name": "\u00c9. Mendy",
+        "position": "Goalkeeper",
+        "rating": 40.1
+      },
+      {
+        "player_id": 81,
+        "name": "K. Diatta",
+        "position": "Defender",
+        "rating": 41.7
+      },
+      {
+        "player_id": 318,
+        "name": "K. Koulibaly",
+        "position": "Defender",
+        "rating": 64.2
+      },
+      {
+        "player_id": 25916,
+        "name": "M. Niakhat\u00e9",
+        "position": "Defender",
+        "rating": 48.6
+      },
+      {
+        "player_id": 409303,
+        "name": "E. Diouf",
+        "position": "Defender",
+        "rating": 46.4
+      },
+      {
+        "player_id": 2990,
+        "name": "I. Gueye",
+        "position": "Midfielder",
+        "rating": 53.6
+      },
+      {
+        "player_id": 20696,
+        "name": "P. Gueye",
+        "position": "Midfielder",
+        "rating": 65.2
+      },
+      {
+        "player_id": 2218,
+        "name": "I. Sarr",
+        "position": "Attacker",
+        "rating": 71.9
+      },
+      {
+        "player_id": 374058,
+        "name": "L. Camara",
+        "position": "Midfielder",
+        "rating": 48.7
+      },
+      {
+        "player_id": 304,
+        "name": "S. Man\u00e9",
+        "position": "Attacker",
+        "rating": 61.7
+      },
+      {
+        "player_id": 283058,
+        "name": "N. Jackson",
+        "position": "Attacker",
+        "rating": 67.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 119853,
+        "name": "M. Diaw",
+        "position": "Goalkeeper",
+        "rating": 37.9
+      },
+      {
+        "player_id": 20566,
+        "name": "Y. Diouf",
+        "position": "Goalkeeper",
+        "rating": 39.9
+      },
+      {
+        "player_id": 158121,
+        "name": "I. Jakobs",
+        "position": "Midfielder",
+        "rating": 29.8
+      },
+      {
+        "player_id": 284072,
+        "name": "B. Dieng",
+        "position": "Attacker",
+        "rating": 55.1
+      },
+      {
+        "player_id": 313937,
+        "name": "A. Mendy",
+        "position": "Defender",
+        "rating": 48.1
+      },
+      {
+        "player_id": 276184,
+        "name": "M. Sarr",
+        "position": "Defender",
+        "rating": 39.0
+      },
+      {
+        "player_id": 327631,
+        "name": "H. Diarra",
+        "position": "Attacker",
+        "rating": 56.5
+      },
+      {
+        "player_id": 400948,
+        "name": "Assane Diao",
+        "position": "Attacker",
+        "rating": 38.5
+      },
+      {
+        "player_id": 8450,
+        "name": "A. Seck",
+        "position": "Defender",
+        "rating": 38.7
+      },
+      {
+        "player_id": 14379,
+        "name": "C. Ndiaye",
+        "position": "Attacker",
+        "rating": 37.1
+      },
+      {
+        "player_id": 41552,
+        "name": "P. Ciss",
+        "position": "Midfielder",
+        "rating": 42.8
+      },
+      {
+        "player_id": 18592,
+        "name": "I. Ndiaye",
+        "position": "Midfielder",
+        "rating": 62.5
+      },
+      {
+        "player_id": 237129,
+        "name": "P. Sarr",
+        "position": "Midfielder",
+        "rating": 51.8
+      },
+      {
+        "player_id": 446249,
+        "name": "I. Mbaye",
+        "position": "Attacker",
+        "rating": 51.4
+      },
+      {
+        "player_id": 630895,
+        "name": "Bara Ndiaye",
+        "position": "Midfielder",
+        "rating": 50.5
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 1567,
+    "name": "Iraq",
+    "coach_name": "G. Arnold",
+    "coach_record": [
+      9,
+      3,
+      3
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 53886,
+        "name": "Jalal Hassan Hachim",
+        "position": "Goalkeeper",
+        "rating": 30.8
+      },
+      {
+        "player_id": 145465,
+        "name": "Hussein Ali",
+        "position": "Defender",
+        "rating": 27.7
+      },
+      {
+        "player_id": 296373,
+        "name": "Zayed Tahseen",
+        "position": "Defender",
+        "rating": 40.0
+      },
+      {
+        "player_id": 453073,
+        "name": "Akam Rahman",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 271444,
+        "name": "Merchas Doski",
+        "position": "Defender",
+        "rating": 33.8
+      },
+      {
+        "player_id": 140747,
+        "name": "Ibraheem Bayesh",
+        "position": "Midfielder",
+        "rating": 39.0
+      },
+      {
+        "player_id": 626479,
+        "name": "Z. Ismaeel",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 47792,
+        "name": "Amir Al Ammari",
+        "position": "Midfielder",
+        "rating": 27.7
+      },
+      {
+        "player_id": 542644,
+        "name": "A. Jasim",
+        "position": "Attacker",
+        "rating": 28.4
+      },
+      {
+        "player_id": 49451,
+        "name": "Aymen Hussein",
+        "position": "Attacker",
+        "rating": 36.7
+      },
+      {
+        "player_id": 299813,
+        "name": "Ali Al Hamadi",
+        "position": "Attacker",
+        "rating": 19.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 197933,
+        "name": "Ahmed Basil",
+        "position": "Goalkeeper",
+        "rating": 31.0
+      },
+      {
+        "player_id": 123802,
+        "name": "Fahad Talib",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 15769,
+        "name": "Frans Putros",
+        "position": "Defender",
+        "rating": 42.1
+      },
+      {
+        "player_id": 229112,
+        "name": "A. Qasem",
+        "position": "Attacker",
+        "rating": 29.2
+      },
+      {
+        "player_id": 163854,
+        "name": "#163854",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 284295,
+        "name": "Zidane Iqbal",
+        "position": "Midfielder",
+        "rating": 27.0
+      },
+      {
+        "player_id": 265448,
+        "name": "M. Farji",
+        "position": "Midfielder",
+        "rating": 42.8
+      },
+      {
+        "player_id": 53894,
+        "name": "#53894",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 42261,
+        "name": "Rebin Solaka",
+        "position": "Defender",
+        "rating": 23.5
+      },
+      {
+        "player_id": 48025,
+        "name": "Kevin Yakob",
+        "position": "Midfielder",
+        "rating": 47.6
+      },
+      {
+        "player_id": 48129,
+        "name": "A. Sher",
+        "position": "Midfielder",
+        "rating": 28.3
+      },
+      {
+        "player_id": 282065,
+        "name": "Youssef Amyn",
+        "position": "Attacker",
+        "rating": 27.6
+      },
+      {
+        "player_id": 665478,
+        "name": "#665478",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 295394,
+        "name": "Munaf Younus",
+        "position": "Defender",
+        "rating": 26.5
+      },
+      {
+        "player_id": 427187,
+        "name": "Mustafa Saadoun",
+        "position": "Defender",
+        "rating": 40.0
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1539074,
+    "matchday": 3,
+    "group": "Group I",
+    "kickoff": "2026-06-26T19:00:00+00:00",
+    "home_id": 13,
+    "away_id": 1567,
+    "home_name": "Senegal",
+    "away_name": "Iraq",
+    "lambda_home": 1.75,
+    "lambda_away": 0.67,
+    "score_home": 1,
+    "score_away": 0,
+    "p_home": 0.6338,
+    "p_draw": 0.2281,
+    "p_away": 0.1381,
+    "rationale": "Effective rating 62.2 vs 43.8 -> supremacy +1.14; xG 1.75-0.67; adj -1.07/-2.49.",
+    "home_adjustment": -1.075,
+    "away_adjustment": -2.49
+  },
+  "top_scorelines": [
+    [
+      1,
+      0,
+      0.1556128305539261
+    ],
+    [
+      2,
+      0,
+      0.1361612267346853
+    ],
+    [
+      1,
+      1,
+      0.10426059647113048
+    ]
+  ]
+}

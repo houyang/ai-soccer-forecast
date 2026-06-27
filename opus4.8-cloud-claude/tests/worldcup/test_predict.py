@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import math
+
 from soccer.worldcup.entities import WorldCup
 from soccer.worldcup.predict import (
     HOST_HOME_FIELD,
+    MAX_GOALS,
     _effective_rating,
     _is_hot,
     _modal_score,
@@ -16,7 +19,31 @@ from soccer.worldcup.ranking import rank_all
 def test_scoreline_matrix_is_a_distribution() -> None:
     matrix = _scoreline_matrix(1.3, 1.3)
     total = sum(p for row in matrix for p in row)
-    assert abs(total - 1.0) < 1e-3
+    assert abs(total - 1.0) < 1e-9
+
+
+def test_rho_zero_reproduces_independent_poisson() -> None:
+    lam_home, lam_away = 2.1, 0.7
+    matrix = _scoreline_matrix(lam_home, lam_away, rho=0.0)
+
+    def pmf(lam: float, k: int) -> float:
+        return math.exp(-lam) * lam**k / math.factorial(k)
+
+    raw = [
+        [pmf(lam_home, i) * pmf(lam_away, j) for j in range(MAX_GOALS + 1)]
+        for i in range(MAX_GOALS + 1)
+    ]
+    total = sum(p for row in raw for p in row)
+    for i in range(MAX_GOALS + 1):
+        for j in range(MAX_GOALS + 1):
+            assert abs(matrix[i][j] - raw[i][j] / total) < 1e-12
+
+
+def test_draw_correction_raises_draw_probability() -> None:
+    # Dixon-Coles correction must lift P(draw) vs the independent-Poisson baseline.
+    corrected = _outcome_probs(_scoreline_matrix(1.3, 1.3))[1]
+    independent = _outcome_probs(_scoreline_matrix(1.3, 1.3, rho=0.0))[1]
+    assert corrected > independent
 
 
 def test_equal_lambdas_are_symmetric_and_draw_modal() -> None:
@@ -57,9 +84,7 @@ def test_predict_remaining_only_unplayed_and_shifts_lambda(sample_world_cup: Wor
     base_lambda_home = base[0].lambda_home
 
     # Boost England (home, id 1) -> its lambda_home should rise vs baseline.
-    boosted = predict_remaining(
-        sample_world_cup, rankings, {1: TeamAdjustment(rating_delta=5.0)}
-    )
+    boosted = predict_remaining(sample_world_cup, rankings, {1: TeamAdjustment(rating_delta=5.0)})
     assert boosted[0].lambda_home > base_lambda_home
     assert boosted[0].home_adjustment == 5.0
 

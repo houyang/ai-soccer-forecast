@@ -1,0 +1,389 @@
+{
+  "fixture_id": 1489418,
+  "group": "Group J",
+  "kickoff": "2026-06-28T02:00:00+00:00",
+  "venue": "Arrowhead Stadium / Kansas City",
+  "home": {
+    "team_id": 1532,
+    "name": "Algeria",
+    "coach_name": "V. Petkovi\u0107",
+    "coach_record": [
+      11,
+      3,
+      1
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 732,
+        "name": "L. Zidane",
+        "position": "Goalkeeper",
+        "rating": 28.6
+      },
+      {
+        "player_id": 303362,
+        "name": "R. Belghali",
+        "position": "Defender",
+        "rating": 40.4
+      },
+      {
+        "player_id": 1567,
+        "name": "A. Mandi",
+        "position": "Defender",
+        "rating": 55.9
+      },
+      {
+        "player_id": 2194,
+        "name": "R. Benseba\u00efni",
+        "position": "Defender",
+        "rating": 73.5
+      },
+      {
+        "player_id": 21138,
+        "name": "R. A\u00eft-Nouri",
+        "position": "Defender",
+        "rating": 57.8
+      },
+      {
+        "player_id": 4399,
+        "name": "H. Boudaoui",
+        "position": "Midfielder",
+        "rating": 39.6
+      },
+      {
+        "player_id": 409,
+        "name": "N. Bentaleb",
+        "position": "Midfielder",
+        "rating": 52.2
+      },
+      {
+        "player_id": 380587,
+        "name": "I. Maza",
+        "position": "Midfielder",
+        "rating": 63.5
+      },
+      {
+        "player_id": 326067,
+        "name": "A. Hadj-Moussa",
+        "position": "Attacker",
+        "rating": 56.6
+      },
+      {
+        "player_id": 85041,
+        "name": "A. Gouiri",
+        "position": "Attacker",
+        "rating": 59.2
+      },
+      {
+        "player_id": 276670,
+        "name": "F. Cha\u00efbi",
+        "position": "Midfielder",
+        "rating": 50.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 304229,
+        "name": "M. Mastil",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 4414,
+        "name": "O. Benbot",
+        "position": "Goalkeeper",
+        "rating": 32.6
+      },
+      {
+        "player_id": 635,
+        "name": "R. Mahrez",
+        "position": "Attacker",
+        "rating": 58.6
+      },
+      {
+        "player_id": 658,
+        "name": "H. Aouar",
+        "position": "Midfielder",
+        "rating": 53.9
+      },
+      {
+        "player_id": 129047,
+        "name": "R. Zerrouki",
+        "position": "Midfielder",
+        "rating": 43.9
+      },
+      {
+        "player_id": 20869,
+        "name": "S. Chergui",
+        "position": "Defender",
+        "rating": 35.4
+      },
+      {
+        "player_id": 271539,
+        "name": "J. Hadjam",
+        "position": "Defender",
+        "rating": 39.0
+      },
+      {
+        "player_id": 327599,
+        "name": "Y. Titraoui",
+        "position": "Midfielder",
+        "rating": 47.2
+      },
+      {
+        "player_id": 329163,
+        "name": "A. Boulbina",
+        "position": "Attacker",
+        "rating": 49.3
+      },
+      {
+        "player_id": 334915,
+        "name": "F. Ghedjemis",
+        "position": "Attacker",
+        "rating": 50.2
+      },
+      {
+        "player_id": 4569,
+        "name": "M. Tougai",
+        "position": "Defender",
+        "rating": 49.8
+      },
+      {
+        "player_id": 4561,
+        "name": "Z. Bela\u00efd",
+        "position": "Defender",
+        "rating": 39.3
+      },
+      {
+        "player_id": 200139,
+        "name": "M. Amoura",
+        "position": "Attacker",
+        "rating": 50.6
+      },
+      {
+        "player_id": 292924,
+        "name": "A. Benbouali",
+        "position": "Attacker",
+        "rating": 33.4
+      },
+      {
+        "player_id": 342740,
+        "name": "A. Abada",
+        "position": "Defender",
+        "rating": 28.7
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "away": {
+    "team_id": 775,
+    "name": "Austria",
+    "coach_name": "R. Rangnick",
+    "coach_record": [
+      9,
+      3,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 7525,
+        "name": "A. Schlager",
+        "position": "Goalkeeper",
+        "rating": 35.8
+      },
+      {
+        "player_id": 711,
+        "name": "S. Posch",
+        "position": "Defender",
+        "rating": 58.4
+      },
+      {
+        "player_id": 26240,
+        "name": "P. Lienhart",
+        "position": "Defender",
+        "rating": 54.6
+      },
+      {
+        "player_id": 505,
+        "name": "D. Alaba",
+        "position": "Defender",
+        "rating": 42.9
+      },
+      {
+        "player_id": 25915,
+        "name": "P. Mwene",
+        "position": "Defender",
+        "rating": 46.3
+      },
+      {
+        "player_id": 7328,
+        "name": "N. Seiwald",
+        "position": "Midfielder",
+        "rating": 45.2
+      },
+      {
+        "player_id": 1095,
+        "name": "X. Schlager",
+        "position": "Midfielder",
+        "rating": 52.1
+      },
+      {
+        "player_id": 7562,
+        "name": "R. Schmid",
+        "position": "Midfielder",
+        "rating": 50.4
+      },
+      {
+        "player_id": 1157,
+        "name": "K. Laimer",
+        "position": "Defender",
+        "rating": 66.9
+      },
+      {
+        "player_id": 1159,
+        "name": "M. Sabitzer",
+        "position": "Midfielder",
+        "rating": 50.7
+      },
+      {
+        "player_id": 7722,
+        "name": "S. Kalajdzic",
+        "position": "Attacker",
+        "rating": 42.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 7598,
+        "name": "P. Pentz",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 221605,
+        "name": "F. Wiegele",
+        "position": "Goalkeeper",
+        "rating": 34.7
+      },
+      {
+        "player_id": 18830,
+        "name": "M. Arnautovic",
+        "position": "Attacker",
+        "rating": 38.5
+      },
+      {
+        "player_id": 719,
+        "name": "F. Grillitsch",
+        "position": "Midfielder",
+        "rating": 38.4
+      },
+      {
+        "player_id": 1725,
+        "name": "#1725",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 7090,
+        "name": "M. Svoboda",
+        "position": "Defender",
+        "rating": 50.1
+      },
+      {
+        "player_id": 7327,
+        "name": "A. Prass",
+        "position": "Defender",
+        "rating": 60.2
+      },
+      {
+        "player_id": 126640,
+        "name": "D. Affengruber",
+        "position": "Defender",
+        "rating": 41.2
+      },
+      {
+        "player_id": 327895,
+        "name": "P. Wanner",
+        "position": "Midfielder",
+        "rating": 51.5
+      },
+      {
+        "player_id": 25297,
+        "name": "M. Gregoritsch",
+        "position": "Midfielder",
+        "rating": 60.3
+      },
+      {
+        "player_id": 417,
+        "name": "A. Sch\u00f6pf",
+        "position": "Midfielder",
+        "rating": 41.9
+      },
+      {
+        "player_id": 25287,
+        "name": "K. Danso",
+        "position": "Defender",
+        "rating": 47.9
+      },
+      {
+        "player_id": 25314,
+        "name": "M. Friedl",
+        "position": "Defender",
+        "rating": 45.5
+      },
+      {
+        "player_id": 126642,
+        "name": "P. Wimmer",
+        "position": "Midfielder",
+        "rating": 52.8
+      },
+      {
+        "player_id": 138935,
+        "name": "C. Chukwuemeka",
+        "position": "Midfielder",
+        "rating": 52.2
+      }
+    ],
+    "source": "prior",
+    "source_matchday": 1
+  },
+  "prediction": {
+    "fixture_id": 1489418,
+    "matchday": 3,
+    "group": "Group J",
+    "kickoff": "2026-06-28T02:00:00+00:00",
+    "home_id": 1532,
+    "away_id": 775,
+    "home_name": "Algeria",
+    "away_name": "Austria",
+    "lambda_home": 1.233,
+    "lambda_away": 1.247,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3417,
+    "p_draw": 0.3099,
+    "p_away": 0.3484,
+    "rationale": "Effective rating 59.0 vs 61.1 -> supremacy -0.13; xG 1.23-1.25; adj -1.92/-0.04.",
+    "home_adjustment": -1.922,
+    "away_adjustment": -0.04
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.14807526922821093
+    ],
+    [
+      0,
+      0,
+      0.10305844699433607
+    ],
+    [
+      0,
+      1,
+      0.08511495340770361
+    ]
+  ]
+}
