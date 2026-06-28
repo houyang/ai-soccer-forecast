@@ -47,10 +47,15 @@ World Cup 2026 score modeling uses a separate data path:
 1. `soccer.api_football.fetch_world_cup_2026_snapshot` fetches API-Football JSON and stores it
    locally without translation.
 2. `soccer.world_cup_2026.load_world_cup_dataset` normalizes local snapshots into player,
-   coach, club, league, national-team, and group-stage match profiles.
+   coach, club, league, national-team, and match profiles.
 3. `rank_world_cup_entities` computes 0-100 rankings for every loaded entity type.
 4. `predict_group_stage_scores` applies match-location adjustments and predicts final scores
    for first-round group stage matches.
+5. `predict_elimination_stage_scores` applies stronger tournament-form, lineup-quality,
+   rest, and knockout-experience adjustments for known elimination fixtures and returns the
+   team expected to advance.
+6. `predict_full_elimination_bracket` maps Round of 32 fixtures to official match numbers
+   and projects winners through the third-place match and final.
 
 The World Cup path is intentionally snapshot-first so API keys, provider rate limits, and
 network availability do not affect repeatable prediction runs.
@@ -78,5 +83,8 @@ The fixture catalog includes single-match scenarios and competition IDs:
 
 Those entries are architectural examples, not real forecasts. Real predictions require provider
 implementations that can retrieve current fixtures, teams, injuries, odds, weather, and results.
-For FIFA 2026 group-stage score forecasts, use `fetch-world-cup-data` to create the local
-API-Football snapshot and `predict-world-cup-group-stage` to run the ranking model.
+For FIFA 2026 score forecasts, use `fetch-world-cup-data` to create the local API-Football
+snapshot, `fetch-world-cup-match-updates` during the tournament, and either
+`predict-world-cup-group-stage` or `predict-world-cup-elimination-stage` to run the
+ranking model. Add `--project-bracket` to continue predicted knockout winners through
+the final.

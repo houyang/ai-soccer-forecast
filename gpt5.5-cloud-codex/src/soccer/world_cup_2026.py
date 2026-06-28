@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 import unicodedata
 from collections import Counter
@@ -34,6 +35,7 @@ HOST_CITY_COUNTRIES = {
     "Boston": "United States",
     "Dallas": "United States",
     "East Rutherford": "United States",
+    "Foxborough": "United States",
     "Guadalajara": "Mexico",
     "Houston": "United States",
     "Inglewood": "United States",
@@ -51,6 +53,23 @@ HOST_CITY_COUNTRIES = {
     "Seattle": "United States",
     "Toronto": "Canada",
     "Vancouver": "Canada",
+}
+STADIUM_LOCATIONS = {
+    "Arrowhead Stadium": ("Kansas City", "United States"),
+    "AT&T Stadium": ("Arlington", "United States"),
+    "BC Place": ("Vancouver", "Canada"),
+    "BMO Field": ("Toronto", "Canada"),
+    "Estadio Azteca": ("Mexico City", "Mexico"),
+    "Estadio Banorte": ("Mexico City", "Mexico"),
+    "Estadio BBVA": ("Monterrey", "Mexico"),
+    "Gillette Stadium": ("Foxborough", "United States"),
+    "Hard Rock Stadium": ("Miami Gardens", "United States"),
+    "Lincoln Financial Field": ("Philadelphia", "United States"),
+    "Lumen Field": ("Seattle", "United States"),
+    "Mercedes-Benz Stadium": ("Atlanta", "United States"),
+    "MetLife Stadium": ("East Rutherford", "United States"),
+    "NRG Stadium": ("Houston", "United States"),
+    "SoFi Stadium": ("Inglewood", "United States"),
 }
 AMERICAS_TEAMS = {
     "Argentina",
@@ -142,6 +161,220 @@ COUNTRY_HISTORY_SCORES = {
     "Uruguay": 88.0,
     "Uzbekistan": 57.0,
 }
+TEAM_NAME_ALIASES = {
+    "Czech Republic": "Czechia",
+    "Czech-Republic": "Czechia",
+}
+
+
+@dataclass(frozen=True)
+class _TeamRoleSpec:
+    rank: int
+    groups: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class _TeamGroupRole:
+    rank: int
+    group: str
+
+
+@dataclass(frozen=True)
+class _BracketSlot:
+    match_number: int
+    stage: str
+    kickoff: datetime
+    venue_name: str
+    venue_city: str
+    venue_country: str
+    home_source_match: int
+    away_source_match: int
+    home_source_result: str = "winner"
+    away_source_result: str = "winner"
+
+
+ROUND_OF_32_ROLE_SPECS: dict[int, tuple[_TeamRoleSpec, _TeamRoleSpec]] = {
+    73: (_TeamRoleSpec(2, ("A",)), _TeamRoleSpec(2, ("B",))),
+    74: (_TeamRoleSpec(1, ("E",)), _TeamRoleSpec(3, ("A", "B", "C", "D", "F"))),
+    75: (_TeamRoleSpec(1, ("F",)), _TeamRoleSpec(2, ("C",))),
+    76: (_TeamRoleSpec(1, ("C",)), _TeamRoleSpec(2, ("F",))),
+    77: (_TeamRoleSpec(1, ("I",)), _TeamRoleSpec(3, ("C", "D", "F", "G", "H"))),
+    78: (_TeamRoleSpec(2, ("E",)), _TeamRoleSpec(2, ("I",))),
+    79: (_TeamRoleSpec(1, ("A",)), _TeamRoleSpec(3, ("C", "E", "F", "H", "I"))),
+    80: (_TeamRoleSpec(1, ("L",)), _TeamRoleSpec(3, ("E", "H", "I", "J", "K"))),
+    81: (_TeamRoleSpec(1, ("D",)), _TeamRoleSpec(3, ("B", "E", "F", "I", "J"))),
+    82: (_TeamRoleSpec(1, ("G",)), _TeamRoleSpec(3, ("A", "E", "H", "I", "J"))),
+    83: (_TeamRoleSpec(2, ("K",)), _TeamRoleSpec(2, ("L",))),
+    84: (_TeamRoleSpec(1, ("H",)), _TeamRoleSpec(2, ("J",))),
+    85: (_TeamRoleSpec(1, ("B",)), _TeamRoleSpec(3, ("E", "F", "G", "I", "J"))),
+    86: (_TeamRoleSpec(1, ("J",)), _TeamRoleSpec(2, ("H",))),
+    87: (_TeamRoleSpec(1, ("K",)), _TeamRoleSpec(3, ("D", "E", "I", "J", "L"))),
+    88: (_TeamRoleSpec(2, ("D",)), _TeamRoleSpec(2, ("G",))),
+}
+PROJECTED_KNOCKOUT_SLOTS = (
+    _BracketSlot(
+        89,
+        "Round of 16",
+        datetime(2026, 7, 4, 21, 0, tzinfo=UTC),
+        "Lincoln Financial Field",
+        "Philadelphia",
+        "United States",
+        74,
+        77,
+    ),
+    _BracketSlot(
+        90,
+        "Round of 16",
+        datetime(2026, 7, 4, 17, 0, tzinfo=UTC),
+        "NRG Stadium",
+        "Houston",
+        "United States",
+        73,
+        75,
+    ),
+    _BracketSlot(
+        91,
+        "Round of 16",
+        datetime(2026, 7, 5, 20, 0, tzinfo=UTC),
+        "MetLife Stadium",
+        "East Rutherford",
+        "United States",
+        76,
+        78,
+    ),
+    _BracketSlot(
+        92,
+        "Round of 16",
+        datetime(2026, 7, 6, 0, 0, tzinfo=UTC),
+        "Estadio Azteca",
+        "Mexico City",
+        "Mexico",
+        79,
+        80,
+    ),
+    _BracketSlot(
+        93,
+        "Round of 16",
+        datetime(2026, 7, 6, 19, 0, tzinfo=UTC),
+        "AT&T Stadium",
+        "Arlington",
+        "United States",
+        83,
+        84,
+    ),
+    _BracketSlot(
+        94,
+        "Round of 16",
+        datetime(2026, 7, 7, 0, 0, tzinfo=UTC),
+        "Lumen Field",
+        "Seattle",
+        "United States",
+        81,
+        82,
+    ),
+    _BracketSlot(
+        95,
+        "Round of 16",
+        datetime(2026, 7, 7, 16, 0, tzinfo=UTC),
+        "Mercedes-Benz Stadium",
+        "Atlanta",
+        "United States",
+        86,
+        88,
+    ),
+    _BracketSlot(
+        96,
+        "Round of 16",
+        datetime(2026, 7, 7, 20, 0, tzinfo=UTC),
+        "BC Place",
+        "Vancouver",
+        "Canada",
+        85,
+        87,
+    ),
+    _BracketSlot(
+        97,
+        "Quarterfinals",
+        datetime(2026, 7, 9, 20, 0, tzinfo=UTC),
+        "Gillette Stadium",
+        "Foxborough",
+        "United States",
+        89,
+        90,
+    ),
+    _BracketSlot(
+        98,
+        "Quarterfinals",
+        datetime(2026, 7, 10, 19, 0, tzinfo=UTC),
+        "SoFi Stadium",
+        "Inglewood",
+        "United States",
+        93,
+        94,
+    ),
+    _BracketSlot(
+        99,
+        "Quarterfinals",
+        datetime(2026, 7, 11, 21, 0, tzinfo=UTC),
+        "Hard Rock Stadium",
+        "Miami Gardens",
+        "United States",
+        91,
+        92,
+    ),
+    _BracketSlot(
+        100,
+        "Quarterfinals",
+        datetime(2026, 7, 12, 1, 0, tzinfo=UTC),
+        "Arrowhead Stadium",
+        "Kansas City",
+        "United States",
+        95,
+        96,
+    ),
+    _BracketSlot(
+        101,
+        "Semifinals",
+        datetime(2026, 7, 14, 19, 0, tzinfo=UTC),
+        "AT&T Stadium",
+        "Arlington",
+        "United States",
+        97,
+        98,
+    ),
+    _BracketSlot(
+        102,
+        "Semifinals",
+        datetime(2026, 7, 15, 19, 0, tzinfo=UTC),
+        "Mercedes-Benz Stadium",
+        "Atlanta",
+        "United States",
+        99,
+        100,
+    ),
+    _BracketSlot(
+        103,
+        "Third-place match",
+        datetime(2026, 7, 18, 21, 0, tzinfo=UTC),
+        "Hard Rock Stadium",
+        "Miami Gardens",
+        "United States",
+        101,
+        102,
+        home_source_result="loser",
+        away_source_result="loser",
+    ),
+    _BracketSlot(
+        104,
+        "Final",
+        datetime(2026, 7, 19, 19, 0, tzinfo=UTC),
+        "MetLife Stadium",
+        "East Rutherford",
+        "United States",
+        101,
+        102,
+    ),
+)
 
 
 @dataclass(frozen=True)
@@ -224,7 +457,7 @@ class NationalTeamProfile:
 
 @dataclass(frozen=True)
 class GroupStageMatch:
-    """A first-round group stage match."""
+    """A World Cup fixture loaded from the provider schedule."""
 
     match_id: str
     group: str | None
@@ -235,11 +468,12 @@ class GroupStageMatch:
     venue_name: str
     venue_city: str
     venue_country: str
+    stage: str | None = None
 
 
 @dataclass(frozen=True)
 class CompletedGroupMatch:
-    """A completed group-stage match result used for tournament updates."""
+    """A completed match result used for tournament updates."""
 
     match_id: str
     group: str | None
@@ -292,6 +526,7 @@ class WorldCupDataSet:
     completed_matches: dict[str, CompletedGroupMatch]
     team_updates: dict[str, TeamTournamentUpdate]
     external_factors: JsonObject
+    group_ranks: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -307,7 +542,7 @@ class WorldCupRankings:
 
 @dataclass(frozen=True)
 class WorldCupScorePrediction:
-    """A deterministic final-score prediction for a group stage match."""
+    """A deterministic final-score prediction for a World Cup match."""
 
     match_id: str
     group: str | None
@@ -324,6 +559,12 @@ class WorldCupScorePrediction:
     home_expected_goals: float
     away_expected_goals: float
     rationale: str
+    stage: str | None = None
+    match_number: int | None = None
+    source_match_numbers: tuple[int, ...] = ()
+    winner: str | None = None
+    decided_by: str | None = None
+    home_advancement_probability: float | None = None
 
 
 def load_world_cup_dataset(
@@ -355,6 +596,7 @@ def load_world_cup_dataset(
 
     standings_payload = _read_optional_json(snapshot_dir / "standings_world_cup.json")
     group_by_team.update(_groups_from_standings_payload(standings_payload))
+    group_ranks = _group_ranks_from_standings_payload(standings_payload)
     matches = _matches_with_group_mapping(matches, group_by_team)
 
     recent_forms = {
@@ -395,6 +637,7 @@ def load_world_cup_dataset(
         completed_matches=completed_matches,
         team_updates=team_updates,
         external_factors=external_factors,
+        group_ranks=group_ranks,
     )
 
 
@@ -431,6 +674,8 @@ def predict_group_stage_scores(
 
     predictions: list[WorldCupScorePrediction] = []
     for match in sorted(dataset.matches, key=lambda item: item.kickoff):
+        if not _is_group_stage_match(match):
+            continue
         if remaining_only and match.match_id in dataset.completed_matches:
             continue
         home_base = rankings.national_teams.get(match.home_team, 50.0)
@@ -481,9 +726,274 @@ def predict_group_stage_scores(
                 home_expected_goals=round(home_xg, 3),
                 away_expected_goals=round(away_xg, 3),
                 rationale=rationale,
+                stage=match.stage,
             )
         )
     return tuple(predictions)
+
+
+def predict_elimination_stage_scores(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    *,
+    remaining_only: bool = True,
+) -> tuple[WorldCupScorePrediction, ...]:
+    """Predict known knockout-stage fixtures, including the team expected to advance."""
+
+    round_of_32_numbers = _round_of_32_match_numbers(dataset)
+    predictions: list[WorldCupScorePrediction] = []
+    for match in sorted(dataset.matches, key=lambda item: item.kickoff):
+        if _is_group_stage_match(match):
+            continue
+        if remaining_only and match.match_id in dataset.completed_matches:
+            continue
+        if _is_placeholder_team(match.home_team) or _is_placeholder_team(match.away_team):
+            continue
+        predictions.append(
+            _predict_elimination_match(
+                dataset,
+                rankings,
+                match,
+                match_number=round_of_32_numbers.get(match.match_id),
+            )
+        )
+    return tuple(predictions)
+
+
+def predict_full_elimination_bracket(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    *,
+    remaining_only: bool = True,
+) -> tuple[WorldCupScorePrediction, ...]:
+    """Project every scheduled knockout slot through the final."""
+
+    round_of_32_numbers = _round_of_32_match_numbers(dataset)
+    if len(round_of_32_numbers) != len(ROUND_OF_32_ROLE_SPECS):
+        raise ValueError(
+            f"Expected {len(ROUND_OF_32_ROLE_SPECS)} Round of 32 matches, "
+            f"mapped {len(round_of_32_numbers)}"
+        )
+
+    predictions_by_number: dict[int, WorldCupScorePrediction] = {}
+    winners: dict[int, str] = {}
+    losers: dict[int, str] = {}
+    kickoffs: dict[int, datetime] = {}
+    ordered: list[WorldCupScorePrediction] = []
+
+    for match in sorted(dataset.matches, key=lambda item: item.kickoff):
+        match_number = round_of_32_numbers.get(match.match_id)
+        if match_number is None:
+            continue
+        if remaining_only and match.match_id in dataset.completed_matches:
+            continue
+        prediction = _predict_elimination_match(
+            dataset,
+            rankings,
+            match,
+            match_number=match_number,
+        )
+        _record_bracket_prediction(
+            prediction,
+            match.kickoff,
+            predictions_by_number,
+            winners,
+            losers,
+            kickoffs,
+        )
+        ordered.append(prediction)
+
+    for slot in PROJECTED_KNOCKOUT_SLOTS:
+        home_team = _source_team(winners, losers, slot.home_source_match, slot.home_source_result)
+        away_team = _source_team(winners, losers, slot.away_source_match, slot.away_source_result)
+        home_rest, away_rest = _projected_rest_adjustments(
+            slot.kickoff,
+            kickoffs[slot.home_source_match],
+            kickoffs[slot.away_source_match],
+        )
+        match = GroupStageMatch(
+            match_id=f"wc-2026-{slot.match_number}",
+            group=None,
+            round_number=None,
+            home_team=home_team,
+            away_team=away_team,
+            kickoff=slot.kickoff,
+            venue_name=slot.venue_name,
+            venue_city=slot.venue_city,
+            venue_country=slot.venue_country,
+            stage=slot.stage,
+        )
+        prediction = _predict_elimination_match(
+            dataset,
+            rankings,
+            match,
+            match_number=slot.match_number,
+            source_match_numbers=(slot.home_source_match, slot.away_source_match),
+            home_rest_override=home_rest,
+            away_rest_override=away_rest,
+        )
+        _record_bracket_prediction(
+            prediction,
+            slot.kickoff,
+            predictions_by_number,
+            winners,
+            losers,
+            kickoffs,
+        )
+        ordered.append(prediction)
+
+    return tuple(ordered)
+
+
+def _predict_elimination_match(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    match: GroupStageMatch,
+    *,
+    match_number: int | None = None,
+    source_match_numbers: tuple[int, ...] = (),
+    home_rest_override: float | None = None,
+    away_rest_override: float | None = None,
+) -> WorldCupScorePrediction:
+    home_base = rankings.national_teams.get(match.home_team, 50.0)
+    away_base = rankings.national_teams.get(match.away_team, 50.0)
+    home_location = _location_adjustment(match.home_team, match, is_home=True) * 0.85
+    away_location = _location_adjustment(match.away_team, match, is_home=False) * 0.85
+    home_tournament = _elimination_tournament_adjustment(dataset, rankings, match.home_team)
+    away_tournament = _elimination_tournament_adjustment(dataset, rankings, match.away_team)
+    home_rest = (
+        home_rest_override
+        if home_rest_override is not None
+        else _rest_adjustment(dataset, match, match.home_team, match.away_team)
+    )
+    away_rest = (
+        away_rest_override
+        if away_rest_override is not None
+        else _rest_adjustment(dataset, match, match.away_team, match.home_team)
+    )
+    home_experience = _knockout_experience_adjustment(dataset, match.home_team)
+    away_experience = _knockout_experience_adjustment(dataset, match.away_team)
+    home_rating = _clamp_score(
+        home_base + home_location + home_tournament + home_rest + home_experience
+    )
+    away_rating = _clamp_score(
+        away_base + away_location + away_tournament + away_rest + away_experience
+    )
+
+    home_xg, away_xg = _expected_elimination_goals(
+        dataset,
+        match,
+        home_rating,
+        away_rating,
+    )
+    home_score = _score_from_expected_goals(home_xg)
+    away_score = _score_from_expected_goals(away_xg)
+    rating_edge = home_rating - away_rating
+    home_advancement = _advancement_probability(rating_edge)
+    decided_by = "regular_time"
+    if home_score == away_score:
+        if abs(rating_edge) >= 7.0:
+            decided_by = "extra_time"
+            if rating_edge > 0:
+                home_score += 1
+            else:
+                away_score += 1
+        else:
+            decided_by = "penalties"
+
+    if home_score > away_score:
+        outcome = Outcome.HOME_WIN
+        winner = match.home_team
+    elif home_score < away_score:
+        outcome = Outcome.AWAY_WIN
+        winner = match.away_team
+    elif home_advancement >= 0.5:
+        outcome = Outcome.HOME_WIN
+        winner = match.home_team
+    else:
+        outcome = Outcome.AWAY_WIN
+        winner = match.away_team
+
+    confidence = round(
+        min(0.86, 0.42 + abs(rating_edge) / 125 + abs(home_xg - away_xg) * 0.035),
+        3,
+    )
+    rationale = (
+        f"{match.stage or 'Knockout'} elimination forecast: {match.home_team} adjusted "
+        f"rating {home_rating:.1f} vs {match.away_team} {away_rating:.1f}; expected "
+        f"goals {home_xg:.2f}-{away_xg:.2f}. Location {home_location:+.1f}/"
+        f"{away_location:+.1f}, group-form/tactical update {home_tournament:+.1f}/"
+        f"{away_tournament:+.1f}, rest {home_rest:+.1f}/{away_rest:+.1f}, "
+        f"knockout experience {home_experience:+.1f}/{away_experience:+.1f}. "
+        f"Advance pick: {winner} by {decided_by.replace('_', ' ')}. "
+        f"{_team_update_summary(dataset, rankings, match.home_team)} "
+        f"{_team_update_summary(dataset, rankings, match.away_team)}"
+    )
+    return WorldCupScorePrediction(
+        match_id=match.match_id,
+        group=match.group,
+        home_team=match.home_team,
+        away_team=match.away_team,
+        home_score=home_score,
+        away_score=away_score,
+        outcome=outcome,
+        confidence=confidence,
+        home_adjusted_rating=round(home_rating, 3),
+        away_adjusted_rating=round(away_rating, 3),
+        home_tournament_adjustment=round(home_tournament, 3),
+        away_tournament_adjustment=round(away_tournament, 3),
+        home_expected_goals=round(home_xg, 3),
+        away_expected_goals=round(away_xg, 3),
+        rationale=rationale,
+        stage=match.stage,
+        match_number=match_number,
+        source_match_numbers=source_match_numbers,
+        winner=winner,
+        decided_by=decided_by,
+        home_advancement_probability=round(home_advancement, 3),
+    )
+
+
+def _record_bracket_prediction(
+    prediction: WorldCupScorePrediction,
+    kickoff: datetime,
+    predictions_by_number: dict[int, WorldCupScorePrediction],
+    winners: dict[int, str],
+    losers: dict[int, str],
+    kickoffs: dict[int, datetime],
+) -> None:
+    if prediction.match_number is None or prediction.winner is None:
+        raise ValueError("Projected bracket predictions require match numbers and winners")
+    predictions_by_number[prediction.match_number] = prediction
+    winners[prediction.match_number] = prediction.winner
+    losers[prediction.match_number] = (
+        prediction.away_team if prediction.winner == prediction.home_team else prediction.home_team
+    )
+    kickoffs[prediction.match_number] = kickoff
+
+
+def _source_team(
+    winners: Mapping[int, str],
+    losers: Mapping[int, str],
+    match_number: int,
+    source_result: str,
+) -> str:
+    source = losers if source_result == "loser" else winners
+    try:
+        return source[match_number]
+    except KeyError as exc:
+        raise ValueError(f"Missing {source_result} for match {match_number}") from exc
+
+
+def _projected_rest_adjustments(
+    kickoff: datetime,
+    home_previous_kickoff: datetime,
+    away_previous_kickoff: datetime,
+) -> tuple[float, float]:
+    home_days = (kickoff - home_previous_kickoff).total_seconds() / 86400
+    away_days = (kickoff - away_previous_kickoff).total_seconds() / 86400
+    home_adjustment = round(_clamp((home_days - away_days) * 0.55, -2.0, 2.0), 3)
+    return home_adjustment, -home_adjustment
 
 
 def prediction_to_json(prediction: WorldCupScorePrediction) -> JsonObject:
@@ -491,6 +1001,9 @@ def prediction_to_json(prediction: WorldCupScorePrediction) -> JsonObject:
 
     return {
         "match_id": prediction.match_id,
+        "match_number": prediction.match_number,
+        "source_match_numbers": list(prediction.source_match_numbers),
+        "stage": prediction.stage,
         "group": prediction.group,
         "home_team": prediction.home_team,
         "away_team": prediction.away_team,
@@ -504,6 +1017,9 @@ def prediction_to_json(prediction: WorldCupScorePrediction) -> JsonObject:
         "away_tournament_adjustment": prediction.away_tournament_adjustment,
         "home_expected_goals": prediction.home_expected_goals,
         "away_expected_goals": prediction.away_expected_goals,
+        "winner": prediction.winner,
+        "decided_by": prediction.decided_by,
+        "home_advancement_probability": prediction.home_advancement_probability,
         "rationale": prediction.rationale,
     }
 
@@ -517,10 +1033,12 @@ def render_group_stage_markdown(
 
     grouped: dict[str, list[WorldCupScorePrediction]] = {}
     for prediction in predictions:
-        grouped.setdefault(prediction.group or "Ungrouped", []).append(prediction)
+        grouped.setdefault(prediction.group or prediction.stage or "Ungrouped", []).append(
+            prediction
+        )
 
     lines = [f"# {title}", ""]
-    for group in sorted(grouped, key=_group_sort_key):
+    for group in sorted(grouped, key=_stage_sort_key):
         lines.extend(
             [
                 f"## {_markdown_text(group)}",
@@ -529,10 +1047,15 @@ def render_group_stage_markdown(
                 "|---|---|---:|---|---|---:|",
             ]
         )
-        for index, prediction in enumerate(grouped[group], start=1):
+        ordered_predictions = sorted(
+            grouped[group],
+            key=lambda item: item.match_number or 10_000,
+        )
+        for index, prediction in enumerate(ordered_predictions, start=1):
+            match_label = prediction.match_number or index
             lines.append(
                 "| "
-                f"{index} | "
+                f"{match_label} | "
                 f"{_markdown_text(prediction.home_team)} | "
                 f"{prediction.home_score}-{prediction.away_score} | "
                 f"{_markdown_text(prediction.away_team)} | "
@@ -551,16 +1074,17 @@ def _matches_from_payload(
     group_by_team: dict[str, str | None] = {}
     for item in _response_items(payload):
         group = _group_from_fixture(item)
-        if not _is_group_stage_fixture(item, group):
-            continue
+        stage = _stage_from_fixture(item)
+        is_group_stage = _is_group_stage_fixture(item, group)
         home_name, home_id = _fixture_team(item, "home")
         away_name, away_id = _fixture_team(item, "away")
         if home_name is None or away_name is None:
             continue
         team_ids.setdefault(home_name, home_id)
         team_ids.setdefault(away_name, away_id)
-        group_by_team[home_name] = group
-        group_by_team[away_name] = group
+        if is_group_stage:
+            group_by_team[home_name] = group
+            group_by_team[away_name] = group
 
         fixture = _mapping(item.get("fixture")) or item
         venue = _mapping(fixture.get("venue")) or _mapping(item.get("venue")) or {}
@@ -568,7 +1092,13 @@ def _matches_from_payload(
         if match_id is None:
             match_id = f"{_slug(home_name)}-{_slug(away_name)}"
         kickoff = _datetime_value(fixture.get("date")) or _datetime_value(item.get("kickoff"))
-        venue_city = _first_text(venue, ("city", "hostCity")) or "Unknown city"
+        venue_name = _first_text(venue, ("name", "venueName")) or "Unknown venue"
+        stadium_location = STADIUM_LOCATIONS.get(venue_name)
+        venue_city = (
+            _first_text(venue, ("city", "hostCity"))
+            or (stadium_location[0] if stadium_location is not None else None)
+            or "Unknown city"
+        )
         matches.append(
             GroupStageMatch(
                 match_id=f"wc-2026-{_slug(match_id)}",
@@ -577,12 +1107,14 @@ def _matches_from_payload(
                 home_team=home_name,
                 away_team=away_name,
                 kickoff=kickoff or datetime(2026, 6, 11, tzinfo=UTC),
-                venue_name=_first_text(venue, ("name", "venueName")) or "Unknown venue",
+                venue_name=venue_name,
                 venue_city=venue_city,
                 venue_country=(
                     _first_text(venue, ("country", "countryName"))
+                    or (stadium_location[1] if stadium_location is not None else None)
                     or HOST_CITY_COUNTRIES.get(venue_city, "Unknown country")
                 ),
+                stage=stage,
             )
         )
     return tuple(matches), team_ids, group_by_team
@@ -594,7 +1126,7 @@ def _team_ids_from_teams_payload(payload: JsonObject) -> dict[str, int | None]:
         team = _mapping(item.get("team")) or item
         name = _first_text(team, ("name", "country"))
         if name is not None:
-            team_ids[name] = _int_value(team.get("id"))
+            team_ids[_canonical_team_name(name)] = _int_value(team.get("id"))
     return team_ids
 
 
@@ -616,8 +1148,33 @@ def _groups_from_standings_payload(payload: JsonObject) -> dict[str, str]:
                 team_name = _first_text(team, ("name",))
                 group = _specific_group_label(_first_text(standing, ("group",)))
                 if team_name is not None and group is not None:
-                    groups[team_name] = group
+                    groups[_canonical_team_name(team_name)] = group
     return groups
+
+
+def _group_ranks_from_standings_payload(payload: JsonObject) -> dict[str, int]:
+    ranks: dict[str, int] = {}
+    for item in _response_items(payload):
+        league = _mapping(item.get("league")) or item
+        standings = league.get("standings")
+        if not isinstance(standings, list):
+            continue
+        for table in standings:
+            if not isinstance(table, list):
+                continue
+            for row in table:
+                standing = _mapping(row)
+                if not standing:
+                    continue
+                group = _specific_group_label(_first_text(standing, ("group",)))
+                if group is None:
+                    continue
+                team = _mapping(standing.get("team")) or {}
+                team_name = _first_text(team, ("name",))
+                rank = _int_value(standing.get("rank"))
+                if team_name is not None and rank is not None:
+                    ranks[_canonical_team_name(team_name)] = rank
+    return ranks
 
 
 def _matches_with_group_mapping(
@@ -626,9 +1183,13 @@ def _matches_with_group_mapping(
 ) -> tuple[GroupStageMatch, ...]:
     updated: list[GroupStageMatch] = []
     for match in matches:
-        group = (
-            match.group or group_by_team.get(match.home_team) or group_by_team.get(match.away_team)
-        )
+        group = match.group
+        if _is_group_stage_match(match):
+            group = (
+                match.group
+                or group_by_team.get(match.home_team)
+                or group_by_team.get(match.away_team)
+            )
         updated.append(
             GroupStageMatch(
                 match_id=match.match_id,
@@ -640,6 +1201,7 @@ def _matches_with_group_mapping(
                 venue_name=match.venue_name,
                 venue_city=match.venue_city,
                 venue_country=match.venue_country,
+                stage=match.stage,
             )
         )
     return tuple(updated)
@@ -655,8 +1217,6 @@ def _completed_matches_from_payload(
     completed_statuses = {"FT", "AET", "PEN"}
     for item in _response_items(payload):
         group = _group_from_fixture(item)
-        if not _is_group_stage_fixture(item, group):
-            continue
         round_number = _round_number_from_fixture(item)
         if max_round is not None and (round_number is None or round_number > max_round):
             continue
@@ -735,6 +1295,96 @@ def _load_team_tournament_updates(
         )
         for team, builder in builders.items()
     }
+
+
+def _round_of_32_match_numbers(dataset: WorldCupDataSet) -> dict[str, int]:
+    roles = _team_group_roles(dataset)
+    mapped: dict[str, int] = {}
+    for match in dataset.matches:
+        if (match.stage or "").lower() != "round of 32":
+            continue
+        home_role = roles.get(match.home_team)
+        away_role = roles.get(match.away_team)
+        if home_role is None or away_role is None:
+            continue
+        for match_number, (home_spec, away_spec) in ROUND_OF_32_ROLE_SPECS.items():
+            if _role_matches(home_role, home_spec) and _role_matches(away_role, away_spec):
+                mapped[match.match_id] = match_number
+                break
+    return mapped
+
+
+def _team_group_roles(dataset: WorldCupDataSet) -> dict[str, _TeamGroupRole]:
+    roles: dict[str, _TeamGroupRole] = {}
+    for team_name, team in dataset.national_teams.items():
+        group = _group_letter(team.group)
+        rank = dataset.group_ranks.get(team_name)
+        if group is not None and rank is not None:
+            roles[team_name] = _TeamGroupRole(rank=rank, group=group)
+
+    grouped: dict[str, dict[str, _GroupStandingBuilder]] = {}
+    for team_name, team in dataset.national_teams.items():
+        if team_name in roles:
+            continue
+        group = _group_letter(team.group)
+        if group is not None:
+            grouped.setdefault(group, {}).setdefault(team_name, _GroupStandingBuilder())
+
+    for completed in dataset.completed_matches.values():
+        group = _group_letter(completed.group)
+        if group is None:
+            continue
+        table = grouped.setdefault(group, {})
+        home = table.setdefault(completed.home_team, _GroupStandingBuilder())
+        away = table.setdefault(completed.away_team, _GroupStandingBuilder())
+        home.played += 1
+        away.played += 1
+        home.goals_for += completed.home_score
+        home.goals_against += completed.away_score
+        away.goals_for += completed.away_score
+        away.goals_against += completed.home_score
+        if completed.home_score > completed.away_score:
+            home.points += 3
+        elif completed.home_score < completed.away_score:
+            away.points += 3
+        else:
+            home.points += 1
+            away.points += 1
+
+    for group, table in grouped.items():
+        ordered = sorted(
+            table.items(),
+            key=lambda item: (
+                -item[1].points,
+                -(item[1].goals_for - item[1].goals_against),
+                -item[1].goals_for,
+                item[0],
+            ),
+        )
+        for index, (team_name, _standing) in enumerate(ordered, start=1):
+            roles.setdefault(team_name, _TeamGroupRole(rank=index, group=group))
+    return roles
+
+
+@dataclass
+class _GroupStandingBuilder:
+    played: int = 0
+    points: int = 0
+    goals_for: int = 0
+    goals_against: int = 0
+
+
+def _role_matches(role: _TeamGroupRole, spec: _TeamRoleSpec) -> bool:
+    return role.rank == spec.rank and role.group in spec.groups
+
+
+def _group_letter(group: str | None) -> str | None:
+    if group is None:
+        return None
+    match = re.search(r"\bGroup\s+([A-L])\b", group, flags=re.IGNORECASE)
+    if match is None:
+        return None
+    return match.group(1).upper()
 
 
 @dataclass
@@ -1244,6 +1894,30 @@ def _expected_goals(
     return home_xg, away_xg
 
 
+def _expected_elimination_goals(
+    dataset: WorldCupDataSet,
+    match: GroupStageMatch,
+    home_rating: float,
+    away_rating: float,
+) -> tuple[float, float]:
+    rating_edge = home_rating - away_rating
+    home_attack = _team_goal_bonus(dataset, match.home_team) * 0.85
+    away_attack = _team_goal_bonus(dataset, match.away_team) * 0.85
+    home_signal = _team_tournament_goal_signal(dataset.team_updates.get(match.home_team))
+    away_signal = _team_tournament_goal_signal(dataset.team_updates.get(match.away_team))
+    home_xg = _clamp(1.08 + rating_edge * 0.022 + home_attack + home_signal, 0.2, 3.8)
+    away_xg = _clamp(1.02 - rating_edge * 0.020 + away_attack + away_signal, 0.2, 3.8)
+    return home_xg, away_xg
+
+
+def _team_tournament_goal_signal(update: TeamTournamentUpdate | None) -> float:
+    if update is None or update.matches == 0:
+        return 0.0
+    attack = ((update.goals_for / update.matches) - 1.25) * 0.16
+    defensive_drag = ((update.goals_against / update.matches) - 1.15) * 0.10
+    return _clamp(attack - defensive_drag, -0.28, 0.28)
+
+
 def _team_goal_bonus(dataset: WorldCupDataSet, team_name: str) -> float:
     team = dataset.national_teams.get(team_name)
     if team is None:
@@ -1302,6 +1976,71 @@ def _tournament_adjustment(
         ),
         3,
     )
+
+
+def _elimination_tournament_adjustment(
+    dataset: WorldCupDataSet,
+    rankings: WorldCupRankings,
+    team_name: str,
+) -> float:
+    update = dataset.team_updates.get(team_name)
+    if update is None or update.matches == 0:
+        return 0.0
+
+    base = _tournament_adjustment(dataset, rankings, team_name) * 1.25
+    goals_for_per_match = update.goals_for / update.matches
+    goals_against_per_match = update.goals_against / update.matches
+    knockout_form = (
+        (update.points_per_match - 1.5) * 1.4
+        + (goals_for_per_match - 1.35) * 0.9
+        - (goals_against_per_match - 1.0) * 1.1
+    )
+    unbeaten = 0.7 if update.losses == 0 and update.matches >= 3 else 0.0
+    shaky_defense = -0.6 if goals_against_per_match >= 1.75 else 0.0
+    return round(_clamp(base + knockout_form + unbeaten + shaky_defense, -12.0, 12.0), 3)
+
+
+def _rest_adjustment(
+    dataset: WorldCupDataSet,
+    match: GroupStageMatch,
+    team_name: str,
+    opponent_name: str,
+) -> float:
+    team_days = _rest_days_before_match(dataset, team_name, match)
+    opponent_days = _rest_days_before_match(dataset, opponent_name, match)
+    if team_days is None or opponent_days is None:
+        return 0.0
+    return round(_clamp((team_days - opponent_days) * 0.55, -2.0, 2.0), 3)
+
+
+def _rest_days_before_match(
+    dataset: WorldCupDataSet,
+    team_name: str,
+    match: GroupStageMatch,
+) -> float | None:
+    completed_ids = set(dataset.completed_matches)
+    kickoffs = [
+        fixture.kickoff
+        for fixture in dataset.matches
+        if fixture.match_id in completed_ids
+        and fixture.kickoff < match.kickoff
+        and team_name in {fixture.home_team, fixture.away_team}
+    ]
+    if not kickoffs:
+        return None
+    return (match.kickoff - max(kickoffs)).total_seconds() / 86400
+
+
+def _knockout_experience_adjustment(dataset: WorldCupDataSet, team_name: str) -> float:
+    team = dataset.national_teams.get(team_name)
+    if team is None:
+        return 0.0
+    return round(_clamp((team.history_score - 70.0) * 0.05, -1.2, 1.8), 3)
+
+
+def _advancement_probability(rating_edge: float) -> float:
+    raw = 1 / (1 + math.exp(-rating_edge / 12.0))
+    return _clamp(raw, 0.12, 0.88)
 
 
 def _lineup_quality_adjustments(
@@ -1493,9 +2232,10 @@ def _fixture_team(item: JsonObject, side: str) -> tuple[str | None, int | None]:
     if team is None:
         value = item.get(side)
         if isinstance(value, str):
-            return value, None
+            return _canonical_team_name(value), None
         return None, None
-    return _first_text(team, ("name", "country")), _int_value(team.get("id"))
+    name = _first_text(team, ("name", "country"))
+    return (_canonical_team_name(name) if name is not None else None), _int_value(team.get("id"))
 
 
 def _is_group_stage_fixture(item: JsonObject, group: str | None) -> bool:
@@ -1504,6 +2244,24 @@ def _is_group_stage_fixture(item: JsonObject, group: str | None) -> bool:
     league = _mapping(item.get("league")) or {}
     round_name = _first_text(league, ("round",)) or _first_text(item, ("round", "stage"))
     return bool(round_name and "group" in round_name.lower())
+
+
+def _is_group_stage_match(match: GroupStageMatch) -> bool:
+    if match.group is not None:
+        return True
+    return bool(match.stage and "group" in match.stage.lower())
+
+
+def _is_placeholder_team(team_name: str) -> bool:
+    normalized = team_name.strip().lower()
+    if normalized in {"tbd", "to be decided", "unknown", "winner", "loser"}:
+        return True
+    return normalized.startswith(("winner ", "loser ", "1st ", "2nd ", "3rd "))
+
+
+def _stage_from_fixture(item: JsonObject) -> str | None:
+    league = _mapping(item.get("league")) or {}
+    return _first_text(league, ("round",)) or _first_text(item, ("round", "stage"))
 
 
 def _group_from_fixture(item: JsonObject) -> str | None:
@@ -1573,6 +2331,13 @@ def _outcome_for_score(home_score: int, away_score: int) -> Outcome:
 
 
 def _prediction_pick_label(prediction: WorldCupScorePrediction) -> str:
+    if prediction.winner is not None:
+        suffix = ""
+        if prediction.decided_by == "extra_time":
+            suffix = " after extra time"
+        elif prediction.decided_by == "penalties":
+            suffix = " on penalties"
+        return f"{prediction.winner} advance{suffix}"
     if prediction.outcome == Outcome.DRAW:
         return "Draw"
     if prediction.outcome == Outcome.HOME_WIN:
@@ -1589,6 +2354,25 @@ def _group_sort_key(group: str) -> tuple[int, str]:
     if match:
         return (0, match.group(1).upper())
     return (1, group)
+
+
+def _stage_sort_key(stage: str) -> tuple[int, str]:
+    group_key = _group_sort_key(stage)
+    if group_key[0] == 0:
+        return group_key
+    normalized = stage.lower()
+    order = (
+        ("round of 32", 20),
+        ("round of 16", 30),
+        ("quarter", 40),
+        ("semi", 50),
+        ("third", 60),
+        ("final", 70),
+    )
+    for token, rank in order:
+        if token in normalized:
+            return (rank, stage)
+    return (90, stage)
 
 
 K = TypeVar("K")
@@ -1640,11 +2424,17 @@ def _same_country(left: str, right: str) -> bool:
     return _normalized_country_key(left) == _normalized_country_key(right)
 
 
+def _canonical_team_name(value: str) -> str:
+    return TEAM_NAME_ALIASES.get(value.strip(), value.strip())
+
+
 def _normalized_country_key(value: str) -> str:
     normalized = unicodedata.normalize("NFKD", value)
     ascii_value = normalized.encode("ascii", "ignore").decode("ascii")
     aliases = {
         "Cote dIvoire": "Ivory Coast",
+        "Czech Republic": "Czechia",
+        "Czech-Republic": "Czechia",
         "IR Iran": "Iran",
         "Korea Republic": "Korea Republic",
         "South Korea": "Korea Republic",

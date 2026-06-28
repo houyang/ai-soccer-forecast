@@ -17,6 +17,7 @@ from soccer.world_cup_2026 import (
     WorldCupDataSet,
     WorldCupRankings,
     WorldCupScorePrediction,
+    predict_elimination_stage_scores,
     predict_group_stage_scores,
     prediction_to_json,
 )
@@ -108,7 +109,7 @@ def render_world_cup_match_preview_pdf(
 
     _append(lines, "FIFA 2026 World Cup Match Preview", size=16, gap_after=8)
     _append(lines, f"{match.home_team} vs {match.away_team}", size=14, gap_after=6)
-    _append(lines, f"Match: {match.match_id} | {match.group or 'Group unknown'}")
+    _append(lines, f"Match: {match.match_id} | {match.group or match.stage or 'Stage unknown'}")
     _append(lines, f"Kickoff: {match.kickoff.astimezone(UTC).isoformat()}")
     _append(lines, f"Venue: {match.venue_name}, {match.venue_city}, {match.venue_country}")
     _append(lines, "", gap_after=4)
@@ -155,6 +156,7 @@ def match_preview_to_json(preview: WorldCupMatchPreview) -> JsonObject:
     return {
         "match": {
             "match_id": preview.match.match_id,
+            "stage": preview.match.stage,
             "group": preview.match.group,
             "round_number": preview.match.round_number,
             "home_team": preview.match.home_team,
@@ -430,7 +432,11 @@ def _prediction_by_match_id(
     rankings: WorldCupRankings,
     match_id: str,
 ) -> WorldCupScorePrediction:
-    for prediction in predict_group_stage_scores(dataset, rankings):
+    predictions = (
+        *predict_group_stage_scores(dataset, rankings),
+        *predict_elimination_stage_scores(dataset, rankings, remaining_only=False),
+    )
+    for prediction in predictions:
         if prediction.match_id == match_id:
             return prediction
     raise ValueError(f"World Cup match {match_id!r} could not be predicted")
@@ -482,6 +488,12 @@ def _player_label(player: PlayerSelection) -> str:
 
 
 def _pick_label(prediction: WorldCupScorePrediction) -> str:
+    if prediction.winner is not None:
+        if prediction.decided_by == "penalties":
+            return f"{prediction.winner} advance on penalties"
+        if prediction.decided_by == "extra_time":
+            return f"{prediction.winner} advance after extra time"
+        return f"{prediction.winner} advance"
     if prediction.home_score > prediction.away_score:
         return f"{prediction.home_team} win"
     if prediction.home_score < prediction.away_score:

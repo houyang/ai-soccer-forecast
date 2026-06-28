@@ -3,7 +3,7 @@
 The World Cup 2026 workflow has two phases:
 
 1. Fetch raw API-Football data into a local snapshot directory.
-2. Load those snapshots into normalized profiles, rankings, and group-stage score predictions.
+2. Load those snapshots into normalized profiles, rankings, and score predictions.
 
 This keeps credentials and network access out of the model path. Once the snapshot exists,
 predictions are deterministic and can be tested offline.
@@ -43,6 +43,35 @@ soccer-forecast predict-world-cup-group-stage \
   --remaining-only \
   --output markdown
 ```
+
+After all group fixtures are complete, omit `--completed-round-limit` so the snapshot
+contains every completed tournament fixture and tactical payload available from the
+provider:
+
+```bash
+soccer-forecast fetch-world-cup-match-updates \
+  --data-dir data/api-football/world-cup-2026 \
+  --request-delay-seconds 0.5
+```
+
+Then forecast the known knockout fixtures:
+
+```bash
+soccer-forecast predict-world-cup-elimination-stage \
+  --data-dir data/api-football/world-cup-2026 \
+  --project-bracket \
+  --output markdown
+```
+
+Elimination predictions use the same roster, coach, club, and league base ratings as the
+group-stage model, then increase the weight of completed tournament form, group-stage
+lineup quality, substitution quality, defensive record, rest days, host/travel context,
+and knockout-experience history. Because knockout matches cannot end without a team
+advancing, each prediction includes an advance pick, decision method, and home-team
+advancement probability in JSON output. Without `--project-bracket`, the command outputs
+only provider-confirmed knockout fixtures. With `--project-bracket`, it maps those
+fixtures to official match numbers 73-88 and advances predicted winners through the
+Round of 16, quarterfinals, semifinals, third-place match, and final.
 
 To create a human-friendly group-by-group result table:
 
@@ -130,6 +159,8 @@ Match score predictions then apply venue adjustments for host-country advantage,
 proxy effects, and hot-weather city context. When match updates are available, the model
 also applies bounded tournament adjustments from completed-match points, goal difference,
 the most-used formation, selected starting XI quality, and substitution participants
-before converting adjusted team ratings into expected goals and final scores.
+before converting adjusted team ratings into expected goals and final scores. Knockout
+forecasts use a lower-scoring elimination goal model and force an advancing side through
+regular-time, extra-time, or penalty decision logic.
 Single-match PDF/JSON previews use the same ratings, then add coach, formation, starter,
 and possible-substitute sections for both teams.
