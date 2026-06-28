@@ -28,7 +28,10 @@ from soccer.world_cup_2026 import (
     DEFAULT_WORLD_CUP_DATA_DIR,
     GroupStageMatch,
     WorldCupDataSet,
+    WorldCupScorePrediction,
     load_world_cup_dataset,
+    predict_elimination_stage_scores,
+    predict_full_elimination_bracket,
     predict_group_stage_scores,
     prediction_to_json,
     rank_world_cup_entities,
@@ -110,7 +113,10 @@ def main() -> None:
     fetch_world_cup_updates.add_argument(
         "--completed-round-limit",
         type=int,
-        help="Only fetch tactical snapshots for completed group-stage matches through this round",
+        help=(
+            "Only fetch tactical snapshots for completed group-stage matches through this "
+            "round; omit to fetch all completed tournament fixtures"
+        ),
     )
     fetch_world_cup_updates.add_argument("--request-delay-seconds", type=float, default=0.0)
 
@@ -130,6 +136,28 @@ def main() -> None:
         "--remaining-only",
         action="store_true",
         help="Only output matches not completed within the selected update window",
+    )
+
+    world_cup_elimination_scores = subparsers.add_parser(
+        "predict-world-cup-elimination-stage",
+        help="Predict known FIFA World Cup 2026 knockout-stage matches",
+    )
+    world_cup_elimination_scores.add_argument(
+        "--data-dir", type=Path, default=DEFAULT_WORLD_CUP_DATA_DIR
+    )
+    world_cup_elimination_scores.add_argument(
+        "--output", choices=("text", "json", "markdown"), default="text"
+    )
+    world_cup_elimination_scores.add_argument("--expected-teams", type=int)
+    world_cup_elimination_scores.add_argument(
+        "--include-completed",
+        action="store_true",
+        help="Also output already completed knockout-stage matches",
+    )
+    world_cup_elimination_scores.add_argument(
+        "--project-bracket",
+        action="store_true",
+        help="Advance predicted winners through every knockout slot, including the final",
     )
 
     world_cup_preview = subparsers.add_parser(
@@ -266,6 +294,52 @@ def main() -> None:
                     f"{prediction.away_team} | {prediction.outcome.value} | "
                     f"{prediction.confidence:.3f}"
                 )
+    elif args.command == "predict-world-cup-elimination-stage":
+        dataset = load_world_cup_dataset(
+            args.data_dir,
+            expected_team_count=args.expected_teams,
+        )
+        rankings = rank_world_cup_entities(dataset)
+        if args.project_bracket:
+            predictions = predict_full_elimination_bracket(
+                dataset,
+                rankings,
+                remaining_only=not args.include_completed,
+            )
+        else:
+            predictions = predict_elimination_stage_scores(
+                dataset,
+                rankings,
+                remaining_only=not args.include_completed,
+            )
+        if args.output == "json":
+            print(json.dumps([prediction_to_json(prediction) for prediction in predictions]))
+        elif args.output == "markdown":
+            print(
+                render_group_stage_markdown(
+                    predictions,
+                    title="FIFA 2026 World Cup Elimination Stage Predictions",
+                ),
+                end="",
+            )
+        else:
+            for prediction in predictions:
+                stage = f"{prediction.stage} | " if prediction.stage else ""
+                winner = prediction.winner or _prediction_winner_from_score(prediction)
+                decided_by = (
+                    f" | {prediction.decided_by.replace('_', ' ')}" if prediction.decided_by else ""
+                )
+                advancement = (
+                    f" | home advance {prediction.home_advancement_probability:.3f}"
+                    if prediction.home_advancement_probability is not None
+                    else ""
+                )
+                print(
+                    f"{prediction.match_id} | {stage}{prediction.home_team} "
+                    f"{prediction.home_score}-{prediction.away_score} "
+                    f"{prediction.away_team} | winner: {winner} | "
+                    f"{prediction.confidence:.3f}{decided_by}{advancement}"
+                )
     elif args.command == "predict-world-cup-match-preview":
         match_id = _normalize_world_cup_match_id(args.match_id)
         if not args.no_refresh:
@@ -373,6 +447,14 @@ def _result_from_mapping(item: dict[str, object]) -> MatchResult:
         away_score=away_score,
         completed_at=datetime.fromisoformat(completed_at),
     )
+
+
+def _prediction_winner_from_score(prediction: WorldCupScorePrediction) -> str:
+    if prediction.home_score > prediction.away_score:
+        return prediction.home_team
+    if prediction.away_score > prediction.home_score:
+        return prediction.away_team
+    return "Draw"
 
 
 def _normalize_world_cup_match_id(match_id: str) -> str:
