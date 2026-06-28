@@ -50,3 +50,29 @@ def test_expected_extra_time_flag_set_for_evenly_matched(sample_world_cup: World
     # Same team vs itself-strength: draw is the plurality outcome -> flag true.
     pred = predict_knockout(wc, ranks, home_id=1, away_id=1)
     assert pred.expected_extra_time is True
+
+
+def test_advancement_probs_sum_to_one_for_awkward_matchup() -> None:
+    """Prove rounding invariant for non-symmetric matchup with non-clean advance prob."""
+    from soccer.worldcup.entities import NationalTeam, WorldCup
+
+    def t(i: int, w: int, d: int, losses: int) -> NationalTeam:
+        return NationalTeam(
+            id=i,
+            name=f"T{i}",
+            group="Group A",
+            confederation="UEFA",
+            is_host=False,
+            player_ids=(),
+            coach_id=None,
+            recent_w=w,
+            recent_d=d,
+            recent_l=losses,
+        )
+
+    # Create a 2-team world cup with asymmetric records to generate a non-clean advance prob.
+    wc = WorldCup(teams={1: t(1, 5, 1, 1), 2: t(2, 2, 2, 3)})
+    ranks = rank_all(wc)
+    pred = predict_knockout(wc, ranks, home_id=1, away_id=2)
+    # Advancement probs must sum to exactly 1.0 after rounding.
+    assert abs(pred.p_home_advance + pred.p_away_advance - 1.0) < 1e-9

@@ -116,6 +116,7 @@ class KnockoutPrediction:
     p_away: float
     p_home_advance: float
     p_away_advance: float
+    # True when drawn result is plurality outcome in ET (i.e., 90'-tie likely reaches shootout)
     expected_extra_time: bool
     rationale: str
 
@@ -342,14 +343,11 @@ def _shootout_home_prob(eff_home: float, eff_away: float) -> float:
 def _advance_from_lambdas(
     lam_home: float, lam_away: float, eff_home: float, eff_away: float
 ) -> tuple[float, float, float, float, bool]:
-    """Return (p_home, p_draw, p_away, p_home_advance, expected_extra_time) for a no-draw tie.
+    """Return 5-tuple (p_home, p_draw, p_away, p_home_advance, expected_extra_time).
 
-    ``expected_extra_time`` is True when draw is the plurality outcome in the regulation
-    scoreline matrix (p_draw >= p_home and p_draw >= p_away), which occurs for very evenly
-    matched sides under low-scoring conditions, or when the match is perfectly symmetric.
-    In practice, for symmetric lambdas the 90-minute draw probability is below each decisive
-    outcome; the flag therefore reflects whether the ET extra-period draw probability is the
-    plurality (et_draw >= et_home), i.e. whether extra time itself is likely to end all-square.
+    ``expected_extra_time`` is True when the draw is the plurality outcome in extra time
+    (et_draw >= et_home and et_draw >= et_away), indicating that a drawn regulation result
+    is likely to remain drawn even after extra time and proceed to a shootout.
     """
     p_home, p_draw, p_away = _outcome_probs(_scoreline_matrix(lam_home, lam_away))
     et_home, et_draw, et_away = _outcome_probs(
@@ -387,6 +385,7 @@ def predict_knockout(
         f"Neutral-site rating {eff_h:.1f} vs {eff_a:.1f}; xG {lam_home:.2f}-{lam_away:.2f}; "
         f"advance {p_home_adv:.0%}-{1 - p_home_adv:.0%}."
     )
+    p_home_adv_rounded = round(p_home_adv, 4)
     return KnockoutPrediction(
         match_no=match_no,
         round_name=round_name,
@@ -399,8 +398,8 @@ def predict_knockout(
         p_home=round(p_home, 4),
         p_draw=round(p_draw, 4),
         p_away=round(p_away, 4),
-        p_home_advance=round(p_home_adv, 4),
-        p_away_advance=round(1 - p_home_adv, 4),
+        p_home_advance=p_home_adv_rounded,
+        p_away_advance=round(1.0 - p_home_adv_rounded, 4),
         expected_extra_time=expected_et,
         rationale=rationale,
     )
