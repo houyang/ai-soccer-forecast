@@ -227,6 +227,7 @@ class WcMatch:
     venue: str
     home_goals: int | None
     away_goals: int | None
+    round_name: str = ""
 
     @property
     def played(self) -> bool:
@@ -243,6 +244,7 @@ class WcMatch:
             "venue": self.venue,
             "home_goals": self.home_goals,
             "away_goals": self.away_goals,
+            "round_name": self.round_name,
         }
 
     @classmethod
@@ -257,6 +259,7 @@ class WcMatch:
             venue=raw["venue"],
             home_goals=None if raw["home_goals"] is None else int(raw["home_goals"]),
             away_goals=None if raw["away_goals"] is None else int(raw["away_goals"]),
+            round_name=str(raw.get("round_name", "")),
         )
 
 
