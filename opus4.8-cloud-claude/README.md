@@ -98,6 +98,25 @@ How the rankings feed the prediction (full detail in the design doc below):
   base, with a host bonus; per-match host/home, travel (jet-lag) and weather adjustments
   are then applied inside the Poisson model.
 
+### `soccer wc knockout`
+
+Once the group stage is complete and the Round of 32 is drawn, forecast the whole bracket
+through to the final:
+
+    soccer wc fetch            # pulls the completed groups + the live R32 draw into the cache
+    soccer wc knockout         # writes prediction/worldcup-2026-knockout.{json,md}
+    soccer wc knockout --sims 50000 --seed 7   # more Monte-Carlo iterations / a different seed
+
+The report gives a single most-likely bracket — each tie's predicted score and advancement
+odds, with an extra-time/penalties note for tight ties — the predicted podium, and
+Monte-Carlo title odds (each team's chance of reaching each round and winning the cup).
+
+The R32 leaves come from the live draw; the Round of 16 onward use the official FIFA-2026
+bracket tree. Final group standings are computed from results (the API's own `rank` field is
+unreliable). Knockout ties are modelled at a neutral site (no host bonus) and resolved with
+extra time and a penalty shootout, since they cannot end level. Monte-Carlo uses an injected,
+seeded RNG, so a given `--seed` is fully reproducible.
+
 ## Quality gate
 
     make check   # ruff format check + ruff lint + mypy + pytest with coverage
@@ -107,4 +126,6 @@ How the rankings feed the prediction (full detail in the design doc below):
 See `docs/architecture.md`, the Phase 1 design at
 `docs/superpowers/specs/2026-06-08-soccer-prediction-agent-phase1-design.md`, and the
 World Cup predictor design at
-`docs/superpowers/specs/2026-06-11-worldcup-2026-group-stage-predictor-design.md`.
+`docs/superpowers/specs/2026-06-11-worldcup-2026-group-stage-predictor-design.md`. The
+knockout-stage extension is specified in
+`docs/superpowers/specs/2026-06-28-worldcup-2026-knockout-forecast-design.md`.
