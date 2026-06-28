@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from soccer.worldcup.ingest import ingest_world_cup
+from soccer.worldcup.ingest import _parse_matches, ingest_world_cup
 
 
 class FakeClient:
@@ -140,3 +140,32 @@ def test_ingest_builds_normalized_dataset() -> None:
     assert wc.clubs[100].league_id == 10
     assert wc.leagues[10].name == "Premier League"
     assert wc.leagues[10].n_teams == 2
+
+
+def _fixture(fid: int, rnd: str, home: int, away: int, status: str) -> dict[str, Any]:
+    return {
+        "fixture": {
+            "id": fid,
+            "date": "2026-06-28T19:00:00+00:00",
+            "venue": {"name": "SoFi Stadium", "city": None},
+            "status": {"short": status},
+        },
+        "league": {"round": rnd},
+        "teams": {"home": {"id": home}, "away": {"id": away}},
+        "goals": {"home": None, "away": None},
+    }
+
+
+def test_parse_matches_keeps_knockout_round_name() -> None:
+    fixtures = [
+        _fixture(1, "Group Stage - 1", 10, 20, "FT"),
+        _fixture(2, "Round of 32", 30, 40, "NS"),
+    ]
+    team_group = {10: "Group A", 20: "Group A"}
+    matches = _parse_matches(fixtures, team_group)
+    by_id = {m.fixture_id: m for m in matches}
+    assert by_id[1].round_name == "Group Stage - 1"
+    assert by_id[1].group == "Group A"
+    assert by_id[2].round_name == "Round of 32"
+    assert by_id[2].group == ""
+    assert by_id[2].matchday == 0

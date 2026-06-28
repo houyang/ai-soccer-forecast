@@ -55,3 +55,60 @@ def test_world_cup_round_trips_lineups() -> None:
     wc = WorldCup(lineups=(Lineup(9001, 1, "4-3-3", (1, 2), (3,)),))
     restored = WorldCup.from_dict(wc.to_dict())
     assert restored.lineups == wc.lineups
+
+
+def test_wcmatch_round_name_defaults_empty_and_roundtrips() -> None:
+    from datetime import UTC, datetime
+
+    from soccer.worldcup.entities import WcMatch
+
+    m = WcMatch(
+        fixture_id=1,
+        matchday=1,
+        group="Group A",
+        home_id=10,
+        away_id=20,
+        kickoff=datetime(2026, 6, 11, 19, 0, tzinfo=UTC),
+        venue="Estadio Azteca / Mexico City",
+        home_goals=2,
+        away_goals=0,
+    )
+    assert m.round_name == ""
+    assert m.to_dict()["round_name"] == ""
+
+
+def test_wcmatch_from_dict_without_round_name_is_empty() -> None:
+    from soccer.worldcup.entities import WcMatch
+
+    raw = {
+        "fixture_id": 1,
+        "matchday": 1,
+        "group": "Group A",
+        "home_id": 10,
+        "away_id": 20,
+        "kickoff": "2026-06-11T19:00:00+00:00",
+        "venue": "v",
+        "home_goals": None,
+        "away_goals": None,
+    }
+    assert WcMatch.from_dict(raw).round_name == ""
+
+
+def test_wcmatch_knockout_round_name_roundtrips() -> None:
+    from datetime import UTC, datetime
+
+    from soccer.worldcup.entities import WcMatch
+
+    m = WcMatch(
+        fixture_id=99,
+        matchday=0,
+        group="",
+        home_id=10,
+        away_id=20,
+        kickoff=datetime(2026, 6, 28, 19, 0, tzinfo=UTC),
+        venue="SoFi Stadium",
+        home_goals=None,
+        away_goals=None,
+        round_name="Round of 32",
+    )
+    assert WcMatch.from_dict(m.to_dict()).round_name == "Round of 32"

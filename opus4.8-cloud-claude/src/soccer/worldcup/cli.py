@@ -1,7 +1,7 @@
-"""`soccer wc {fetch,rank,predict}` subcommands.
+"""`soccer wc {fetch,rank,predict,knockout}` subcommands.
 
-`fetch` is the only networked path (needs SOCCER_API_FOOTBALL_KEY); `rank` and `predict`
-read the locally cached dataset and run fully offline.
+`fetch` is the only networked path (needs SOCCER_API_FOOTBALL_KEY); `rank`, `predict`, and
+`knockout` read the locally cached dataset and run fully offline.
 """
 
 from __future__ import annotations
@@ -9,21 +9,31 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import random
 from dataclasses import asdict
 from datetime import UTC
 from pathlib import Path
+from typing import Any
 
 from soccer.config import AppConfig
 from soccer.worldcup.adjust import compute_adjustments
 from soccer.worldcup.apifootball import ApiFootballClient, ApiFootballError, urllib_transport
+from soccer.worldcup.bracket import BracketError, build_bracket
 from soccer.worldcup.cache import JsonCache
 from soccer.worldcup.card import build_card
 from soccer.worldcup.cardpdf import render_card_pdf
 from soccer.worldcup.entities import WorldCup
 from soccer.worldcup.ingest import ingest_world_cup
 from soccer.worldcup.live import refresh_fixture, refresh_live
-from soccer.worldcup.predict import MatchPrediction, predict_group_stage, predict_remaining
+from soccer.worldcup.predict import (
+    KnockoutPrediction,
+    MatchPrediction,
+    predict_group_stage,
+    predict_remaining,
+)
 from soccer.worldcup.ranking import Rankings, rank_all, top_n
+from soccer.worldcup.simulate import Podium, TeamOdds, run_modal_bracket, run_monte_carlo
+from soccer.worldcup.standings import team_labels
 
 
 def _dataset_path(config: AppConfig) -> Path:
@@ -303,6 +313,89 @@ def cmd_card(args: argparse.Namespace, config: AppConfig) -> int:
     return 0
 
 
+def _render_knockout_report(
+    preds: list[KnockoutPrediction],
+    podium: Podium,
+    odds: dict[int, TeamOdds],
+) -> str:
+    lines = [
+        "# FIFA 2026 World Cup — Knockout-Stage Forecast",
+        "",
+        "Most-likely bracket from the live Round-of-32 draw forward, with each tie's "
+        "predicted score and advancement odds, then Monte-Carlo title odds.",
+        "",
+        "## Predicted podium",
+        "",
+        f"- 🥇 **Champion:** {podium.champion_name}",
+        f"- 🥈 **Runner-up:** {podium.runner_up_name}",
+        f"- 🥉 **Third:** {podium.third_name}",
+        f"- 4th: {podium.fourth_name}",
+        "",
+        "## Bracket",
+        "",
+    ]
+    current = ""
+    for p in preds:
+        if p.round_name != current:
+            current = p.round_name
+            lines += [f"### {current}", ""]
+        et = "  _(likely AET/pens)_" if p.expected_extra_time else ""
+        lines.append(
+            f"- `M{p.match_no}` **{p.home_name} {p.score_home}-{p.score_away} {p.away_name}**  "
+            f"(adv {p.home_name} {p.p_home_advance:.0%} / {p.away_name} {p.p_away_advance:.0%})"
+            f"{et}"
+        )
+    lines += [
+        "",
+        "## Title odds (top 12)",
+        "",
+        "| Team | Win | Final | Semi | Quarter |",
+        "|---|---|---|---|---|",
+    ]
+    for o in sorted(odds.values(), key=lambda o: o.win, reverse=True)[:12]:
+        row = (
+            f"| {o.name} | {o.win:.1%} | {o.reach_final:.0%}"
+            f" | {o.reach_sf:.0%} | {o.reach_qf:.0%} |"
+        )
+        lines.append(row)
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def cmd_knockout(args: argparse.Namespace, config: AppConfig) -> int:
+    wc = load_dataset(_dataset_path(config))
+    if not any(m.round_name == "Round of 32" for m in wc.matches):
+        print(
+            "no Round of 32 fixtures in the dataset; run `soccer wc fetch` "
+            "(or `refresh`) to pull the knockout draw first"
+        )
+        return 1
+    rankings = rank_all(wc)
+    try:
+        ties = build_bracket(wc, team_labels(wc))
+    except BracketError as exc:
+        print(f"bracket error: {exc}")
+        return 1
+    preds, podium = run_modal_bracket(wc, rankings, ties)
+    odds = run_monte_carlo(wc, rankings, ties, rng=random.Random(args.seed), n_sims=args.sims)
+    out_dir = Path(args.out_dir) if args.out_dir else _prediction_dir(config)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    name = args.name or "worldcup-2026-knockout"
+    payload: dict[str, Any] = {
+        "bracket": [p.to_dict() for p in preds],
+        "podium": podium.to_dict(),
+        "title_odds": [
+            o.to_dict() for o in sorted(odds.values(), key=lambda o: o.win, reverse=True)
+        ],
+    }
+    (out_dir / f"{name}.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    (out_dir / f"{name}.md").write_text(
+        _render_knockout_report(preds, podium, odds), encoding="utf-8"
+    )
+    print(f"predicted champion: {podium.champion_name}")
+    print(f"wrote {out_dir / f'{name}.json'} and {out_dir / f'{name}.md'}")
+    return 0
+
+
 def add_wc_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser("wc", help="FIFA 2026 World Cup pipeline")
     wc_sub = parser.add_subparsers(dest="wc_command", required=True)
@@ -343,3 +436,10 @@ def add_wc_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentPar
     )
     p_card.add_argument("--throttle", type=float, default=0.02, help="seconds between calls")
     p_card.set_defaults(func=cmd_card)
+
+    p_ko = wc_sub.add_parser("knockout", help="forecast the knockout bracket to the final")
+    p_ko.add_argument("--sims", type=int, default=20000, help="Monte-Carlo iterations")
+    p_ko.add_argument("--seed", type=int, default=20260628, help="RNG seed (reproducible)")
+    p_ko.add_argument("--out-dir", default=None, help="output directory for the files")
+    p_ko.add_argument("--name", default=None, help="basename for the .json/.md files")
+    p_ko.set_defaults(func=cmd_knockout)

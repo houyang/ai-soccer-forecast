@@ -149,3 +149,86 @@ def test_card_refresh_without_key_fails(
     rc = cmd_card(args, _config(tmp_path, key=None))
     assert rc == 1
     assert "not set" in capsys.readouterr().out
+
+
+# ---------------------------------------------------------------------------
+# knockout subcommand tests (Task 8)
+# ---------------------------------------------------------------------------
+
+import json as _json  # noqa: E402 (re-import for clarity in appended section)
+
+from soccer.worldcup import cli as wc_cli  # noqa: E402
+
+
+def test_knockout_errors_without_r32(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    # dataset with only a group match -> no R32 -> non-zero exit + hint
+    from datetime import UTC, datetime
+
+    from soccer.worldcup.entities import NationalTeam, WcMatch, WorldCup
+
+    wc = WorldCup(
+        teams={1: NationalTeam(1, "A", "Group A", "UEFA", False, (), None, 0, 0, 0)},
+        matches=(
+            WcMatch(
+                1,
+                1,
+                "Group A",
+                1,
+                1,
+                datetime(2026, 6, 11, tzinfo=UTC),
+                "v",
+                1,
+                0,
+                "Group Stage - 1",
+            ),
+        ),
+    )
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    (data_dir / "worldcup-2026.json").write_text(_json.dumps(wc.to_dict()))
+    config = AppConfig(
+        data_dir=data_dir,
+        ollama_host="",
+        ollama_model="",
+        ollama_timeout=1.0,
+        provider_mode="fixture",
+        reasoner="fake",
+        api_football_base_url="",
+        api_football_key=None,
+        prediction_dir=tmp_path / "out",
+    )
+    args = argparse.Namespace(sims=10, seed=1, out_dir=None, name=None)
+    assert wc_cli.cmd_knockout(args, config) == 1
+    assert "fetch" in capsys.readouterr().out
+
+
+def test_knockout_writes_files(tmp_path: Path) -> None:
+    # Build a full 32-team dataset with R32 using the modal test's helpers.
+    from tests.worldcup.test_simulate_modal import _add_r32, _wc_from_labels
+
+    wc = _add_r32(
+        _wc_from_labels(
+            [f"{r}{c}" for c in "ABCDEFGHIJKL" for r in (1, 2)] + [f"3{c}" for c in "CDEFGHIJ"]
+        )
+    )
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    (data_dir / "worldcup-2026.json").write_text(_json.dumps(wc.to_dict()))
+    out = tmp_path / "out"
+    config = AppConfig(
+        data_dir=data_dir,
+        ollama_host="",
+        ollama_model="",
+        ollama_timeout=1.0,
+        provider_mode="fixture",
+        reasoner="fake",
+        api_football_base_url="",
+        api_football_key=None,
+        prediction_dir=out,
+    )
+    args = argparse.Namespace(sims=50, seed=1, out_dir=None, name=None)
+    assert wc_cli.cmd_knockout(args, config) == 0
+    assert (out / "worldcup-2026-knockout.json").exists()
+    assert (out / "worldcup-2026-knockout.md").exists()
+    payload = _json.loads((out / "worldcup-2026-knockout.json").read_text())
+    assert "podium" in payload and "title_odds" in payload and "bracket" in payload

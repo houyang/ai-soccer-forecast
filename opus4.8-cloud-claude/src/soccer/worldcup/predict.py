@@ -29,6 +29,9 @@ MAX_GOALS = 8  # scoreline matrix dimension (0..MAX_GOALS each side)
 # Backtested against played WC matches (Brier 0.577->0.566, log-loss 0.950->0.923); rho=0 is a
 # no-op that reproduces the plain independent-Poisson matrix.
 DRAW_RHO = -0.15
+ET_GOAL_FRACTION = 1 / 3  # extra time adds ~30 min vs 90 at the same rate
+PEN_EDGE_PER_10 = 0.03  # shootout win prob shift per 10 effective-rating points
+PEN_EDGE_CAP = 0.15  # shootout prob stays within 0.5 +/- this
 
 HOST_HOME_FIELD = 4.0  # host nation playing in its own country
 # Effective-rating penalty (points) by travel distance to the North American hosts.
@@ -95,6 +98,45 @@ class MatchPrediction:
             "rationale": self.rationale,
             "home_adjustment": self.home_adjustment,
             "away_adjustment": self.away_adjustment,
+        }
+
+
+@dataclass(frozen=True)
+class KnockoutPrediction:
+    match_no: int
+    round_name: str
+    home_id: int
+    away_id: int
+    home_name: str
+    away_name: str
+    score_home: int
+    score_away: int
+    p_home: float
+    p_draw: float
+    p_away: float
+    p_home_advance: float
+    p_away_advance: float
+    # True when drawn result is plurality outcome in ET (i.e., 90'-tie likely reaches shootout)
+    expected_extra_time: bool
+    rationale: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "match_no": self.match_no,
+            "round_name": self.round_name,
+            "home_id": self.home_id,
+            "away_id": self.away_id,
+            "home_name": self.home_name,
+            "away_name": self.away_name,
+            "score_home": self.score_home,
+            "score_away": self.score_away,
+            "p_home": self.p_home,
+            "p_draw": self.p_draw,
+            "p_away": self.p_away,
+            "p_home_advance": self.p_home_advance,
+            "p_away_advance": self.p_away_advance,
+            "expected_extra_time": self.expected_extra_time,
+            "rationale": self.rationale,
         }
 
 
@@ -277,3 +319,87 @@ def predict_one(
         match.away_id: adjustment_for_match(wc, rankings, match.away_id, away_lineup),
     }
     return _predict(wc, rankings, match, adjustments)
+
+
+def _knockout_lambdas(
+    wc: WorldCup, rankings: Rankings, home_id: int, away_id: int, venue: str
+) -> tuple[float, float, float, float]:
+    """Neutral-site expected goals: travel/weather apply, host home-field does not."""
+    base_h = rankings.teams.get(home_id, 50.0)
+    base_a = rankings.teams.get(away_id, 50.0)
+    eff_h = _effective_rating(wc, home_id, base_h, is_home=False, venue=venue)
+    eff_a = _effective_rating(wc, away_id, base_a, is_home=False, venue=venue)
+    supremacy = SUPREMACY_PER_10 * (eff_h - eff_a) / 10.0
+    lam_home = max(BASE_MATCH_GOALS / 2.0 + supremacy / 2.0, LAMBDA_FLOOR)
+    lam_away = max(BASE_MATCH_GOALS / 2.0 - supremacy / 2.0, LAMBDA_FLOOR)
+    return lam_home, lam_away, eff_h, eff_a
+
+
+def _shootout_home_prob(eff_home: float, eff_away: float) -> float:
+    edge = PEN_EDGE_PER_10 * (eff_home - eff_away) / 10.0
+    return min(max(0.5 + edge, 0.5 - PEN_EDGE_CAP), 0.5 + PEN_EDGE_CAP)
+
+
+def _advance_from_lambdas(
+    lam_home: float, lam_away: float, eff_home: float, eff_away: float
+) -> tuple[float, float, float, float, bool]:
+    """Return 5-tuple (p_home, p_draw, p_away, p_home_advance, expected_extra_time).
+
+    ``expected_extra_time`` is True when the draw is the plurality outcome in extra time
+    (et_draw >= et_home and et_draw >= et_away), indicating that a drawn regulation result
+    is likely to remain drawn even after extra time and proceed to a shootout.
+    """
+    p_home, p_draw, p_away = _outcome_probs(_scoreline_matrix(lam_home, lam_away))
+    et_home, et_draw, et_away = _outcome_probs(
+        _scoreline_matrix(lam_home * ET_GOAL_FRACTION, lam_away * ET_GOAL_FRACTION)
+    )
+    pens_home = _shootout_home_prob(eff_home, eff_away)
+    p_home_advance = p_home + p_draw * (et_home + et_draw * pens_home)
+    expected_extra_time = et_draw >= et_home and et_draw >= et_away
+    return p_home, p_draw, p_away, p_home_advance, expected_extra_time
+
+
+def advance_prob(
+    wc: WorldCup, rankings: Rankings, home_id: int, away_id: int, venue: str = ""
+) -> float:
+    lam_home, lam_away, eff_h, eff_a = _knockout_lambdas(wc, rankings, home_id, away_id, venue)
+    return _advance_from_lambdas(lam_home, lam_away, eff_h, eff_a)[3]
+
+
+def predict_knockout(
+    wc: WorldCup,
+    rankings: Rankings,
+    home_id: int,
+    away_id: int,
+    *,
+    match_no: int = 0,
+    round_name: str = "",
+    venue: str = "",
+) -> KnockoutPrediction:
+    lam_home, lam_away, eff_h, eff_a = _knockout_lambdas(wc, rankings, home_id, away_id, venue)
+    p_home, p_draw, p_away, p_home_adv, expected_et = _advance_from_lambdas(
+        lam_home, lam_away, eff_h, eff_a
+    )
+    score_home, score_away = _modal_score(_scoreline_matrix(lam_home, lam_away))
+    rationale = (
+        f"Neutral-site rating {eff_h:.1f} vs {eff_a:.1f}; xG {lam_home:.2f}-{lam_away:.2f}; "
+        f"advance {p_home_adv:.0%}-{1 - p_home_adv:.0%}."
+    )
+    p_home_adv_rounded = round(p_home_adv, 4)
+    return KnockoutPrediction(
+        match_no=match_no,
+        round_name=round_name,
+        home_id=home_id,
+        away_id=away_id,
+        home_name=wc.teams[home_id].name,
+        away_name=wc.teams[away_id].name,
+        score_home=score_home,
+        score_away=score_away,
+        p_home=round(p_home, 4),
+        p_draw=round(p_draw, 4),
+        p_away=round(p_away, 4),
+        p_home_advance=p_home_adv_rounded,
+        p_away_advance=round(1.0 - p_home_adv_rounded, 4),
+        expected_extra_time=expected_et,
+        rationale=rationale,
+    )
