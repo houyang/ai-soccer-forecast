@@ -81,17 +81,20 @@ def _parse_matches(fixtures: list[Json], team_group: dict[int, str]) -> list[WcM
         played = status in _FINISHED
         venue = fx.get("venue", {}) or {}
         venue_name = " / ".join(p for p in (venue.get("name"), venue.get("city")) if p)
+        round_name = str(item.get("league", {}).get("round", ""))
+        is_group = round_name.startswith("Group Stage")
         matches.append(
             WcMatch(
                 fixture_id=_safe_int(fx.get("id")),
-                matchday=_matchday(str(item.get("league", {}).get("round", ""))),
-                group=team_group.get(home_id, ""),
+                matchday=_matchday(round_name) if is_group else 0,
+                group=team_group.get(home_id, "") if is_group else "",
                 home_id=home_id,
                 away_id=away_id,
                 kickoff=datetime.fromisoformat(fx.get("date")),
                 venue=venue_name,
                 home_goals=_safe_int(goals.get("home")) if played else None,
                 away_goals=_safe_int(goals.get("away")) if played else None,
+                round_name=round_name,
             )
         )
     return matches
@@ -281,7 +284,7 @@ def ingest_world_cup(client: ApiFootballClient) -> WorldCup:
     fixtures = client.get("fixtures", {"league": WC_LEAGUE_ID, "season": WC_SEASON})
 
     team_group = _group_by_team(standings)
-    matches = tuple(m for m in _parse_matches(fixtures, team_group) if m.group)
+    matches = tuple(m for m in _parse_matches(fixtures, team_group) if m.group or m.round_name)
 
     players: dict[int, Player] = {}
     coaches: dict[int, Coach] = {}
