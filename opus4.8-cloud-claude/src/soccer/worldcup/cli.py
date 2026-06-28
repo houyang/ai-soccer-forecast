@@ -314,7 +314,6 @@ def cmd_card(args: argparse.Namespace, config: AppConfig) -> int:
 
 
 def _render_knockout_report(
-    wc: WorldCup,
     preds: list[KnockoutPrediction],
     podium: Podium,
     odds: dict[int, TeamOdds],
@@ -390,7 +389,7 @@ def cmd_knockout(args: argparse.Namespace, config: AppConfig) -> int:
     }
     (out_dir / f"{name}.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (out_dir / f"{name}.md").write_text(
-        _render_knockout_report(wc, preds, podium, odds), encoding="utf-8"
+        _render_knockout_report(preds, podium, odds), encoding="utf-8"
     )
     print(f"predicted champion: {podium.champion_name}")
     print(f"wrote {out_dir / f'{name}.json'} and {out_dir / f'{name}.md'}")

@@ -9,20 +9,6 @@ from soccer.worldcup.simulate import run_modal_bracket
 from soccer.worldcup.standings import team_labels
 
 
-def _build_full_wc() -> WorldCup:
-    """32 teams filling every R32 slot; ratings descend with id so results are deterministic."""
-    from soccer.worldcup.bracket import R32_ANCHORS  # noqa: F401
-
-    slots: list[str] = []
-    for letter in "ABCDEFGHIJKL":
-        slots += [f"1{letter}", f"2{letter}"]
-    thirds = [f"3{c}" for c in "CDEFGHIJ"]
-    label_for_id: dict[int, str] = {}  # noqa: F841
-    teams: dict[int, NationalTeam] = {}  # noqa: F841
-    # assign ids 1..24 to winners/runners-up, 25..32 to thirds; build group results below
-    return _wc_from_labels(slots + thirds)
-
-
 def _wc_from_labels(all_labels: list[str]) -> WorldCup:
     teams: dict[int, NationalTeam] = {}
     matches: list[WcMatch] = []

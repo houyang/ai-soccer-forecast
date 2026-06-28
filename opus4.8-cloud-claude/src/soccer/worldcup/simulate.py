@@ -130,6 +130,7 @@ def run_monte_carlo(
     rng: random.Random,
     n_sims: int = 20000,
 ) -> dict[int, TeamOdds]:
+    # Cache key omits venue (each pair recurs at only one bracket slot per simulation).
     cache: dict[tuple[int, int], float] = {}
 
     def p_home(home_id: int, away_id: int, venue: str) -> float:
