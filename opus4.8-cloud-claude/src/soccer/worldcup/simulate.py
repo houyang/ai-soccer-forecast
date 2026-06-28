@@ -7,12 +7,13 @@ Both reuse the knockout match model in :mod:`soccer.worldcup.predict`.
 
 from __future__ import annotations
 
+import random
 from dataclasses import dataclass
 from typing import Any
 
 from soccer.worldcup.bracket import BracketTie
 from soccer.worldcup.entities import WorldCup
-from soccer.worldcup.predict import KnockoutPrediction, predict_knockout
+from soccer.worldcup.predict import KnockoutPrediction, advance_prob, predict_knockout
 from soccer.worldcup.ranking import Rankings
 
 
@@ -88,3 +89,87 @@ def run_modal_bracket(
         fourth_name=wc.teams[fourth].name,
     )
     return preds, podium
+
+
+@dataclass(frozen=True)
+class TeamOdds:
+    team_id: int
+    name: str
+    reach_r16: float
+    reach_qf: float
+    reach_sf: float
+    reach_final: float
+    win: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "team_id": self.team_id,
+            "name": self.name,
+            "reach_r16": self.reach_r16,
+            "reach_qf": self.reach_qf,
+            "reach_sf": self.reach_sf,
+            "reach_final": self.reach_final,
+            "win": self.win,
+        }
+
+
+# match_no ranges whose winners have "reached" the next round.
+_WIN_REACHES = {
+    "reach_r16": range(73, 89),
+    "reach_qf": range(89, 97),
+    "reach_sf": range(97, 101),
+    "reach_final": range(101, 103),
+}
+
+
+def run_monte_carlo(
+    wc: WorldCup,
+    rankings: Rankings,
+    ties: dict[int, BracketTie],
+    *,
+    rng: random.Random,
+    n_sims: int = 20000,
+) -> dict[int, TeamOdds]:
+    cache: dict[tuple[int, int], float] = {}
+
+    def p_home(home_id: int, away_id: int, venue: str) -> float:
+        key = (home_id, away_id)
+        if key not in cache:
+            cache[key] = advance_prob(wc, rankings, home_id, away_id, venue)
+        return cache[key]
+
+    counts = {
+        "reach_r16": dict.fromkeys(wc.teams, 0),
+        "reach_qf": dict.fromkeys(wc.teams, 0),
+        "reach_sf": dict.fromkeys(wc.teams, 0),
+        "reach_final": dict.fromkeys(wc.teams, 0),
+        "win": dict.fromkeys(wc.teams, 0),
+    }
+    order = sorted(ties)
+    for _ in range(n_sims):
+        winners: dict[int, int] = {}
+        losers: dict[int, int] = {}
+        for no in order:
+            tie = ties[no]
+            home_id, away_id = _teams_for(tie, winners, losers)
+            if rng.random() < p_home(home_id, away_id, tie.venue):
+                winners[no], losers[no] = home_id, away_id
+            else:
+                winners[no], losers[no] = away_id, home_id
+        for field, nos in _WIN_REACHES.items():
+            for no in nos:
+                counts[field][winners[no]] += 1
+        counts["win"][winners[104]] += 1
+
+    out: dict[int, TeamOdds] = {}
+    for tid, team in wc.teams.items():
+        out[tid] = TeamOdds(
+            team_id=tid,
+            name=team.name,
+            reach_r16=counts["reach_r16"][tid] / n_sims,
+            reach_qf=counts["reach_qf"][tid] / n_sims,
+            reach_sf=counts["reach_sf"][tid] / n_sims,
+            reach_final=counts["reach_final"][tid] / n_sims,
+            win=counts["win"][tid] / n_sims,
+        )
+    return out
