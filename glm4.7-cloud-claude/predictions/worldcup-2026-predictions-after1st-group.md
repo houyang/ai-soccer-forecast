@@ -2,6 +2,13 @@
 
 Group stage complete. Below: final group standings, all 16 Round-of-32 predictions, and a Monte-Carlo bracket simulation to the champion.
 
+> **Lineup provenance:** when `API_FOOTBALL_KEY` is set, each side's most-recent
+> played World Cup lineup is fetched live (source: `live`); otherwise lineups
+> are projected from a curated formation table + squad ratings (source: `projected`).
+> This committed file was generated with live lineups; regenerate offline for the
+> projected variant. R32 pairings are the real fixtures; the R16→Final bracket
+> pairing is approximated (sorted by fixture_id).
+
 ## Group standings
 
 ### Group A

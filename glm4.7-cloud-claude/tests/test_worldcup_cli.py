@@ -6,6 +6,7 @@ from soccer_agent.worldcup.dataset import load_worldcup
 
 
 def test_predict_writes_outputs(tmp_path, monkeypatch):
+    monkeypatch.delenv("API_FOOTBALL_KEY", raising=False)
     monkeypatch.chdir(tmp_path)
     code = main(["predict"])
     assert code == 0
@@ -24,6 +25,7 @@ def test_card_writes_pdf_and_json(tmp_path, monkeypatch):
     m = next(m for m in wc.matches if m.matchday == 0)  # first real R32 fixture
     home = wc.teams[m.home_id].name
     away = wc.teams[m.away_id].name
+    monkeypatch.delenv("API_FOOTBALL_KEY", raising=False)
     monkeypatch.chdir(tmp_path)
     code = main(["card", home, away])
     assert code == 0

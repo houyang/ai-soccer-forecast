@@ -62,6 +62,13 @@ def _write_predictions(wc, rankings, strengths, fetcher) -> int:
     lines.append("Group stage complete. Below: final group standings, all 16 Round-of-32 "
                  "predictions, and a Monte-Carlo bracket simulation to the champion.")
     lines.append("")
+    lines.append("> **Lineup provenance:** when `API_FOOTBALL_KEY` is set, each side's most-recent")
+    lines.append("> played World Cup lineup is fetched live (source: `live`); otherwise lineups")
+    lines.append("> are projected from a curated formation table + squad ratings (source: `projected`).")
+    lines.append("> This committed file was generated with live lineups; regenerate offline for the")
+    lines.append("> projected variant. R32 pairings are the real fixtures; the R16→Final bracket")
+    lines.append("> pairing is approximated (sorted by fixture_id).")
+    lines.append("")
     lines.append("## Group standings")
     for g, rows in gs.items():
         lines.append(f"\n### {g}\n")

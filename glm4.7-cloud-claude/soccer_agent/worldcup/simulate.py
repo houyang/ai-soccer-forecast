@@ -14,7 +14,14 @@ from typing import Any
 from soccer_agent.worldcup.bracket import Bracket, build_bracket
 from soccer_agent.worldcup.entities import WorldCup
 from soccer_agent.worldcup.lineup import project_lineup
-from soccer_agent.worldcup.predict import MatchPrediction, predict_one, scoreline_matrix
+from soccer_agent.worldcup.predict import (
+    BASE_MATCH_GOALS,
+    LAMBDA_FLOOR,
+    SUPREMACY_PER_10,
+    MatchPrediction,
+    predict_one,
+    scoreline_matrix,
+)
 from soccer_agent.worldcup.ranking import Rankings
 
 ET_FACTOR = 4.0 / 3.0
@@ -36,7 +43,7 @@ def _sample_winner(lh: float, la: float, eff_h: float, eff_a: float, rng: random
     flat = [(i, j, mat[i][j]) for i in range(len(mat)) for j in range(len(mat))]
     r = rng.random()
     cum = 0.0
-    sh = sa = 0
+    sh, sa = flat[-1][0], flat[-1][1]  # absorb float-drift tail into the last cell
     for i, j, p in flat:
         cum += p
         if r <= cum:
@@ -49,6 +56,7 @@ def _sample_winner(lh: float, la: float, eff_h: float, eff_a: float, rng: random
     flat = [(i, j, et[i][j]) for i in range(len(et)) for j in range(len(et))]
     r = rng.random()
     cum = 0.0
+    sh, sa = flat[-1][0], flat[-1][1]  # absorb float-drift tail into the last cell
     for i, j, p in flat:
         cum += p
         if r <= cum:
@@ -98,8 +106,9 @@ def simulate_bracket(
             nxt: list[int] = []
             for i in range(0, len(slots), 2):
                 home_id, away_id = slots[i], slots[i + 1]
-                lh = max(0.18, 1.3 + (strengths.get(home_id, 50.0) - strengths.get(away_id, 50.0)) / 10.0 * 0.62 / 2)
-                la = max(0.18, 2.6 - lh)
+                gap = strengths.get(home_id, 50.0) - strengths.get(away_id, 50.0)
+                lh = max(LAMBDA_FLOOR, BASE_MATCH_GOALS / 2.0 + gap / 10.0 * SUPREMACY_PER_10 / 2.0)
+                la = max(LAMBDA_FLOOR, BASE_MATCH_GOALS - lh)
                 eff_h = strengths.get(home_id, 50.0)
                 eff_a = strengths.get(away_id, 50.0)
                 w = _sample_winner(lh, la, eff_h, eff_a, rng)
