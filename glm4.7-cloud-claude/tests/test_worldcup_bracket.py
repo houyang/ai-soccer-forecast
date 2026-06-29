@@ -1,10 +1,10 @@
 # tests/test_worldcup_bracket.py
-from soccer_agent.worldcup.dataset import load_worldcup
-from soccer_agent.worldcup.ranking import rank_all
-from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
-from soccer_agent.worldcup.standings import group_standings
 from soccer_agent.worldcup.bracket import build_bracket
+from soccer_agent.worldcup.dataset import load_worldcup
+from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
+from soccer_agent.worldcup.ranking import rank_all
 from soccer_agent.worldcup.simulate import simulate_bracket
+from soccer_agent.worldcup.standings import group_standings
 
 
 def _setup():

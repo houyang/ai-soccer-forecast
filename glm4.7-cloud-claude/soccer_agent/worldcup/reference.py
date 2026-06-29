@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/reference.py
 """Static 0-100 pedigree scores per national team (pre-tournament strength prior).
 
 Values reflect historical World Cup pedigree and current federation standing. They are a

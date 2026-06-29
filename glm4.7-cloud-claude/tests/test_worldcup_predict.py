@@ -1,9 +1,9 @@
 # tests/test_worldcup_predict.py
 from soccer_agent.worldcup.dataset import load_worldcup
-from soccer_agent.worldcup.ranking import rank_all
 from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
 from soccer_agent.worldcup.lineup import project_lineup
-from soccer_agent.worldcup.predict import predict_one, top_scorelines, scoreline_matrix
+from soccer_agent.worldcup.predict import predict_one, scoreline_matrix, top_scorelines
+from soccer_agent.worldcup.ranking import rank_all
 
 
 def _strengths():

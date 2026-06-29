@@ -1,9 +1,6 @@
 # tests/test_worldcup_live.py
-import json
-from pathlib import Path
 
 from soccer_agent.worldcup.live import parse_lineup_response
-
 
 SAMPLE = {
     "get": "fixtures/lineups",

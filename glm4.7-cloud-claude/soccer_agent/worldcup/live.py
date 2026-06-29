@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/live.py
 """Optional API-Sports v3 lineup fetcher with an on-disk cache.
 
 Never raises on network/key problems: returns None so callers fall back to projected
@@ -8,8 +7,8 @@ from __future__ import annotations
 
 import json
 import os
+import ssl
 import urllib.error
-import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -17,6 +16,16 @@ from soccer_agent.worldcup.entities import Lineup, WorldCup
 
 BASE_URL = "https://v3.football.api-sports.io"
 _CACHE_NAME = "lineups_fixture={}.json"
+
+
+def _ssl_context() -> ssl.SSLContext | None:
+    """A CA-trust SSL context. macOS framework Python lacks system CAs, so prefer certifi."""
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        return ssl.create_default_context()
 
 
 def parse_lineup_response(payload: dict, fixture_id: int) -> list[Lineup]:
@@ -58,7 +67,7 @@ class LineupFetcher:
         url = f"{BASE_URL}/fixtures/lineups?fixture={fixture_id}"
         req = urllib.request.Request(url, headers={"x-apisports-key": key})
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+            with urllib.request.urlopen(req, timeout=self.timeout, context=_ssl_context()) as resp:
                 payload = json.loads(resp.read().decode("utf-8"))
         except (urllib.error.URLError, OSError, ValueError):
             return None

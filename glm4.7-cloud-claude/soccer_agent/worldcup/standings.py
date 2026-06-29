@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/standings.py
 """Final group standings from results, with FIFA tiebreakers (pts -> GD -> GF -> head-to-head)."""
 from __future__ import annotations
 
@@ -34,15 +33,21 @@ def group_standings(wc: WorldCup) -> dict[str, list[StandingRow]]:
         matches = [m for m in wc.matches if m.group == gname and m.played]
         for m in matches:
             ha, ga = m.home_goals, m.away_goals
-            agg[m.home_id]["p"] += 1; agg[m.away_id]["p"] += 1
-            agg[m.home_id]["gf"] += ha; agg[m.home_id]["ga"] += ga
-            agg[m.away_id]["gf"] += ga; agg[m.away_id]["ga"] += ha
+            agg[m.home_id]["p"] += 1
+            agg[m.away_id]["p"] += 1
+            agg[m.home_id]["gf"] += ha
+            agg[m.home_id]["ga"] += ga
+            agg[m.away_id]["gf"] += ga
+            agg[m.away_id]["ga"] += ha
             if ha > ga:
-                agg[m.home_id]["w"] += 1; agg[m.away_id]["l"] += 1
+                agg[m.home_id]["w"] += 1
+                agg[m.away_id]["l"] += 1
             elif ha < ga:
-                agg[m.away_id]["w"] += 1; agg[m.home_id]["l"] += 1
+                agg[m.away_id]["w"] += 1
+                agg[m.home_id]["l"] += 1
             else:
-                agg[m.home_id]["d"] += 1; agg[m.away_id]["d"] += 1
+                agg[m.home_id]["d"] += 1
+                agg[m.away_id]["d"] += 1
         rows = [StandingRow(
             tid, wc.teams[tid].name, a["p"], a["w"], a["d"], a["l"], a["gf"], a["ga"],
             a["gf"] - a["ga"], 3 * a["w"] + a["d"],

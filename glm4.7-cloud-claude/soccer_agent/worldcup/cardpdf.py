@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/cardpdf.py
 """Render a MatchCard to a one-page A4 PDF. reportlab is imported lazily."""
 from __future__ import annotations
 

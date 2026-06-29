@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/cli.py
 """Command-line interface for the World Cup predictor.
 
 Commands:

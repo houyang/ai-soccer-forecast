@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/lineup.py
 """Project each team's formation, starting XI, and subs for an upcoming match.
 
 Precedence: a live-fetched recent lineup ("live") > an attached dataset lineup from an

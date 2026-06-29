@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/bracket.py
 """Round-of-32 fixtures (from the dataset) + an approximated R16->Final binary tree.
 
 The dataset carries the 16 real R32 pairings but no R16 slot map, so R32 matches are

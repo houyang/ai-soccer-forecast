@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/predict.py
 """Independent-Poisson scoreline model with Dixon-Coles low-score correction.
 
 Effective rating = blend of recalibrated team strength and projected-XI mean player rating,
@@ -9,9 +8,9 @@ means; the scoreline matrix yields the modal exact score and W/D/L probabilities
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from soccer_agent.worldcup.entities import WorldCup
 from soccer_agent.worldcup.lineup import ProjectedLineup

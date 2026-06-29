@@ -1,6 +1,5 @@
 # tests/test_worldcup_cli.py
 import json
-from pathlib import Path
 
 from soccer_agent.worldcup.cli import main
 from soccer_agent.worldcup.dataset import load_worldcup

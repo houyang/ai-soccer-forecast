@@ -1,7 +1,7 @@
 # tests/test_worldcup_lineup.py
 from soccer_agent.worldcup.dataset import load_worldcup
+from soccer_agent.worldcup.lineup import formation_slots, project_lineup
 from soccer_agent.worldcup.ranking import rank_all
-from soccer_agent.worldcup.lineup import project_lineup, formation_slots
 
 
 def test_formation_slots():

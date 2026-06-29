@@ -3,10 +3,10 @@ import json
 
 import pytest
 
-from soccer_agent.worldcup.dataset import load_worldcup
-from soccer_agent.worldcup.ranking import rank_all
-from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
 from soccer_agent.worldcup.card import build_card
+from soccer_agent.worldcup.dataset import load_worldcup
+from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
+from soccer_agent.worldcup.ranking import rank_all
 
 
 def _setup():

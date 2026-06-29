@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/card.py
 """Assemble a single-match preview card: lineups, coaches, and a lineup-aware prediction."""
 from __future__ import annotations
 

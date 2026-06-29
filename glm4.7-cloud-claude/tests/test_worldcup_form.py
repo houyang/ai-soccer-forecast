@@ -1,7 +1,7 @@
 # tests/test_worldcup_form.py
 from soccer_agent.worldcup.dataset import load_worldcup
-from soccer_agent.worldcup.ranking import rank_all
 from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
+from soccer_agent.worldcup.ranking import rank_all
 
 
 def test_all_48_teams_have_form_with_three_played():

@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/entities.py
 """Pydantic models for the cached FIFA 2026 World Cup dataset."""
 from __future__ import annotations
 

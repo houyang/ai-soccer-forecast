@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/simulate.py
 """Monte-Carlo simulation of the knockout bracket to a champion.
 
 Each R32 match is predicted once (deterministic) for the printed card; the bracket is then
@@ -8,10 +7,9 @@ prob is shifted by the rating edge (capped at +/-0.15).
 """
 from __future__ import annotations
 
-import math
 import random
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 from soccer_agent.worldcup.bracket import Bracket, build_bracket
 from soccer_agent.worldcup.entities import WorldCup
@@ -83,7 +81,6 @@ def simulate_bracket(
         r32_map[fid] = pred
 
     champion: dict[int, float] = {tid: 0.0 for tid in wc.teams}
-    rounds = ["R32", "R16", "QF", "SF", "Final"]
 
     for _ in range(n):
         # current_winners: list of team_ids at each slot, seeded from R32 fixtures.

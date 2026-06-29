@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/dataset.py
 """Locate and load the cached World Cup dataset."""
 from __future__ import annotations
 

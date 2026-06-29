@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/form.py
 """Recalibrate team strength using actual group-stage results.
 
 The static ranking is a pre-tournament prior; this blends it with each team's real

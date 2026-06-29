@@ -1,4 +1,3 @@
-# soccer_agent/worldcup/ranking.py
 """Deterministic 0-100 rankings in dependency order: league -> club -> player -> coach -> team.
 
 Each tier is a min-max-normalized blend of the fields below; unknowns fall back to neutral.
