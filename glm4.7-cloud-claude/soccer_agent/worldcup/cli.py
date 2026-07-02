@@ -3,7 +3,7 @@
 Commands:
   predict            -> predictions/worldcup-2026-predictions-after1st-group.{md,json}
   card "Home" "Away" -> predictions/<Home>-vs-<Away>.{pdf,json}
-  bracket            -> print champion + advancement odds to stdout
+  bracket            -> predictions/worldcup-2026-knockout-bracket.{md,json} + per-round PDFs
 """
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ from pathlib import Path
 from soccer_agent.worldcup.card import build_card
 from soccer_agent.worldcup.cardpdf import render_card_pdf
 from soccer_agent.worldcup.dataset import load_worldcup
+from soccer_agent.worldcup.forecast import forecast_bracket
 from soccer_agent.worldcup.form import compute_forms, recalibrated_strength
 from soccer_agent.worldcup.live import LineupFetcher
 from soccer_agent.worldcup.ranking import rank_all
@@ -30,7 +31,7 @@ def _engine():
     forms = compute_forms(wc)
     strengths = recalibrated_strength(wc, rankings, forms)
     fetcher = LineupFetcher() if os.getenv("API_FOOTBALL_KEY") else None
-    return wc, rankings, strengths, fetcher
+    return wc, rankings, strengths, forms, fetcher
 
 
 def _team_by_name(wc, name: str):
@@ -41,9 +42,9 @@ def _team_by_name(wc, name: str):
     raise SystemExit(f"team not found: {name}")
 
 
-def _write_predictions(wc, rankings, strengths, fetcher) -> int:
+def _write_predictions(wc, rankings, strengths, forms, fetcher) -> int:
     PRED_DIR.mkdir(parents=True, exist_ok=True)
-    sim = simulate_bracket(wc, rankings, strengths, fetcher=fetcher, n=10000)
+    sim = simulate_bracket(wc, rankings, strengths, forms, fetcher=fetcher, n=10000)
     gs = group_standings(wc)
 
     # Standings dict
@@ -91,14 +92,12 @@ def _write_predictions(wc, rankings, strengths, fetcher) -> int:
     return 0
 
 
-def _write_card(wc, rankings, strengths, fetcher, home_name: str, away_name: str) -> int:
+def _write_card(wc, rankings, strengths, forms, fetcher, home_name: str, away_name: str) -> int:
     home = _team_by_name(wc, home_name)
     away = _team_by_name(wc, away_name)
-    # Find an R32 fixture matching these two teams (either order).
     m = next((x for x in wc.matches if x.matchday == 0 and {x.home_id, x.away_id} == {home.id, away.id}), None)
-    if m is None:
-        raise SystemExit(f"no R32 fixture between {home.name} and {away.name}")
-    card = build_card(wc, rankings, strengths, home.id, away.id, fetcher=fetcher, fixture_id=m.fixture_id)
+    fid = m.fixture_id if m else None
+    card = build_card(wc, rankings, strengths, forms, home.id, away.id, fetcher=fetcher, fixture_id=fid)
     PRED_DIR.mkdir(parents=True, exist_ok=True)
     stem = f"{home.name}-vs-{away.name}"
     (PRED_DIR / f"{stem}.json").write_text(json.dumps(card.to_dict(), indent=2))
@@ -109,24 +108,79 @@ def _write_card(wc, rankings, strengths, fetcher, home_name: str, away_name: str
     return 0
 
 
+def _write_bracket(wc, rankings, strengths, forms, fetcher) -> int:
+    PRED_DIR.mkdir(parents=True, exist_ok=True)
+    fc = forecast_bracket(wc, rankings, strengths, forms, fetcher=fetcher)
+    payload = fc.to_dict()
+    # Brief Monte-Carlo champion context.
+    sim = simulate_bracket(wc, rankings, strengths, forms, fetcher=fetcher, n=10000)
+    champ_top5 = sorted(sim.champion.items(), key=lambda kv: kv[1], reverse=True)[:5]
+    payload["monte_carlo_champion_top5"] = [{"team": wc.teams[t].name, "probability": round(p, 4)} for t, p in champ_top5]
+    payload["method"] = ("Deterministic modal bracket: each match's modal winner advances (drawn "
+                         "ties go to ET/penalties). R32 = real fixtures; R16→Final pairing follows "
+                         "R32 schedule order (documented). MC champion odds are a separate 10k sim.")
+    (PRED_DIR / "worldcup-2026-knockout-bracket.json").write_text(json.dumps(payload, indent=2))
+
+    lines = ["# FIFA 2026 World Cup — Knockout Bracket Forecast", ""]
+    lines.append("Deterministic modal bracket: every match predicted; the modal winner advances each round.")
+    lines.append("Drawn knockout ties go to extra time/penalties (marked `ET`). R32 = real fixtures; "
+                 "R16→Final pairing follows R32 schedule order (best-available; dataset has no official slot map).")
+    lines.append("")
+    for rnd in ("R32", "R16", "QF", "SF", "3rd", "Final"):
+        matches = fc.rounds.get(rnd, [])
+        if not matches:
+            continue
+        title = {"R32": "Round of 32", "R16": "Round of 16", "QF": "Quarter-Finals",
+                 "SF": "Semi-Finals", "Final": "Final", "3rd": "Third-Place Play-off"}[rnd]
+        lines.append(f"\n## {title}\n")
+        for bm in matches:
+            p = bm.prediction
+            ko = bm.kickoff.strftime("%Y-%m-%d %H:%M UTC") if bm.kickoff else "TBD"
+            et = " (ET/pen)" if bm.expected_extra_time else ""
+            lines.append(
+                f"- `{ko}`  **{bm.home_name} {p.score_home}-{p.score_away} {bm.away_name}**{et}  "
+                f"(W {p.p_home:.0%} / D {p.p_draw:.0%} / L {p.p_away:.0%})  "
+                f"-> advances: **{bm.advancing_name}**"
+            )
+    lines.append("\n## Champion")
+    lines.append(f"**{fc.to_dict()['champion']}** (runner-up: {fc.to_dict()['runner_up']}; "
+                 f"third: {fc.to_dict()['third_place']})")
+    lines.append("\n### Monte-Carlo champion odds (10k sims, top 5)")
+    for t, p in champ_top5:
+        lines.append(f"- {wc.teams[t].name}: {p:.1%}")
+    (PRED_DIR / "worldcup-2026-knockout-bracket.md").write_text("\n".join(lines))
+
+    # Auto-generate a PDF for each predicted future-round match.
+    cards_dir = PRED_DIR / "bracket-cards"
+    cards_dir.mkdir(parents=True, exist_ok=True)
+    for rnd in ("R16", "QF", "SF", "3rd", "Final"):
+        for bm in fc.rounds.get(rnd, []):
+            card = build_card(wc, rankings, strengths, forms, bm.home_id, bm.away_id,
+                              fetcher=fetcher, kickoff=bm.kickoff, venue=bm.venue)
+            stem = f"{rnd}-{bm.match_no}-{bm.home_name}-vs-{bm.away_name}"
+            (cards_dir / f"{stem}.json").write_text(json.dumps(card.to_dict(), indent=2))
+            try:
+                render_card_pdf(card, cards_dir / f"{stem}.pdf")
+            except RuntimeError as exc:
+                print(str(exc), file=sys.stderr)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = list(argv if argv is not None else sys.argv[1:])
     if not argv:
         print("usage: python -m soccer_agent.worldcup {predict|card|bracket} [...]", file=sys.stderr)
         return 2
     cmd = argv[0]
-    wc, rankings, strengths, fetcher = _engine()
+    wc, rankings, strengths, forms, fetcher = _engine()
     if cmd == "predict":
-        return _write_predictions(wc, rankings, strengths, fetcher)
+        return _write_predictions(wc, rankings, strengths, forms, fetcher)
     if cmd == "card":
         if len(argv) < 3:
             print("usage: card \"Home\" \"Away\"", file=sys.stderr)
             return 2
-        return _write_card(wc, rankings, strengths, fetcher, argv[1], argv[2])
+        return _write_card(wc, rankings, strengths, forms, fetcher, argv[1], argv[2])
     if cmd == "bracket":
-        sim = simulate_bracket(wc, rankings, strengths, fetcher=fetcher, n=10000)
-        for t, p in sorted(sim.champion.items(), key=lambda kv: kv[1], reverse=True)[:10]:
-            print(f"{wc.teams[t].name}: {p:.1%}")
-        return 0
+        return _write_bracket(wc, rankings, strengths, forms, fetcher)
     print(f"unknown command: {cmd}", file=sys.stderr)
     return 2

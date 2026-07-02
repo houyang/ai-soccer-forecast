@@ -31,3 +31,19 @@ def test_card_writes_pdf_and_json(tmp_path, monkeypatch):
     assert code == 0
     pdfs = list((tmp_path / "predictions").glob("*.pdf"))
     assert pdfs, "expected a PDF card"
+
+
+def test_bracket_writes_outputs(tmp_path, monkeypatch):
+    monkeypatch.delenv("API_FOOTBALL_KEY", raising=False)
+    monkeypatch.chdir(tmp_path)
+    code = main(["bracket"])
+    assert code == 0
+    md = tmp_path / "predictions" / "worldcup-2026-knockout-bracket.md"
+    js = tmp_path / "predictions" / "worldcup-2026-knockout-bracket.json"
+    assert md.exists() and js.exists()
+    import json
+    d = json.loads(js.read_text())
+    assert "rounds" in d and "champion" in d
+    assert len(d["rounds"]["R32"]) == 16 and len(d["rounds"]["Final"]) == 1
+    cards = list((tmp_path / "predictions" / "bracket-cards").glob("*.pdf"))
+    assert cards, "expected future-round PDFs"

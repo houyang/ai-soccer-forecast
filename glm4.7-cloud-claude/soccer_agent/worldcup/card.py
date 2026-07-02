@@ -7,7 +7,7 @@ from typing import Any, Optional
 
 from soccer_agent.worldcup.entities import WorldCup
 from soccer_agent.worldcup.lineup import project_lineup
-from soccer_agent.worldcup.predict import MatchPrediction, predict_one, top_scorelines
+from soccer_agent.worldcup.predict import MatchPrediction, predict_match, top_scorelines
 from soccer_agent.worldcup.ranking import Rankings
 
 _NEUTRAL = 50.0
@@ -93,10 +93,10 @@ def _team_card(wc: WorldCup, rankings: Rankings, team_id: int, lineup) -> TeamCa
 
 
 def build_card(
-    wc: WorldCup, rankings: Rankings, strengths: dict[int, float],
+    wc: WorldCup, rankings: Rankings, strengths: dict[int, float], forms,
     home_id: int, away_id: int, fetcher=None, fixture_id: int | None = None,
+    kickoff=None, venue: str | None = None,
 ) -> MatchCard:
-    # Prefer a real dataset fixture for kickoff/venue/group; else synthesize a neutral card.
     m = None
     if fixture_id is not None:
         m = next((x for x in wc.matches if x.fixture_id == fixture_id), None)
@@ -104,22 +104,17 @@ def build_card(
         m = next((x for x in wc.matches if x.matchday == 0 and {x.home_id, x.away_id} == {home_id, away_id}), None)
     fid = m.fixture_id if m else None
     group = m.group if m and m.group else "Knockout"
-    kickoff = m.kickoff if m else None
-    venue = m.venue if m else "TBD"
+    ko = kickoff if kickoff is not None else (m.kickoff if m else None)
+    ven = venue if venue is not None else (m.venue if m else "Neutral venue")
 
     hlu = project_lineup(wc, rankings, home_id, fid or 0, fetcher)
     alu = project_lineup(wc, rankings, away_id, fid or 0, fetcher)
 
-    if fid is not None:
-        pred = predict_one(wc, rankings, strengths, fid, hlu, alu)
-    else:
-        # Synthesize a prediction with a transient fixture entry is complex; reuse an R32 fixture's
-        # home/away by swapping ids is fragile. Instead, require a fixture for prediction.
-        raise ValueError("build_card requires a fixture_id (use an R32 fixture)")
-
+    pred = predict_match(wc, rankings, strengths, forms, home_id, away_id, hlu, alu,
+                         fixture_id=fid, kickoff=ko, venue=ven, group=group, round_name="Knockout")
     tops = tuple(top_scorelines(pred.lambda_home, pred.lambda_away, 3))
     return MatchCard(
-        fixture_id=fid, group=group, kickoff=kickoff, venue=venue,
+        fixture_id=fid, group=group, kickoff=ko, venue=ven,
         home=_team_card(wc, rankings, home_id, hlu),
         away=_team_card(wc, rankings, away_id, alu),
         prediction=pred, top_scorelines=tops,
