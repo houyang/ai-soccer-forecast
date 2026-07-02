@@ -55,7 +55,7 @@ class MatchPrediction:
     def to_dict(self) -> dict[str, Any]:
         return {
             "fixture_id": self.fixture_id, "matchday": self.matchday, "group": self.group,
-            "kickoff": self.kickoff.isoformat(), "venue": self.venue,
+            "kickoff": self.kickoff.isoformat() if self.kickoff else None, "venue": self.venue,
             "home_id": self.home_id, "away_id": self.away_id,
             "home_name": self.home_name, "away_name": self.away_name,
             "lambda_home": round(self.lambda_home, 3), "lambda_away": round(self.lambda_away, 3),
@@ -110,37 +110,72 @@ def effective_rating(
     return base + adj, adj
 
 
-def predict_one(
-    wc: WorldCup, rankings: Rankings, strengths: dict[int, float],
-    fixture_id: int, home_lu: ProjectedLineup, away_lu: ProjectedLineup,
-) -> MatchPrediction:
-    m = next((x for x in wc.matches if x.fixture_id == fixture_id), None)
-    if m is None:
-        raise ValueError(f"fixture {fixture_id} not found")
-    eff_h, adj_h = effective_rating(wc, rankings, strengths, m.home_id, home_lu, True, m.venue)
-    eff_a, adj_a = effective_rating(wc, rankings, strengths, m.away_id, away_lu, False, m.venue)
+W_FORM_LAMBDA = 0.4  # weight on group-stage attack/defense in the blended lambda
 
+
+def _lambdas(
+    eff_h: float, eff_a: float, forms, home_id: int, away_id: int,
+) -> tuple[float, float]:
+    """Blend rating-supremacy split with group-stage attack/defense expected goals."""
     supremacy = (eff_h - eff_a) / 10.0 * SUPREMACY_PER_10
     total = BASE_MATCH_GOALS
-    lh = max(LAMBDA_FLOOR, total / 2.0 + supremacy / 2.0)
-    la = max(LAMBDA_FLOOR, total / 2.0 - supremacy / 2.0)
+    rating_lh = total / 2.0 + supremacy / 2.0
+    rating_la = total / 2.0 - supremacy / 2.0
+    fh = forms.get(home_id)
+    fa = forms.get(away_id)
+    if fh is not None and fa is not None and (fh.played + fa.played) > 0:
+        # A side scores at its attack rate, constrained by the opponent's defense.
+        form_lh = (fh.attack + fa.defense) / 2.0
+        form_la = (fa.attack + fh.defense) / 2.0
+        lh = W_FORM_LAMBDA * form_lh + (1 - W_FORM_LAMBDA) * rating_lh
+        la = W_FORM_LAMBDA * form_la + (1 - W_FORM_LAMBDA) * rating_la
+    else:
+        lh, la = rating_lh, rating_la
+    return max(LAMBDA_FLOOR, lh), max(LAMBDA_FLOOR, la)
+
+
+def predict_match(
+    wc: WorldCup, rankings: Rankings, strengths: dict[int, float], forms,
+    home_id: int, away_id: int, home_lu: ProjectedLineup, away_lu: ProjectedLineup,
+    *, fixture_id: int | None = None, kickoff=None, venue: str = "Neutral",
+    group: str = "", matchday: int = 0, round_name: str = "",
+) -> MatchPrediction:
+    """Fixture-agnostic prediction (works for real fixtures, future rounds, ad-hoc cards)."""
+    from datetime import datetime as _dt
+    eff_h, adj_h = effective_rating(wc, rankings, strengths, home_id, home_lu, True, venue)
+    eff_a, adj_a = effective_rating(wc, rankings, strengths, away_id, away_lu, False, venue)
+    lh, la = _lambdas(eff_h, eff_a, forms, home_id, away_id)
 
     mat = scoreline_matrix(lh, la)
     p_home = sum(mat[i][j] for i in range(MAX_GOALS + 1) for j in range(i))
     p_away = sum(mat[i][j] for i in range(MAX_GOALS + 1) for j in range(i + 1, MAX_GOALS + 1))
     p_draw = sum(mat[i][i] for i in range(MAX_GOALS + 1))
-    # modal exact score:
     best = max(((i, j) for i in range(MAX_GOALS + 1) for j in range(MAX_GOALS + 1)), key=lambda ij: mat[ij[0]][ij[1]])
     sh, sa = best
     rationale = (
-        f"Eff {eff_h:.1f} vs {eff_a:.1f} -> supremacy {supremacy:+.2f}; "
+        f"Eff {eff_h:.1f} vs {eff_a:.1f} -> supremacy {(eff_h-eff_a)/10.0*SUPREMACY_PER_10:+.2f}; "
         f"xG {lh:.2f}-{la:.2f}; adj {adj_h:+.1f}/{adj_a:+.1f}."
     )
+    ko = kickoff if isinstance(kickoff, _dt) else None
     return MatchPrediction(
-        fixture_id=m.fixture_id, matchday=m.matchday, group=m.group, kickoff=m.kickoff,
-        venue=m.venue, home_id=m.home_id, away_id=m.away_id,
-        home_name=wc.teams[m.home_id].name, away_name=wc.teams[m.away_id].name,
+        fixture_id=fixture_id if fixture_id is not None else 0, matchday=matchday, group=group,
+        kickoff=ko, venue=venue, home_id=home_id, away_id=away_id,
+        home_name=wc.teams[home_id].name, away_name=wc.teams[away_id].name,
         lambda_home=lh, lambda_away=la, score_home=sh, score_away=sa,
         p_home=p_home, p_draw=p_draw, p_away=p_away, rationale=rationale,
         home_adjustment=adj_h, away_adjustment=adj_a,
+    )
+
+
+def predict_one(
+    wc: WorldCup, rankings: Rankings, strengths: dict[int, float], forms,
+    fixture_id: int, home_lu: ProjectedLineup, away_lu: ProjectedLineup,
+) -> MatchPrediction:
+    m = next((x for x in wc.matches if x.fixture_id == fixture_id), None)
+    if m is None:
+        raise ValueError(f"fixture {fixture_id} not found")
+    return predict_match(
+        wc, rankings, strengths, forms, m.home_id, m.away_id, home_lu, away_lu,
+        fixture_id=m.fixture_id, kickoff=m.kickoff, venue=m.venue,
+        group=m.group, matchday=m.matchday, round_name=m.round_name,
     )

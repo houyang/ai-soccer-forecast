@@ -71,7 +71,7 @@ def _sample_winner(lh: float, la: float, eff_h: float, eff_a: float, rng: random
 
 
 def simulate_bracket(
-    wc: WorldCup, rankings: Rankings, strengths: dict[int, float],
+    wc: WorldCup, rankings: Rankings, strengths: dict[int, float], forms,
     fetcher=None, n: int = 10000, seed: int = 2026,
 ) -> BracketSim:
     bracket: Bracket = build_bracket(wc)
@@ -84,7 +84,7 @@ def simulate_bracket(
         m = next(x for x in wc.matches if x.fixture_id == fid)
         hlu = project_lineup(wc, rankings, m.home_id, fid, fetcher)
         alu = project_lineup(wc, rankings, m.away_id, fid, fetcher)
-        pred = predict_one(wc, rankings, strengths, fid, hlu, alu)
+        pred = predict_one(wc, rankings, strengths, forms, fid, hlu, alu)
         r32_preds.append(pred)
         r32_map[fid] = pred
 
