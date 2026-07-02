@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": null,
+  "venue": "Neutral venue",
+  "home": {
+    "team_id": 26,
+    "name": "Argentina",
+    "coach_name": "L. Scaloni",
+    "coach_record": [
+      11,
+      1,
+      1
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 19599,
+        "name": "E. Mart\u00ednez",
+        "position": "Goalkeeper",
+        "rating": 53.8
+      },
+      {
+        "player_id": 6002,
+        "name": "E. Palacios",
+        "position": "Midfielder",
+        "rating": 49.4
+      },
+      {
+        "player_id": 624,
+        "name": "N. Otamendi",
+        "position": "Defender",
+        "rating": 60.9
+      },
+      {
+        "player_id": 6610,
+        "name": "#6610",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 529,
+        "name": "N. Tagliafico",
+        "position": "Defender",
+        "rating": 37.7
+      },
+      {
+        "player_id": 323935,
+        "name": "G. Simeone",
+        "position": "Midfielder",
+        "rating": 57.7
+      },
+      {
+        "player_id": 350037,
+        "name": "N. Paz",
+        "position": "Attacker",
+        "rating": 55.3
+      },
+      {
+        "player_id": 271,
+        "name": "L. Paredes",
+        "position": "Midfielder",
+        "rating": 45.7
+      },
+      {
+        "player_id": 1578,
+        "name": "G. Lo Celso",
+        "position": "Midfielder",
+        "rating": 50.7
+      },
+      {
+        "player_id": 217,
+        "name": "Lautaro Mart\u00ednez",
+        "position": "Attacker",
+        "rating": 65.1
+      },
+      {
+        "player_id": 6009,
+        "name": "J. \u00c1lvarez",
+        "position": "Attacker",
+        "rating": 67.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 6067,
+        "name": "T. Almada",
+        "position": "Midfielder",
+        "rating": 50.9
+      },
+      {
+        "player_id": 154,
+        "name": "L. Messi",
+        "position": "Attacker",
+        "rating": 69.3
+      },
+      {
+        "player_id": 6716,
+        "name": "A. Mac Allister",
+        "position": "Midfielder",
+        "rating": 66.0
+      },
+      {
+        "player_id": 319572,
+        "name": "V. Barco",
+        "position": "Midfielder",
+        "rating": 53.6
+      },
+      {
+        "player_id": 295513,
+        "name": "J. L\u00f3pez",
+        "position": "Attacker",
+        "rating": 61.1
+      },
+      {
+        "player_id": 47296,
+        "name": "G. Rulli",
+        "position": "Goalkeeper",
+        "rating": 44.5
+      },
+      {
+        "player_id": 2465,
+        "name": "J. Musso",
+        "position": "Goalkeeper",
+        "rating": 51.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 2,
+    "name": "France",
+    "coach_name": "D. Deschamps",
+    "coach_record": [
+      11,
+      1,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 22221,
+        "name": "M. Maignan",
+        "position": "Goalkeeper",
+        "rating": 45.5
+      },
+      {
+        "player_id": 1257,
+        "name": "J. Kound\u00e9",
+        "position": "Defender",
+        "rating": 62.2
+      },
+      {
+        "player_id": 1149,
+        "name": "D. Upamecano",
+        "position": "Defender",
+        "rating": 66.1
+      },
+      {
+        "player_id": 20995,
+        "name": "M. Lacroix",
+        "position": "Defender",
+        "rating": 65.7
+      },
+      {
+        "player_id": 47300,
+        "name": "T. Hern\u00e1ndez",
+        "position": "Defender",
+        "rating": 61.7
+      },
+      {
+        "player_id": 1271,
+        "name": "A. Tchouam\u00e9ni",
+        "position": "Midfielder",
+        "rating": 52.4
+      },
+      {
+        "player_id": 22147,
+        "name": "M. Kon\u00e9",
+        "position": "Midfielder",
+        "rating": 44.2
+      },
+      {
+        "player_id": 153,
+        "name": "O. Demb\u00e9l\u00e9",
+        "position": "Midfielder",
+        "rating": 74.8
+      },
+      {
+        "player_id": 19617,
+        "name": "M. Olise",
+        "position": "Midfielder",
+        "rating": 86.7
+      },
+      {
+        "player_id": 343027,
+        "name": "D. Dou\u00e9",
+        "position": "Midfielder",
+        "rating": 71.4
+      },
+      {
+        "player_id": 278,
+        "name": "Kylian Mbapp\u00e9",
+        "position": "Attacker",
+        "rating": 75.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 21628,
+        "name": "B. Samba",
+        "position": "Goalkeeper",
+        "rating": 39.2
+      },
+      {
+        "player_id": 347211,
+        "name": "R. Risser",
+        "position": "Goalkeeper",
+        "rating": 42.2
+      },
+      {
+        "player_id": 1145,
+        "name": "I. Konat\u00e9",
+        "position": "Defender",
+        "rating": 63.4
+      },
+      {
+        "player_id": 22090,
+        "name": "W. Saliba",
+        "position": "Defender",
+        "rating": 62.5
+      },
+      {
+        "player_id": 161907,
+        "name": "M. Gusto",
+        "position": "Defender",
+        "rating": 62.1
+      },
+      {
+        "player_id": 274300,
+        "name": "M. Akliouche",
+        "position": "Midfielder",
+        "rating": 60.5
+      },
+      {
+        "player_id": 336657,
+        "name": "W. Za\u00efre-Emery",
+        "position": "Midfielder",
+        "rating": 52.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": null,
+    "venue": "Neutral venue",
+    "home_id": 26,
+    "away_id": 2,
+    "home_name": "Argentina",
+    "away_name": "France",
+    "lambda_home": 1.308,
+    "lambda_away": 1.552,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3209,
+    "p_draw": 0.2491,
+    "p_away": 0.43,
+    "rationale": "Eff 65.1 vs 70.8 -> supremacy -0.35; xG 1.31-1.55; adj -0.5/-1.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11775449364677859
+    ],
+    [
+      1,
+      2,
+      0.08980891596079964
+    ],
+    [
+      0,
+      1,
+      0.08966015999975256
+    ]
+  ]
+}

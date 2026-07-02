@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-14T01:30:00+00:00",
+  "venue": "Semi-Final",
+  "home": {
+    "team_id": 6,
+    "name": "Brazil",
+    "coach_name": "C. Ancelotti",
+    "coach_record": [
+      8,
+      3,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 280,
+        "name": "Alisson Becker",
+        "position": "Goalkeeper",
+        "rating": 51.5
+      },
+      {
+        "player_id": 618,
+        "name": "Danilo",
+        "position": "Defender",
+        "rating": 57.9
+      },
+      {
+        "player_id": 257,
+        "name": "Marquinhos",
+        "position": "Defender",
+        "rating": 65.8
+      },
+      {
+        "player_id": 22224,
+        "name": "Gabriel Magalh\u00e3es",
+        "position": "Defender",
+        "rating": 81.8
+      },
+      {
+        "player_id": 24866,
+        "name": "Douglas Santos",
+        "position": "Defender",
+        "rating": 42.5
+      },
+      {
+        "player_id": 10135,
+        "name": "Bruno Guimar\u00e3es",
+        "position": "Midfielder",
+        "rating": 75.6
+      },
+      {
+        "player_id": 747,
+        "name": "Casemiro",
+        "position": "Midfielder",
+        "rating": 77.4
+      },
+      {
+        "player_id": 1646,
+        "name": "Lucas Paquet\u00e1",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 407806,
+        "name": "Rayan",
+        "position": "Attacker",
+        "rating": 55.7
+      },
+      {
+        "player_id": 1165,
+        "name": "Matheus Cunha",
+        "position": "Attacker",
+        "rating": 66.5
+      },
+      {
+        "player_id": 762,
+        "name": "Vin\u00edcius J\u00fanior",
+        "position": "Attacker",
+        "rating": 71.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 617,
+        "name": "Ederson",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 2410,
+        "name": "Weverton",
+        "position": "Goalkeeper",
+        "rating": 38.2
+      },
+      {
+        "player_id": 276,
+        "name": "Neymar",
+        "position": "Attacker",
+        "rating": 50.9
+      },
+      {
+        "player_id": 860,
+        "name": "Alex Sandro",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 10124,
+        "name": "L\u00e9o Pereira",
+        "position": "Defender",
+        "rating": 58.3
+      },
+      {
+        "player_id": 30424,
+        "name": "Iba\u00f1ez",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 127769,
+        "name": "Gabriel Martinelli",
+        "position": "Attacker",
+        "rating": 71.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 2,
+    "name": "France",
+    "coach_name": "D. Deschamps",
+    "coach_record": [
+      11,
+      1,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 22221,
+        "name": "M. Maignan",
+        "position": "Goalkeeper",
+        "rating": 45.5
+      },
+      {
+        "player_id": 1257,
+        "name": "J. Kound\u00e9",
+        "position": "Defender",
+        "rating": 62.2
+      },
+      {
+        "player_id": 1149,
+        "name": "D. Upamecano",
+        "position": "Defender",
+        "rating": 66.1
+      },
+      {
+        "player_id": 20995,
+        "name": "M. Lacroix",
+        "position": "Defender",
+        "rating": 65.7
+      },
+      {
+        "player_id": 47300,
+        "name": "T. Hern\u00e1ndez",
+        "position": "Defender",
+        "rating": 61.7
+      },
+      {
+        "player_id": 1271,
+        "name": "A. Tchouam\u00e9ni",
+        "position": "Midfielder",
+        "rating": 52.4
+      },
+      {
+        "player_id": 22147,
+        "name": "M. Kon\u00e9",
+        "position": "Midfielder",
+        "rating": 44.2
+      },
+      {
+        "player_id": 153,
+        "name": "O. Demb\u00e9l\u00e9",
+        "position": "Midfielder",
+        "rating": 74.8
+      },
+      {
+        "player_id": 19617,
+        "name": "M. Olise",
+        "position": "Midfielder",
+        "rating": 86.7
+      },
+      {
+        "player_id": 343027,
+        "name": "D. Dou\u00e9",
+        "position": "Midfielder",
+        "rating": 71.4
+      },
+      {
+        "player_id": 278,
+        "name": "Kylian Mbapp\u00e9",
+        "position": "Attacker",
+        "rating": 75.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 21628,
+        "name": "B. Samba",
+        "position": "Goalkeeper",
+        "rating": 39.2
+      },
+      {
+        "player_id": 347211,
+        "name": "R. Risser",
+        "position": "Goalkeeper",
+        "rating": 42.2
+      },
+      {
+        "player_id": 1145,
+        "name": "I. Konat\u00e9",
+        "position": "Defender",
+        "rating": 63.4
+      },
+      {
+        "player_id": 22090,
+        "name": "W. Saliba",
+        "position": "Defender",
+        "rating": 62.5
+      },
+      {
+        "player_id": 161907,
+        "name": "M. Gusto",
+        "position": "Defender",
+        "rating": 62.1
+      },
+      {
+        "player_id": 274300,
+        "name": "M. Akliouche",
+        "position": "Midfielder",
+        "rating": 60.5
+      },
+      {
+        "player_id": 336657,
+        "name": "W. Za\u00efre-Emery",
+        "position": "Midfielder",
+        "rating": 52.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-14T01:30:00+00:00",
+    "venue": "Semi-Final",
+    "home_id": 6,
+    "away_id": 2,
+    "home_name": "Brazil",
+    "away_name": "France",
+    "lambda_home": 1.33,
+    "lambda_away": 1.497,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3365,
+    "p_draw": 0.2519,
+    "p_away": 0.4116,
+    "rationale": "Eff 68.1 vs 70.8 -> supremacy -0.17; xG 1.33-1.50; adj -0.5/-1.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1193862404132935
+    ],
+    [
+      0,
+      1,
+      0.08937726261411333
+    ],
+    [
+      1,
+      2,
+      0.08778874675692115
+    ]
+  ]
+}

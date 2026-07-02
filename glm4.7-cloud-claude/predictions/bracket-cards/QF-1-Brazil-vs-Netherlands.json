@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-10T01:30:00+00:00",
+  "venue": "Quarter-Final",
+  "home": {
+    "team_id": 6,
+    "name": "Brazil",
+    "coach_name": "C. Ancelotti",
+    "coach_record": [
+      8,
+      3,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 280,
+        "name": "Alisson Becker",
+        "position": "Goalkeeper",
+        "rating": 51.5
+      },
+      {
+        "player_id": 618,
+        "name": "Danilo",
+        "position": "Defender",
+        "rating": 57.9
+      },
+      {
+        "player_id": 257,
+        "name": "Marquinhos",
+        "position": "Defender",
+        "rating": 65.8
+      },
+      {
+        "player_id": 22224,
+        "name": "Gabriel Magalh\u00e3es",
+        "position": "Defender",
+        "rating": 81.8
+      },
+      {
+        "player_id": 24866,
+        "name": "Douglas Santos",
+        "position": "Defender",
+        "rating": 42.5
+      },
+      {
+        "player_id": 10135,
+        "name": "Bruno Guimar\u00e3es",
+        "position": "Midfielder",
+        "rating": 75.6
+      },
+      {
+        "player_id": 747,
+        "name": "Casemiro",
+        "position": "Midfielder",
+        "rating": 77.4
+      },
+      {
+        "player_id": 1646,
+        "name": "Lucas Paquet\u00e1",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 407806,
+        "name": "Rayan",
+        "position": "Attacker",
+        "rating": 55.7
+      },
+      {
+        "player_id": 1165,
+        "name": "Matheus Cunha",
+        "position": "Attacker",
+        "rating": 66.5
+      },
+      {
+        "player_id": 762,
+        "name": "Vin\u00edcius J\u00fanior",
+        "position": "Attacker",
+        "rating": 71.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 617,
+        "name": "Ederson",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 2410,
+        "name": "Weverton",
+        "position": "Goalkeeper",
+        "rating": 38.2
+      },
+      {
+        "player_id": 276,
+        "name": "Neymar",
+        "position": "Attacker",
+        "rating": 50.9
+      },
+      {
+        "player_id": 860,
+        "name": "Alex Sandro",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 10124,
+        "name": "L\u00e9o Pereira",
+        "position": "Defender",
+        "rating": 58.3
+      },
+      {
+        "player_id": 30424,
+        "name": "Iba\u00f1ez",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 127769,
+        "name": "Gabriel Martinelli",
+        "position": "Attacker",
+        "rating": 71.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 1118,
+    "name": "Netherlands",
+    "coach_name": "R. Koeman",
+    "coach_record": [
+      8,
+      6,
+      1
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 129058,
+        "name": "B. Verbruggen",
+        "position": "Goalkeeper",
+        "rating": 51.7
+      },
+      {
+        "player_id": 226,
+        "name": "D. Dumfries",
+        "position": "Defender",
+        "rating": 58.1
+      },
+      {
+        "player_id": 38695,
+        "name": "J. van Hecke",
+        "position": "Defender",
+        "rating": 69.2
+      },
+      {
+        "player_id": 290,
+        "name": "V. van Dijk",
+        "position": "Defender",
+        "rating": 77.6
+      },
+      {
+        "player_id": 18861,
+        "name": "N. Ak\u00e9",
+        "position": "Defender",
+        "rating": 56.0
+      },
+      {
+        "player_id": 542,
+        "name": "R. Gravenberch",
+        "position": "Midfielder",
+        "rating": 67.1
+      },
+      {
+        "player_id": 538,
+        "name": "F. de Jong",
+        "position": "Midfielder",
+        "rating": 54.5
+      },
+      {
+        "player_id": 36902,
+        "name": "T. Reijnders",
+        "position": "Midfielder",
+        "rating": 69.2
+      },
+      {
+        "player_id": 249,
+        "name": "D. Malen",
+        "position": "Attacker",
+        "rating": 71.2
+      },
+      {
+        "player_id": 38750,
+        "name": "B. Brobbey",
+        "position": "Attacker",
+        "rating": 53.7
+      },
+      {
+        "player_id": 247,
+        "name": "C. Gakpo",
+        "position": "Attacker",
+        "rating": 61.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 26232,
+        "name": "M. Flekken",
+        "position": "Goalkeeper",
+        "rating": 48.0
+      },
+      {
+        "player_id": 194536,
+        "name": "R. Roefs",
+        "position": "Goalkeeper",
+        "rating": 51.9
+      },
+      {
+        "player_id": 667,
+        "name": "M. Depay",
+        "position": "Attacker",
+        "rating": 45.1
+      },
+      {
+        "player_id": 25416,
+        "name": "W. Weghorst",
+        "position": "Attacker",
+        "rating": 40.2
+      },
+      {
+        "player_id": 38747,
+        "name": "Q. Timber",
+        "position": "Midfielder",
+        "rating": 41.3
+      },
+      {
+        "player_id": 37724,
+        "name": "C. Summerville",
+        "position": "Attacker",
+        "rating": 58.1
+      },
+      {
+        "player_id": 92993,
+        "name": "M. Wieffer",
+        "position": "Defender",
+        "rating": 56.9
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-10T01:30:00+00:00",
+    "venue": "Quarter-Final",
+    "home_id": 6,
+    "away_id": 1118,
+    "home_name": "Brazil",
+    "away_name": "Netherlands",
+    "lambda_home": 1.471,
+    "lambda_away": 1.423,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.386,
+    "p_draw": 0.2494,
+    "p_away": 0.3646,
+    "rationale": "Eff 68.1 vs 66.8 -> supremacy +0.08; xG 1.47-1.42; adj -0.5/-1.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11739634122185538
+    ],
+    [
+      2,
+      1,
+      0.08484947214209498
+    ],
+    [
+      1,
+      0,
+      0.08209867290885632
+    ]
+  ]
+}
