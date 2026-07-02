@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-10T01:30:00+00:00",
+  "venue": "Quarter-Final",
+  "home": {
+    "team_id": 27,
+    "name": "Portugal",
+    "coach_name": "Roberto Mart\u00ednez",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 369,
+        "name": "Diogo Costa",
+        "position": "Goalkeeper",
+        "rating": 36.3
+      },
+      {
+        "player_id": 855,
+        "name": "Jo\u00e3o Cancelo",
+        "position": "Defender",
+        "rating": 72.0
+      },
+      {
+        "player_id": 567,
+        "name": "R\u00faben Dias",
+        "position": "Defender",
+        "rating": 70.0
+      },
+      {
+        "player_id": 336671,
+        "name": "Renato Veiga",
+        "position": "Defender",
+        "rating": 48.9
+      },
+      {
+        "player_id": 263482,
+        "name": "Nuno Mendes",
+        "position": "Defender",
+        "rating": 71.4
+      },
+      {
+        "player_id": 2676,
+        "name": "R\u00faben Neves",
+        "position": "Midfielder",
+        "rating": 72.4
+      },
+      {
+        "player_id": 128384,
+        "name": "Vitinha",
+        "position": "Midfielder",
+        "rating": 72.3
+      },
+      {
+        "player_id": 1864,
+        "name": "Pedro Neto",
+        "position": "Midfielder",
+        "rating": 72.0
+      },
+      {
+        "player_id": 1485,
+        "name": "Bruno Fernandes",
+        "position": "Midfielder",
+        "rating": 84.3
+      },
+      {
+        "player_id": 583,
+        "name": "Jo\u00e3o F\u00e9lix",
+        "position": "Attacker",
+        "rating": 69.6
+      },
+      {
+        "player_id": 874,
+        "name": "Cristiano Ronaldo",
+        "position": "Attacker",
+        "rating": 64.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 886,
+        "name": "Diogo Dalot",
+        "position": "Defender",
+        "rating": 57.1
+      },
+      {
+        "player_id": 335051,
+        "name": "Jo\u00e3o Neves",
+        "position": "Midfielder",
+        "rating": 71.2
+      },
+      {
+        "player_id": 190485,
+        "name": "Sam\u00fa Costa",
+        "position": "Midfielder",
+        "rating": 53.2
+      },
+      {
+        "player_id": 22236,
+        "name": "Rafael Le\u00e3o",
+        "position": "Midfielder",
+        "rating": 61.0
+      },
+      {
+        "player_id": 41621,
+        "name": "Matheus Nunes",
+        "position": "Midfielder",
+        "rating": 59.9
+      },
+      {
+        "player_id": 1590,
+        "name": "Jos\u00e9 S\u00e1",
+        "position": "Goalkeeper",
+        "rating": 45.6
+      },
+      {
+        "player_id": 46672,
+        "name": "Rui Silva",
+        "position": "Goalkeeper",
+        "rating": 37.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 9,
+    "name": "Spain",
+    "coach_name": "Fernando Hierro",
+    "coach_record": [
+      8,
+      6,
+      0
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 47270,
+        "name": "Unai Sim\u00f3n",
+        "position": "Goalkeeper",
+        "rating": 35.5
+      },
+      {
+        "player_id": 753,
+        "name": "Marcos Llorente",
+        "position": "Midfielder",
+        "rating": 58.5
+      },
+      {
+        "player_id": 396623,
+        "name": "Pau Cubars\u00ed Paredes",
+        "position": "Defender",
+        "rating": 55.4
+      },
+      {
+        "player_id": 622,
+        "name": "Aymeric Laporte",
+        "position": "Defender",
+        "rating": 37.1
+      },
+      {
+        "player_id": 47380,
+        "name": "Marc Cucurella",
+        "position": "Defender",
+        "rating": 52.9
+      },
+      {
+        "player_id": 133609,
+        "name": "Pedri",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 44,
+        "name": "Rodri",
+        "position": "Midfielder",
+        "rating": 67.2
+      },
+      {
+        "player_id": 386828,
+        "name": "Lamine Yamal",
+        "position": "Attacker",
+        "rating": 83.2
+      },
+      {
+        "player_id": 47311,
+        "name": "Mikel Merino",
+        "position": "Midfielder",
+        "rating": 68.5
+      },
+      {
+        "player_id": 182219,
+        "name": "\u00c1lex Baena",
+        "position": "Midfielder",
+        "rating": 66.2
+      },
+      {
+        "player_id": 47323,
+        "name": "Mikel Oyarzabal",
+        "position": "Attacker",
+        "rating": 60.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19465,
+        "name": "David Raya",
+        "position": "Goalkeeper",
+        "rating": 58.7
+      },
+      {
+        "player_id": 182718,
+        "name": "Joan Garc\u00eda",
+        "position": "Goalkeeper",
+        "rating": 54.1
+      },
+      {
+        "player_id": 328,
+        "name": "Fabi\u00e1n Ruiz",
+        "position": "Midfielder",
+        "rating": 58.5
+      },
+      {
+        "player_id": 931,
+        "name": "Ferran Torres",
+        "position": "Midfielder",
+        "rating": 65.5
+      },
+      {
+        "player_id": 47519,
+        "name": "Pedro Porro",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 47315,
+        "name": "Mart\u00edn Zubimendi",
+        "position": "Midfielder",
+        "rating": 71.5
+      },
+      {
+        "player_id": 296667,
+        "name": "Gavi",
+        "position": "Midfielder",
+        "rating": 50.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-10T01:30:00+00:00",
+    "venue": "Quarter-Final",
+    "home_id": 27,
+    "away_id": 9,
+    "home_name": "Portugal",
+    "away_name": "Spain",
+    "lambda_home": 1.349,
+    "lambda_away": 1.211,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3991,
+    "p_draw": 0.2672,
+    "p_away": 0.3338,
+    "rationale": "Eff 68.1 vs 64.4 -> supremacy +0.23; xG 1.35-1.21; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12788144257492198
+    ],
+    [
+      1,
+      0,
+      0.10528841812756028
+    ],
+    [
+      0,
+      1,
+      0.09431671272377395
+    ]
+  ]
+}

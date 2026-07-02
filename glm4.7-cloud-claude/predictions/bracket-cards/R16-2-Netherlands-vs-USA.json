@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-07T01:30:00+00:00",
+  "venue": "Round of 16",
+  "home": {
+    "team_id": 1118,
+    "name": "Netherlands",
+    "coach_name": "R. Koeman",
+    "coach_record": [
+      8,
+      6,
+      1
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 129058,
+        "name": "B. Verbruggen",
+        "position": "Goalkeeper",
+        "rating": 51.7
+      },
+      {
+        "player_id": 226,
+        "name": "D. Dumfries",
+        "position": "Defender",
+        "rating": 58.1
+      },
+      {
+        "player_id": 38695,
+        "name": "J. van Hecke",
+        "position": "Defender",
+        "rating": 69.2
+      },
+      {
+        "player_id": 290,
+        "name": "V. van Dijk",
+        "position": "Defender",
+        "rating": 77.6
+      },
+      {
+        "player_id": 18861,
+        "name": "N. Ak\u00e9",
+        "position": "Defender",
+        "rating": 56.0
+      },
+      {
+        "player_id": 542,
+        "name": "R. Gravenberch",
+        "position": "Midfielder",
+        "rating": 67.1
+      },
+      {
+        "player_id": 538,
+        "name": "F. de Jong",
+        "position": "Midfielder",
+        "rating": 54.5
+      },
+      {
+        "player_id": 36902,
+        "name": "T. Reijnders",
+        "position": "Midfielder",
+        "rating": 69.2
+      },
+      {
+        "player_id": 249,
+        "name": "D. Malen",
+        "position": "Attacker",
+        "rating": 71.2
+      },
+      {
+        "player_id": 38750,
+        "name": "B. Brobbey",
+        "position": "Attacker",
+        "rating": 53.7
+      },
+      {
+        "player_id": 247,
+        "name": "C. Gakpo",
+        "position": "Attacker",
+        "rating": 61.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 26232,
+        "name": "M. Flekken",
+        "position": "Goalkeeper",
+        "rating": 48.0
+      },
+      {
+        "player_id": 194536,
+        "name": "R. Roefs",
+        "position": "Goalkeeper",
+        "rating": 51.9
+      },
+      {
+        "player_id": 667,
+        "name": "M. Depay",
+        "position": "Attacker",
+        "rating": 45.1
+      },
+      {
+        "player_id": 25416,
+        "name": "W. Weghorst",
+        "position": "Attacker",
+        "rating": 40.2
+      },
+      {
+        "player_id": 38747,
+        "name": "Q. Timber",
+        "position": "Midfielder",
+        "rating": 41.3
+      },
+      {
+        "player_id": 37724,
+        "name": "C. Summerville",
+        "position": "Attacker",
+        "rating": 58.1
+      },
+      {
+        "player_id": 92993,
+        "name": "M. Wieffer",
+        "position": "Defender",
+        "rating": 56.9
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 2384,
+    "name": "USA",
+    "coach_name": "M. Pochettino",
+    "coach_record": [
+      8,
+      2,
+      5
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 50999,
+        "name": "M. Turner",
+        "position": "Goalkeeper",
+        "rating": 32.2
+      },
+      {
+        "player_id": 50852,
+        "name": "J. Scally",
+        "position": "Defender",
+        "rating": 48.6
+      },
+      {
+        "player_id": 50879,
+        "name": "M. Robinson",
+        "position": "Defender",
+        "rating": 44.1
+      },
+      {
+        "player_id": 50735,
+        "name": "M. McKenzie",
+        "position": "Defender",
+        "rating": 35.1
+      },
+      {
+        "player_id": 50737,
+        "name": "A. Trusty",
+        "position": "Defender",
+        "rating": 41.8
+      },
+      {
+        "player_id": 415,
+        "name": "W. McKennie",
+        "position": "Midfielder",
+        "rating": 59.8
+      },
+      {
+        "player_id": 201713,
+        "name": "S. Berhalter",
+        "position": "Midfielder",
+        "rating": 60.1
+      },
+      {
+        "player_id": 161921,
+        "name": "G. Reyna",
+        "position": "Midfielder",
+        "rating": 45.6
+      },
+      {
+        "player_id": 50739,
+        "name": "B. Aaronson",
+        "position": "Midfielder",
+        "rating": 56.4
+      },
+      {
+        "player_id": 73868,
+        "name": "R. Pepi",
+        "position": "Attacker",
+        "rating": 58.2
+      },
+      {
+        "player_id": 1138,
+        "name": "T. Weah",
+        "position": "Attacker",
+        "rating": 42.4
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 50728,
+        "name": "M. Freese",
+        "position": "Goalkeeper",
+        "rating": 33.9
+      },
+      {
+        "player_id": 266606,
+        "name": "C. Brady",
+        "position": "Goalkeeper",
+        "rating": 32.4
+      },
+      {
+        "player_id": 19023,
+        "name": "T. Ream",
+        "position": "Defender",
+        "rating": 34.4
+      },
+      {
+        "player_id": 1150,
+        "name": "T. Adams",
+        "position": "Midfielder",
+        "rating": 51.4
+      },
+      {
+        "player_id": 19549,
+        "name": "A. Robinson",
+        "position": "Defender",
+        "rating": 52.8
+      },
+      {
+        "player_id": 138835,
+        "name": "F. Balogun",
+        "position": "Attacker",
+        "rating": 57.1
+      },
+      {
+        "player_id": 427,
+        "name": "H. Wright",
+        "position": "Attacker",
+        "rating": 53.0
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-07T01:30:00+00:00",
+    "venue": "Round of 16",
+    "home_id": 1118,
+    "away_id": 2384,
+    "home_name": "Netherlands",
+    "away_name": "USA",
+    "lambda_home": 1.735,
+    "lambda_away": 1.292,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4779,
+    "p_draw": 0.2367,
+    "p_away": 0.2854,
+    "rationale": "Eff 66.8 vs 56.7 -> supremacy +0.63; xG 1.74-1.29; adj -1.0/+0.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": 0.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11000199325141663
+    ],
+    [
+      2,
+      1,
+      0.09390264133644825
+    ],
+    [
+      1,
+      0,
+      0.0848618686558393
+    ]
+  ]
+}

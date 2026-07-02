@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-18T01:30:00+00:00",
+  "venue": "Final",
+  "home": {
+    "team_id": 2,
+    "name": "France",
+    "coach_name": "D. Deschamps",
+    "coach_record": [
+      11,
+      1,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 22221,
+        "name": "M. Maignan",
+        "position": "Goalkeeper",
+        "rating": 45.5
+      },
+      {
+        "player_id": 1257,
+        "name": "J. Kound\u00e9",
+        "position": "Defender",
+        "rating": 62.2
+      },
+      {
+        "player_id": 1149,
+        "name": "D. Upamecano",
+        "position": "Defender",
+        "rating": 66.1
+      },
+      {
+        "player_id": 20995,
+        "name": "M. Lacroix",
+        "position": "Defender",
+        "rating": 65.7
+      },
+      {
+        "player_id": 47300,
+        "name": "T. Hern\u00e1ndez",
+        "position": "Defender",
+        "rating": 61.7
+      },
+      {
+        "player_id": 1271,
+        "name": "A. Tchouam\u00e9ni",
+        "position": "Midfielder",
+        "rating": 52.4
+      },
+      {
+        "player_id": 22147,
+        "name": "M. Kon\u00e9",
+        "position": "Midfielder",
+        "rating": 44.2
+      },
+      {
+        "player_id": 153,
+        "name": "O. Demb\u00e9l\u00e9",
+        "position": "Midfielder",
+        "rating": 74.8
+      },
+      {
+        "player_id": 19617,
+        "name": "M. Olise",
+        "position": "Midfielder",
+        "rating": 86.7
+      },
+      {
+        "player_id": 343027,
+        "name": "D. Dou\u00e9",
+        "position": "Midfielder",
+        "rating": 71.4
+      },
+      {
+        "player_id": 278,
+        "name": "Kylian Mbapp\u00e9",
+        "position": "Attacker",
+        "rating": 75.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 21628,
+        "name": "B. Samba",
+        "position": "Goalkeeper",
+        "rating": 39.2
+      },
+      {
+        "player_id": 347211,
+        "name": "R. Risser",
+        "position": "Goalkeeper",
+        "rating": 42.2
+      },
+      {
+        "player_id": 1145,
+        "name": "I. Konat\u00e9",
+        "position": "Defender",
+        "rating": 63.4
+      },
+      {
+        "player_id": 22090,
+        "name": "W. Saliba",
+        "position": "Defender",
+        "rating": 62.5
+      },
+      {
+        "player_id": 161907,
+        "name": "M. Gusto",
+        "position": "Defender",
+        "rating": 62.1
+      },
+      {
+        "player_id": 274300,
+        "name": "M. Akliouche",
+        "position": "Midfielder",
+        "rating": 60.5
+      },
+      {
+        "player_id": 336657,
+        "name": "W. Za\u00efre-Emery",
+        "position": "Midfielder",
+        "rating": 52.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 10,
+    "name": "England",
+    "coach_name": "T. Tuchel",
+    "coach_record": [
+      12,
+      1,
+      2
+    ],
+    "formation": "4-1-4-1",
+    "starters": [
+      {
+        "player_id": 2932,
+        "name": "J. Pickford",
+        "position": "Goalkeeper",
+        "rating": 49.7
+      },
+      {
+        "player_id": 158698,
+        "name": "J. Quansah",
+        "position": "Defender",
+        "rating": 65.1
+      },
+      {
+        "player_id": 19354,
+        "name": "E. Konsa",
+        "position": "Defender",
+        "rating": 64.4
+      },
+      {
+        "player_id": 67971,
+        "name": "M. Gu\u00e9hi",
+        "position": "Defender",
+        "rating": 77.1
+      },
+      {
+        "player_id": 307123,
+        "name": "N. Oreilly",
+        "position": "Defender",
+        "rating": 76.4
+      },
+      {
+        "player_id": 138908,
+        "name": "E. Anderson",
+        "position": "Midfielder",
+        "rating": 66.4
+      },
+      {
+        "player_id": 1460,
+        "name": "B. Saka",
+        "position": "Attacker",
+        "rating": 73.7
+      },
+      {
+        "player_id": 19170,
+        "name": "M. Rogers",
+        "position": "Midfielder",
+        "rating": 72.8
+      },
+      {
+        "player_id": 129718,
+        "name": "J. Bellingham",
+        "position": "Midfielder",
+        "rating": 69.0
+      },
+      {
+        "player_id": 909,
+        "name": "M. Rashford",
+        "position": "Midfielder",
+        "rating": 68.0
+      },
+      {
+        "player_id": 184,
+        "name": "H. Kane",
+        "position": "Attacker",
+        "rating": 87.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19235,
+        "name": "D. Spence",
+        "position": "Defender",
+        "rating": 43.7
+      },
+      {
+        "player_id": 136723,
+        "name": "N. Madueke",
+        "position": "Midfielder",
+        "rating": 76.8
+      },
+      {
+        "player_id": 19586,
+        "name": "E. Eze",
+        "position": "Midfielder",
+        "rating": 77.5
+      },
+      {
+        "player_id": 292,
+        "name": "J. Henderson",
+        "position": "Midfielder",
+        "rating": 48.0
+      },
+      {
+        "player_id": 19366,
+        "name": "O. Watkins",
+        "position": "Midfielder",
+        "rating": 70.9
+      },
+      {
+        "player_id": 19088,
+        "name": "D. Henderson",
+        "position": "Goalkeeper",
+        "rating": 50.3
+      },
+      {
+        "player_id": 162489,
+        "name": "J. Trafford",
+        "position": "Goalkeeper",
+        "rating": 59.8
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-18T01:30:00+00:00",
+    "venue": "Final",
+    "home_id": 2,
+    "away_id": 10,
+    "home_name": "France",
+    "away_name": "England",
+    "lambda_home": 1.472,
+    "lambda_away": 1.355,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4002,
+    "p_draw": 0.2524,
+    "p_away": 0.3474,
+    "rationale": "Eff 70.8 vs 71.2 -> supremacy -0.03; xG 1.47-1.35; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1195997758048548
+    ],
+    [
+      1,
+      0,
+      0.08788117908513533
+    ],
+    [
+      2,
+      1,
+      0.08649019241106073
+    ]
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-07T01:30:00+00:00",
+  "venue": "Round of 16",
+  "home": {
+    "team_id": 10,
+    "name": "England",
+    "coach_name": "T. Tuchel",
+    "coach_record": [
+      12,
+      1,
+      2
+    ],
+    "formation": "4-1-4-1",
+    "starters": [
+      {
+        "player_id": 2932,
+        "name": "J. Pickford",
+        "position": "Goalkeeper",
+        "rating": 49.7
+      },
+      {
+        "player_id": 158698,
+        "name": "J. Quansah",
+        "position": "Defender",
+        "rating": 65.1
+      },
+      {
+        "player_id": 19354,
+        "name": "E. Konsa",
+        "position": "Defender",
+        "rating": 64.4
+      },
+      {
+        "player_id": 67971,
+        "name": "M. Gu\u00e9hi",
+        "position": "Defender",
+        "rating": 77.1
+      },
+      {
+        "player_id": 307123,
+        "name": "N. Oreilly",
+        "position": "Defender",
+        "rating": 76.4
+      },
+      {
+        "player_id": 138908,
+        "name": "E. Anderson",
+        "position": "Midfielder",
+        "rating": 66.4
+      },
+      {
+        "player_id": 1460,
+        "name": "B. Saka",
+        "position": "Attacker",
+        "rating": 73.7
+      },
+      {
+        "player_id": 19170,
+        "name": "M. Rogers",
+        "position": "Midfielder",
+        "rating": 72.8
+      },
+      {
+        "player_id": 129718,
+        "name": "J. Bellingham",
+        "position": "Midfielder",
+        "rating": 69.0
+      },
+      {
+        "player_id": 909,
+        "name": "M. Rashford",
+        "position": "Midfielder",
+        "rating": 68.0
+      },
+      {
+        "player_id": 184,
+        "name": "H. Kane",
+        "position": "Attacker",
+        "rating": 87.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19235,
+        "name": "D. Spence",
+        "position": "Defender",
+        "rating": 43.7
+      },
+      {
+        "player_id": 136723,
+        "name": "N. Madueke",
+        "position": "Midfielder",
+        "rating": 76.8
+      },
+      {
+        "player_id": 19586,
+        "name": "E. Eze",
+        "position": "Midfielder",
+        "rating": 77.5
+      },
+      {
+        "player_id": 292,
+        "name": "J. Henderson",
+        "position": "Midfielder",
+        "rating": 48.0
+      },
+      {
+        "player_id": 19366,
+        "name": "O. Watkins",
+        "position": "Midfielder",
+        "rating": 70.9
+      },
+      {
+        "player_id": 19088,
+        "name": "D. Henderson",
+        "position": "Goalkeeper",
+        "rating": 50.3
+      },
+      {
+        "player_id": 162489,
+        "name": "J. Trafford",
+        "position": "Goalkeeper",
+        "rating": 59.8
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 1,
+    "name": "Belgium",
+    "coach_name": "R. Garcia",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 730,
+        "name": "T. Courtois",
+        "position": "Goalkeeper",
+        "rating": 46.8
+      },
+      {
+        "player_id": 2920,
+        "name": "T. Castagne",
+        "position": "Defender",
+        "rating": 46.6
+      },
+      {
+        "player_id": 69,
+        "name": "B. Mechele",
+        "position": "Defender",
+        "rating": 59.1
+      },
+      {
+        "player_id": 204043,
+        "name": "A. Theate",
+        "position": "Defender",
+        "rating": 46.6
+      },
+      {
+        "player_id": 162007,
+        "name": "M. De Cuyper",
+        "position": "Defender",
+        "rating": 58.8
+      },
+      {
+        "player_id": 2926,
+        "name": "Y. Tielemans",
+        "position": "Midfielder",
+        "rating": 61.1
+      },
+      {
+        "player_id": 78,
+        "name": "H. Vanaken",
+        "position": "Midfielder",
+        "rating": 62.4
+      },
+      {
+        "player_id": 1422,
+        "name": "J. Doku",
+        "position": "Midfielder",
+        "rating": 85.0
+      },
+      {
+        "player_id": 629,
+        "name": "K. De Bruyne",
+        "position": "Midfielder",
+        "rating": 52.4
+      },
+      {
+        "player_id": 1946,
+        "name": "L. Trossard",
+        "position": "Midfielder",
+        "rating": 77.1
+      },
+      {
+        "player_id": 147859,
+        "name": "C. De Ketelaere",
+        "position": "Attacker",
+        "rating": 49.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 340077,
+        "name": "M. Fernandez-Pardo",
+        "position": "Attacker",
+        "rating": 50.6
+      },
+      {
+        "player_id": 162714,
+        "name": "A. Onana",
+        "position": "Midfielder",
+        "rating": 58.9
+      },
+      {
+        "player_id": 1417,
+        "name": "A. Saelemaekers",
+        "position": "Attacker",
+        "rating": 48.8
+      },
+      {
+        "player_id": 2120,
+        "name": "N. Raskin",
+        "position": "Midfielder",
+        "rating": 47.5
+      },
+      {
+        "player_id": 907,
+        "name": "R. Lukaku",
+        "position": "Attacker",
+        "rating": 34.4
+      },
+      {
+        "player_id": 162511,
+        "name": "S. Lammens",
+        "position": "Goalkeeper",
+        "rating": 54.2
+      },
+      {
+        "player_id": 340151,
+        "name": "M. Penders",
+        "position": "Goalkeeper",
+        "rating": 43.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-07T01:30:00+00:00",
+    "venue": "Round of 16",
+    "home_id": 10,
+    "away_id": 1,
+    "home_name": "England",
+    "away_name": "Belgium",
+    "lambda_home": 1.519,
+    "lambda_away": 1.174,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4513,
+    "p_draw": 0.2556,
+    "p_away": 0.2931,
+    "rationale": "Eff 71.2 vs 62.0 -> supremacy +0.57; xG 1.52-1.17; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12220908069576378
+    ],
+    [
+      1,
+      0,
+      0.10380525769692459
+    ],
+    [
+      2,
+      1,
+      0.09117628591236858
+    ]
+  ]
+}

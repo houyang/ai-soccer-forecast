@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1567310,
+  "group": "Knockout",
+  "kickoff": "2026-07-04T01:30:00+00:00",
+  "venue": "Arrowhead Stadium",
+  "home": {
+    "team_id": 8,
+    "name": "Colombia",
+    "coach_name": "N.  Lorenzo",
+    "coach_record": [
+      7,
+      4,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 2482,
+        "name": "C. Vargas",
+        "position": "Goalkeeper",
+        "rating": 31.2
+      },
+      {
+        "player_id": 30,
+        "name": "S. Arias",
+        "position": "Defender",
+        "rating": 37.9
+      },
+      {
+        "player_id": 168,
+        "name": "D. S\u00e1nchez",
+        "position": "Defender",
+        "rating": 45.7
+      },
+      {
+        "player_id": 1929,
+        "name": "J. Lucum\u00ed",
+        "position": "Defender",
+        "rating": 49.4
+      },
+      {
+        "player_id": 2483,
+        "name": "D. Machado",
+        "position": "Defender",
+        "rating": 30.7
+      },
+      {
+        "player_id": 13708,
+        "name": "J. Arias",
+        "position": "Midfielder",
+        "rating": 65.9
+      },
+      {
+        "player_id": 2490,
+        "name": "J. Lerma",
+        "position": "Midfielder",
+        "rating": 53.9
+      },
+      {
+        "player_id": 324034,
+        "name": "G. Puerta",
+        "position": "Midfielder",
+        "rating": 40.6
+      },
+      {
+        "player_id": 517,
+        "name": "J. Rodr\u00edguez",
+        "position": "Midfielder",
+        "rating": 47.7
+      },
+      {
+        "player_id": 24810,
+        "name": "J. C\u00f3rdoba",
+        "position": "Attacker",
+        "rating": 56.4
+      },
+      {
+        "player_id": 2489,
+        "name": "L. D\u00edaz",
+        "position": "Midfielder",
+        "rating": 80.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 195104,
+        "name": "R. Rios",
+        "position": "Midfielder",
+        "rating": 57.9
+      },
+      {
+        "player_id": 47237,
+        "name": "L. Su\u00e1rez",
+        "position": "Attacker",
+        "rating": 60.4
+      },
+      {
+        "player_id": 6005,
+        "name": "J. Quintero",
+        "position": "Midfielder",
+        "rating": 40.4
+      },
+      {
+        "player_id": 289592,
+        "name": "K. Casta\u00f1o",
+        "position": "Midfielder",
+        "rating": 32.0
+      },
+      {
+        "player_id": 13736,
+        "name": "D. Mu\u00f1oz",
+        "position": "Defender",
+        "rating": 70.7
+      },
+      {
+        "player_id": 313,
+        "name": "D. Ospina",
+        "position": "Goalkeeper",
+        "rating": 26.3
+      },
+      {
+        "player_id": 2481,
+        "name": "\u00c1. Montero",
+        "position": "Goalkeeper",
+        "rating": 29.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 1504,
+    "name": "Ghana",
+    "coach_name": "Carlos Queiroz",
+    "coach_record": [
+      6,
+      2,
+      7
+    ],
+    "formation": "4-1-4-1",
+    "starters": [
+      {
+        "player_id": 480108,
+        "name": "B. Asare",
+        "position": "Goalkeeper",
+        "rating": 43.0
+      },
+      {
+        "player_id": 191240,
+        "name": "M. Senaya",
+        "position": "Defender",
+        "rating": 40.8
+      },
+      {
+        "player_id": 369425,
+        "name": "J. Adjetey",
+        "position": "Defender",
+        "rating": 31.5
+      },
+      {
+        "player_id": 25341,
+        "name": "D. Luckassen",
+        "position": "Defender",
+        "rating": 31.2
+      },
+      {
+        "player_id": 7578,
+        "name": "G. Mensah",
+        "position": "Defender",
+        "rating": 35.9
+      },
+      {
+        "player_id": 49,
+        "name": "T. Partey",
+        "position": "Midfielder",
+        "rating": 38.6
+      },
+      {
+        "player_id": 19281,
+        "name": "A. Semenyo",
+        "position": "Attacker",
+        "rating": 68.7
+      },
+      {
+        "player_id": 21010,
+        "name": "E. Owusu",
+        "position": "Midfielder",
+        "rating": 34.8
+      },
+      {
+        "player_id": 3608,
+        "name": "K. Sibo",
+        "position": "Midfielder",
+        "rating": 31.1
+      },
+      {
+        "player_id": 199837,
+        "name": "K. Sulemana",
+        "position": "Attacker",
+        "rating": 38.6
+      },
+      {
+        "player_id": 3428,
+        "name": "J. Ayew",
+        "position": "Attacker",
+        "rating": 33.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 404172,
+        "name": "K. Peprah Oppong",
+        "position": "Defender",
+        "rating": 42.3
+      },
+      {
+        "player_id": 303467,
+        "name": "A. Fatawu",
+        "position": "Midfielder",
+        "rating": 50.5
+      },
+      {
+        "player_id": 82090,
+        "name": "B. Thomas-Asante",
+        "position": "Attacker",
+        "rating": 47.0
+      },
+      {
+        "player_id": 350856,
+        "name": "E. Nuamah",
+        "position": "Attacker",
+        "rating": 39.0
+      },
+      {
+        "player_id": 475575,
+        "name": "Caleb Marfo Yirenkyi",
+        "position": "Midfielder",
+        "rating": 31.8
+      },
+      {
+        "player_id": 3412,
+        "name": "L. Zigi",
+        "position": "Goalkeeper",
+        "rating": 30.6
+      },
+      {
+        "player_id": 144709,
+        "name": "J. Anang",
+        "position": "Goalkeeper",
+        "rating": 24.3
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1567310,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-04T01:30:00+00:00",
+    "venue": "Arrowhead Stadium",
+    "home_id": 8,
+    "away_id": 1504,
+    "home_name": "Colombia",
+    "away_name": "Ghana",
+    "lambda_home": 1.49,
+    "lambda_away": 0.97,
+    "score_home": 1,
+    "score_away": 0,
+    "p_home": 0.4918,
+    "p_draw": 0.2629,
+    "p_away": 0.2452,
+    "rationale": "Eff 54.8 vs 43.4 -> supremacy +0.70; xG 1.49-0.97; adj -0.5/-1.5.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -1.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      0,
+      0.12887631773349636
+    ],
+    [
+      1,
+      1,
+      0.12490150234643842
+    ],
+    [
+      2,
+      0,
+      0.09423196310268897
+    ]
+  ]
+}

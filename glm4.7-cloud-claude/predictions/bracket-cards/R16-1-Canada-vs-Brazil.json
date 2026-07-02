@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-07T01:30:00+00:00",
+  "venue": "Round of 16",
+  "home": {
+    "team_id": 5529,
+    "name": "Canada",
+    "coach_name": "J. Marsch",
+    "coach_record": [
+      7,
+      7,
+      1
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 51274,
+        "name": "M. Cr\u00e9peau",
+        "position": "Goalkeeper",
+        "rating": 32.8
+      },
+      {
+        "player_id": 78547,
+        "name": "A. Johnston",
+        "position": "Defender",
+        "rating": 39.9
+      },
+      {
+        "player_id": 327738,
+        "name": "L. De Fougerolles",
+        "position": "Defender",
+        "rating": 26.5
+      },
+      {
+        "player_id": 51295,
+        "name": "D. Cornelius",
+        "position": "Defender",
+        "rating": 42.1
+      },
+      {
+        "player_id": 50816,
+        "name": "R. Laryea",
+        "position": "Defender",
+        "rating": 37.2
+      },
+      {
+        "player_id": 51016,
+        "name": "T. Buchanan",
+        "position": "Midfielder",
+        "rating": 60.2
+      },
+      {
+        "player_id": 294824,
+        "name": "N. Saliba",
+        "position": "Midfielder",
+        "rating": 44.6
+      },
+      {
+        "player_id": 50788,
+        "name": "M. Choini\u00e8re",
+        "position": "Midfielder",
+        "rating": 35.8
+      },
+      {
+        "player_id": 362145,
+        "name": "A. Ahmed",
+        "position": "Midfielder",
+        "rating": 51.9
+      },
+      {
+        "player_id": 8489,
+        "name": "J. David",
+        "position": "Attacker",
+        "rating": 47.1
+      },
+      {
+        "player_id": 2001,
+        "name": "C. Larin",
+        "position": "Attacker",
+        "rating": 39.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 51148,
+        "name": "D. St. Clair",
+        "position": "Goalkeeper",
+        "rating": 35.6
+      },
+      {
+        "player_id": 284554,
+        "name": "O. Goodman",
+        "position": "Goalkeeper",
+        "rating": 22.1
+      },
+      {
+        "player_id": 78494,
+        "name": "J. Waterman",
+        "position": "Defender",
+        "rating": 38.1
+      },
+      {
+        "player_id": 509,
+        "name": "A. Davies",
+        "position": "Defender",
+        "rating": 57.8
+      },
+      {
+        "player_id": 35570,
+        "name": "S. Eust\u00e1quio",
+        "position": "Midfielder",
+        "rating": 31.9
+      },
+      {
+        "player_id": 50826,
+        "name": "J. Shaffelburg",
+        "position": "Midfielder",
+        "rating": 37.8
+      },
+      {
+        "player_id": 193279,
+        "name": "#193279",
+        "position": "?",
+        "rating": 50.0
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 6,
+    "name": "Brazil",
+    "coach_name": "C. Ancelotti",
+    "coach_record": [
+      8,
+      3,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 280,
+        "name": "Alisson Becker",
+        "position": "Goalkeeper",
+        "rating": 51.5
+      },
+      {
+        "player_id": 618,
+        "name": "Danilo",
+        "position": "Defender",
+        "rating": 57.9
+      },
+      {
+        "player_id": 257,
+        "name": "Marquinhos",
+        "position": "Defender",
+        "rating": 65.8
+      },
+      {
+        "player_id": 22224,
+        "name": "Gabriel Magalh\u00e3es",
+        "position": "Defender",
+        "rating": 81.8
+      },
+      {
+        "player_id": 24866,
+        "name": "Douglas Santos",
+        "position": "Defender",
+        "rating": 42.5
+      },
+      {
+        "player_id": 10135,
+        "name": "Bruno Guimar\u00e3es",
+        "position": "Midfielder",
+        "rating": 75.6
+      },
+      {
+        "player_id": 747,
+        "name": "Casemiro",
+        "position": "Midfielder",
+        "rating": 77.4
+      },
+      {
+        "player_id": 1646,
+        "name": "Lucas Paquet\u00e1",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 407806,
+        "name": "Rayan",
+        "position": "Attacker",
+        "rating": 55.7
+      },
+      {
+        "player_id": 1165,
+        "name": "Matheus Cunha",
+        "position": "Attacker",
+        "rating": 66.5
+      },
+      {
+        "player_id": 762,
+        "name": "Vin\u00edcius J\u00fanior",
+        "position": "Attacker",
+        "rating": 71.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 617,
+        "name": "Ederson",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 2410,
+        "name": "Weverton",
+        "position": "Goalkeeper",
+        "rating": 38.2
+      },
+      {
+        "player_id": 276,
+        "name": "Neymar",
+        "position": "Attacker",
+        "rating": 50.9
+      },
+      {
+        "player_id": 860,
+        "name": "Alex Sandro",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 10124,
+        "name": "L\u00e9o Pereira",
+        "position": "Defender",
+        "rating": 58.3
+      },
+      {
+        "player_id": 30424,
+        "name": "Iba\u00f1ez",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 127769,
+        "name": "Gabriel Martinelli",
+        "position": "Attacker",
+        "rating": 71.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-07T01:30:00+00:00",
+    "venue": "Round of 16",
+    "home_id": 5529,
+    "away_id": 6,
+    "home_name": "Canada",
+    "away_name": "Brazil",
+    "lambda_home": 1.175,
+    "lambda_away": 1.619,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.2763,
+    "p_draw": 0.2475,
+    "p_away": 0.4761,
+    "rationale": "Eff 57.1 vs 68.1 -> supremacy -0.68; xG 1.17-1.62; adj +4.0/-0.5.",
+    "home_adjustment": 4.0,
+    "away_adjustment": -0.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11786066164252396
+    ],
+    [
+      0,
+      1,
+      0.10009297915263403
+    ],
+    [
+      1,
+      2,
+      0.09376084931420405
+    ]
+  ]
+}

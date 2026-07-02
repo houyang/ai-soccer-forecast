@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-07T01:30:00+00:00",
+  "venue": "Round of 16",
+  "home": {
+    "team_id": 1501,
+    "name": "Ivory Coast",
+    "coach_name": "I. Kamara",
+    "coach_record": [
+      11,
+      2,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 64190,
+        "name": "Y. Fofana",
+        "position": "Goalkeeper",
+        "rating": 25.0
+      },
+      {
+        "player_id": 161747,
+        "name": "G. Dou\u00e9",
+        "position": "Defender",
+        "rating": 55.6
+      },
+      {
+        "player_id": 48119,
+        "name": "O. Kossounou",
+        "position": "Defender",
+        "rating": 40.9
+      },
+      {
+        "player_id": 354753,
+        "name": "O. Diomande",
+        "position": "Defender",
+        "rating": 40.9
+      },
+      {
+        "player_id": 20836,
+        "name": "C. Operi",
+        "position": "Defender",
+        "rating": 41.1
+      },
+      {
+        "player_id": 22149,
+        "name": "I. Sangar\u00e9",
+        "position": "Midfielder",
+        "rating": 52.9
+      },
+      {
+        "player_id": 1642,
+        "name": "F. Kessi\u00e9",
+        "position": "Midfielder",
+        "rating": 58.1
+      },
+      {
+        "player_id": 157997,
+        "name": "A. Diallo",
+        "position": "Attacker",
+        "rating": 59.2
+      },
+      {
+        "player_id": 3246,
+        "name": "N. P\u00e9p\u00e9",
+        "position": "Attacker",
+        "rating": 55.2
+      },
+      {
+        "player_id": 513776,
+        "name": "Y. Diomande",
+        "position": "Midfielder",
+        "rating": 77.1
+      },
+      {
+        "player_id": 275651,
+        "name": "A. Bonny",
+        "position": "Attacker",
+        "rating": 46.4
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 277046,
+        "name": "M. Kon\u00e9",
+        "position": "Goalkeeper",
+        "rating": 34.9
+      },
+      {
+        "player_id": 30393,
+        "name": "A. Lafont",
+        "position": "Goalkeeper",
+        "rating": 24.7
+      },
+      {
+        "player_id": 3243,
+        "name": "J. Seri",
+        "position": "Midfielder",
+        "rating": 24.4
+      },
+      {
+        "player_id": 1807,
+        "name": "E. Ndicka",
+        "position": "Defender",
+        "rating": 58.7
+      },
+      {
+        "player_id": 30504,
+        "name": "W. Singo",
+        "position": "Defender",
+        "rating": 42.8
+      },
+      {
+        "player_id": 135068,
+        "name": "E. Agbadou",
+        "position": "Defender",
+        "rating": 59.4
+      },
+      {
+        "player_id": 387643,
+        "name": "B. Tour\u00e9",
+        "position": "Attacker",
+        "rating": 54.3
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 25,
+    "name": "Germany",
+    "coach_name": "J. L\u00f6w",
+    "coach_record": [
+      10,
+      2,
+      3
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 497,
+        "name": "M. Neuer",
+        "position": "Goalkeeper",
+        "rating": 54.7
+      },
+      {
+        "player_id": 502,
+        "name": "J. Kimmich",
+        "position": "Defender",
+        "rating": 80.5
+      },
+      {
+        "player_id": 972,
+        "name": "J. Tah",
+        "position": "Defender",
+        "rating": 71.2
+      },
+      {
+        "player_id": 2285,
+        "name": "A. R\u00fcdiger",
+        "position": "Defender",
+        "rating": 46.8
+      },
+      {
+        "player_id": 644,
+        "name": "L. San\u00e9",
+        "position": "Midfielder",
+        "rating": 51.2
+      },
+      {
+        "player_id": 637,
+        "name": "F. Nmecha",
+        "position": "Midfielder",
+        "rating": 65.4
+      },
+      {
+        "player_id": 328033,
+        "name": "A. Pavlovic",
+        "position": "Midfielder",
+        "rating": 65.7
+      },
+      {
+        "player_id": 25158,
+        "name": "D. Raum",
+        "position": "Defender",
+        "rating": 67.8
+      },
+      {
+        "player_id": 181812,
+        "name": "J. Musiala",
+        "position": "Midfielder",
+        "rating": 61.3
+      },
+      {
+        "player_id": 203224,
+        "name": "F. Wirtz",
+        "position": "Midfielder",
+        "rating": 67.6
+      },
+      {
+        "player_id": 978,
+        "name": "K. Havertz",
+        "position": "Attacker",
+        "rating": 62.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 702,
+        "name": "O. Baumann",
+        "position": "Goalkeeper",
+        "rating": 45.1
+      },
+      {
+        "player_id": 399,
+        "name": "A. N\u00fcbel",
+        "position": "Goalkeeper",
+        "rating": 47.7
+      },
+      {
+        "player_id": 18970,
+        "name": "P. Gro\u00df",
+        "position": "Midfielder",
+        "rating": 52.5
+      },
+      {
+        "player_id": 511,
+        "name": "L. Goretzka",
+        "position": "Midfielder",
+        "rating": 67.5
+      },
+      {
+        "player_id": 714,
+        "name": "N. Amiri",
+        "position": "Midfielder",
+        "rating": 71.3
+      },
+      {
+        "player_id": 158644,
+        "name": "M. Beier",
+        "position": "Attacker",
+        "rating": 62.2
+      },
+      {
+        "player_id": 163189,
+        "name": "M. Thiaw",
+        "position": "Defender",
+        "rating": 70.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-07T01:30:00+00:00",
+    "venue": "Round of 16",
+    "home_id": 1501,
+    "away_id": 25,
+    "home_name": "Ivory Coast",
+    "away_name": "Germany",
+    "lambda_home": 1.09,
+    "lambda_away": 1.737,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.2374,
+    "p_draw": 0.2382,
+    "p_away": 0.5243,
+    "rationale": "Eff 54.3 vs 68.1 -> supremacy -0.86; xG 1.09-1.74; adj -1.5/-1.0.",
+    "home_adjustment": -1.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11344698839468294
+    ],
+    [
+      0,
+      1,
+      0.10395066681316972
+    ],
+    [
+      1,
+      2,
+      0.09688853711613936
+    ]
+  ]
+}

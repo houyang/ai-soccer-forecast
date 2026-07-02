@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1564789,
+  "group": "Knockout",
+  "kickoff": "2026-06-30T17:00:00+00:00",
+  "venue": "",
+  "home": {
+    "team_id": 1501,
+    "name": "Ivory Coast",
+    "coach_name": "I. Kamara",
+    "coach_record": [
+      11,
+      2,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 64190,
+        "name": "Y. Fofana",
+        "position": "Goalkeeper",
+        "rating": 25.0
+      },
+      {
+        "player_id": 161747,
+        "name": "G. Dou\u00e9",
+        "position": "Defender",
+        "rating": 55.6
+      },
+      {
+        "player_id": 48119,
+        "name": "O. Kossounou",
+        "position": "Defender",
+        "rating": 40.9
+      },
+      {
+        "player_id": 354753,
+        "name": "O. Diomande",
+        "position": "Defender",
+        "rating": 40.9
+      },
+      {
+        "player_id": 20836,
+        "name": "C. Operi",
+        "position": "Defender",
+        "rating": 41.1
+      },
+      {
+        "player_id": 22149,
+        "name": "I. Sangar\u00e9",
+        "position": "Midfielder",
+        "rating": 52.9
+      },
+      {
+        "player_id": 1642,
+        "name": "F. Kessi\u00e9",
+        "position": "Midfielder",
+        "rating": 58.1
+      },
+      {
+        "player_id": 157997,
+        "name": "A. Diallo",
+        "position": "Attacker",
+        "rating": 59.2
+      },
+      {
+        "player_id": 3246,
+        "name": "N. P\u00e9p\u00e9",
+        "position": "Attacker",
+        "rating": 55.2
+      },
+      {
+        "player_id": 513776,
+        "name": "Y. Diomande",
+        "position": "Midfielder",
+        "rating": 77.1
+      },
+      {
+        "player_id": 275651,
+        "name": "A. Bonny",
+        "position": "Attacker",
+        "rating": 46.4
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 277046,
+        "name": "M. Kon\u00e9",
+        "position": "Goalkeeper",
+        "rating": 34.9
+      },
+      {
+        "player_id": 30393,
+        "name": "A. Lafont",
+        "position": "Goalkeeper",
+        "rating": 24.7
+      },
+      {
+        "player_id": 3243,
+        "name": "J. Seri",
+        "position": "Midfielder",
+        "rating": 24.4
+      },
+      {
+        "player_id": 1807,
+        "name": "E. Ndicka",
+        "position": "Defender",
+        "rating": 58.7
+      },
+      {
+        "player_id": 30504,
+        "name": "W. Singo",
+        "position": "Defender",
+        "rating": 42.8
+      },
+      {
+        "player_id": 135068,
+        "name": "E. Agbadou",
+        "position": "Defender",
+        "rating": 59.4
+      },
+      {
+        "player_id": 387643,
+        "name": "B. Tour\u00e9",
+        "position": "Attacker",
+        "rating": 54.3
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 1090,
+    "name": "Norway",
+    "coach_name": "L. Lagerb\u00e4ck",
+    "coach_record": [
+      11,
+      3,
+      1
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 39082,
+        "name": "E. Selvik",
+        "position": "Goalkeeper",
+        "rating": 31.2
+      },
+      {
+        "player_id": 39043,
+        "name": "F. Aursnes",
+        "position": "Midfielder",
+        "rating": 44.4
+      },
+      {
+        "player_id": 180937,
+        "name": "H. Falchener",
+        "position": "Defender",
+        "rating": 55.9
+      },
+      {
+        "player_id": 18967,
+        "name": "L. \u00d8stig\u00e5rd",
+        "position": "Defender",
+        "rating": 60.0
+      },
+      {
+        "player_id": 39058,
+        "name": "F. Bj\u00f8rkan",
+        "position": "Defender",
+        "rating": 49.0
+      },
+      {
+        "player_id": 39143,
+        "name": "K. Thorstvedt",
+        "position": "Midfielder",
+        "rating": 47.2
+      },
+      {
+        "player_id": 39064,
+        "name": "P. Berg",
+        "position": "Midfielder",
+        "rating": 51.4
+      },
+      {
+        "player_id": 277930,
+        "name": "T. Aasgaard",
+        "position": "Midfielder",
+        "rating": 47.2
+      },
+      {
+        "player_id": 278133,
+        "name": "Oscar Bobb",
+        "position": "Midfielder",
+        "rating": 47.9
+      },
+      {
+        "player_id": 2032,
+        "name": "J. Strand Larsen",
+        "position": "Attacker",
+        "rating": 53.3
+      },
+      {
+        "player_id": 301528,
+        "name": "A. Schjelderup",
+        "position": "Attacker",
+        "rating": 60.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19172,
+        "name": "\u00d8. Nyland",
+        "position": "Goalkeeper",
+        "rating": 40.3
+      },
+      {
+        "player_id": 264378,
+        "name": "S. Tangvik",
+        "position": "Goalkeeper",
+        "rating": 29.3
+      },
+      {
+        "player_id": 8492,
+        "name": "A. S\u00f8rloth",
+        "position": "Attacker",
+        "rating": 61.4
+      },
+      {
+        "player_id": 36980,
+        "name": "M. Thorsby",
+        "position": "Midfielder",
+        "rating": 37.5
+      },
+      {
+        "player_id": 37127,
+        "name": "M. \u00d8degaard",
+        "position": "Midfielder",
+        "rating": 60.0
+      },
+      {
+        "player_id": 1119,
+        "name": "K. Ajer",
+        "position": "Defender",
+        "rating": 44.1
+      },
+      {
+        "player_id": 1934,
+        "name": "S. Berge",
+        "position": "Midfielder",
+        "rating": 48.3
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1564789,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-06-30T17:00:00+00:00",
+    "venue": "",
+    "home_id": 1501,
+    "away_id": 1090,
+    "home_name": "Ivory Coast",
+    "away_name": "Norway",
+    "lambda_home": 1.447,
+    "lambda_away": 1.413,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3819,
+    "p_draw": 0.2511,
+    "p_away": 0.367,
+    "rationale": "Eff 54.3 vs 54.3 -> supremacy -0.00; xG 1.45-1.41; adj -1.5/-1.0.",
+    "home_adjustment": -1.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11861319246523848
+    ],
+    [
+      2,
+      1,
+      0.08431580120731713
+    ],
+    [
+      1,
+      0,
+      0.0835006234663375
+    ]
+  ]
+}

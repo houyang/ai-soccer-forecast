@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1567312,
+  "group": "Knockout",
+  "kickoff": "2026-07-03T03:00:00+00:00",
+  "venue": "BC Place",
+  "home": {
+    "team_id": 15,
+    "name": "Switzerland",
+    "coach_name": "M. Yakin",
+    "coach_record": [
+      8,
+      5,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 25282,
+        "name": "G. Kobel",
+        "position": "Goalkeeper",
+        "rating": 52.2
+      },
+      {
+        "player_id": 349344,
+        "name": "L. Jaquez",
+        "position": "Defender",
+        "rating": 54.6
+      },
+      {
+        "player_id": 2803,
+        "name": "N. Elvedi",
+        "position": "Defender",
+        "rating": 54.6
+      },
+      {
+        "player_id": 5,
+        "name": "M. Akanji",
+        "position": "Defender",
+        "rating": 53.8
+      },
+      {
+        "player_id": 1631,
+        "name": "R. Rodr\u00edguez",
+        "position": "Defender",
+        "rating": 37.2
+      },
+      {
+        "player_id": 2807,
+        "name": "R. Freuler",
+        "position": "Midfielder",
+        "rating": 39.8
+      },
+      {
+        "player_id": 1464,
+        "name": "G. Xhaka",
+        "position": "Midfielder",
+        "rating": 58.3
+      },
+      {
+        "player_id": 957,
+        "name": "D. Sow",
+        "position": "Midfielder",
+        "rating": 46.0
+      },
+      {
+        "player_id": 406244,
+        "name": "J. Manzambi",
+        "position": "Attacker",
+        "rating": 56.6
+      },
+      {
+        "player_id": 48471,
+        "name": "R. Vargas",
+        "position": "Attacker",
+        "rating": 39.5
+      },
+      {
+        "player_id": 421,
+        "name": "B. Embolo",
+        "position": "Attacker",
+        "rating": 52.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 1142,
+        "name": "Y. Mvogo",
+        "position": "Goalkeeper",
+        "rating": 38.6
+      },
+      {
+        "player_id": 123468,
+        "name": "M. Keller",
+        "position": "Goalkeeper",
+        "rating": 31.5
+      },
+      {
+        "player_id": 48378,
+        "name": "S. Widmer",
+        "position": "Defender",
+        "rating": 57.3
+      },
+      {
+        "player_id": 48389,
+        "name": "N. Okafor",
+        "position": "Attacker",
+        "rating": 55.4
+      },
+      {
+        "player_id": 951,
+        "name": "M. Aebischer",
+        "position": "Midfielder",
+        "rating": 36.5
+      },
+      {
+        "player_id": 48372,
+        "name": "E. C\u00f6mert",
+        "position": "Defender",
+        "rating": 44.5
+      },
+      {
+        "player_id": 48497,
+        "name": "C. Itten",
+        "position": "Attacker",
+        "rating": 46.9
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 1532,
+    "name": "Algeria",
+    "coach_name": "V. Petkovi\u0107",
+    "coach_record": [
+      11,
+      3,
+      1
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 4414,
+        "name": "O. Benbot",
+        "position": "Goalkeeper",
+        "rating": 33.0
+      },
+      {
+        "player_id": 303362,
+        "name": "R. Belghali",
+        "position": "Defender",
+        "rating": 39.9
+      },
+      {
+        "player_id": 1567,
+        "name": "A. Mandi",
+        "position": "Defender",
+        "rating": 55.7
+      },
+      {
+        "player_id": 2194,
+        "name": "R. Benseba\u00efni",
+        "position": "Defender",
+        "rating": 73.4
+      },
+      {
+        "player_id": 271539,
+        "name": "J. Hadjam",
+        "position": "Defender",
+        "rating": 39.1
+      },
+      {
+        "player_id": 276670,
+        "name": "F. Cha\u00efbi",
+        "position": "Midfielder",
+        "rating": 50.1
+      },
+      {
+        "player_id": 409,
+        "name": "N. Bentaleb",
+        "position": "Midfielder",
+        "rating": 52.0
+      },
+      {
+        "player_id": 635,
+        "name": "R. Mahrez",
+        "position": "Attacker",
+        "rating": 58.7
+      },
+      {
+        "player_id": 380587,
+        "name": "I. Maza",
+        "position": "Midfielder",
+        "rating": 63.4
+      },
+      {
+        "player_id": 658,
+        "name": "H. Aouar",
+        "position": "Midfielder",
+        "rating": 54.1
+      },
+      {
+        "player_id": 85041,
+        "name": "A. Gouiri",
+        "position": "Attacker",
+        "rating": 59.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 4561,
+        "name": "Z. Bela\u00efd",
+        "position": "Defender",
+        "rating": 39.7
+      },
+      {
+        "player_id": 21138,
+        "name": "R. A\u00eft-Nouri",
+        "position": "Defender",
+        "rating": 57.7
+      },
+      {
+        "player_id": 20869,
+        "name": "S. Chergui",
+        "position": "Defender",
+        "rating": 35.2
+      },
+      {
+        "player_id": 334915,
+        "name": "F. Ghedjemis",
+        "position": "Attacker",
+        "rating": 49.7
+      },
+      {
+        "player_id": 304229,
+        "name": "M. Mastil",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 732,
+        "name": "L. Zidane",
+        "position": "Goalkeeper",
+        "rating": 28.2
+      },
+      {
+        "player_id": 342740,
+        "name": "A. Abada",
+        "position": "Defender",
+        "rating": 29.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1567312,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-03T03:00:00+00:00",
+    "venue": "BC Place",
+    "home_id": 15,
+    "away_id": 1532,
+    "home_name": "Switzerland",
+    "away_name": "Algeria",
+    "lambda_home": 1.628,
+    "lambda_away": 1.266,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4579,
+    "p_draw": 0.245,
+    "p_away": 0.2971,
+    "rationale": "Eff 56.1 vs 51.7 -> supremacy +0.27; xG 1.63-1.27; adj -1.0/-1.5.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11556439116162628
+    ],
+    [
+      2,
+      1,
+      0.09247085640832099
+    ],
+    [
+      1,
+      0,
+      0.09098898197946709
+    ]
+  ]
+}

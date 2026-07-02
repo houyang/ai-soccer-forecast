@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-07T01:30:00+00:00",
+  "venue": "Round of 16",
+  "home": {
+    "team_id": 26,
+    "name": "Argentina",
+    "coach_name": "L. Scaloni",
+    "coach_record": [
+      11,
+      1,
+      1
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 19599,
+        "name": "E. Mart\u00ednez",
+        "position": "Goalkeeper",
+        "rating": 53.8
+      },
+      {
+        "player_id": 6002,
+        "name": "E. Palacios",
+        "position": "Midfielder",
+        "rating": 49.4
+      },
+      {
+        "player_id": 624,
+        "name": "N. Otamendi",
+        "position": "Defender",
+        "rating": 60.9
+      },
+      {
+        "player_id": 6610,
+        "name": "#6610",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 529,
+        "name": "N. Tagliafico",
+        "position": "Defender",
+        "rating": 37.7
+      },
+      {
+        "player_id": 323935,
+        "name": "G. Simeone",
+        "position": "Midfielder",
+        "rating": 57.7
+      },
+      {
+        "player_id": 350037,
+        "name": "N. Paz",
+        "position": "Attacker",
+        "rating": 55.3
+      },
+      {
+        "player_id": 271,
+        "name": "L. Paredes",
+        "position": "Midfielder",
+        "rating": 45.7
+      },
+      {
+        "player_id": 1578,
+        "name": "G. Lo Celso",
+        "position": "Midfielder",
+        "rating": 50.7
+      },
+      {
+        "player_id": 217,
+        "name": "Lautaro Mart\u00ednez",
+        "position": "Attacker",
+        "rating": 65.1
+      },
+      {
+        "player_id": 6009,
+        "name": "J. \u00c1lvarez",
+        "position": "Attacker",
+        "rating": 67.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 6067,
+        "name": "T. Almada",
+        "position": "Midfielder",
+        "rating": 50.9
+      },
+      {
+        "player_id": 154,
+        "name": "L. Messi",
+        "position": "Attacker",
+        "rating": 69.3
+      },
+      {
+        "player_id": 6716,
+        "name": "A. Mac Allister",
+        "position": "Midfielder",
+        "rating": 66.0
+      },
+      {
+        "player_id": 319572,
+        "name": "V. Barco",
+        "position": "Midfielder",
+        "rating": 53.6
+      },
+      {
+        "player_id": 295513,
+        "name": "J. L\u00f3pez",
+        "position": "Attacker",
+        "rating": 61.1
+      },
+      {
+        "player_id": 47296,
+        "name": "G. Rulli",
+        "position": "Goalkeeper",
+        "rating": 44.5
+      },
+      {
+        "player_id": 2465,
+        "name": "J. Musso",
+        "position": "Goalkeeper",
+        "rating": 51.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 16,
+    "name": "Mexico",
+    "coach_name": "J. Aguirre",
+    "coach_record": [
+      6,
+      6,
+      2
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 270774,
+        "name": "J. Rangel",
+        "position": "Goalkeeper",
+        "rating": 33.0
+      },
+      {
+        "player_id": 2878,
+        "name": "J. S\u00e1nchez",
+        "position": "Defender",
+        "rating": 39.9
+      },
+      {
+        "player_id": 2873,
+        "name": "C. Montes",
+        "position": "Defender",
+        "rating": 56.6
+      },
+      {
+        "player_id": 127227,
+        "name": "I. Reyes",
+        "position": "Defender",
+        "rating": 36.4
+      },
+      {
+        "player_id": 390002,
+        "name": "M. Ch\u00e1vez",
+        "position": "Defender",
+        "rating": 33.4
+      },
+      {
+        "player_id": 482605,
+        "name": "G. Mora",
+        "position": "Midfielder",
+        "rating": 57.6
+      },
+      {
+        "player_id": 2869,
+        "name": "E. \u00c1lvarez",
+        "position": "Midfielder",
+        "rating": 37.3
+      },
+      {
+        "player_id": 35970,
+        "name": "L. Romo",
+        "position": "Midfielder",
+        "rating": 38.1
+      },
+      {
+        "player_id": 2879,
+        "name": "R. Alvarado",
+        "position": "Midfielder",
+        "rating": 45.9
+      },
+      {
+        "player_id": 36088,
+        "name": "G. Mart\u00ednez",
+        "position": "Attacker",
+        "rating": 47.4
+      },
+      {
+        "player_id": 35532,
+        "name": "J. Qui\u00f1ones",
+        "position": "Midfielder",
+        "rating": 62.8
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 2098,
+        "name": "G. Ochoa",
+        "position": "Goalkeeper",
+        "rating": 21.5
+      },
+      {
+        "player_id": 35769,
+        "name": "C. Acevedo",
+        "position": "Goalkeeper",
+        "rating": 29.5
+      },
+      {
+        "player_id": 2887,
+        "name": "R. Jim\u00e9nez",
+        "position": "Attacker",
+        "rating": 60.4
+      },
+      {
+        "player_id": 35690,
+        "name": "L. Ch\u00e1vez",
+        "position": "Midfielder",
+        "rating": 30.9
+      },
+      {
+        "player_id": 35544,
+        "name": "J. V\u00e1squez",
+        "position": "Defender",
+        "rating": 39.4
+      },
+      {
+        "player_id": 313383,
+        "name": "O. Vargas",
+        "position": "Midfielder",
+        "rating": 47.3
+      },
+      {
+        "player_id": 35576,
+        "name": "O. Pineda",
+        "position": "Midfielder",
+        "rating": 44.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-07T01:30:00+00:00",
+    "venue": "Round of 16",
+    "home_id": 26,
+    "away_id": 16,
+    "home_name": "Argentina",
+    "away_name": "Mexico",
+    "lambda_home": 1.521,
+    "lambda_away": 1.139,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4596,
+    "p_draw": 0.2564,
+    "p_away": 0.284,
+    "rationale": "Eff 65.1 vs 55.8 -> supremacy +0.58; xG 1.52-1.14; adj -0.5/+0.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": 0.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12271030599423195
+    ],
+    [
+      1,
+      0,
+      0.10746791350779576
+    ],
+    [
+      2,
+      1,
+      0.09163463452345282
+    ]
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-07T01:30:00+00:00",
+  "venue": "Round of 16",
+  "home": {
+    "team_id": 9,
+    "name": "Spain",
+    "coach_name": "Fernando Hierro",
+    "coach_record": [
+      8,
+      6,
+      0
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 47270,
+        "name": "Unai Sim\u00f3n",
+        "position": "Goalkeeper",
+        "rating": 35.5
+      },
+      {
+        "player_id": 753,
+        "name": "Marcos Llorente",
+        "position": "Midfielder",
+        "rating": 58.5
+      },
+      {
+        "player_id": 396623,
+        "name": "Pau Cubars\u00ed Paredes",
+        "position": "Defender",
+        "rating": 55.4
+      },
+      {
+        "player_id": 622,
+        "name": "Aymeric Laporte",
+        "position": "Defender",
+        "rating": 37.1
+      },
+      {
+        "player_id": 47380,
+        "name": "Marc Cucurella",
+        "position": "Defender",
+        "rating": 52.9
+      },
+      {
+        "player_id": 133609,
+        "name": "Pedri",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 44,
+        "name": "Rodri",
+        "position": "Midfielder",
+        "rating": 67.2
+      },
+      {
+        "player_id": 386828,
+        "name": "Lamine Yamal",
+        "position": "Attacker",
+        "rating": 83.2
+      },
+      {
+        "player_id": 47311,
+        "name": "Mikel Merino",
+        "position": "Midfielder",
+        "rating": 68.5
+      },
+      {
+        "player_id": 182219,
+        "name": "\u00c1lex Baena",
+        "position": "Midfielder",
+        "rating": 66.2
+      },
+      {
+        "player_id": 47323,
+        "name": "Mikel Oyarzabal",
+        "position": "Attacker",
+        "rating": 60.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19465,
+        "name": "David Raya",
+        "position": "Goalkeeper",
+        "rating": 58.7
+      },
+      {
+        "player_id": 182718,
+        "name": "Joan Garc\u00eda",
+        "position": "Goalkeeper",
+        "rating": 54.1
+      },
+      {
+        "player_id": 328,
+        "name": "Fabi\u00e1n Ruiz",
+        "position": "Midfielder",
+        "rating": 58.5
+      },
+      {
+        "player_id": 931,
+        "name": "Ferran Torres",
+        "position": "Midfielder",
+        "rating": 65.5
+      },
+      {
+        "player_id": 47519,
+        "name": "Pedro Porro",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 47315,
+        "name": "Mart\u00edn Zubimendi",
+        "position": "Midfielder",
+        "rating": 71.5
+      },
+      {
+        "player_id": 296667,
+        "name": "Gavi",
+        "position": "Midfielder",
+        "rating": 50.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 15,
+    "name": "Switzerland",
+    "coach_name": "M. Yakin",
+    "coach_record": [
+      8,
+      5,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 25282,
+        "name": "G. Kobel",
+        "position": "Goalkeeper",
+        "rating": 52.2
+      },
+      {
+        "player_id": 349344,
+        "name": "L. Jaquez",
+        "position": "Defender",
+        "rating": 54.6
+      },
+      {
+        "player_id": 2803,
+        "name": "N. Elvedi",
+        "position": "Defender",
+        "rating": 54.6
+      },
+      {
+        "player_id": 5,
+        "name": "M. Akanji",
+        "position": "Defender",
+        "rating": 53.8
+      },
+      {
+        "player_id": 1631,
+        "name": "R. Rodr\u00edguez",
+        "position": "Defender",
+        "rating": 37.2
+      },
+      {
+        "player_id": 2807,
+        "name": "R. Freuler",
+        "position": "Midfielder",
+        "rating": 39.8
+      },
+      {
+        "player_id": 1464,
+        "name": "G. Xhaka",
+        "position": "Midfielder",
+        "rating": 58.3
+      },
+      {
+        "player_id": 957,
+        "name": "D. Sow",
+        "position": "Midfielder",
+        "rating": 46.0
+      },
+      {
+        "player_id": 406244,
+        "name": "J. Manzambi",
+        "position": "Attacker",
+        "rating": 56.6
+      },
+      {
+        "player_id": 48471,
+        "name": "R. Vargas",
+        "position": "Attacker",
+        "rating": 39.5
+      },
+      {
+        "player_id": 421,
+        "name": "B. Embolo",
+        "position": "Attacker",
+        "rating": 52.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 1142,
+        "name": "Y. Mvogo",
+        "position": "Goalkeeper",
+        "rating": 38.6
+      },
+      {
+        "player_id": 123468,
+        "name": "M. Keller",
+        "position": "Goalkeeper",
+        "rating": 31.5
+      },
+      {
+        "player_id": 48378,
+        "name": "S. Widmer",
+        "position": "Defender",
+        "rating": 57.3
+      },
+      {
+        "player_id": 48389,
+        "name": "N. Okafor",
+        "position": "Attacker",
+        "rating": 55.4
+      },
+      {
+        "player_id": 951,
+        "name": "M. Aebischer",
+        "position": "Midfielder",
+        "rating": 36.5
+      },
+      {
+        "player_id": 48372,
+        "name": "E. C\u00f6mert",
+        "position": "Defender",
+        "rating": 44.5
+      },
+      {
+        "player_id": 48497,
+        "name": "C. Itten",
+        "position": "Attacker",
+        "rating": 46.9
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-07T01:30:00+00:00",
+    "venue": "Round of 16",
+    "home_id": 9,
+    "away_id": 15,
+    "home_name": "Spain",
+    "away_name": "Switzerland",
+    "lambda_home": 1.501,
+    "lambda_away": 1.159,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.45,
+    "p_draw": 0.2575,
+    "p_away": 0.2925,
+    "rationale": "Eff 64.4 vs 56.1 -> supremacy +0.51; xG 1.50-1.16; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12322486598438791
+    ],
+    [
+      1,
+      0,
+      0.1060466188798195
+    ],
+    [
+      2,
+      1,
+      0.09081469533598213
+    ]
+  ]
+}

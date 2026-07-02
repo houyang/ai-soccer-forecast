@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1565176,
+  "group": "Knockout",
+  "kickoff": "2026-06-29T20:30:00+00:00",
+  "venue": "Gillette Stadium",
+  "home": {
+    "team_id": 25,
+    "name": "Germany",
+    "coach_name": "J. L\u00f6w",
+    "coach_record": [
+      10,
+      2,
+      3
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 497,
+        "name": "M. Neuer",
+        "position": "Goalkeeper",
+        "rating": 54.7
+      },
+      {
+        "player_id": 502,
+        "name": "J. Kimmich",
+        "position": "Defender",
+        "rating": 80.5
+      },
+      {
+        "player_id": 972,
+        "name": "J. Tah",
+        "position": "Defender",
+        "rating": 71.2
+      },
+      {
+        "player_id": 2285,
+        "name": "A. R\u00fcdiger",
+        "position": "Defender",
+        "rating": 46.8
+      },
+      {
+        "player_id": 644,
+        "name": "L. San\u00e9",
+        "position": "Midfielder",
+        "rating": 51.2
+      },
+      {
+        "player_id": 637,
+        "name": "F. Nmecha",
+        "position": "Midfielder",
+        "rating": 65.4
+      },
+      {
+        "player_id": 328033,
+        "name": "A. Pavlovic",
+        "position": "Midfielder",
+        "rating": 65.7
+      },
+      {
+        "player_id": 25158,
+        "name": "D. Raum",
+        "position": "Defender",
+        "rating": 67.8
+      },
+      {
+        "player_id": 181812,
+        "name": "J. Musiala",
+        "position": "Midfielder",
+        "rating": 61.3
+      },
+      {
+        "player_id": 203224,
+        "name": "F. Wirtz",
+        "position": "Midfielder",
+        "rating": 67.6
+      },
+      {
+        "player_id": 978,
+        "name": "K. Havertz",
+        "position": "Attacker",
+        "rating": 62.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 702,
+        "name": "O. Baumann",
+        "position": "Goalkeeper",
+        "rating": 45.1
+      },
+      {
+        "player_id": 399,
+        "name": "A. N\u00fcbel",
+        "position": "Goalkeeper",
+        "rating": 47.7
+      },
+      {
+        "player_id": 18970,
+        "name": "P. Gro\u00df",
+        "position": "Midfielder",
+        "rating": 52.5
+      },
+      {
+        "player_id": 511,
+        "name": "L. Goretzka",
+        "position": "Midfielder",
+        "rating": 67.5
+      },
+      {
+        "player_id": 714,
+        "name": "N. Amiri",
+        "position": "Midfielder",
+        "rating": 71.3
+      },
+      {
+        "player_id": 158644,
+        "name": "M. Beier",
+        "position": "Attacker",
+        "rating": 62.2
+      },
+      {
+        "player_id": 163189,
+        "name": "M. Thiaw",
+        "position": "Defender",
+        "rating": 70.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 2380,
+    "name": "Paraguay",
+    "coach_name": "G. Alfaro",
+    "coach_record": [
+      7,
+      4,
+      4
+    ],
+    "formation": "5-3-2",
+    "starters": [
+      {
+        "player_id": 70852,
+        "name": "O. Gill",
+        "position": "Goalkeeper",
+        "rating": 30.0
+      },
+      {
+        "player_id": 195992,
+        "name": "J. C\u00e1ceres",
+        "position": "Defender",
+        "rating": 38.4
+      },
+      {
+        "player_id": 35808,
+        "name": "G. Vel\u00e1zquez",
+        "position": "Defender",
+        "rating": 35.4
+      },
+      {
+        "player_id": 2502,
+        "name": "G. G\u00f3mez",
+        "position": "Defender",
+        "rating": 62.3
+      },
+      {
+        "player_id": 6168,
+        "name": "O. Alderete",
+        "position": "Defender",
+        "rating": 54.1
+      },
+      {
+        "player_id": 425020,
+        "name": "A. Maidana",
+        "position": "Defender",
+        "rating": 47.0
+      },
+      {
+        "player_id": 278370,
+        "name": "D. G\u00f3mez",
+        "position": "Midfielder",
+        "rating": 68.4
+      },
+      {
+        "player_id": 6236,
+        "name": "A. Cubas",
+        "position": "Midfielder",
+        "rating": 34.2
+      },
+      {
+        "player_id": 305832,
+        "name": "M. Galarza",
+        "position": "Midfielder",
+        "rating": 25.5
+      },
+      {
+        "player_id": 6483,
+        "name": "G. \u00c1valos",
+        "position": "Attacker",
+        "rating": 51.7
+      },
+      {
+        "player_id": 70747,
+        "name": "J. Enciso",
+        "position": "Attacker",
+        "rating": 57.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 535737,
+        "name": "R. Fernandez",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 51733,
+        "name": "G. Olveira",
+        "position": "Goalkeeper",
+        "rating": 26.0
+      },
+      {
+        "player_id": 2500,
+        "name": "F. Balbuena",
+        "position": "Defender",
+        "rating": 40.4
+      },
+      {
+        "player_id": 2522,
+        "name": "A. Sanabria",
+        "position": "Attacker",
+        "rating": 29.9
+      },
+      {
+        "player_id": 2499,
+        "name": "J. Alonso",
+        "position": "Defender",
+        "rating": 37.9
+      },
+      {
+        "player_id": 119128,
+        "name": "G. Caballero",
+        "position": "Midfielder",
+        "rating": 37.2
+      },
+      {
+        "player_id": 70732,
+        "name": "J. Canale",
+        "position": "Defender",
+        "rating": 57.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1565176,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-06-29T20:30:00+00:00",
+    "venue": "Gillette Stadium",
+    "home_id": 25,
+    "away_id": 2380,
+    "home_name": "Germany",
+    "away_name": "Paraguay",
+    "lambda_home": 1.934,
+    "lambda_away": 0.893,
+    "score_home": 1,
+    "score_away": 0,
+    "p_home": 0.6166,
+    "p_draw": 0.2162,
+    "p_away": 0.1672,
+    "rationale": "Eff 68.1 vs 47.3 -> supremacy +1.29; xG 1.93-0.89; adj -1.0/-0.5.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -0.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      0,
+      0.1159534580338067
+    ],
+    [
+      2,
+      0,
+      0.11020829571077746
+    ],
+    [
+      1,
+      1,
+      0.10337314271148033
+    ]
+  ]
+}

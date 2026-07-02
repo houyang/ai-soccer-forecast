@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1567308,
+  "group": "Knockout",
+  "kickoff": "2026-07-01T20:00:00+00:00",
+  "venue": "Lumen Field",
+  "home": {
+    "team_id": 1,
+    "name": "Belgium",
+    "coach_name": "R. Garcia",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 730,
+        "name": "T. Courtois",
+        "position": "Goalkeeper",
+        "rating": 46.8
+      },
+      {
+        "player_id": 2920,
+        "name": "T. Castagne",
+        "position": "Defender",
+        "rating": 46.6
+      },
+      {
+        "player_id": 69,
+        "name": "B. Mechele",
+        "position": "Defender",
+        "rating": 59.1
+      },
+      {
+        "player_id": 204043,
+        "name": "A. Theate",
+        "position": "Defender",
+        "rating": 46.6
+      },
+      {
+        "player_id": 162007,
+        "name": "M. De Cuyper",
+        "position": "Defender",
+        "rating": 58.8
+      },
+      {
+        "player_id": 2926,
+        "name": "Y. Tielemans",
+        "position": "Midfielder",
+        "rating": 61.1
+      },
+      {
+        "player_id": 78,
+        "name": "H. Vanaken",
+        "position": "Midfielder",
+        "rating": 62.4
+      },
+      {
+        "player_id": 1422,
+        "name": "J. Doku",
+        "position": "Midfielder",
+        "rating": 85.0
+      },
+      {
+        "player_id": 629,
+        "name": "K. De Bruyne",
+        "position": "Midfielder",
+        "rating": 52.4
+      },
+      {
+        "player_id": 1946,
+        "name": "L. Trossard",
+        "position": "Midfielder",
+        "rating": 77.1
+      },
+      {
+        "player_id": 147859,
+        "name": "C. De Ketelaere",
+        "position": "Attacker",
+        "rating": 49.2
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 340077,
+        "name": "M. Fernandez-Pardo",
+        "position": "Attacker",
+        "rating": 50.6
+      },
+      {
+        "player_id": 162714,
+        "name": "A. Onana",
+        "position": "Midfielder",
+        "rating": 58.9
+      },
+      {
+        "player_id": 1417,
+        "name": "A. Saelemaekers",
+        "position": "Attacker",
+        "rating": 48.8
+      },
+      {
+        "player_id": 2120,
+        "name": "N. Raskin",
+        "position": "Midfielder",
+        "rating": 47.5
+      },
+      {
+        "player_id": 907,
+        "name": "R. Lukaku",
+        "position": "Attacker",
+        "rating": 34.4
+      },
+      {
+        "player_id": 162511,
+        "name": "S. Lammens",
+        "position": "Goalkeeper",
+        "rating": 54.2
+      },
+      {
+        "player_id": 340151,
+        "name": "M. Penders",
+        "position": "Goalkeeper",
+        "rating": 43.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 13,
+    "name": "Senegal",
+    "coach_name": "J. Koto",
+    "coach_record": [
+      10,
+      2,
+      3
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 119853,
+        "name": "M. Diaw",
+        "position": "Goalkeeper",
+        "rating": 37.8
+      },
+      {
+        "player_id": 81,
+        "name": "K. Diatta",
+        "position": "Defender",
+        "rating": 41.6
+      },
+      {
+        "player_id": 8450,
+        "name": "A. Seck",
+        "position": "Defender",
+        "rating": 38.9
+      },
+      {
+        "player_id": 25916,
+        "name": "M. Niakhat\u00e9",
+        "position": "Defender",
+        "rating": 48.4
+      },
+      {
+        "player_id": 158121,
+        "name": "I. Jakobs",
+        "position": "Midfielder",
+        "rating": 30.0
+      },
+      {
+        "player_id": 327631,
+        "name": "H. Diarra",
+        "position": "Attacker",
+        "rating": 56.4
+      },
+      {
+        "player_id": 2990,
+        "name": "I. Gueye",
+        "position": "Midfielder",
+        "rating": 53.5
+      },
+      {
+        "player_id": 374058,
+        "name": "L. Camara",
+        "position": "Midfielder",
+        "rating": 48.5
+      },
+      {
+        "player_id": 446249,
+        "name": "I. Mbaye",
+        "position": "Attacker",
+        "rating": 51.2
+      },
+      {
+        "player_id": 2218,
+        "name": "I. Sarr",
+        "position": "Attacker",
+        "rating": 71.8
+      },
+      {
+        "player_id": 304,
+        "name": "S. Man\u00e9",
+        "position": "Attacker",
+        "rating": 61.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 20566,
+        "name": "Y. Diouf",
+        "position": "Goalkeeper",
+        "rating": 39.7
+      },
+      {
+        "player_id": 318,
+        "name": "K. Koulibaly",
+        "position": "Defender",
+        "rating": 64.3
+      },
+      {
+        "player_id": 283058,
+        "name": "N. Jackson",
+        "position": "Attacker",
+        "rating": 67.8
+      },
+      {
+        "player_id": 284072,
+        "name": "B. Dieng",
+        "position": "Attacker",
+        "rating": 54.9
+      },
+      {
+        "player_id": 313937,
+        "name": "A. Mendy",
+        "position": "Defender",
+        "rating": 48.0
+      },
+      {
+        "player_id": 276184,
+        "name": "M. Sarr",
+        "position": "Defender",
+        "rating": 38.9
+      },
+      {
+        "player_id": 400948,
+        "name": "Assane Diao",
+        "position": "Attacker",
+        "rating": 38.0
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1567308,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-01T20:00:00+00:00",
+    "venue": "Lumen Field",
+    "home_id": 1,
+    "away_id": 13,
+    "home_name": "Belgium",
+    "away_name": "Senegal",
+    "lambda_home": 1.627,
+    "lambda_away": 1.266,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.4576,
+    "p_draw": 0.245,
+    "p_away": 0.2974,
+    "rationale": "Eff 62.0 vs 54.0 -> supremacy +0.49; xG 1.63-1.27; adj -1.0/-1.5.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1155788737058877
+    ],
+    [
+      2,
+      1,
+      0.09244221663804343
+    ],
+    [
+      1,
+      0,
+      0.09094903235507279
+    ]
+  ]
+}

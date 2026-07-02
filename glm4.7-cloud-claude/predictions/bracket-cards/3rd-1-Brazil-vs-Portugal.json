@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-17T01:30:00+00:00",
+  "venue": "Third-Place Play-off",
+  "home": {
+    "team_id": 6,
+    "name": "Brazil",
+    "coach_name": "C. Ancelotti",
+    "coach_record": [
+      8,
+      3,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 280,
+        "name": "Alisson Becker",
+        "position": "Goalkeeper",
+        "rating": 51.5
+      },
+      {
+        "player_id": 618,
+        "name": "Danilo",
+        "position": "Defender",
+        "rating": 57.9
+      },
+      {
+        "player_id": 257,
+        "name": "Marquinhos",
+        "position": "Defender",
+        "rating": 65.8
+      },
+      {
+        "player_id": 22224,
+        "name": "Gabriel Magalh\u00e3es",
+        "position": "Defender",
+        "rating": 81.8
+      },
+      {
+        "player_id": 24866,
+        "name": "Douglas Santos",
+        "position": "Defender",
+        "rating": 42.5
+      },
+      {
+        "player_id": 10135,
+        "name": "Bruno Guimar\u00e3es",
+        "position": "Midfielder",
+        "rating": 75.6
+      },
+      {
+        "player_id": 747,
+        "name": "Casemiro",
+        "position": "Midfielder",
+        "rating": 77.4
+      },
+      {
+        "player_id": 1646,
+        "name": "Lucas Paquet\u00e1",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 407806,
+        "name": "Rayan",
+        "position": "Attacker",
+        "rating": 55.7
+      },
+      {
+        "player_id": 1165,
+        "name": "Matheus Cunha",
+        "position": "Attacker",
+        "rating": 66.5
+      },
+      {
+        "player_id": 762,
+        "name": "Vin\u00edcius J\u00fanior",
+        "position": "Attacker",
+        "rating": 71.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 617,
+        "name": "Ederson",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 2410,
+        "name": "Weverton",
+        "position": "Goalkeeper",
+        "rating": 38.2
+      },
+      {
+        "player_id": 276,
+        "name": "Neymar",
+        "position": "Attacker",
+        "rating": 50.9
+      },
+      {
+        "player_id": 860,
+        "name": "Alex Sandro",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 10124,
+        "name": "L\u00e9o Pereira",
+        "position": "Defender",
+        "rating": 58.3
+      },
+      {
+        "player_id": 30424,
+        "name": "Iba\u00f1ez",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 127769,
+        "name": "Gabriel Martinelli",
+        "position": "Attacker",
+        "rating": 71.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 27,
+    "name": "Portugal",
+    "coach_name": "Roberto Mart\u00ednez",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 369,
+        "name": "Diogo Costa",
+        "position": "Goalkeeper",
+        "rating": 36.3
+      },
+      {
+        "player_id": 855,
+        "name": "Jo\u00e3o Cancelo",
+        "position": "Defender",
+        "rating": 72.0
+      },
+      {
+        "player_id": 567,
+        "name": "R\u00faben Dias",
+        "position": "Defender",
+        "rating": 70.0
+      },
+      {
+        "player_id": 336671,
+        "name": "Renato Veiga",
+        "position": "Defender",
+        "rating": 48.9
+      },
+      {
+        "player_id": 263482,
+        "name": "Nuno Mendes",
+        "position": "Defender",
+        "rating": 71.4
+      },
+      {
+        "player_id": 2676,
+        "name": "R\u00faben Neves",
+        "position": "Midfielder",
+        "rating": 72.4
+      },
+      {
+        "player_id": 128384,
+        "name": "Vitinha",
+        "position": "Midfielder",
+        "rating": 72.3
+      },
+      {
+        "player_id": 1864,
+        "name": "Pedro Neto",
+        "position": "Midfielder",
+        "rating": 72.0
+      },
+      {
+        "player_id": 1485,
+        "name": "Bruno Fernandes",
+        "position": "Midfielder",
+        "rating": 84.3
+      },
+      {
+        "player_id": 583,
+        "name": "Jo\u00e3o F\u00e9lix",
+        "position": "Attacker",
+        "rating": 69.6
+      },
+      {
+        "player_id": 874,
+        "name": "Cristiano Ronaldo",
+        "position": "Attacker",
+        "rating": 64.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 886,
+        "name": "Diogo Dalot",
+        "position": "Defender",
+        "rating": 57.1
+      },
+      {
+        "player_id": 335051,
+        "name": "Jo\u00e3o Neves",
+        "position": "Midfielder",
+        "rating": 71.2
+      },
+      {
+        "player_id": 190485,
+        "name": "Sam\u00fa Costa",
+        "position": "Midfielder",
+        "rating": 53.2
+      },
+      {
+        "player_id": 22236,
+        "name": "Rafael Le\u00e3o",
+        "position": "Midfielder",
+        "rating": 61.0
+      },
+      {
+        "player_id": 41621,
+        "name": "Matheus Nunes",
+        "position": "Midfielder",
+        "rating": 59.9
+      },
+      {
+        "player_id": 1590,
+        "name": "Jos\u00e9 S\u00e1",
+        "position": "Goalkeeper",
+        "rating": 45.6
+      },
+      {
+        "player_id": 46672,
+        "name": "Rui Silva",
+        "position": "Goalkeeper",
+        "rating": 37.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-17T01:30:00+00:00",
+    "venue": "Third-Place Play-off",
+    "home_id": 6,
+    "away_id": 27,
+    "home_name": "Brazil",
+    "away_name": "Portugal",
+    "lambda_home": 1.347,
+    "lambda_away": 1.313,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3767,
+    "p_draw": 0.2619,
+    "p_away": 0.3614,
+    "rationale": "Eff 68.1 vs 68.1 -> supremacy -0.00; xG 1.35-1.31; adj -0.5/-1.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1253057184705849
+    ],
+    [
+      1,
+      0,
+      0.09498598893001124
+    ],
+    [
+      0,
+      1,
+      0.09262166796076562
+    ]
+  ]
+}

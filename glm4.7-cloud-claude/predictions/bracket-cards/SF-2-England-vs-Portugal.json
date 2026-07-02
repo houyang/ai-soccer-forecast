@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-14T01:30:00+00:00",
+  "venue": "Semi-Final",
+  "home": {
+    "team_id": 10,
+    "name": "England",
+    "coach_name": "T. Tuchel",
+    "coach_record": [
+      12,
+      1,
+      2
+    ],
+    "formation": "4-1-4-1",
+    "starters": [
+      {
+        "player_id": 2932,
+        "name": "J. Pickford",
+        "position": "Goalkeeper",
+        "rating": 49.7
+      },
+      {
+        "player_id": 158698,
+        "name": "J. Quansah",
+        "position": "Defender",
+        "rating": 65.1
+      },
+      {
+        "player_id": 19354,
+        "name": "E. Konsa",
+        "position": "Defender",
+        "rating": 64.4
+      },
+      {
+        "player_id": 67971,
+        "name": "M. Gu\u00e9hi",
+        "position": "Defender",
+        "rating": 77.1
+      },
+      {
+        "player_id": 307123,
+        "name": "N. Oreilly",
+        "position": "Defender",
+        "rating": 76.4
+      },
+      {
+        "player_id": 138908,
+        "name": "E. Anderson",
+        "position": "Midfielder",
+        "rating": 66.4
+      },
+      {
+        "player_id": 1460,
+        "name": "B. Saka",
+        "position": "Attacker",
+        "rating": 73.7
+      },
+      {
+        "player_id": 19170,
+        "name": "M. Rogers",
+        "position": "Midfielder",
+        "rating": 72.8
+      },
+      {
+        "player_id": 129718,
+        "name": "J. Bellingham",
+        "position": "Midfielder",
+        "rating": 69.0
+      },
+      {
+        "player_id": 909,
+        "name": "M. Rashford",
+        "position": "Midfielder",
+        "rating": 68.0
+      },
+      {
+        "player_id": 184,
+        "name": "H. Kane",
+        "position": "Attacker",
+        "rating": 87.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19235,
+        "name": "D. Spence",
+        "position": "Defender",
+        "rating": 43.7
+      },
+      {
+        "player_id": 136723,
+        "name": "N. Madueke",
+        "position": "Midfielder",
+        "rating": 76.8
+      },
+      {
+        "player_id": 19586,
+        "name": "E. Eze",
+        "position": "Midfielder",
+        "rating": 77.5
+      },
+      {
+        "player_id": 292,
+        "name": "J. Henderson",
+        "position": "Midfielder",
+        "rating": 48.0
+      },
+      {
+        "player_id": 19366,
+        "name": "O. Watkins",
+        "position": "Midfielder",
+        "rating": 70.9
+      },
+      {
+        "player_id": 19088,
+        "name": "D. Henderson",
+        "position": "Goalkeeper",
+        "rating": 50.3
+      },
+      {
+        "player_id": 162489,
+        "name": "J. Trafford",
+        "position": "Goalkeeper",
+        "rating": 59.8
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 27,
+    "name": "Portugal",
+    "coach_name": "Roberto Mart\u00ednez",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 369,
+        "name": "Diogo Costa",
+        "position": "Goalkeeper",
+        "rating": 36.3
+      },
+      {
+        "player_id": 855,
+        "name": "Jo\u00e3o Cancelo",
+        "position": "Defender",
+        "rating": 72.0
+      },
+      {
+        "player_id": 567,
+        "name": "R\u00faben Dias",
+        "position": "Defender",
+        "rating": 70.0
+      },
+      {
+        "player_id": 336671,
+        "name": "Renato Veiga",
+        "position": "Defender",
+        "rating": 48.9
+      },
+      {
+        "player_id": 263482,
+        "name": "Nuno Mendes",
+        "position": "Defender",
+        "rating": 71.4
+      },
+      {
+        "player_id": 2676,
+        "name": "R\u00faben Neves",
+        "position": "Midfielder",
+        "rating": 72.4
+      },
+      {
+        "player_id": 128384,
+        "name": "Vitinha",
+        "position": "Midfielder",
+        "rating": 72.3
+      },
+      {
+        "player_id": 1864,
+        "name": "Pedro Neto",
+        "position": "Midfielder",
+        "rating": 72.0
+      },
+      {
+        "player_id": 1485,
+        "name": "Bruno Fernandes",
+        "position": "Midfielder",
+        "rating": 84.3
+      },
+      {
+        "player_id": 583,
+        "name": "Jo\u00e3o F\u00e9lix",
+        "position": "Attacker",
+        "rating": 69.6
+      },
+      {
+        "player_id": 874,
+        "name": "Cristiano Ronaldo",
+        "position": "Attacker",
+        "rating": 64.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 886,
+        "name": "Diogo Dalot",
+        "position": "Defender",
+        "rating": 57.1
+      },
+      {
+        "player_id": 335051,
+        "name": "Jo\u00e3o Neves",
+        "position": "Midfielder",
+        "rating": 71.2
+      },
+      {
+        "player_id": 190485,
+        "name": "Sam\u00fa Costa",
+        "position": "Midfielder",
+        "rating": 53.2
+      },
+      {
+        "player_id": 22236,
+        "name": "Rafael Le\u00e3o",
+        "position": "Midfielder",
+        "rating": 61.0
+      },
+      {
+        "player_id": 41621,
+        "name": "Matheus Nunes",
+        "position": "Midfielder",
+        "rating": 59.9
+      },
+      {
+        "player_id": 1590,
+        "name": "Jos\u00e9 S\u00e1",
+        "position": "Goalkeeper",
+        "rating": 45.6
+      },
+      {
+        "player_id": 46672,
+        "name": "Rui Silva",
+        "position": "Goalkeeper",
+        "rating": 37.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-14T01:30:00+00:00",
+    "venue": "Semi-Final",
+    "home_id": 10,
+    "away_id": 27,
+    "home_name": "England",
+    "away_name": "Portugal",
+    "lambda_home": 1.371,
+    "lambda_away": 1.289,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3882,
+    "p_draw": 0.2617,
+    "p_away": 0.35,
+    "rationale": "Eff 71.2 vs 68.1 -> supremacy +0.19; xG 1.37-1.29; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12520288973554725
+    ],
+    [
+      1,
+      0,
+      0.09675513237623035
+    ],
+    [
+      0,
+      1,
+      0.09085499690311971
+    ]
+  ]
+}

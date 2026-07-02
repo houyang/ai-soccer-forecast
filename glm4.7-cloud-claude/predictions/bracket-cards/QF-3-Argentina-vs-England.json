@@ -1,0 +1,294 @@
+{
+  "fixture_id": null,
+  "group": "Knockout",
+  "kickoff": "2026-07-10T01:30:00+00:00",
+  "venue": "Quarter-Final",
+  "home": {
+    "team_id": 26,
+    "name": "Argentina",
+    "coach_name": "L. Scaloni",
+    "coach_record": [
+      11,
+      1,
+      1
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 19599,
+        "name": "E. Mart\u00ednez",
+        "position": "Goalkeeper",
+        "rating": 53.8
+      },
+      {
+        "player_id": 6002,
+        "name": "E. Palacios",
+        "position": "Midfielder",
+        "rating": 49.4
+      },
+      {
+        "player_id": 624,
+        "name": "N. Otamendi",
+        "position": "Defender",
+        "rating": 60.9
+      },
+      {
+        "player_id": 6610,
+        "name": "#6610",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 529,
+        "name": "N. Tagliafico",
+        "position": "Defender",
+        "rating": 37.7
+      },
+      {
+        "player_id": 323935,
+        "name": "G. Simeone",
+        "position": "Midfielder",
+        "rating": 57.7
+      },
+      {
+        "player_id": 350037,
+        "name": "N. Paz",
+        "position": "Attacker",
+        "rating": 55.3
+      },
+      {
+        "player_id": 271,
+        "name": "L. Paredes",
+        "position": "Midfielder",
+        "rating": 45.7
+      },
+      {
+        "player_id": 1578,
+        "name": "G. Lo Celso",
+        "position": "Midfielder",
+        "rating": 50.7
+      },
+      {
+        "player_id": 217,
+        "name": "Lautaro Mart\u00ednez",
+        "position": "Attacker",
+        "rating": 65.1
+      },
+      {
+        "player_id": 6009,
+        "name": "J. \u00c1lvarez",
+        "position": "Attacker",
+        "rating": 67.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 6067,
+        "name": "T. Almada",
+        "position": "Midfielder",
+        "rating": 50.9
+      },
+      {
+        "player_id": 154,
+        "name": "L. Messi",
+        "position": "Attacker",
+        "rating": 69.3
+      },
+      {
+        "player_id": 6716,
+        "name": "A. Mac Allister",
+        "position": "Midfielder",
+        "rating": 66.0
+      },
+      {
+        "player_id": 319572,
+        "name": "V. Barco",
+        "position": "Midfielder",
+        "rating": 53.6
+      },
+      {
+        "player_id": 295513,
+        "name": "J. L\u00f3pez",
+        "position": "Attacker",
+        "rating": 61.1
+      },
+      {
+        "player_id": 47296,
+        "name": "G. Rulli",
+        "position": "Goalkeeper",
+        "rating": 44.5
+      },
+      {
+        "player_id": 2465,
+        "name": "J. Musso",
+        "position": "Goalkeeper",
+        "rating": 51.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 10,
+    "name": "England",
+    "coach_name": "T. Tuchel",
+    "coach_record": [
+      12,
+      1,
+      2
+    ],
+    "formation": "4-1-4-1",
+    "starters": [
+      {
+        "player_id": 2932,
+        "name": "J. Pickford",
+        "position": "Goalkeeper",
+        "rating": 49.7
+      },
+      {
+        "player_id": 158698,
+        "name": "J. Quansah",
+        "position": "Defender",
+        "rating": 65.1
+      },
+      {
+        "player_id": 19354,
+        "name": "E. Konsa",
+        "position": "Defender",
+        "rating": 64.4
+      },
+      {
+        "player_id": 67971,
+        "name": "M. Gu\u00e9hi",
+        "position": "Defender",
+        "rating": 77.1
+      },
+      {
+        "player_id": 307123,
+        "name": "N. Oreilly",
+        "position": "Defender",
+        "rating": 76.4
+      },
+      {
+        "player_id": 138908,
+        "name": "E. Anderson",
+        "position": "Midfielder",
+        "rating": 66.4
+      },
+      {
+        "player_id": 1460,
+        "name": "B. Saka",
+        "position": "Attacker",
+        "rating": 73.7
+      },
+      {
+        "player_id": 19170,
+        "name": "M. Rogers",
+        "position": "Midfielder",
+        "rating": 72.8
+      },
+      {
+        "player_id": 129718,
+        "name": "J. Bellingham",
+        "position": "Midfielder",
+        "rating": 69.0
+      },
+      {
+        "player_id": 909,
+        "name": "M. Rashford",
+        "position": "Midfielder",
+        "rating": 68.0
+      },
+      {
+        "player_id": 184,
+        "name": "H. Kane",
+        "position": "Attacker",
+        "rating": 87.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19235,
+        "name": "D. Spence",
+        "position": "Defender",
+        "rating": 43.7
+      },
+      {
+        "player_id": 136723,
+        "name": "N. Madueke",
+        "position": "Midfielder",
+        "rating": 76.8
+      },
+      {
+        "player_id": 19586,
+        "name": "E. Eze",
+        "position": "Midfielder",
+        "rating": 77.5
+      },
+      {
+        "player_id": 292,
+        "name": "J. Henderson",
+        "position": "Midfielder",
+        "rating": 48.0
+      },
+      {
+        "player_id": 19366,
+        "name": "O. Watkins",
+        "position": "Midfielder",
+        "rating": 70.9
+      },
+      {
+        "player_id": 19088,
+        "name": "D. Henderson",
+        "position": "Goalkeeper",
+        "rating": 50.3
+      },
+      {
+        "player_id": 162489,
+        "name": "J. Trafford",
+        "position": "Goalkeeper",
+        "rating": 59.8
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 0,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-10T01:30:00+00:00",
+    "venue": "Quarter-Final",
+    "home_id": 26,
+    "away_id": 10,
+    "home_name": "Argentina",
+    "away_name": "England",
+    "lambda_home": 1.3,
+    "lambda_away": 1.427,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.3422,
+    "p_draw": 0.2576,
+    "p_away": 0.4002,
+    "rationale": "Eff 65.1 vs 71.2 -> supremacy -0.38; xG 1.30-1.43; adj -0.5/-1.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12293187725561279
+    ],
+    [
+      0,
+      1,
+      0.0941740487661258
+    ],
+    [
+      1,
+      2,
+      0.08612457277823365
+    ]
+  ]
+}
