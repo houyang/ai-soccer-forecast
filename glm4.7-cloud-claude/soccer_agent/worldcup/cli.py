@@ -150,10 +150,10 @@ def _write_bracket(wc, rankings, strengths, forms, fetcher) -> int:
         lines.append(f"- {wc.teams[t].name}: {p:.1%}")
     (PRED_DIR / "worldcup-2026-knockout-bracket.md").write_text("\n".join(lines))
 
-    # Auto-generate a PDF for each predicted future-round match.
+    # Auto-generate a PDF for every predicted match, R32 through the Final + 3rd place.
     cards_dir = PRED_DIR / "bracket-cards"
     cards_dir.mkdir(parents=True, exist_ok=True)
-    for rnd in ("R16", "QF", "SF", "3rd", "Final"):
+    for rnd in ("R32", "R16", "QF", "SF", "3rd", "Final"):
         for bm in fc.rounds.get(rnd, []):
             card = build_card(wc, rankings, strengths, forms, bm.home_id, bm.away_id,
                               fetcher=fetcher, kickoff=bm.kickoff, venue=bm.venue)

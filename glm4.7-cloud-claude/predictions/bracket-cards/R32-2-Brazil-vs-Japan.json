@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1562344,
+  "group": "Knockout",
+  "kickoff": "2026-06-29T17:00:00+00:00",
+  "venue": "NRG Stadium",
+  "home": {
+    "team_id": 6,
+    "name": "Brazil",
+    "coach_name": "C. Ancelotti",
+    "coach_record": [
+      8,
+      3,
+      4
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 280,
+        "name": "Alisson Becker",
+        "position": "Goalkeeper",
+        "rating": 51.5
+      },
+      {
+        "player_id": 618,
+        "name": "Danilo",
+        "position": "Defender",
+        "rating": 57.9
+      },
+      {
+        "player_id": 257,
+        "name": "Marquinhos",
+        "position": "Defender",
+        "rating": 65.8
+      },
+      {
+        "player_id": 22224,
+        "name": "Gabriel Magalh\u00e3es",
+        "position": "Defender",
+        "rating": 81.8
+      },
+      {
+        "player_id": 24866,
+        "name": "Douglas Santos",
+        "position": "Defender",
+        "rating": 42.5
+      },
+      {
+        "player_id": 10135,
+        "name": "Bruno Guimar\u00e3es",
+        "position": "Midfielder",
+        "rating": 75.6
+      },
+      {
+        "player_id": 747,
+        "name": "Casemiro",
+        "position": "Midfielder",
+        "rating": 77.4
+      },
+      {
+        "player_id": 1646,
+        "name": "Lucas Paquet\u00e1",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 407806,
+        "name": "Rayan",
+        "position": "Attacker",
+        "rating": 55.7
+      },
+      {
+        "player_id": 1165,
+        "name": "Matheus Cunha",
+        "position": "Attacker",
+        "rating": 66.5
+      },
+      {
+        "player_id": 762,
+        "name": "Vin\u00edcius J\u00fanior",
+        "position": "Attacker",
+        "rating": 71.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 617,
+        "name": "Ederson",
+        "position": "Goalkeeper",
+        "rating": 32.0
+      },
+      {
+        "player_id": 2410,
+        "name": "Weverton",
+        "position": "Goalkeeper",
+        "rating": 38.2
+      },
+      {
+        "player_id": 276,
+        "name": "Neymar",
+        "position": "Attacker",
+        "rating": 50.9
+      },
+      {
+        "player_id": 860,
+        "name": "Alex Sandro",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 10124,
+        "name": "L\u00e9o Pereira",
+        "position": "Defender",
+        "rating": 58.3
+      },
+      {
+        "player_id": 30424,
+        "name": "Iba\u00f1ez",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 127769,
+        "name": "Gabriel Martinelli",
+        "position": "Attacker",
+        "rating": 71.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 12,
+    "name": "Japan",
+    "coach_name": "H. Moriyasu",
+    "coach_record": [
+      10,
+      3,
+      2
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 199578,
+        "name": "Z. Suzuki",
+        "position": "Goalkeeper",
+        "rating": 36.3
+      },
+      {
+        "player_id": 33165,
+        "name": "A. Seko",
+        "position": "Defender",
+        "rating": 34.8
+      },
+      {
+        "player_id": 38114,
+        "name": "K. Itakura",
+        "position": "Defender",
+        "rating": 35.8
+      },
+      {
+        "player_id": 32893,
+        "name": "H. Ito",
+        "position": "Defender",
+        "rating": 62.9
+      },
+      {
+        "player_id": 32887,
+        "name": "Y. Sugawara",
+        "position": "Defender",
+        "rating": 36.0
+      },
+      {
+        "player_id": 32966,
+        "name": "A. Tanaka",
+        "position": "Midfielder",
+        "rating": 53.7
+      },
+      {
+        "player_id": 2601,
+        "name": "D. Kamada",
+        "position": "Midfielder",
+        "rating": 55.2
+      },
+      {
+        "player_id": 33321,
+        "name": "Keito Nakamura",
+        "position": "Midfielder",
+        "rating": 50.9
+      },
+      {
+        "player_id": 2598,
+        "name": "R. Doan",
+        "position": "Midfielder",
+        "rating": 61.3
+      },
+      {
+        "player_id": 33224,
+        "name": "D. Maeda",
+        "position": "Attacker",
+        "rating": 44.4
+      },
+      {
+        "player_id": 72155,
+        "name": "A. Ueda",
+        "position": "Attacker",
+        "rating": 56.8
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 33034,
+        "name": "K. Osako",
+        "position": "Goalkeeper",
+        "rating": 27.5
+      },
+      {
+        "player_id": 304782,
+        "name": "T. Hayakawa",
+        "position": "Goalkeeper",
+        "rating": 28.3
+      },
+      {
+        "player_id": 440,
+        "name": "Y. Nagatomo",
+        "position": "Defender",
+        "rating": 22.5
+      },
+      {
+        "player_id": 2597,
+        "name": "T. Tomiyasu",
+        "position": "Defender",
+        "rating": 27.7
+      },
+      {
+        "player_id": 106851,
+        "name": "#106851",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 199143,
+        "name": "Y. Suzuki",
+        "position": "Midfielder",
+        "rating": 62.5
+      },
+      {
+        "player_id": 351014,
+        "name": "J. Suzuki",
+        "position": "Defender",
+        "rating": 38.5
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1562344,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-06-29T17:00:00+00:00",
+    "venue": "NRG Stadium",
+    "home_id": 6,
+    "away_id": 12,
+    "home_name": "Brazil",
+    "away_name": "Japan",
+    "lambda_home": 1.671,
+    "lambda_away": 1.089,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.5088,
+    "p_draw": 0.2441,
+    "p_away": 0.2471,
+    "rationale": "Eff 68.1 vs 54.2 -> supremacy +0.86; xG 1.67-1.09; adj -0.5/-2.0.",
+    "home_adjustment": -0.5,
+    "away_adjustment": -2.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11658581232899237
+    ],
+    [
+      1,
+      0,
+      0.1069197002604491
+    ],
+    [
+      2,
+      1,
+      0.09575936447209353
+    ]
+  ]
+}

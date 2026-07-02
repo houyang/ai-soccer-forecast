@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1562586,
+  "group": "Knockout",
+  "kickoff": "2026-07-02T00:00:00+00:00",
+  "venue": "",
+  "home": {
+    "team_id": 2384,
+    "name": "USA",
+    "coach_name": "M. Pochettino",
+    "coach_record": [
+      8,
+      2,
+      5
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 50999,
+        "name": "M. Turner",
+        "position": "Goalkeeper",
+        "rating": 32.2
+      },
+      {
+        "player_id": 50852,
+        "name": "J. Scally",
+        "position": "Defender",
+        "rating": 48.6
+      },
+      {
+        "player_id": 50879,
+        "name": "M. Robinson",
+        "position": "Defender",
+        "rating": 44.1
+      },
+      {
+        "player_id": 50735,
+        "name": "M. McKenzie",
+        "position": "Defender",
+        "rating": 35.1
+      },
+      {
+        "player_id": 50737,
+        "name": "A. Trusty",
+        "position": "Defender",
+        "rating": 41.8
+      },
+      {
+        "player_id": 415,
+        "name": "W. McKennie",
+        "position": "Midfielder",
+        "rating": 59.8
+      },
+      {
+        "player_id": 201713,
+        "name": "S. Berhalter",
+        "position": "Midfielder",
+        "rating": 60.1
+      },
+      {
+        "player_id": 161921,
+        "name": "G. Reyna",
+        "position": "Midfielder",
+        "rating": 45.6
+      },
+      {
+        "player_id": 50739,
+        "name": "B. Aaronson",
+        "position": "Midfielder",
+        "rating": 56.4
+      },
+      {
+        "player_id": 73868,
+        "name": "R. Pepi",
+        "position": "Attacker",
+        "rating": 58.2
+      },
+      {
+        "player_id": 1138,
+        "name": "T. Weah",
+        "position": "Attacker",
+        "rating": 42.4
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 50728,
+        "name": "M. Freese",
+        "position": "Goalkeeper",
+        "rating": 33.9
+      },
+      {
+        "player_id": 266606,
+        "name": "C. Brady",
+        "position": "Goalkeeper",
+        "rating": 32.4
+      },
+      {
+        "player_id": 19023,
+        "name": "T. Ream",
+        "position": "Defender",
+        "rating": 34.4
+      },
+      {
+        "player_id": 1150,
+        "name": "T. Adams",
+        "position": "Midfielder",
+        "rating": 51.4
+      },
+      {
+        "player_id": 19549,
+        "name": "A. Robinson",
+        "position": "Defender",
+        "rating": 52.8
+      },
+      {
+        "player_id": 138835,
+        "name": "F. Balogun",
+        "position": "Attacker",
+        "rating": 57.1
+      },
+      {
+        "player_id": 427,
+        "name": "H. Wright",
+        "position": "Attacker",
+        "rating": 53.0
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 1113,
+    "name": "Bosnia & Herzegovina",
+    "coach_name": "F. Had\u017eibegi\u0107",
+    "coach_record": [
+      6,
+      7,
+      2
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 9026,
+        "name": "N. Vasilj",
+        "position": "Goalkeeper",
+        "rating": 44.0
+      },
+      {
+        "player_id": 409670,
+        "name": "#409670",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 1741,
+        "name": "N. Katic",
+        "position": "Defender",
+        "rating": 35.3
+      },
+      {
+        "player_id": 14301,
+        "name": "S. Radeljic",
+        "position": "Defender",
+        "rating": 40.8
+      },
+      {
+        "player_id": 1442,
+        "name": "S. Kolasinac",
+        "position": "Defender",
+        "rating": 41.0
+      },
+      {
+        "player_id": 329409,
+        "name": "E. Bajraktarevic",
+        "position": "Attacker",
+        "rating": 48.2
+      },
+      {
+        "player_id": 162222,
+        "name": "I. Basic",
+        "position": "Midfielder",
+        "rating": 38.2
+      },
+      {
+        "player_id": 1324,
+        "name": "I. Sunjic",
+        "position": "Midfielder",
+        "rating": 27.4
+      },
+      {
+        "player_id": 395559,
+        "name": "Kerim-Sam Alajbegovic",
+        "position": "Midfielder",
+        "rating": 57.3
+      },
+      {
+        "player_id": 46930,
+        "name": "E. Demirovic",
+        "position": "Attacker",
+        "rating": 60.7
+      },
+      {
+        "player_id": 790,
+        "name": "E. Dzeko",
+        "position": "Attacker",
+        "rating": 58.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 108370,
+        "name": "M. Zlomislic",
+        "position": "Goalkeeper",
+        "rating": 29.4
+      },
+      {
+        "player_id": 446130,
+        "name": "M. Jurkas",
+        "position": "Goalkeeper",
+        "rating": 40.0
+      },
+      {
+        "player_id": 77037,
+        "name": "J. Lukic",
+        "position": "Attacker",
+        "rating": 48.5
+      },
+      {
+        "player_id": 340173,
+        "name": "Ermin Mahmic",
+        "position": "Midfielder",
+        "rating": 40.6
+      },
+      {
+        "player_id": 28382,
+        "name": "H. Tabakovic",
+        "position": "Attacker",
+        "rating": 56.2
+      },
+      {
+        "player_id": 50006,
+        "name": "A. Hadziahmetovic",
+        "position": "Midfielder",
+        "rating": 30.9
+      },
+      {
+        "player_id": 53517,
+        "name": "D. Hadzikadunic",
+        "position": "Defender",
+        "rating": 24.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1562586,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-02T00:00:00+00:00",
+    "venue": "",
+    "home_id": 2384,
+    "away_id": 1113,
+    "home_name": "USA",
+    "away_name": "Bosnia & Herzegovina",
+    "lambda_home": 1.808,
+    "lambda_away": 1.119,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.5342,
+    "p_draw": 0.232,
+    "p_away": 0.2338,
+    "rationale": "Eff 60.7 vs 46.6 -> supremacy +0.87; xG 1.81-1.12; adj +4.0/-1.0.",
+    "home_adjustment": 4.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.10967929172406027
+    ],
+    [
+      1,
+      0,
+      0.09787733728521256
+    ],
+    [
+      2,
+      1,
+      0.09756368784032453
+    ]
+  ]
+}

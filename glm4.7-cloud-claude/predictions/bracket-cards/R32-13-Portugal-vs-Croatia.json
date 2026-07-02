@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1567309,
+  "group": "Knockout",
+  "kickoff": "2026-07-02T23:00:00+00:00",
+  "venue": "BMO Field",
+  "home": {
+    "team_id": 27,
+    "name": "Portugal",
+    "coach_name": "Roberto Mart\u00ednez",
+    "coach_record": [
+      9,
+      4,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 369,
+        "name": "Diogo Costa",
+        "position": "Goalkeeper",
+        "rating": 36.3
+      },
+      {
+        "player_id": 855,
+        "name": "Jo\u00e3o Cancelo",
+        "position": "Defender",
+        "rating": 72.0
+      },
+      {
+        "player_id": 567,
+        "name": "R\u00faben Dias",
+        "position": "Defender",
+        "rating": 70.0
+      },
+      {
+        "player_id": 336671,
+        "name": "Renato Veiga",
+        "position": "Defender",
+        "rating": 48.9
+      },
+      {
+        "player_id": 263482,
+        "name": "Nuno Mendes",
+        "position": "Defender",
+        "rating": 71.4
+      },
+      {
+        "player_id": 2676,
+        "name": "R\u00faben Neves",
+        "position": "Midfielder",
+        "rating": 72.4
+      },
+      {
+        "player_id": 128384,
+        "name": "Vitinha",
+        "position": "Midfielder",
+        "rating": 72.3
+      },
+      {
+        "player_id": 1864,
+        "name": "Pedro Neto",
+        "position": "Midfielder",
+        "rating": 72.0
+      },
+      {
+        "player_id": 1485,
+        "name": "Bruno Fernandes",
+        "position": "Midfielder",
+        "rating": 84.3
+      },
+      {
+        "player_id": 583,
+        "name": "Jo\u00e3o F\u00e9lix",
+        "position": "Attacker",
+        "rating": 69.6
+      },
+      {
+        "player_id": 874,
+        "name": "Cristiano Ronaldo",
+        "position": "Attacker",
+        "rating": 64.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 886,
+        "name": "Diogo Dalot",
+        "position": "Defender",
+        "rating": 57.1
+      },
+      {
+        "player_id": 335051,
+        "name": "Jo\u00e3o Neves",
+        "position": "Midfielder",
+        "rating": 71.2
+      },
+      {
+        "player_id": 190485,
+        "name": "Sam\u00fa Costa",
+        "position": "Midfielder",
+        "rating": 53.2
+      },
+      {
+        "player_id": 22236,
+        "name": "Rafael Le\u00e3o",
+        "position": "Midfielder",
+        "rating": 61.0
+      },
+      {
+        "player_id": 41621,
+        "name": "Matheus Nunes",
+        "position": "Midfielder",
+        "rating": 59.9
+      },
+      {
+        "player_id": 1590,
+        "name": "Jos\u00e9 S\u00e1",
+        "position": "Goalkeeper",
+        "rating": 45.6
+      },
+      {
+        "player_id": 46672,
+        "name": "Rui Silva",
+        "position": "Goalkeeper",
+        "rating": 37.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 3,
+    "name": "Croatia",
+    "coach_name": "Z. Dali\u0107",
+    "coach_record": [
+      10,
+      2,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 1305,
+        "name": "D. Livakovic",
+        "position": "Goalkeeper",
+        "rating": 33.3
+      },
+      {
+        "player_id": 125171,
+        "name": "J. Stanisic",
+        "position": "Defender",
+        "rating": 68.0
+      },
+      {
+        "player_id": 14701,
+        "name": "J. Sutalo",
+        "position": "Defender",
+        "rating": 29.8
+      },
+      {
+        "player_id": 1084,
+        "name": "M. Pongracic",
+        "position": "Defender",
+        "rating": 37.2
+      },
+      {
+        "player_id": 207,
+        "name": "I. Perisic",
+        "position": "Midfielder",
+        "rating": 61.6
+      },
+      {
+        "player_id": 754,
+        "name": "L. Modric",
+        "position": "Midfielder",
+        "rating": 51.6
+      },
+      {
+        "player_id": 2291,
+        "name": "M. Kovacic",
+        "position": "Midfielder",
+        "rating": 55.9
+      },
+      {
+        "player_id": 842,
+        "name": "N. Vlasic",
+        "position": "Midfielder",
+        "rating": 56.1
+      },
+      {
+        "player_id": 348205,
+        "name": "P. Sucic",
+        "position": "Midfielder",
+        "rating": 50.0
+      },
+      {
+        "player_id": 295026,
+        "name": "M. Baturina",
+        "position": "Midfielder",
+        "rating": 62.6
+      },
+      {
+        "player_id": 46746,
+        "name": "A. Budimir",
+        "position": "Attacker",
+        "rating": 55.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 202696,
+        "name": "I. Matanovic",
+        "position": "Attacker",
+        "rating": 57.1
+      },
+      {
+        "player_id": 2763,
+        "name": "M. Pasalic",
+        "position": "Midfielder",
+        "rating": 58.6
+      },
+      {
+        "player_id": 129033,
+        "name": "J. Gvardiol",
+        "position": "Defender",
+        "rating": 68.6
+      },
+      {
+        "player_id": 260865,
+        "name": "M. Pasalic",
+        "position": "Midfielder",
+        "rating": 56.0
+      },
+      {
+        "player_id": 524,
+        "name": "D. Kotarski",
+        "position": "Goalkeeper",
+        "rating": 26.2
+      },
+      {
+        "player_id": 14268,
+        "name": "I. Pandur",
+        "position": "Goalkeeper",
+        "rating": 33.6
+      },
+      {
+        "player_id": 1902,
+        "name": "D. Caleta-Car",
+        "position": "Defender",
+        "rating": 41.2
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1567309,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-02T23:00:00+00:00",
+    "venue": "BMO Field",
+    "home_id": 27,
+    "away_id": 3,
+    "home_name": "Portugal",
+    "away_name": "Croatia",
+    "lambda_home": 1.701,
+    "lambda_away": 1.026,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.5309,
+    "p_draw": 0.2416,
+    "p_away": 0.2275,
+    "rationale": "Eff 68.1 vs 54.5 -> supremacy +0.85; xG 1.70-1.03; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11555361474736921
+    ],
+    [
+      1,
+      0,
+      0.11257114861944813
+    ],
+    [
+      2,
+      1,
+      0.09660137749887097
+    ]
+  ]
+}

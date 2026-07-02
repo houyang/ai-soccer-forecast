@@ -46,4 +46,7 @@ def test_bracket_writes_outputs(tmp_path, monkeypatch):
     assert "rounds" in d and "champion" in d
     assert len(d["rounds"]["R32"]) == 16 and len(d["rounds"]["Final"]) == 1
     cards = list((tmp_path / "predictions" / "bracket-cards").glob("*.pdf"))
-    assert cards, "expected future-round PDFs"
+    # Every round R32 through the Final + 3rd place has a card (16+8+4+2+1+1 = 32).
+    assert len(cards) == 32, f"expected 32 round cards, got {len(cards)}"
+    assert any(p.name.startswith("R32-") for p in cards), "expected R32 cards"
+    assert any(p.name.startswith("Final-") for p in cards), "expected a Final card"

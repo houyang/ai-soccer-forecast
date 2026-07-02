@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1561329,
+  "group": "Knockout",
+  "kickoff": "2026-06-28T19:00:00+00:00",
+  "venue": "SoFi Stadium",
+  "home": {
+    "team_id": 1531,
+    "name": "South Africa",
+    "coach_name": "M. Ntseki",
+    "coach_record": [
+      6,
+      5,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 3275,
+        "name": "R. Williams",
+        "position": "Goalkeeper",
+        "rating": 32.7
+      },
+      {
+        "player_id": 46601,
+        "name": "K. Mudau",
+        "position": "Defender",
+        "rating": 37.2
+      },
+      {
+        "player_id": 406752,
+        "name": "I. Okon",
+        "position": "Defender",
+        "rating": 34.8
+      },
+      {
+        "player_id": 510799,
+        "name": "M. Mbokazi",
+        "position": "Defender",
+        "rating": 35.3
+      },
+      {
+        "player_id": 46334,
+        "name": "A. Modiba",
+        "position": "Defender",
+        "rating": 37.0
+      },
+      {
+        "player_id": 194430,
+        "name": "T. Mbatha",
+        "position": "Midfielder",
+        "rating": 40.0
+      },
+      {
+        "player_id": 158433,
+        "name": "S. Sithole",
+        "position": "Midfielder",
+        "rating": 27.6
+      },
+      {
+        "player_id": 354831,
+        "name": "T. Maseko",
+        "position": "Attacker",
+        "rating": 19.1
+      },
+      {
+        "player_id": 414149,
+        "name": "R. Mofokeng",
+        "position": "Attacker",
+        "rating": 49.7
+      },
+      {
+        "player_id": 179893,
+        "name": "O. Appollis",
+        "position": "Attacker",
+        "rating": 56.8
+      },
+      {
+        "player_id": 201354,
+        "name": "E. Makgopa",
+        "position": "Attacker",
+        "rating": 38.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 46245,
+        "name": "R. Goss",
+        "position": "Goalkeeper",
+        "rating": 26.5
+      },
+      {
+        "player_id": 46417,
+        "name": "S. Chaine",
+        "position": "Goalkeeper",
+        "rating": 33.0
+      },
+      {
+        "player_id": 163041,
+        "name": "B. Cross",
+        "position": "Defender",
+        "rating": 28.3
+      },
+      {
+        "player_id": 268710,
+        "name": "J. Adams",
+        "position": "Midfielder",
+        "rating": 36.0
+      },
+      {
+        "player_id": 330174,
+        "name": "T. Matuludi",
+        "position": "Defender",
+        "rating": 39.3
+      },
+      {
+        "player_id": 474630,
+        "name": "K. Ndamane",
+        "position": "Defender",
+        "rating": 26.7
+      },
+      {
+        "player_id": 127429,
+        "name": "I. Rayners",
+        "position": "Attacker",
+        "rating": 48.9
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 5529,
+    "name": "Canada",
+    "coach_name": "J. Marsch",
+    "coach_record": [
+      7,
+      7,
+      1
+    ],
+    "formation": "4-4-2",
+    "starters": [
+      {
+        "player_id": 51274,
+        "name": "M. Cr\u00e9peau",
+        "position": "Goalkeeper",
+        "rating": 32.8
+      },
+      {
+        "player_id": 78547,
+        "name": "A. Johnston",
+        "position": "Defender",
+        "rating": 39.9
+      },
+      {
+        "player_id": 327738,
+        "name": "L. De Fougerolles",
+        "position": "Defender",
+        "rating": 26.5
+      },
+      {
+        "player_id": 51295,
+        "name": "D. Cornelius",
+        "position": "Defender",
+        "rating": 42.1
+      },
+      {
+        "player_id": 50816,
+        "name": "R. Laryea",
+        "position": "Defender",
+        "rating": 37.2
+      },
+      {
+        "player_id": 51016,
+        "name": "T. Buchanan",
+        "position": "Midfielder",
+        "rating": 60.2
+      },
+      {
+        "player_id": 294824,
+        "name": "N. Saliba",
+        "position": "Midfielder",
+        "rating": 44.6
+      },
+      {
+        "player_id": 50788,
+        "name": "M. Choini\u00e8re",
+        "position": "Midfielder",
+        "rating": 35.8
+      },
+      {
+        "player_id": 362145,
+        "name": "A. Ahmed",
+        "position": "Midfielder",
+        "rating": 51.9
+      },
+      {
+        "player_id": 8489,
+        "name": "J. David",
+        "position": "Attacker",
+        "rating": 47.1
+      },
+      {
+        "player_id": 2001,
+        "name": "C. Larin",
+        "position": "Attacker",
+        "rating": 39.5
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 51148,
+        "name": "D. St. Clair",
+        "position": "Goalkeeper",
+        "rating": 35.6
+      },
+      {
+        "player_id": 284554,
+        "name": "O. Goodman",
+        "position": "Goalkeeper",
+        "rating": 22.1
+      },
+      {
+        "player_id": 78494,
+        "name": "J. Waterman",
+        "position": "Defender",
+        "rating": 38.1
+      },
+      {
+        "player_id": 509,
+        "name": "A. Davies",
+        "position": "Defender",
+        "rating": 57.8
+      },
+      {
+        "player_id": 35570,
+        "name": "S. Eust\u00e1quio",
+        "position": "Midfielder",
+        "rating": 31.9
+      },
+      {
+        "player_id": 50826,
+        "name": "J. Shaffelburg",
+        "position": "Midfielder",
+        "rating": 37.8
+      },
+      {
+        "player_id": 193279,
+        "name": "#193279",
+        "position": "?",
+        "rating": 50.0
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1561329,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-06-28T19:00:00+00:00",
+    "venue": "SoFi Stadium",
+    "home_id": 1531,
+    "away_id": 5529,
+    "home_name": "South Africa",
+    "away_name": "Canada",
+    "lambda_home": 1.03,
+    "lambda_away": 1.663,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.234,
+    "p_draw": 0.2452,
+    "p_away": 0.5209,
+    "rationale": "Eff 41.4 vs 53.1 -> supremacy -0.72; xG 1.03-1.66; adj -1.5/+0.0.",
+    "home_adjustment": -1.5,
+    "away_adjustment": 0.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1173084810368767
+    ],
+    [
+      0,
+      1,
+      0.11382922161331677
+    ],
+    [
+      1,
+      2,
+      0.09589128653905735
+    ]
+  ]
+}

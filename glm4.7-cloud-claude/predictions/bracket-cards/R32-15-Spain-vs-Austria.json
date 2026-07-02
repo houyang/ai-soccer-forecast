@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1567311,
+  "group": "Knockout",
+  "kickoff": "2026-07-02T19:00:00+00:00",
+  "venue": "SoFi Stadium",
+  "home": {
+    "team_id": 9,
+    "name": "Spain",
+    "coach_name": "Fernando Hierro",
+    "coach_record": [
+      8,
+      6,
+      0
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 47270,
+        "name": "Unai Sim\u00f3n",
+        "position": "Goalkeeper",
+        "rating": 35.5
+      },
+      {
+        "player_id": 753,
+        "name": "Marcos Llorente",
+        "position": "Midfielder",
+        "rating": 58.5
+      },
+      {
+        "player_id": 396623,
+        "name": "Pau Cubars\u00ed Paredes",
+        "position": "Defender",
+        "rating": 55.4
+      },
+      {
+        "player_id": 622,
+        "name": "Aymeric Laporte",
+        "position": "Defender",
+        "rating": 37.1
+      },
+      {
+        "player_id": 47380,
+        "name": "Marc Cucurella",
+        "position": "Defender",
+        "rating": 52.9
+      },
+      {
+        "player_id": 133609,
+        "name": "Pedri",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 44,
+        "name": "Rodri",
+        "position": "Midfielder",
+        "rating": 67.2
+      },
+      {
+        "player_id": 386828,
+        "name": "Lamine Yamal",
+        "position": "Attacker",
+        "rating": 83.2
+      },
+      {
+        "player_id": 47311,
+        "name": "Mikel Merino",
+        "position": "Midfielder",
+        "rating": 68.5
+      },
+      {
+        "player_id": 182219,
+        "name": "\u00c1lex Baena",
+        "position": "Midfielder",
+        "rating": 66.2
+      },
+      {
+        "player_id": 47323,
+        "name": "Mikel Oyarzabal",
+        "position": "Attacker",
+        "rating": 60.6
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 19465,
+        "name": "David Raya",
+        "position": "Goalkeeper",
+        "rating": 58.7
+      },
+      {
+        "player_id": 182718,
+        "name": "Joan Garc\u00eda",
+        "position": "Goalkeeper",
+        "rating": 54.1
+      },
+      {
+        "player_id": 328,
+        "name": "Fabi\u00e1n Ruiz",
+        "position": "Midfielder",
+        "rating": 58.5
+      },
+      {
+        "player_id": 931,
+        "name": "Ferran Torres",
+        "position": "Midfielder",
+        "rating": 65.5
+      },
+      {
+        "player_id": 47519,
+        "name": "Pedro Porro",
+        "position": "Defender",
+        "rating": 59.6
+      },
+      {
+        "player_id": 47315,
+        "name": "Mart\u00edn Zubimendi",
+        "position": "Midfielder",
+        "rating": 71.5
+      },
+      {
+        "player_id": 296667,
+        "name": "Gavi",
+        "position": "Midfielder",
+        "rating": 50.7
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 775,
+    "name": "Austria",
+    "coach_name": "R. Rangnick",
+    "coach_record": [
+      9,
+      3,
+      2
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 7525,
+        "name": "A. Schlager",
+        "position": "Goalkeeper",
+        "rating": 36.1
+      },
+      {
+        "player_id": 711,
+        "name": "S. Posch",
+        "position": "Defender",
+        "rating": 58.3
+      },
+      {
+        "player_id": 26240,
+        "name": "P. Lienhart",
+        "position": "Defender",
+        "rating": 54.5
+      },
+      {
+        "player_id": 505,
+        "name": "D. Alaba",
+        "position": "Defender",
+        "rating": 42.6
+      },
+      {
+        "player_id": 25915,
+        "name": "P. Mwene",
+        "position": "Defender",
+        "rating": 46.2
+      },
+      {
+        "player_id": 7328,
+        "name": "N. Seiwald",
+        "position": "Midfielder",
+        "rating": 45.1
+      },
+      {
+        "player_id": 1095,
+        "name": "X. Schlager",
+        "position": "Midfielder",
+        "rating": 52.0
+      },
+      {
+        "player_id": 1157,
+        "name": "K. Laimer",
+        "position": "Defender",
+        "rating": 66.8
+      },
+      {
+        "player_id": 7562,
+        "name": "R. Schmid",
+        "position": "Midfielder",
+        "rating": 50.3
+      },
+      {
+        "player_id": 1159,
+        "name": "M. Sabitzer",
+        "position": "Midfielder",
+        "rating": 50.7
+      },
+      {
+        "player_id": 18830,
+        "name": "M. Arnautovic",
+        "position": "Attacker",
+        "rating": 36.7
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 719,
+        "name": "F. Grillitsch",
+        "position": "Midfielder",
+        "rating": 38.2
+      },
+      {
+        "player_id": 327895,
+        "name": "P. Wanner",
+        "position": "Midfielder",
+        "rating": 51.5
+      },
+      {
+        "player_id": 25297,
+        "name": "M. Gregoritsch",
+        "position": "Midfielder",
+        "rating": 60.2
+      },
+      {
+        "player_id": 25287,
+        "name": "K. Danso",
+        "position": "Defender",
+        "rating": 47.9
+      },
+      {
+        "player_id": 7722,
+        "name": "S. Kalajdzic",
+        "position": "Attacker",
+        "rating": 42.8
+      },
+      {
+        "player_id": 221605,
+        "name": "F. Wiegele",
+        "position": "Goalkeeper",
+        "rating": 34.8
+      },
+      {
+        "player_id": 7598,
+        "name": "P. Pentz",
+        "position": "Goalkeeper",
+        "rating": 30.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1567311,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-02T19:00:00+00:00",
+    "venue": "SoFi Stadium",
+    "home_id": 9,
+    "away_id": 775,
+    "home_name": "Spain",
+    "away_name": "Austria",
+    "lambda_home": 1.671,
+    "lambda_away": 1.055,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.5168,
+    "p_draw": 0.2443,
+    "p_away": 0.2389,
+    "rationale": "Eff 64.4 vs 52.3 -> supremacy +0.75; xG 1.67-1.06; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.11682118411882364
+    ],
+    [
+      1,
+      0,
+      0.11060170595951188
+    ],
+    [
+      2,
+      1,
+      0.09596462951282933
+    ]
+  ]
+}

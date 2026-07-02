@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1565177,
+  "group": "Knockout",
+  "kickoff": "2026-06-30T21:00:00+00:00",
+  "venue": "MetLife Stadium",
+  "home": {
+    "team_id": 2,
+    "name": "France",
+    "coach_name": "D. Deschamps",
+    "coach_record": [
+      11,
+      1,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 22221,
+        "name": "M. Maignan",
+        "position": "Goalkeeper",
+        "rating": 45.5
+      },
+      {
+        "player_id": 1257,
+        "name": "J. Kound\u00e9",
+        "position": "Defender",
+        "rating": 62.2
+      },
+      {
+        "player_id": 1149,
+        "name": "D. Upamecano",
+        "position": "Defender",
+        "rating": 66.1
+      },
+      {
+        "player_id": 20995,
+        "name": "M. Lacroix",
+        "position": "Defender",
+        "rating": 65.7
+      },
+      {
+        "player_id": 47300,
+        "name": "T. Hern\u00e1ndez",
+        "position": "Defender",
+        "rating": 61.7
+      },
+      {
+        "player_id": 1271,
+        "name": "A. Tchouam\u00e9ni",
+        "position": "Midfielder",
+        "rating": 52.4
+      },
+      {
+        "player_id": 22147,
+        "name": "M. Kon\u00e9",
+        "position": "Midfielder",
+        "rating": 44.2
+      },
+      {
+        "player_id": 153,
+        "name": "O. Demb\u00e9l\u00e9",
+        "position": "Midfielder",
+        "rating": 74.8
+      },
+      {
+        "player_id": 19617,
+        "name": "M. Olise",
+        "position": "Midfielder",
+        "rating": 86.7
+      },
+      {
+        "player_id": 343027,
+        "name": "D. Dou\u00e9",
+        "position": "Midfielder",
+        "rating": 71.4
+      },
+      {
+        "player_id": 278,
+        "name": "Kylian Mbapp\u00e9",
+        "position": "Attacker",
+        "rating": 75.1
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 21628,
+        "name": "B. Samba",
+        "position": "Goalkeeper",
+        "rating": 39.2
+      },
+      {
+        "player_id": 347211,
+        "name": "R. Risser",
+        "position": "Goalkeeper",
+        "rating": 42.2
+      },
+      {
+        "player_id": 1145,
+        "name": "I. Konat\u00e9",
+        "position": "Defender",
+        "rating": 63.4
+      },
+      {
+        "player_id": 22090,
+        "name": "W. Saliba",
+        "position": "Defender",
+        "rating": 62.5
+      },
+      {
+        "player_id": 161907,
+        "name": "M. Gusto",
+        "position": "Defender",
+        "rating": 62.1
+      },
+      {
+        "player_id": 274300,
+        "name": "M. Akliouche",
+        "position": "Midfielder",
+        "rating": 60.5
+      },
+      {
+        "player_id": 336657,
+        "name": "W. Za\u00efre-Emery",
+        "position": "Midfielder",
+        "rating": 52.1
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 5,
+    "name": "Sweden",
+    "coach_name": "G. Potter",
+    "coach_record": [
+      6,
+      3,
+      6
+    ],
+    "formation": "3-4-3",
+    "starters": [
+      {
+        "player_id": 48033,
+        "name": "J. Widell Zetterstr\u00f6m",
+        "position": "Goalkeeper",
+        "rating": 34.6
+      },
+      {
+        "player_id": 137721,
+        "name": "G. Lagerbielke",
+        "position": "Defender",
+        "rating": 42.3
+      },
+      {
+        "player_id": 137976,
+        "name": "I. Hien",
+        "position": "Defender",
+        "rating": 41.1
+      },
+      {
+        "player_id": 47969,
+        "name": "G. Gudmundsson",
+        "position": "Midfielder",
+        "rating": 47.4
+      },
+      {
+        "player_id": 47696,
+        "name": "A. Bernhardsson",
+        "position": "Midfielder",
+        "rating": 39.8
+      },
+      {
+        "player_id": 889,
+        "name": "V. Lindel\u00f6f",
+        "position": "Defender",
+        "rating": 48.9
+      },
+      {
+        "player_id": 265820,
+        "name": "Y. Ayari",
+        "position": "Midfielder",
+        "rating": 61.5
+      },
+      {
+        "player_id": 226765,
+        "name": "E. Stroud",
+        "position": "Midfielder",
+        "rating": 56.6
+      },
+      {
+        "player_id": 153430,
+        "name": "A. Elanga",
+        "position": "Attacker",
+        "rating": 50.3
+      },
+      {
+        "player_id": 18979,
+        "name": "V. Gy\u00f6keres",
+        "position": "Attacker",
+        "rating": 74.0
+      },
+      {
+        "player_id": 2864,
+        "name": "A. Isak",
+        "position": "Attacker",
+        "rating": 53.8
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 2851,
+        "name": "K. Nordfeldt",
+        "position": "Goalkeeper",
+        "rating": 24.3
+      },
+      {
+        "player_id": 158700,
+        "name": "V. Johansson",
+        "position": "Goalkeeper",
+        "rating": 34.2
+      },
+      {
+        "player_id": 47988,
+        "name": "C. Starfelt",
+        "position": "Defender",
+        "rating": 41.7
+      },
+      {
+        "player_id": 15683,
+        "name": "G. Nilsson",
+        "position": "Attacker",
+        "rating": 36.6
+      },
+      {
+        "player_id": 30484,
+        "name": "M. Svanberg",
+        "position": "Midfielder",
+        "rating": 43.9
+      },
+      {
+        "player_id": 48002,
+        "name": "B. Nygren",
+        "position": "Attacker",
+        "rating": 52.4
+      },
+      {
+        "player_id": 161504,
+        "name": "H. Johansson",
+        "position": "Midfielder",
+        "rating": 49.6
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1565177,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-06-30T21:00:00+00:00",
+    "venue": "MetLife Stadium",
+    "home_id": 2,
+    "away_id": 5,
+    "home_name": "France",
+    "away_name": "Sweden",
+    "lambda_home": 2.016,
+    "lambda_away": 1.01,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.6058,
+    "p_draw": 0.2116,
+    "p_away": 0.1826,
+    "rationale": "Eff 70.8 vs 50.9 -> supremacy +1.23; xG 2.02-1.01; adj -1.0/-1.0.",
+    "home_adjustment": -1.0,
+    "away_adjustment": -1.0
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.09988370053173491
+    ],
+    [
+      2,
+      1,
+      0.09922930578093732
+    ],
+    [
+      1,
+      0,
+      0.09884698955829127
+    ]
+  ]
+}

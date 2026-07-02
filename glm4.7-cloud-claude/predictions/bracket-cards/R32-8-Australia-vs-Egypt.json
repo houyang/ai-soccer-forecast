@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1565178,
+  "group": "Knockout",
+  "kickoff": "2026-07-03T18:00:00+00:00",
+  "venue": "",
+  "home": {
+    "team_id": 20,
+    "name": "Australia",
+    "coach_name": "T. Popovi\u0107",
+    "coach_record": [
+      9,
+      2,
+      4
+    ],
+    "formation": "3-4-2-1",
+    "starters": [
+      {
+        "player_id": 353883,
+        "name": "P. Beach",
+        "position": "Goalkeeper",
+        "rating": 29.2
+      },
+      {
+        "player_id": 348568,
+        "name": "A. Circati",
+        "position": "Defender",
+        "rating": 41.0
+      },
+      {
+        "player_id": 20079,
+        "name": "H. Souttar",
+        "position": "Defender",
+        "rating": 52.5
+      },
+      {
+        "player_id": 426480,
+        "name": "L. Herrington",
+        "position": "Defender",
+        "rating": 36.0
+      },
+      {
+        "player_id": 337587,
+        "name": "J. Bos",
+        "position": "Defender",
+        "rating": 57.0
+      },
+      {
+        "player_id": 7050,
+        "name": "A. O Neill",
+        "position": "Midfielder",
+        "rating": 31.7
+      },
+      {
+        "player_id": 2749,
+        "name": "J. Irvine",
+        "position": "Midfielder",
+        "rating": 37.7
+      },
+      {
+        "player_id": 225,
+        "name": "A. Behich",
+        "position": "Midfielder",
+        "rating": 35.7
+      },
+      {
+        "player_id": 342035,
+        "name": "C. Volpato",
+        "position": "Attacker",
+        "rating": 37.9
+      },
+      {
+        "player_id": 6904,
+        "name": "C. Metcalfe",
+        "position": "Midfielder",
+        "rating": 36.4
+      },
+      {
+        "player_id": 338014,
+        "name": "N. Irankunda",
+        "position": "Attacker",
+        "rating": 37.3
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 2741,
+        "name": "M. Ryan",
+        "position": "Goalkeeper",
+        "rating": 40.6
+      },
+      {
+        "player_id": 6870,
+        "name": "P. Izzo",
+        "position": "Goalkeeper",
+        "rating": 28.7
+      },
+      {
+        "player_id": 33847,
+        "name": "J. Geria",
+        "position": "Defender",
+        "rating": 19.9
+      },
+      {
+        "player_id": 2755,
+        "name": "A. Mabil",
+        "position": "Midfielder",
+        "rating": 31.6
+      },
+      {
+        "player_id": 20457,
+        "name": "C. Burgess",
+        "position": "Defender",
+        "rating": 43.8
+      },
+      {
+        "player_id": 38123,
+        "name": "A. Hrustic",
+        "position": "Midfielder",
+        "rating": 38.2
+      },
+      {
+        "player_id": 153622,
+        "name": "K. Trewin",
+        "position": "Midfielder",
+        "rating": 30.2
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 32,
+    "name": "Egypt",
+    "coach_name": "Hossam Hassan",
+    "coach_record": [
+      7,
+      5,
+      3
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 269174,
+        "name": "Mostafa Shobeir",
+        "position": "Goalkeeper",
+        "rating": 41.5
+      },
+      {
+        "player_id": 2654,
+        "name": "Mohamed Hany",
+        "position": "Defender",
+        "rating": 39.8
+      },
+      {
+        "player_id": 16805,
+        "name": "Rami Rabia",
+        "position": "Defender",
+        "rating": 53.7
+      },
+      {
+        "player_id": 196343,
+        "name": "Mohamed Abdelmonem",
+        "position": "Defender",
+        "rating": 44.5
+      },
+      {
+        "player_id": 2649,
+        "name": "Ahmed Fatouh",
+        "position": "Defender",
+        "rating": 43.1
+      },
+      {
+        "player_id": 16841,
+        "name": "Mohanad Lasheen",
+        "position": "Midfielder",
+        "rating": 39.3
+      },
+      {
+        "player_id": 69196,
+        "name": "Mahmoud Saber",
+        "position": "Midfielder",
+        "rating": 46.8
+      },
+      {
+        "player_id": 17269,
+        "name": "Emam Ashour",
+        "position": "Midfielder",
+        "rating": 47.1
+      },
+      {
+        "player_id": 306,
+        "name": "Mohamed Salah",
+        "position": "Attacker",
+        "rating": 75.5
+      },
+      {
+        "player_id": 2664,
+        "name": "Tr\u00e9z\u00e9guet",
+        "position": "Midfielder",
+        "rating": 61.1
+      },
+      {
+        "player_id": 395075,
+        "name": "Mostafa Zico",
+        "position": "Midfielder",
+        "rating": 48.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 16804,
+        "name": "Yasser Ibrahim",
+        "position": "Defender",
+        "rating": 56.3
+      },
+      {
+        "player_id": 190575,
+        "name": "Marwan Attia",
+        "position": "Midfielder",
+        "rating": 46.1
+      },
+      {
+        "player_id": 81573,
+        "name": "Omar Marmoush",
+        "position": "Attacker",
+        "rating": 64.3
+      },
+      {
+        "player_id": 16871,
+        "name": "#16871",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 550547,
+        "name": "H. Abdelkarim",
+        "position": "Attacker",
+        "rating": 40.0
+      },
+      {
+        "player_id": 16797,
+        "name": "Mohamed El Shenawy",
+        "position": "Goalkeeper",
+        "rating": 39.5
+      },
+      {
+        "player_id": 16831,
+        "name": "Al Mahdi Soliman",
+        "position": "Goalkeeper",
+        "rating": 35.8
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1565178,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-07-03T18:00:00+00:00",
+    "venue": "",
+    "home_id": 20,
+    "away_id": 32,
+    "home_name": "Australia",
+    "away_name": "Egypt",
+    "lambda_home": 1.095,
+    "lambda_away": 1.465,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.2822,
+    "p_draw": 0.2625,
+    "p_away": 0.4554,
+    "rationale": "Eff 43.9 vs 52.1 -> supremacy -0.51; xG 1.10-1.46; adj -2.0/-1.5.",
+    "home_adjustment": -2.0,
+    "away_adjustment": -1.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.12554564119605333
+    ],
+    [
+      0,
+      1,
+      0.11445772463858378
+    ],
+    [
+      1,
+      2,
+      0.09027451438536704
+    ]
+  ]
+}

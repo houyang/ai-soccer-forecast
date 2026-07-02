@@ -1,0 +1,294 @@
+{
+  "fixture_id": 1562345,
+  "group": "Knockout",
+  "kickoff": "2026-06-30T01:00:00+00:00",
+  "venue": "Estadio BBVA / Monterrey",
+  "home": {
+    "team_id": 1118,
+    "name": "Netherlands",
+    "coach_name": "R. Koeman",
+    "coach_record": [
+      8,
+      6,
+      1
+    ],
+    "formation": "4-3-3",
+    "starters": [
+      {
+        "player_id": 129058,
+        "name": "B. Verbruggen",
+        "position": "Goalkeeper",
+        "rating": 51.7
+      },
+      {
+        "player_id": 226,
+        "name": "D. Dumfries",
+        "position": "Defender",
+        "rating": 58.1
+      },
+      {
+        "player_id": 38695,
+        "name": "J. van Hecke",
+        "position": "Defender",
+        "rating": 69.2
+      },
+      {
+        "player_id": 290,
+        "name": "V. van Dijk",
+        "position": "Defender",
+        "rating": 77.6
+      },
+      {
+        "player_id": 18861,
+        "name": "N. Ak\u00e9",
+        "position": "Defender",
+        "rating": 56.0
+      },
+      {
+        "player_id": 542,
+        "name": "R. Gravenberch",
+        "position": "Midfielder",
+        "rating": 67.1
+      },
+      {
+        "player_id": 538,
+        "name": "F. de Jong",
+        "position": "Midfielder",
+        "rating": 54.5
+      },
+      {
+        "player_id": 36902,
+        "name": "T. Reijnders",
+        "position": "Midfielder",
+        "rating": 69.2
+      },
+      {
+        "player_id": 249,
+        "name": "D. Malen",
+        "position": "Attacker",
+        "rating": 71.2
+      },
+      {
+        "player_id": 38750,
+        "name": "B. Brobbey",
+        "position": "Attacker",
+        "rating": 53.7
+      },
+      {
+        "player_id": 247,
+        "name": "C. Gakpo",
+        "position": "Attacker",
+        "rating": 61.0
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 26232,
+        "name": "M. Flekken",
+        "position": "Goalkeeper",
+        "rating": 48.0
+      },
+      {
+        "player_id": 194536,
+        "name": "R. Roefs",
+        "position": "Goalkeeper",
+        "rating": 51.9
+      },
+      {
+        "player_id": 667,
+        "name": "M. Depay",
+        "position": "Attacker",
+        "rating": 45.1
+      },
+      {
+        "player_id": 25416,
+        "name": "W. Weghorst",
+        "position": "Attacker",
+        "rating": 40.2
+      },
+      {
+        "player_id": 38747,
+        "name": "Q. Timber",
+        "position": "Midfielder",
+        "rating": 41.3
+      },
+      {
+        "player_id": 37724,
+        "name": "C. Summerville",
+        "position": "Attacker",
+        "rating": 58.1
+      },
+      {
+        "player_id": 92993,
+        "name": "M. Wieffer",
+        "position": "Defender",
+        "rating": 56.9
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "away": {
+    "team_id": 31,
+    "name": "Morocco",
+    "coach_name": "V. Halilhod\u017ei\u0107",
+    "coach_record": [
+      11,
+      4,
+      0
+    ],
+    "formation": "4-2-3-1",
+    "starters": [
+      {
+        "player_id": 2701,
+        "name": "Y. Bounou",
+        "position": "Goalkeeper",
+        "rating": 39.6
+      },
+      {
+        "player_id": 9,
+        "name": "A. Hakimi",
+        "position": "Defender",
+        "rating": 69.3
+      },
+      {
+        "player_id": 326183,
+        "name": "R. Halhal",
+        "position": "Defender",
+        "rating": 34.2
+      },
+      {
+        "player_id": 278898,
+        "name": "C. Riad",
+        "position": "Defender",
+        "rating": 45.3
+      },
+      {
+        "player_id": 162451,
+        "name": "A. Salah-Eddine",
+        "position": "Defender",
+        "rating": 35.0
+      },
+      {
+        "player_id": 277003,
+        "name": "N. El Aynaoui",
+        "position": "Midfielder",
+        "rating": 59.7
+      },
+      {
+        "player_id": 74,
+        "name": "S. Amrabat",
+        "position": "Midfielder",
+        "rating": 44.4
+      },
+      {
+        "player_id": 744,
+        "name": "Brahim D\u00edaz",
+        "position": "Midfielder",
+        "rating": 63.7
+      },
+      {
+        "player_id": 161897,
+        "name": "I. Saibari",
+        "position": "Attacker",
+        "rating": 62.0
+      },
+      {
+        "player_id": 340573,
+        "name": "B. El Khannouss",
+        "position": "Midfielder",
+        "rating": 67.7
+      },
+      {
+        "player_id": 2722,
+        "name": "A. El Kaabi",
+        "position": "Attacker",
+        "rating": 42.9
+      }
+    ],
+    "subs": [
+      {
+        "player_id": 2703,
+        "name": "A. Tagnaouti",
+        "position": "Goalkeeper",
+        "rating": 42.1
+      },
+      {
+        "player_id": 2702,
+        "name": "M. Mohamedi",
+        "position": "Goalkeeper",
+        "rating": 28.7
+      },
+      {
+        "player_id": 18814,
+        "name": "I. Diop",
+        "position": "Defender",
+        "rating": 51.8
+      },
+      {
+        "player_id": 545,
+        "name": "N. Mazraoui",
+        "position": "Defender",
+        "rating": 54.8
+      },
+      {
+        "player_id": 146772,
+        "name": "Y. Belammari",
+        "position": "Defender",
+        "rating": 39.8
+      },
+      {
+        "player_id": 191289,
+        "name": "#191289",
+        "position": "?",
+        "rating": 50.0
+      },
+      {
+        "player_id": 336659,
+        "name": "C. Talbi",
+        "position": "Midfielder",
+        "rating": 54.6
+      }
+    ],
+    "source": "live",
+    "source_matchday": 3
+  },
+  "prediction": {
+    "fixture_id": 1562345,
+    "matchday": 0,
+    "group": "Knockout",
+    "kickoff": "2026-06-30T01:00:00+00:00",
+    "venue": "Estadio BBVA / Monterrey",
+    "home_id": 1118,
+    "away_id": 31,
+    "home_name": "Netherlands",
+    "away_name": "Morocco",
+    "lambda_home": 1.685,
+    "lambda_away": 1.242,
+    "score_home": 1,
+    "score_away": 1,
+    "p_home": 0.477,
+    "p_draw": 0.2412,
+    "p_away": 0.2818,
+    "rationale": "Eff 66.0 vs 56.8 -> supremacy +0.57; xG 1.68-1.24; adj -1.8/-1.5.",
+    "home_adjustment": -1.8,
+    "away_adjustment": -1.5
+  },
+  "top_scorelines": [
+    [
+      1,
+      1,
+      0.1135095427148141
+    ],
+    [
+      2,
+      1,
+      0.09404422980332744
+    ],
+    [
+      1,
+      0,
+      0.09111460978781043
+    ]
+  ]
+}
